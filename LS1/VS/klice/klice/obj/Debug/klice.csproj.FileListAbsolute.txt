@@ -1,0 +1,14 @@
+C:\Users\NOGARE\OneDrive\MFF\VS\klice\klice\bin\Debug\klice.exe.config
+C:\Users\NOGARE\OneDrive\MFF\VS\klice\klice\bin\Debug\klice.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\klice\klice\bin\Debug\klice.pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\klice\klice\obj\Debug\klice.csprojResolveAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\klice\klice\obj\Debug\klice.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\klice\klice\obj\Debug\klice.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\klice\klice\obj\Debug\klice.pdb
+D:\Onedrive\MFF\VS\klice\klice\bin\Debug\klice.exe.config
+D:\Onedrive\MFF\VS\klice\klice\bin\Debug\klice.exe
+D:\Onedrive\MFF\VS\klice\klice\bin\Debug\klice.pdb
+D:\Onedrive\MFF\VS\klice\klice\obj\Debug\klice.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\VS\klice\klice\obj\Debug\klice.csproj.CoreCompileInputs.cache
+D:\Onedrive\MFF\VS\klice\klice\obj\Debug\klice.exe
+D:\Onedrive\MFF\VS\klice\klice\obj\Debug\klice.pdb

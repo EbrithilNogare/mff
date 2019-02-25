@@ -1,0 +1,8 @@
+\select@language {czech}
+\contentsline {section}{\numberline {1}Zadání}{1}
+\contentsline {subsection}{\numberline {1.1}Stručné zadání (anotace)}{1}
+\contentsline {section}{\numberline {2}Přesné zadání }{1}
+\contentsline {section}{\numberline {3}Zadání}{1}
+\contentsline {section}{\numberline {4}Zadání}{1}
+\contentsline {section}{\numberline {5}Zadání}{1}
+\contentsline {section}{\numberline {6}Zadání}{1}

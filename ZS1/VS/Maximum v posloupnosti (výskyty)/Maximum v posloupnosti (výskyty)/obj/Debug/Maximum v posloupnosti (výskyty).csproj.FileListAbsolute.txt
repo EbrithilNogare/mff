@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\Maximum v posloupnosti (výskyty)\Maximum v posloupnosti (výskyty)\bin\Debug\Maximum v posloupnosti (výskyty).exe.config
+D:\OneDrive\MFF\VS\Maximum v posloupnosti (výskyty)\Maximum v posloupnosti (výskyty)\bin\Debug\Maximum v posloupnosti (výskyty).exe
+D:\OneDrive\MFF\VS\Maximum v posloupnosti (výskyty)\Maximum v posloupnosti (výskyty)\bin\Debug\Maximum v posloupnosti (výskyty).pdb
+D:\OneDrive\MFF\VS\Maximum v posloupnosti (výskyty)\Maximum v posloupnosti (výskyty)\obj\Debug\Maximum v posloupnosti (výskyty).csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\Maximum v posloupnosti (výskyty)\Maximum v posloupnosti (výskyty)\obj\Debug\Maximum v posloupnosti (výskyty).exe
+D:\OneDrive\MFF\VS\Maximum v posloupnosti (výskyty)\Maximum v posloupnosti (výskyty)\obj\Debug\Maximum v posloupnosti (výskyty).pdb

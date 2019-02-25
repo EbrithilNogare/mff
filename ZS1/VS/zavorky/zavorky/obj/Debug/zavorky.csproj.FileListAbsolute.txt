@@ -1,0 +1,12 @@
+C:\Users\NOGARE\OneDrive\MFF\VS\zavorky\zavorky\bin\Debug\zavorky.exe.config
+C:\Users\NOGARE\OneDrive\MFF\VS\zavorky\zavorky\bin\Debug\zavorky.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\zavorky\zavorky\bin\Debug\zavorky.pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\zavorky\zavorky\obj\Debug\zavorky.csprojResolveAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\zavorky\zavorky\obj\Debug\zavorky.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\zavorky\zavorky\obj\Debug\zavorky.pdb
+D:\Onedrive\MFF\VS\zavorky\zavorky\bin\Debug\zavorky.exe.config
+D:\Onedrive\MFF\VS\zavorky\zavorky\obj\Debug\zavorky.exe
+D:\Onedrive\MFF\VS\zavorky\zavorky\obj\Debug\zavorky.pdb
+D:\Onedrive\MFF\VS\zavorky\zavorky\bin\Debug\zavorky.exe
+D:\Onedrive\MFF\VS\zavorky\zavorky\bin\Debug\zavorky.pdb
+D:\Onedrive\MFF\VS\zavorky\zavorky\obj\Debug\zavorky.csprojResolveAssemblyReference.cache

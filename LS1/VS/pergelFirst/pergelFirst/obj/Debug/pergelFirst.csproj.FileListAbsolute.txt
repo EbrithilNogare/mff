@@ -1,0 +1,6 @@
+D:\Onedrive\MFF\VS\pergelFirst\pergelFirst\bin\Debug\pergelFirst.exe.config
+D:\Onedrive\MFF\VS\pergelFirst\pergelFirst\bin\Debug\pergelFirst.exe
+D:\Onedrive\MFF\VS\pergelFirst\pergelFirst\bin\Debug\pergelFirst.pdb
+D:\Onedrive\MFF\VS\pergelFirst\pergelFirst\obj\Debug\pergelFirst.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\VS\pergelFirst\pergelFirst\obj\Debug\pergelFirst.exe
+D:\Onedrive\MFF\VS\pergelFirst\pergelFirst\obj\Debug\pergelFirst.pdb

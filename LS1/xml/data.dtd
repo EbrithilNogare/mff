@@ -1,0 +1,21 @@
+<!ELEMENT archLinux (package*)>
+	<!ELEMENT package ((properities,description?,name,dependence)|name)>
+		<!ELEMENT name (#PCDATA)>
+		<!ELEMENT description (#PCDATA|p)*>
+			<!ELEMENT p (#PCDATA)>
+		<!ELEMENT properities (size)>
+			<!ELEMENT size EMPTY>
+		<!ELEMENT dependence (dependencies?,requiredBy?)>
+			<!ELEMENT dependencies (package*)>
+			<!ELEMENT requiredBy (package*)>
+
+
+<!ATTLIST archLinux architecture CDATA #FIXED "x86_64">
+	<!ATTLIST package id ID #IMPLIED idref IDREF #IMPLIED>
+			<!ATTLIST properities version CDATA #REQUIRED>
+			<!ATTLIST properities lastUpdated CDATA #IMPLIED>
+			<!ATTLIST size space CDATA #REQUIRED units (B|KB|MB|GB|TB) #REQUIRED>
+			<!ATTLIST properities preinstalled (yes|no) #IMPLIED>
+
+
+<!ENTITY x86 "(only for x86_64)">

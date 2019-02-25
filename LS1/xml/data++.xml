@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Autor: David Nápravník -->
+<units>
+    <unit>
+        <shortcut>KB</shortcut>
+        <fullName>KiloBytes</fullName>
+    </unit>
+    <unit>
+        <shortcut>MB</shortcut>
+        <fullName>MegaBytes</fullName>
+    </unit>
+    <unit>
+        <shortcut>GB</shortcut>
+        <fullName>GigaBytes</fullName>
+    </unit>
+    <unit>
+        <shortcut>TB</shortcut>
+        <fullName>TeraBytes</fullName>
+    </unit>
+</units>

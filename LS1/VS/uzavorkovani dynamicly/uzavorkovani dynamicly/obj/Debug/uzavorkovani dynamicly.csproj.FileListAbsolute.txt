@@ -1,0 +1,7 @@
+C:\Users\NOGARE\OneDrive\MFF\VS\uzavorkovani dynamicly\uzavorkovani dynamicly\bin\Debug\uzavorkovani dynamicly.exe.config
+C:\Users\NOGARE\OneDrive\MFF\VS\uzavorkovani dynamicly\uzavorkovani dynamicly\bin\Debug\uzavorkovani dynamicly.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\uzavorkovani dynamicly\uzavorkovani dynamicly\bin\Debug\uzavorkovani dynamicly.pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\uzavorkovani dynamicly\uzavorkovani dynamicly\obj\Debug\uzavorkovani dynamicly.csprojResolveAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\uzavorkovani dynamicly\uzavorkovani dynamicly\obj\Debug\uzavorkovani dynamicly.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\uzavorkovani dynamicly\uzavorkovani dynamicly\obj\Debug\uzavorkovani dynamicly.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\uzavorkovani dynamicly\uzavorkovani dynamicly\obj\Debug\uzavorkovani dynamicly.pdb

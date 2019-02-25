@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{B0D45AB9-6013-4C47-900A-D192321D4EB6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="..\..\win_flex_bison-latest\custom_build_rules\win_flex_bison_custom_build.props" />
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectName).$(Platform).$(Configuration)\</OutDir>
+    <IntDir>$(ProjectName).$(Platform).$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectName).$(Platform).$(Configuration)\</OutDir>
+    <IntDir>$(ProjectName).$(Platform).$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(ProjectName).$(Platform).$(Configuration)\</OutDir>
+    <IntDir>$(ProjectName).$(Platform).$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(ProjectName).$(Platform).$(Configuration)\</OutDir>
+    <IntDir>$(ProjectName).$(Platform).$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\public-cpp\abstract_ic.cpp" />
+    <ClCompile Include="..\public-cpp\duerr.cpp" />
+    <ClCompile Include="..\public-cpp\dusememptyerrtab.cpp" />
+    <ClCompile Include="..\public-cpp\dutables.cpp" />
+    <ClCompile Include="..\public-cpp\flat_icblock.cpp" />
+    <ClCompile Include="..\public-cpp\gen_aifactory.cpp" />
+    <ClCompile Include="..\public-cpp\gen_icfactory.cpp" />
+    <ClCompile Include="..\public-cpp\gen_icinstrtab.cpp" />
+    <ClCompile Include="..\public-cpp\gen_instr_decode.cpp" />
+    <ClCompile Include="..\public-cpp\gen_machines.cpp" />
+    <ClCompile Include="..\public-cpp\gen_mops.cpp" />
+    <ClCompile Include="..\public-cpp\icexcept.cpp" />
+    <ClCompile Include="..\public-cpp\icm_machine.cpp" />
+    <ClCompile Include="..\public-cpp\ic_instr.cpp" />
+    <ClCompile Include="..\public-cpp\labeled_icblock.cpp" />
+    <ClCompile Include="..\public-cpp\uid_gen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\public-cpp\abstract_ic.hpp" />
+    <ClInclude Include="..\public-cpp\abstract_instr.hpp" />
+    <ClInclude Include="..\public-cpp\ai_factory.hpp" />
+    <ClInclude Include="..\public-cpp\bisonflex.hpp" />
+    <ClInclude Include="..\public-cpp\carray.hpp" />
+    <ClInclude Include="..\public-cpp\common_types.hpp" />
+    <ClInclude Include="..\public-cpp\dubaseerr.hpp" />
+    <ClInclude Include="..\public-cpp\duerr.hpp" />
+    <ClInclude Include="..\public-cpp\dutables.hpp" />
+    <ClInclude Include="..\public-cpp\el_shr_ptr.hpp" />
+    <ClInclude Include="..\public-cpp\file_seq.hpp" />
+    <ClInclude Include="..\public-cpp\flat_icblock.hpp" />
+    <ClInclude Include="..\public-cpp\gen_ainstr.hpp" />
+    <ClInclude Include="..\public-cpp\gen_icinstr.hpp" />
+    <ClInclude Include="..\public-cpp\gen_icopcodes.hpp" />
+    <ClInclude Include="..\public-cpp\gen_mopcodes.hpp" />
+    <ClInclude Include="..\public-cpp\icexcept.hpp" />
+    <ClInclude Include="..\public-cpp\icm_flat_icblock.hpp" />
+    <ClInclude Include="..\public-cpp\icm_machine.hpp" />
+    <ClInclude Include="..\public-cpp\icm_types.hpp" />
+    <ClInclude Include="..\public-cpp\icm_val.hpp" />
+    <ClInclude Include="..\public-cpp\ic_factory.hpp" />
+    <ClInclude Include="..\public-cpp\ic_instr.hpp" />
+    <ClInclude Include="..\public-cpp\ic_instrtab.hpp" />
+    <ClInclude Include="..\public-cpp\ic_opcodes.hpp" />
+    <ClInclude Include="..\public-cpp\labeled_icblock.hpp" />
+    <ClInclude Include="..\public-cpp\literal_storage.hpp" />
+    <ClInclude Include="..\public-cpp\mops.hpp" />
+    <ClInclude Include="..\public-cpp\plain_icblock.hpp" />
+    <ClInclude Include="..\public-cpp\uid_gen.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\win_flex_bison-latest\custom_build_rules\win_flex_bison_custom_build.targets" />
+  </ImportGroup>
+</Project>

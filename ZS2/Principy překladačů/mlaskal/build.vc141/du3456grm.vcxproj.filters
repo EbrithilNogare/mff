@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Grammar Files - STUDENTS">
+      <UniqueIdentifier>{bf47902a-7c6e-490a-9349-b9dd48e159AA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="../private-src/du3456g.y">
+      <Filter>Grammar Files - STUDENTS</Filter>
+    </CustomBuild>
+    <CustomBuild Include="../private-src/du3456l.lex">
+      <Filter>Grammar Files - STUDENTS</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

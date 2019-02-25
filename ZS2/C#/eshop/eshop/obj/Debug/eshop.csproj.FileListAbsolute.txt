@@ -1,0 +1,24 @@
+D:\Onedrive\MFF\ZS2\Principy překladačů\eshop\eshop\bin\Debug\eshop.exe.config
+D:\Onedrive\MFF\ZS2\Principy překladačů\eshop\eshop\obj\Debug\eshop.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\ZS2\Principy překladačů\eshop\eshop\bin\Debug\eshop.exe
+D:\Onedrive\MFF\ZS2\Principy překladačů\eshop\eshop\bin\Debug\eshop.pdb
+D:\Onedrive\MFF\ZS2\Principy překladačů\eshop\eshop\obj\Debug\eshop.exe
+D:\Onedrive\MFF\ZS2\Principy překladačů\eshop\eshop\obj\Debug\eshop.pdb
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\bin\Debug\eshop.exe.config
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.exe
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.pdb
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\bin\Debug\eshop.exe
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\bin\Debug\eshop.pdb
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.Properties.Resources.resources
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.csproj.GenerateResource.Cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\bin\Debug\eshop.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\bin\Debug\eshop.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\bin\Debug\eshop.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.Properties.Resources.resources
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.csproj.GenerateResource.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.pdb
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.csprojAssemblyReference.cache
+D:\Onedrive\MFF\ZS2\C#\eshop\eshop\obj\Debug\eshop.csproj.CoreCompileInputs.cache

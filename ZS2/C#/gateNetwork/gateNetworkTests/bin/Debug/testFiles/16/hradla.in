@@ -1,0 +1,34 @@
+gate gt
+inputs a0 a1 b0 b1
+outputs o
+0 0 0 0 0
+0 0 0 1 0
+0 0 1 0 0
+0 0 1 1 0
+0 1 0 0 1
+0 1 0 1 0
+0 1 1 0 0
+0 1 1 1 0
+1 0 0 0 1
+1 0 0 1 1
+1 0 1 0 0
+1 0 1 1 0
+1 1 0 0 1
+1 1 0 1 1
+1 1 1 0 1
+1 1 1 1 0
+end
+
+network
+inputs ia0 ia1 ib0 ib1
+outputs o
+gate gt gt
+
+gt.a0->ia0
+gt.a1->ia1
+gt.b0->ib0
+gt.b1->ib1
+
+o->gt.o
+
+end

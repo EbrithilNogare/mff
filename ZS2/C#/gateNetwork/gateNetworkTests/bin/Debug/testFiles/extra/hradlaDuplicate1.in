@@ -1,0 +1,32 @@
+gate or
+inputs i0 i1
+outputs o
+1 0 1
+0 1 1
+1 1 1
+? 1 1
+1 ? 1
+end
+
+gate not
+inputs i
+outputs o
+0 1
+1 0
+1 0
+end
+
+network
+inputs i
+outputs o
+
+gate or or
+gate not not
+
+or.i0->i
+or.i1->not.o
+
+not.i->or.o
+
+o->not.o
+end

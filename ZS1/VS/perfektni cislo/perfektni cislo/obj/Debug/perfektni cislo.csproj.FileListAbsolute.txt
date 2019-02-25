@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\perfektni cislo\perfektni cislo\bin\Debug\perfektni cislo.exe.config
+D:\OneDrive\MFF\VS\perfektni cislo\perfektni cislo\bin\Debug\perfektni cislo.exe
+D:\OneDrive\MFF\VS\perfektni cislo\perfektni cislo\bin\Debug\perfektni cislo.pdb
+D:\OneDrive\MFF\VS\perfektni cislo\perfektni cislo\obj\Debug\perfektni cislo.csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\perfektni cislo\perfektni cislo\obj\Debug\perfektni cislo.exe
+D:\OneDrive\MFF\VS\perfektni cislo\perfektni cislo\obj\Debug\perfektni cislo.pdb

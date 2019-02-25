@@ -1,0 +1,13 @@
+C:\Users\student\Documents\Visual Studio 2017\Projects\deleni\deleni\bin\Debug\deleni.exe.config
+C:\Users\student\Documents\Visual Studio 2017\Projects\deleni\deleni\bin\Debug\deleni.exe
+C:\Users\student\Documents\Visual Studio 2017\Projects\deleni\deleni\bin\Debug\deleni.pdb
+C:\Users\student\Documents\Visual Studio 2017\Projects\deleni\deleni\obj\Debug\deleni.csprojResolveAssemblyReference.cache
+C:\Users\student\Documents\Visual Studio 2017\Projects\deleni\deleni\obj\Debug\deleni.csproj.CoreCompileInputs.cache
+C:\Users\student\Documents\Visual Studio 2017\Projects\deleni\deleni\obj\Debug\deleni.exe
+C:\Users\student\Documents\Visual Studio 2017\Projects\deleni\deleni\obj\Debug\deleni.pdb
+E:\deleni\deleni\bin\Debug\deleni.exe.config
+E:\deleni\deleni\obj\Debug\deleni.exe
+E:\deleni\deleni\obj\Debug\deleni.pdb
+E:\deleni\deleni\bin\Debug\deleni.exe
+E:\deleni\deleni\bin\Debug\deleni.pdb
+E:\deleni\deleni\obj\Debug\deleni.csprojResolveAssemblyReference.cache

@@ -1,0 +1,6 @@
+C:\Users\NOGARE\OneDrive\MFF\VS\autism\autism\bin\Debug\autism.exe.config
+C:\Users\NOGARE\OneDrive\MFF\VS\autism\autism\bin\Debug\autism.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\autism\autism\bin\Debug\autism.pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\autism\autism\obj\Debug\autism.csprojResolveAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\autism\autism\obj\Debug\autism.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\autism\autism\obj\Debug\autism.pdb

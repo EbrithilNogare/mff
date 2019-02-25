@@ -1,0 +1,12 @@
+d:\documents\visual studio 2015\Projects\trideniSpojakem\trideniSpojakem\bin\Debug\trideniSpojakem.exe.config
+d:\documents\visual studio 2015\Projects\trideniSpojakem\trideniSpojakem\bin\Debug\trideniSpojakem.exe
+d:\documents\visual studio 2015\Projects\trideniSpojakem\trideniSpojakem\bin\Debug\trideniSpojakem.pdb
+d:\documents\visual studio 2015\Projects\trideniSpojakem\trideniSpojakem\obj\Debug\trideniSpojakem.csprojResolveAssemblyReference.cache
+d:\documents\visual studio 2015\Projects\trideniSpojakem\trideniSpojakem\obj\Debug\trideniSpojakem.exe
+d:\documents\visual studio 2015\Projects\trideniSpojakem\trideniSpojakem\obj\Debug\trideniSpojakem.pdb
+D:\Onedrive\MFF\VS\trideniSpojakem\trideniSpojakem\bin\Debug\trideniSpojakem.exe.config
+D:\Onedrive\MFF\VS\trideniSpojakem\trideniSpojakem\obj\Debug\trideniSpojakem.exe
+D:\Onedrive\MFF\VS\trideniSpojakem\trideniSpojakem\obj\Debug\trideniSpojakem.pdb
+D:\Onedrive\MFF\VS\trideniSpojakem\trideniSpojakem\bin\Debug\trideniSpojakem.exe
+D:\Onedrive\MFF\VS\trideniSpojakem\trideniSpojakem\bin\Debug\trideniSpojakem.pdb
+D:\Onedrive\MFF\VS\trideniSpojakem\trideniSpojakem\obj\Debug\trideniSpojakem.csprojResolveAssemblyReference.cache

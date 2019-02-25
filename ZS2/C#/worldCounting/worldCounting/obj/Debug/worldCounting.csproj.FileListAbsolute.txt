@@ -1,0 +1,7 @@
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\worldCounting\worldCounting\bin\Debug\worldCounting.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\worldCounting\worldCounting\bin\Debug\worldCounting.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\worldCounting\worldCounting\bin\Debug\worldCounting.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\worldCounting\worldCounting\obj\Debug\worldCounting.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\worldCounting\worldCounting\obj\Debug\worldCounting.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\worldCounting\worldCounting\obj\Debug\worldCounting.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\worldCounting\worldCounting\obj\Debug\worldCounting.pdb

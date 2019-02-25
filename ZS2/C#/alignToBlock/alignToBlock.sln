@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "alignToBlock", "alignToBlock\alignToBlock.csproj", "{CAFB52F3-965A-4822-BD5F-A4E03691222A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CAFB52F3-965A-4822-BD5F-A4E03691222A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAFB52F3-965A-4822-BD5F-A4E03691222A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAFB52F3-965A-4822-BD5F-A4E03691222A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAFB52F3-965A-4822-BD5F-A4E03691222A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {38FC5E58-8323-4F08-A0AE-C66713399145}
+	EndGlobalSection
+EndGlobal

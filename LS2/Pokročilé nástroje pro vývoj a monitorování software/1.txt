@@ -1,0 +1,5 @@
+heslo pro pristup k prezentacim!
+username: nswi126
+passwd: tools
+
+

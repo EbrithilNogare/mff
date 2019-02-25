@@ -1,0 +1,6 @@
+D:\Onedrive\MFF\VS\postfix\postfix\bin\Debug\postfix.exe.config
+D:\Onedrive\MFF\VS\postfix\postfix\bin\Debug\postfix.exe
+D:\Onedrive\MFF\VS\postfix\postfix\bin\Debug\postfix.pdb
+D:\Onedrive\MFF\VS\postfix\postfix\obj\Debug\postfix.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\VS\postfix\postfix\obj\Debug\postfix.exe
+D:\Onedrive\MFF\VS\postfix\postfix\obj\Debug\postfix.pdb

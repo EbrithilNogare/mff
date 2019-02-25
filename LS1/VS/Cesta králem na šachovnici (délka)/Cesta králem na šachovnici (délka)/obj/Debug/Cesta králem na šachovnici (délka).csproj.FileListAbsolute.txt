@@ -1,0 +1,13 @@
+D:\Onedrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\bin\Debug\Cesta králem na šachovnici (délka).exe.config
+D:\Onedrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\bin\Debug\Cesta králem na šachovnici (délka).exe
+D:\Onedrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\bin\Debug\Cesta králem na šachovnici (délka).pdb
+D:\Onedrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\obj\Debug\Cesta králem na šachovnici (délka).csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\obj\Debug\Cesta králem na šachovnici (délka).exe
+D:\Onedrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\obj\Debug\Cesta králem na šachovnici (délka).pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\bin\Debug\Cesta králem na šachovnici (délka).exe.config
+C:\Users\NOGARE\OneDrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\obj\Debug\Cesta králem na šachovnici (délka).exe
+C:\Users\NOGARE\OneDrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\obj\Debug\Cesta králem na šachovnici (délka).pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\bin\Debug\Cesta králem na šachovnici (délka).exe
+C:\Users\NOGARE\OneDrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\bin\Debug\Cesta králem na šachovnici (délka).pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\obj\Debug\Cesta králem na šachovnici (délka).csprojResolveAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\Cesta králem na šachovnici (délka)\Cesta králem na šachovnici (délka)\obj\Debug\Cesta králem na šachovnici (délka).csproj.CoreCompileInputs.cache

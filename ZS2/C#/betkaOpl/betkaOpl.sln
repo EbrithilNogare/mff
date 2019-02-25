@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "betkaOpl", "betkaOpl\betkaOpl.csproj", "{CF7B6566-0A75-4C57-8D3F-8E722B5F79DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF7B6566-0A75-4C57-8D3F-8E722B5F79DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF7B6566-0A75-4C57-8D3F-8E722B5F79DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF7B6566-0A75-4C57-8D3F-8E722B5F79DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF7B6566-0A75-4C57-8D3F-8E722B5F79DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {952BF45A-8C3C-45AF-AFF1-FA139D09A7A5}
+	EndGlobalSection
+EndGlobal

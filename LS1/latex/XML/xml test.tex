@@ -1,0 +1,268 @@
+\documentclass[a4paper,titlepage]{article}
+\usepackage[utf8]{inputenc}   	% pro unicode UTF-8
+\usepackage[czech]{babel} 		%jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[font=small,labelfont=bf]{caption}
+
+\definecolor{maroon}{rgb}{0.5,0,0}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\lstdefinelanguage{XML}
+{
+  basicstyle=\ttfamily,
+  morestring=[s]{"}{"},
+  morecomment=[s]{?}{?},
+  morecomment=[s]{!--}{--},
+  commentstyle=\color{darkgreen},
+  moredelim=[s][\color{black}]{>}{<},
+  moredelim=[s][\color{red}]{\ }{=},
+  stringstyle=\color{blue},
+  identifierstyle=\color{maroon}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section{jmenné prostory}	
+	\begin{lstlisting}[language=XML]
+<pricelist:offer
+	xmlns:pricelist="http://www.eprice.cz/e-pricelist">
+	<pricelist:item tax="22%">
+		<pricelist:name>
+			<bib:book
+				xmlns:bib="http://www.my.org/bib">
+				<bib:author>Mark Logue</bib:author>
+				<bib:name>The King's Speech</bib:name>
+			</bib:book>
+		</pricelist:name>
+		<pricelist:price curr="CZK">259</pricelist:price>
+	</pricelist:item>
+</pricelist:offer>
+	\end{lstlisting}
+
+
+\section{Xml schéma a varianty DTD. U každého DTD říct, zda bere všechny varianty XML dokumentů, které projdou XML schématem.}
+	XML: varianty\\
+	\begin{itemize}
+		\item XHTML
+		\item MathML
+		\item SVG - scalable vector Graphics
+		\item X3D - extensible 3D
+		\item XForms
+		
+		\item DocBook - Creation of Technical Documentation
+	
+	\end{itemize}
+
+
+\section{Slovně popsaný xml dokument a k němu udělat XML schéma. ( Chtěl, aby tam bylo libovolné pořadí 2 elementů) }
+		
+		\begin{lstlisting}[language=XML]
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" ...>
+  <xs:element name="Inicialy" type="typ"/>	
+  <xs:complexType name="typ">
+    <xs:choice>
+      <xs:sequence>
+        <xs:element name="jmeno" type="xs:string"/>
+        <xs:element name="prijmeni" type="xs:string"/>
+      </xs:sequence>
+      <xs:sequence>
+        <xs:element name="prijmeni" type="xs:string"/>
+        <xs:element name="jmeno" type="xs:string"/>
+      </xs:sequence>
+    </xs:choice>
+  </xs:complexType>
+</xs:schema>
+	\end{lstlisting}
+	
+	
+\section{ }
+\section{xs:assert }
+	=Invariant\\
+	assert – error, when the expression does not return true\\
+	Using XPath\\
+	\begin{lstlisting}[language=XML]
+	<xs:complexType name="Interval">
+ 		<xs:attribute name="min" type="xs:integer"/>
+ 		<xs:attribute name="max" type="xs:integer"/>
+ 		<xs:assert test="@min < @max"/>
+	</xs:complexType>
+	\end{lstlisting}
+	
+\section{příklad na SAX. Je to push nebo pull parser? }
+	je to push (asi)
+	
+	Streaming \textbf{pull} parsing refers to a programming model in which a client application calls methods on an XML parsing library when it needs to interact with an XML infoset; that is, the client only gets (pulls) XML data when it explicitly asks for it.
+	
+	Streaming \textbf{push} parsing refers to a programming model in which an XML parser sends (pushes) XML data to the client as the parser encounters elements in an XML infoset; that is, the parser sends the data whether or not the client is ready to use it at that time.
+	
+\section{příklady na xpath. }
+\section{Vybrat z různých xpath správné.}
+\section{Vypsat dopředné a rekurzivní osy v xpath. Jaký je mezi nimi rozdíl? }
+	Axis:
+	\begin{itemize}
+		\item self
+		\item parent
+		\item ancestor
+		\item ancestor-or-self
+		\item child
+		\item descendant
+		\item descendant-or-self
+		\item preceding-sibling
+		\item preceding
+		\item following-sibling
+		\item following
+		\item attribute
+		\item namespace
+	\end{itemize}
+	
+	\textbf{dopředná osa} (forward axis) – obsahuje pouze kontextový uzel a uzly, které následují
+za kontextovým uzlem v pořadí toku dokumentu\\\\
+	\textbf{reverzní osa} (reverse axis) – obsahuje pouze kontextový uzel a uzly, které předcházejí
+kontextovému uzlu v pořadí toku dokumentu\\
+	\textit{zdroj: https://is.muni.cz/th/mnnx5/thesis.pdf str.14}
+
+\section{xslt. Vytvořit tabulku pro xml dokument.  }
+	\begin{lstlisting}[language=XML]
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+    <xsl:output method="html" version="4.0" encoding="UTF-8" indent="yes" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" />
+  <xsl:template match="/">
+    <html>
+      <body>
+        <table>
+          <xsl:apply-templates select="real-estate/properties/property"/>                        
+        </table>
+      </body>
+    </html>
+  </xsl:template>
+    
+  <xsl:template match="properties/property">
+        <tr>
+            <td>
+                <xsl:apply-templates select="@idProperty"/>
+            </td>
+        </tr>
+  </xsl:template>
+</xsl:stylesheet>
+	\end{lstlisting}
+	
+	
+	
+\section{popsat algoritmus pro výběr šablony pro daný uzel v xslt. (Jak funguje apply templates?) }
+	We can always apply only one template\\
+	We take the one with the highest priority\\\\
+	If it is not set, the priority is evaluated implicitly as follows:	
+	\begin{itemize}
+		\item 0.5: path with more than one step
+		\item 0: element/attribute name
+		\item -0.25: *
+		\item -0.5: node(), text(), …
+	\end{itemize}
+	there is always a template to be applied (pre-defined, default)
+
+
+\section{to samé jako 10 jen pro xquery. Vysvětlit proč to nejde pokud to nejde.  }
+		\begin{lstlisting}[language=XML]
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Features</th>
+  </tr>
+  {
+    for $p in fn:doc('data.xml')//property
+    return
+      
+  <tr>
+    <td>{ fn:data($p/@idProperty) }</td>
+    <td>{ $p/name/text() }</td>
+    <td>
+          { $p/features/feature[1]/text() }
+          {
+            for $t in $p/features/feature[position() != 1]
+            return fn:concat(", ", $t/text())
+          }
+        </td>
+  </tr>
+  }
+
+</table>
+	\end{lstlisting}
+
+\section{Dietz numbering. Ukázat jak v něm poznám vztah předek-dědic.  }
+	\textbf{Preorder traversal}\\
+		Child nodes of a node follow their parent node\\
+	\textbf{Postorder traversal}\\
+		Parent node follows its child nodes\\
+	\\
+	 Nechť $L(v)=(x, y) a L(u)=(x', y')$, pak:\\
+        $v$ je potomek $u <=> x' < x \& y' > y$
+
+\section{Co je xquery core? Jaký má vztah k xquery?  }
+	XQuery Core defines a syntactic subset of\\
+	XQuery with the same expressive power as\\
+	XQuery, but without duplicities\\\\
+	XQuery Core is useful mainly from the theoretical point of view.\\
+		The queries are long and complex
+
+
+\section{?}
+\section{atributové mapování }
+	Generic-tree Mapping \\
+		Attribute = name of the edge\\
+		\begin{quote}
+		Edge \textit{attribute} (sourceID, order, type, targetID)
+		\end{quote}
+	
+	
+\section{?}
+\section{něco na generické mapování  }
+	\begin{itemize}
+  		 \item{Edge mapping}
+    		\subitem{Edge (sourceID, order, label, type, targetID)}
+  		 \item{Attribute mapping}
+    		\subitem{Edge \textit{attribute} (sourceID, order, type, targetID)}
+  		 \item{Universal mapping}
+    		\subitem{Uni (sourceID, ordera1, typea1, targetIDa1, ... orderak, typeak, targetIDak)}
+  		 \item{Normalized universal mapping}
+    		\subitem The universal table contains for each name just one record
+ 						Others (i.e. multi-value attributes) are stored in \textit{overflow tables}
+
+	\end{itemize}
+\section{SQL/XML dotaz - příklad  }
+	Extension of SQL which enables to work with XML data\\
+	\\
+	SQL expressions -> XML values
+	\begin{itemize}
+  		 \item XMLELEMENT – creating XML elements
+  		 \item XMLATTRIBUTES – creating XML attributes
+  		 \item XMLFOREST – creating XML elements for particular tuples
+  		 \item XMLCONCAT – from a list of expressions creates a single XML value
+  		 \item XMLAGG – XML aggregation
+	\end{itemize}
+	
+	Příklad:
+	\begin{lstlisting}
+	SELECT E.id,
+ 		XMLELEMENT (NAME "emp",
+ 			XMLATTRIBUTES (E.id AS "empid"),
+ 				E.first || ' ' || E.surname) AS xvalue
+	FROM Employees E WHERE ...
+	\end{lstlisting}
+	Dlaší ukázka
+	\begin{lstlisting}
+	SELECT COUNT (*) FROM Children D WHERE D.parent = E.id 
+	\end{lstlisting}
+	
+	
+\section{?}
+
+
+\end{document}

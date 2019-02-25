@@ -1,0 +1,14 @@
+D:\Onedrive\MFF\ZS2\C#\huffman\huffman\bin\Debug\huffman.exe.config
+D:\Onedrive\MFF\ZS2\C#\huffman\huffman\bin\Debug\huffman.exe
+D:\Onedrive\MFF\ZS2\C#\huffman\huffman\bin\Debug\huffman.pdb
+D:\Onedrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.csprojAssemblyReference.cache
+D:\Onedrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.csproj.CoreCompileInputs.cache
+D:\Onedrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.exe
+D:\Onedrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\huffman\huffman\bin\Debug\huffman.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\huffman\huffman\bin\Debug\huffman.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\huffman\huffman\bin\Debug\huffman.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\huffman\huffman\obj\Debug\huffman.pdb

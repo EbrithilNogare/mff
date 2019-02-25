@@ -1,0 +1,40 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[czech]{babel}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\begin{document}
+\title{Věty z předmětu Kombinatorika a grafy I.}
+\author{David Nápravník}
+\maketitle
+
+
+\tableofcontents
+\section{n! \& polynom n}
+$
+(\frac{n}{e})^n \geq n! \geq en(\frac{n}{e})^n
+$
+\subsection*{důkaz}
+Nechť $x \geq 0$. Potom $e^x = 1 + \frac{x}{1}+\frac{x^2}{2!} ... \geq \frac{x^n}{n!}$ ; $n! \geq \frac{x^n}{e^x}$
+
+\section{binomic \& polynom}
+Pro $ 1 \leq k \leq n $ platí
+$
+\binom{n}{0}+\binom{n}{1}+\binom{n}{2}+...+\binom{n}{k} \leq (\frac{en}{k})^k
+$
+
+\section{binomic \& odmocnina}
+$
+\frac{2^{2m}}{2\sqrt{m}} \leq
+\binom{2m}{m} \leq
+\frac{2^{2m}}{\sqrt{2m}}
+$
+
+
+
+
+
+
+
+\end{document}

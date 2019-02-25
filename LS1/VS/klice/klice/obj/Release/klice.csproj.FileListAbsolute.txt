@@ -1,0 +1,7 @@
+D:\Onedrive\MFF\VS\klice\klice\bin\Release\klice.exe.config
+D:\Onedrive\MFF\VS\klice\klice\bin\Release\klice.exe
+D:\Onedrive\MFF\VS\klice\klice\bin\Release\klice.pdb
+D:\Onedrive\MFF\VS\klice\klice\obj\Release\klice.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\VS\klice\klice\obj\Release\klice.csproj.CoreCompileInputs.cache
+D:\Onedrive\MFF\VS\klice\klice\obj\Release\klice.exe
+D:\Onedrive\MFF\VS\klice\klice\obj\Release\klice.pdb

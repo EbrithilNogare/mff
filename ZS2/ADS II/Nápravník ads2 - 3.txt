@@ -1,0 +1,89 @@
+David Nápravník - ads2 - úkol 3
+
+# Sestrojení sítì
+
+Vytvoøíme sí, kde kadé políèko je vrchol.
+Zdroj povede do k spodních políèek(vrcholù) na kterıch jsou figurky.
+Z kadého políèka povede orientovaná cesta váhy jedna,
+do a tøech následujících políèek.
+Pøièem cesta nepovede do tìch políèek, které jsou zablokované.
+Nezablokovaná políèka z horního øádku povedou do stoku(vše váha 1).
+
+
+
+# 1. úkol
+
+## pozorování
+nemùe se nám stát, aby figurky byly rozmístìny
+na více ne jednom øádku mezi tahy.
+
+poèet vrcholù je O(n^2)
+
+musíme udìlat pojistku aby se nepotkali dvì figurky na jednom políèku.
+to zaøídíme tak, e kadı vrchol rozdìlíme na dva.
+na jeden vrchol pøijdou vstupní hrany, na druhı vıstupní a
+mezi nimi bude hrana váhy jedna.
+
+## algoritmus
+pomocí Dinicijova algoritmu nalezneme maximální tok,
+pokud je roven poètu figurek, øešení existuje,
+pokud je menší, øešení neexistuje.
+
+## korektnost
+Algoritmus je koneènı, jeliko samotnı Dinicijùv algoritmus je koneènı.
+Stejnì tak jako e vıslednı tok je maximální vycházi z korektnosti Dinicije.
+
+Celı algoritmus hledání øešení je korektní, jeliko kadé figurce pøiøadí jednu cestu.
+Ta pak urèuje poadované tahy pro figurky, aby se dostali na druhou stranu.
+Nebo pokud tok neexistuje, pak neexistuje ani øešení pro figurky.
+Nebo neexistence toku znamená, e pro minimálnì jednu figurku neexistuje
+cesta do stoku, nebo je cesta zablokována figurkou jinou tak,
+e dané pole nelze uvolnit.
+
+## èasová sloitost
+Dinicùv algoritmus bude mít pouze jednu fázi tudí: O(n^2 * m)
+kde m bude maximálnì O(n^2) (figurka má pouze tøi monosti pohybu)
+celkem tedy	O(n^4)
+
+
+# 2. úkol
+
+## pozorování
+Tím, e figurka mùe stát, nic nám nebrání do cíle dovést pouze
+jednu figurku a teprve poté hledat cestu pro další figurku.
+
+Díky pohybu pouze jedné figurky a jejím následném odstranìní z šachovnice,
+mùeme na jedno políèko vstoupit opakovanì. 
+
+Pro tento pøípad mùeme odebrat zdroj i stok, nebo nejsou potøeba.
+
+## algoritmus
+Prostım prohledáním do šíøky nalezneme cestu z vıchozí pozice jedné figurky
+do libovolného cílového políèka. Toto opakujeme pro kadou figurku.
+Po úspìšném prùchodu se vrátíme zpìt po vytvoøené cestì a
+dané vrcholy znaèíme jako úspìšnì konèící.
+Tudí pokud na nì v budoucnu narazíme, nemusíme procházet zbytek cesty.
+
+Pokud cestu nalezneme pro všechny figurky pak úloha má øešení,
+pokud pro minimálnì jednu figurku neexistuje cesta z její vıchozí
+pozice a na horní øádek, pak úloha øešení nemá.
+
+## korektnost
+Algorimus se vdy zastaví, protoe BFS je koneènı.
+Algoritmus je korektní nebo pro kadou figurku nalezne cestu pomocí BFS,
+nebo ohlásí, e úloha nemá øešení.
+
+## èasová sloitost
+BFS zabere O(n), protoe nemùeme couvat a
+krok kdy by jsme èekaly mùeme zanedbat.
+BFS provádíme pro kadou figurku tudí O(n)
+celkovì tedy O(n^2)
+
+Dùkaz, e to nejde lépe, ne nejhùøe O(n^2)
+#######
+# #x# # o->figurka
+# #x# # x->zablokované políèko
+#o#o#o# #->rám políèka
+#######
+v tomto pøípadì musíme pro kadou figurku poèítat její cestu "tunelem"
+a ádná optimalizace nám nemùe pomoci.

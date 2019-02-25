@@ -1,0 +1,6 @@
+D:\Onedrive\MFF\VS\domino\domino\bin\Debug\domino.exe.config
+D:\Onedrive\MFF\VS\domino\domino\bin\Debug\domino.exe
+D:\Onedrive\MFF\VS\domino\domino\bin\Debug\domino.pdb
+D:\Onedrive\MFF\VS\domino\domino\obj\Debug\domino.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\VS\domino\domino\obj\Debug\domino.exe
+D:\Onedrive\MFF\VS\domino\domino\obj\Debug\domino.pdb

@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\rekurze\rekurze\bin\Debug\rekurze.exe.config
+D:\OneDrive\MFF\VS\rekurze\rekurze\bin\Debug\rekurze.exe
+D:\OneDrive\MFF\VS\rekurze\rekurze\bin\Debug\rekurze.pdb
+D:\OneDrive\MFF\VS\rekurze\rekurze\obj\Debug\rekurze.csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\rekurze\rekurze\obj\Debug\rekurze.exe
+D:\OneDrive\MFF\VS\rekurze\rekurze\obj\Debug\rekurze.pdb

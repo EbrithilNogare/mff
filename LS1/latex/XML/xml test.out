@@ -1,0 +1,20 @@
+\BOOKMARK [1][-]{section.1}{jmenn\351 prostory}{}% 1
+\BOOKMARK [1][-]{section.2}{Xml sch\351ma a varianty DTD. U ka\236d\351ho DTD r\355ct, zda bere v\235echny varianty XML dokumentu, kter\351 projdou XML sch\351matem.}{}% 2
+\BOOKMARK [1][-]{section.3}{Slovne popsan\375 xml dokument a k nemu udelat XML sch\351ma. \( Chtel, aby tam bylo libovoln\351 porad\355 2 elementu\) }{}% 3
+\BOOKMARK [1][-]{section.4}{ }{}% 4
+\BOOKMARK [1][-]{section.5}{xs:assert }{}% 5
+\BOOKMARK [1][-]{section.6}{pr\355klad na SAX. Je to push nebo pull parser? }{}% 6
+\BOOKMARK [1][-]{section.7}{pr\355klady na xpath. }{}% 7
+\BOOKMARK [1][-]{section.8}{Vybrat z ruzn\375ch xpath spr\341vn\351.}{}% 8
+\BOOKMARK [1][-]{section.9}{Vypsat dopredn\351 a rekurzivn\355 osy v xpath. Jak\375 je mezi nimi rozd\355l? }{}% 9
+\BOOKMARK [1][-]{section.10}{xslt. Vytvorit tabulku pro xml dokument. }{}% 10
+\BOOKMARK [1][-]{section.11}{popsat algoritmus pro v\375ber \235ablony pro dan\375 uzel v xslt. \(Jak funguje apply templates?\) }{}% 11
+\BOOKMARK [1][-]{section.12}{to sam\351 jako 10 jen pro xquery. Vysvetlit proc to nejde pokud to nejde. }{}% 12
+\BOOKMARK [1][-]{section.13}{Dietz numbering. Uk\341zat jak v nem pozn\341m vztah predek-dedic. }{}% 13
+\BOOKMARK [1][-]{section.14}{Co je xquery core? Jak\375 m\341 vztah k xquery? }{}% 14
+\BOOKMARK [1][-]{section.15}{?}{}% 15
+\BOOKMARK [1][-]{section.16}{atributov\351 mapov\341n\355 }{}% 16
+\BOOKMARK [1][-]{section.17}{?}{}% 17
+\BOOKMARK [1][-]{section.18}{neco na generick\351 mapov\341n\355 }{}% 18
+\BOOKMARK [1][-]{section.19}{SQL/XML dotaz - pr\355klad }{}% 19
+\BOOKMARK [1][-]{section.20}{?}{}% 20

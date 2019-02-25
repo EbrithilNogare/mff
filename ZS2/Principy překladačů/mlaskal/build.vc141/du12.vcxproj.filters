@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files - READONLY">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2EF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files - STUDENTS">
+      <UniqueIdentifier>{735298a4-e749-45da-967c-12052ff649b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files - STUDENTS">
+      <UniqueIdentifier>{72ae660c-8fe2-439f-a883-c0391a8f7547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files - READONLY">
+      <UniqueIdentifier>{6cd04d8d-f6d2-41b4-a4ba-f838a0fef58b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files - GENERATED">
+      <UniqueIdentifier>{e76cbaf9-3258-41b9-bb11-241649daa978}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\public-cpp\du12.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private-src\du12sem.cpp">
+      <Filter>Source Files - STUDENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\dummyg.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\build.vc141\du12l.cpp">
+      <Filter>Source Files - GENERATED</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\private-src\du12sem.hpp">
+      <Filter>Header Files - STUDENTS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\dummyg.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\Hanoiske veze\Hanoiske veze\bin\Debug\Hanoiske veze.exe.config
+D:\OneDrive\MFF\VS\Hanoiske veze\Hanoiske veze\bin\Debug\Hanoiske veze.exe
+D:\OneDrive\MFF\VS\Hanoiske veze\Hanoiske veze\bin\Debug\Hanoiske veze.pdb
+D:\OneDrive\MFF\VS\Hanoiske veze\Hanoiske veze\obj\Debug\Hanoiske veze.csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\Hanoiske veze\Hanoiske veze\obj\Debug\Hanoiske veze.exe
+D:\OneDrive\MFF\VS\Hanoiske veze\Hanoiske veze\obj\Debug\Hanoiske veze.pdb

@@ -1,0 +1,7 @@
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\betkaOpl\betkaOpl\bin\Debug\betkaOpl.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\betkaOpl\betkaOpl\bin\Debug\betkaOpl.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\betkaOpl\betkaOpl\bin\Debug\betkaOpl.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\betkaOpl\betkaOpl\obj\Debug\betkaOpl.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\betkaOpl\betkaOpl\obj\Debug\betkaOpl.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\betkaOpl\betkaOpl\obj\Debug\betkaOpl.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\betkaOpl\betkaOpl\obj\Debug\betkaOpl.pdb

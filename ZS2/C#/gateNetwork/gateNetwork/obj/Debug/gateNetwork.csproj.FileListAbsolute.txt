@@ -1,0 +1,14 @@
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\gateNetwork\gateNetwork\bin\Debug\gateNetwork.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\gateNetwork\gateNetwork\bin\Debug\gateNetwork.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\gateNetwork\gateNetwork\bin\Debug\gateNetwork.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.pdb
+D:\Onedrive\MFF\ZS2\C#\gateNetwork\gateNetwork\bin\Debug\gateNetwork.exe.config
+D:\Onedrive\MFF\ZS2\C#\gateNetwork\gateNetwork\bin\Debug\gateNetwork.exe
+D:\Onedrive\MFF\ZS2\C#\gateNetwork\gateNetwork\bin\Debug\gateNetwork.pdb
+D:\Onedrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.csprojAssemblyReference.cache
+D:\Onedrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.csproj.CoreCompileInputs.cache
+D:\Onedrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.exe
+D:\Onedrive\MFF\ZS2\C#\gateNetwork\gateNetwork\obj\Debug\gateNetwork.pdb

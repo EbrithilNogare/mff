@@ -1,0 +1,7 @@
+C:\Users\NOGARE\OneDrive\MFF\VS\grafy\grafy\bin\Debug\grafy.exe.config
+C:\Users\NOGARE\OneDrive\MFF\VS\grafy\grafy\bin\Debug\grafy.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\grafy\grafy\bin\Debug\grafy.pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\grafy\grafy\obj\Debug\grafy.csprojResolveAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\grafy\grafy\obj\Debug\grafy.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\grafy\grafy\obj\Debug\grafy.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\grafy\grafy\obj\Debug\grafy.pdb

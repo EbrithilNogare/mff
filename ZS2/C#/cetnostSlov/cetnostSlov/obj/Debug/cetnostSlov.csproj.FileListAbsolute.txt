@@ -1,0 +1,7 @@
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\cetnostSlov\cetnostSlov\bin\Debug\cetnostSlov.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\cetnostSlov\cetnostSlov\bin\Debug\cetnostSlov.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\cetnostSlov\cetnostSlov\bin\Debug\cetnostSlov.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\cetnostSlov\cetnostSlov\obj\Debug\cetnostSlov.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\cetnostSlov\cetnostSlov\obj\Debug\cetnostSlov.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\cetnostSlov\cetnostSlov\obj\Debug\cetnostSlov.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\cetnostSlov\cetnostSlov\obj\Debug\cetnostSlov.pdb

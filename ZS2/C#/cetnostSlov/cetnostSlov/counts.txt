@@ -1,0 +1,12 @@
+a: 4
+If: 1
+is: 2
+sdf: 1
+station: 1
+station?: 1
+stops,: 1
+the: 1
+train: 2
+what: 1
+where: 1
+work: 1

@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\nasledujici permutace\nasledujici permutace\bin\Debug\nasledujici permutace.exe.config
+D:\OneDrive\MFF\VS\nasledujici permutace\nasledujici permutace\bin\Debug\nasledujici permutace.exe
+D:\OneDrive\MFF\VS\nasledujici permutace\nasledujici permutace\bin\Debug\nasledujici permutace.pdb
+D:\OneDrive\MFF\VS\nasledujici permutace\nasledujici permutace\obj\Debug\nasledujici permutace.csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\nasledujici permutace\nasledujici permutace\obj\Debug\nasledujici permutace.exe
+D:\OneDrive\MFF\VS\nasledujici permutace\nasledujici permutace\obj\Debug\nasledujici permutace.pdb

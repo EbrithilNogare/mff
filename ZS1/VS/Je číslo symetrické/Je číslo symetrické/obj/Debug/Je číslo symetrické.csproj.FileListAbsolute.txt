@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\Je číslo symetrické\Je číslo symetrické\bin\Debug\Je číslo symetrické.exe.config
+D:\OneDrive\MFF\VS\Je číslo symetrické\Je číslo symetrické\bin\Debug\Je číslo symetrické.exe
+D:\OneDrive\MFF\VS\Je číslo symetrické\Je číslo symetrické\bin\Debug\Je číslo symetrické.pdb
+D:\OneDrive\MFF\VS\Je číslo symetrické\Je číslo symetrické\obj\Debug\Je číslo symetrické.csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\Je číslo symetrické\Je číslo symetrické\obj\Debug\Je číslo symetrické.exe
+D:\OneDrive\MFF\VS\Je číslo symetrické\Je číslo symetrické\obj\Debug\Je číslo symetrické.pdb

@@ -1,0 +1,6 @@
+D:\Onedrive\MFF\VS\Prisera v bludisti\Prisera v bludisti\bin\Debug\Prisera v bludisti.exe.config
+D:\Onedrive\MFF\VS\Prisera v bludisti\Prisera v bludisti\bin\Debug\Prisera v bludisti.exe
+D:\Onedrive\MFF\VS\Prisera v bludisti\Prisera v bludisti\bin\Debug\Prisera v bludisti.pdb
+D:\Onedrive\MFF\VS\Prisera v bludisti\Prisera v bludisti\obj\Debug\Prisera v bludisti.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\VS\Prisera v bludisti\Prisera v bludisti\obj\Debug\Prisera v bludisti.exe
+D:\Onedrive\MFF\VS\Prisera v bludisti\Prisera v bludisti\obj\Debug\Prisera v bludisti.pdb

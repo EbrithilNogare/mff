@@ -1,0 +1,13 @@
+zapocet: 
+body:
+	testy:		2x 10 (20)
+	dú:		7-9
+	aktivita:	1
+			     min 18b	
+	zápočtová písemka:   min 25b / 30
+
+du:
+	L={a^(2i)|i \in N}
+rozhodnout zda je regularni
+a sestrojit automat, nebo pokud ne tak
+pomoci pumping lematu to dokazat

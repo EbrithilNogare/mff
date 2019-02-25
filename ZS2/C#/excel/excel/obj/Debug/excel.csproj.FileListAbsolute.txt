@@ -1,0 +1,14 @@
+D:\Onedrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.csprojAssemblyReference.cache
+D:\Onedrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.csproj.CoreCompileInputs.cache
+D:\Onedrive\MFF\ZS2\C#\excel\excel\bin\Debug\excel.exe.config
+D:\Onedrive\MFF\ZS2\C#\excel\excel\bin\Debug\excel.exe
+D:\Onedrive\MFF\ZS2\C#\excel\excel\bin\Debug\excel.pdb
+D:\Onedrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.exe
+D:\Onedrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\excel\excel\bin\Debug\excel.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\excel\excel\bin\Debug\excel.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\excel\excel\bin\Debug\excel.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\excel\excel\obj\Debug\excel.pdb

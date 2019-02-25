@@ -1,0 +1,6 @@
+D:\Onedrive\MFF\ZS2\C#\first\first\bin\Debug\first.exe.config
+D:\Onedrive\MFF\ZS2\C#\first\first\bin\Debug\first.exe
+D:\Onedrive\MFF\ZS2\C#\first\first\bin\Debug\first.pdb
+D:\Onedrive\MFF\ZS2\C#\first\first\obj\Debug\first.csprojResolveAssemblyReference.cache
+D:\Onedrive\MFF\ZS2\C#\first\first\obj\Debug\first.exe
+D:\Onedrive\MFF\ZS2\C#\first\first\obj\Debug\first.pdb

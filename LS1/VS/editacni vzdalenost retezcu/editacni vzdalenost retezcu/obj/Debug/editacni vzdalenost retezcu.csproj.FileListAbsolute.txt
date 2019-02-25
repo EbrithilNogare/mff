@@ -1,0 +1,7 @@
+C:\Users\NOGARE\OneDrive\MFF\VS\editacni vzdalenost retezcu\editacni vzdalenost retezcu\bin\Debug\editacni vzdalenost retezcu.exe.config
+C:\Users\NOGARE\OneDrive\MFF\VS\editacni vzdalenost retezcu\editacni vzdalenost retezcu\bin\Debug\editacni vzdalenost retezcu.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\editacni vzdalenost retezcu\editacni vzdalenost retezcu\bin\Debug\editacni vzdalenost retezcu.pdb
+C:\Users\NOGARE\OneDrive\MFF\VS\editacni vzdalenost retezcu\editacni vzdalenost retezcu\obj\Debug\editacni vzdalenost retezcu.csprojResolveAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\editacni vzdalenost retezcu\editacni vzdalenost retezcu\obj\Debug\editacni vzdalenost retezcu.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\VS\editacni vzdalenost retezcu\editacni vzdalenost retezcu\obj\Debug\editacni vzdalenost retezcu.exe
+C:\Users\NOGARE\OneDrive\MFF\VS\editacni vzdalenost retezcu\editacni vzdalenost retezcu\obj\Debug\editacni vzdalenost retezcu.pdb

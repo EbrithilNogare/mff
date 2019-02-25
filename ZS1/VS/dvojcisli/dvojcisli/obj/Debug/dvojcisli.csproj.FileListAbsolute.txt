@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\dvojcisli\dvojcisli\bin\Debug\dvojcisli.exe.config
+D:\OneDrive\MFF\VS\dvojcisli\dvojcisli\bin\Debug\dvojcisli.exe
+D:\OneDrive\MFF\VS\dvojcisli\dvojcisli\bin\Debug\dvojcisli.pdb
+D:\OneDrive\MFF\VS\dvojcisli\dvojcisli\obj\Debug\dvojcisli.csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\dvojcisli\dvojcisli\obj\Debug\dvojcisli.exe
+D:\OneDrive\MFF\VS\dvojcisli\dvojcisli\obj\Debug\dvojcisli.pdb

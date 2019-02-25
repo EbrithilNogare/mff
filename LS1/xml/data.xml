@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE archLinux SYSTEM "data.dtd">
+<!-- Autor: David Nápravník -->
+<archLinux>
+    <package id="vim">
+        <properities version="8" preinstalled="no" lastUpdated="2018-02-26">
+            <size space="3" units="MB"/>
+        </properities>
+        <description>
+            Vi Improved, a highly configurable, improved version of the vi text editor
+            <![CDATA[
+                <Some other info>
+            ]]>
+            <p>Výhody</p>
+            <p>Malé nároky na počítač a jeho prostředky</p>
+            <p>Existuje verze pro mnoho operačních systémů</p>
+            <p>Rychlost</p>
+            <p>Možnost rozšiřování skripty ve vimscript</p>
+            <p>Snadná a logická ovladatelnost</p>
+            <p>Zpracování nápovědy</p>
+
+            <p>Nevýhody</p>
+            <p>Z dnešního pohledu zcela nestandardní ovládání</p>
+            <p>Delší doba zaučení začátečníka</p>
+            <p>Delší doba zaučení pokročilého</p>
+        </description>
+        <name>vim</name>
+        <dependence>
+            <dependencies>
+                <package idref="acl">
+                    <name>acl</name>
+                </package>
+            </dependencies>
+            <requiredBy>
+                <package idref="archboot">
+                    <name>archboot &x86;</name>
+                </package>
+            </requiredBy>
+        </dependence>
+    </package>
+    <package id="acl">
+        <properities version="2" preinstalled="yes" lastUpdated="2016-01-25">
+            <size space="30" units="MB"/>
+        </properities>
+        <name>acl</name>
+        <dependence>
+            <dependencies/>
+            <requiredBy>
+                <package idref="vim">
+                    <name>vim</name>
+                </package>
+            </requiredBy>
+        </dependence>
+    </package>
+    <package id="archboot">
+        <properities version="2" preinstalled="yes" lastUpdated="2017-11-25">
+            <size space="300" units="MB"/>
+        </properities>
+        <name>archboot</name>
+        <dependence>
+            <dependencies>
+                <package idref="vim">
+                    <name><?php echo "vim"; ?></name>
+                </package>
+            </dependencies>
+            <requiredBy/>
+        </dependence>
+    </package>
+</archLinux>

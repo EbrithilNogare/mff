@@ -1,0 +1,7 @@
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\alignToBlock\alignToBlock\bin\Debug\alignToBlock.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\alignToBlock\alignToBlock\bin\Debug\alignToBlock.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\alignToBlock\alignToBlock\bin\Debug\alignToBlock.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\alignToBlock\alignToBlock\obj\Debug\alignToBlock.csprojAssemblyReference.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\alignToBlock\alignToBlock\obj\Debug\alignToBlock.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\alignToBlock\alignToBlock\obj\Debug\alignToBlock.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\alignToBlock\alignToBlock\obj\Debug\alignToBlock.pdb

@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files - READONLY">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files - READONLY">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\public-cpp\abstract_ic.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\duerr.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\dusememptyerrtab.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\dutables.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\flat_icblock.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\gen_aifactory.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\gen_icfactory.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\gen_icinstrtab.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\gen_instr_decode.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\gen_machines.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\gen_mops.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\icexcept.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\icm_machine.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\ic_instr.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\labeled_icblock.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public-cpp\uid_gen.cpp">
+      <Filter>Source Files - READONLY</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\public-cpp\abstract_ic.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\abstract_instr.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\ai_factory.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\bisonflex.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\carray.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\common_types.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\dubaseerr.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\duerr.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\dutables.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\el_shr_ptr.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\file_seq.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\flat_icblock.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\gen_ainstr.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\gen_icinstr.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\gen_icopcodes.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\gen_mopcodes.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\icexcept.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\icm_flat_icblock.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\icm_machine.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\icm_types.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\icm_val.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\ic_factory.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\ic_instr.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\ic_instrtab.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\ic_opcodes.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\labeled_icblock.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\literal_storage.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\mops.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\plain_icblock.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public-cpp\uid_gen.hpp">
+      <Filter>Header Files - READONLY</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

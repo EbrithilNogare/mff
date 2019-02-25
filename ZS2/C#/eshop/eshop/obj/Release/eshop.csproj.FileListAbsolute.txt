@@ -1,0 +1,8 @@
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\bin\Release\eshop.exe.config
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\bin\Release\eshop.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\bin\Release\eshop.pdb
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Release\eshop.Properties.Resources.resources
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Release\eshop.csproj.GenerateResource.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Release\eshop.csproj.CoreCompileInputs.cache
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Release\eshop.exe
+C:\Users\NOGARE\OneDrive\MFF\ZS2\C#\eshop\eshop\obj\Release\eshop.pdb

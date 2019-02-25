@@ -1,0 +1,6 @@
+D:\OneDrive\MFF\VS\druhe nejvetsi cislo\druhe nejvetsi cislo\bin\Debug\druhe nejvetsi cislo.exe.config
+D:\OneDrive\MFF\VS\druhe nejvetsi cislo\druhe nejvetsi cislo\bin\Debug\druhe nejvetsi cislo.exe
+D:\OneDrive\MFF\VS\druhe nejvetsi cislo\druhe nejvetsi cislo\bin\Debug\druhe nejvetsi cislo.pdb
+D:\OneDrive\MFF\VS\druhe nejvetsi cislo\druhe nejvetsi cislo\obj\Debug\druhe nejvetsi cislo.csprojResolveAssemblyReference.cache
+D:\OneDrive\MFF\VS\druhe nejvetsi cislo\druhe nejvetsi cislo\obj\Debug\druhe nejvetsi cislo.exe
+D:\OneDrive\MFF\VS\druhe nejvetsi cislo\druhe nejvetsi cislo\obj\Debug\druhe nejvetsi cislo.pdb

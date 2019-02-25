@@ -1,0 +1,101 @@
+gate and
+inputs i0 i1
+outputs o
+1 1 1
+end
+
+gate or
+inputs i0 i1
+outputs o
+1 0 1
+0 1 1
+1 1 1
+end
+
+gate xor
+inputs i0 i1
+outputs o
+1 0 1
+0 1 1
+end
+
+gate -1
+inputs
+outputs o3 o2 o1 o0
+1 1 1 1
+end
+
+network
+inputs a3 a2 a1 a0
+outputs o3 o2 o1 o0
+gate 0xor1 xor
+gate 0xor2 xor
+gate 0and1 and
+gate 0and2 and
+gate 0or or
+gate 1xor1 xor
+gate 1xor2 xor
+gate 1and1 and
+gate 1and2 and
+gate 1or or
+gate 2xor1 xor
+gate 2xor2 xor
+gate 2and1 and
+gate 2and2 and
+gate 2or or
+gate 3xor1 xor
+gate 3xor2 xor
+gate 3and1 and
+gate 3and2 and
+gate 3or or
+gate -1 -1
+
+0xor1.i0->a0
+0xor1.i1->-1.o0
+0xor2.i0->0
+0xor2.i1->0xor1.o
+o0->0xor2.o
+0and1.i0->a0
+0and1.i1->-1.o0
+0and2.i0->0
+0and2.i1->0xor1.o
+0or.i0->0and1.o
+0or.i1->0and2.o
+
+1xor1.i0->a1
+1xor1.i1->-1.o1
+1xor2.i0->0or.o
+1xor2.i1->1xor1.o
+o1->1xor2.o
+1and1.i0->a1
+1and1.i1->-1.o1
+1and2.i0->0or.o
+1and2.i1->1xor1.o
+1or.i0->1and1.o
+1or.i1->1and2.o
+
+2xor1.i0->a2
+2xor1.i1->-1.o2
+2xor2.i0->1or.o
+2xor2.i1->2xor1.o
+o2->2xor2.o
+2and1.i0->a2
+2and1.i1->-1.o2
+2and2.i0->1or.o
+2and2.i1->2xor1.o
+2or.i0->2and1.o
+2or.i1->2and2.o
+
+3xor1.i0->a3
+3xor1.i1->-1.o3
+3xor2.i0->2or.o
+3xor2.i1->3xor1.o
+o3->3xor2.o
+3and1.i0->a3
+3and1.i1->-1.o3
+3and2.i0->2or.o
+3and2.i1->3xor1.o
+3or.i0->3and1.o
+3or.i1->3and2.o
+
+end
