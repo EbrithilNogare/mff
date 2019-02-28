@@ -1,0 +1,69 @@
+INC r		r<-r+1
+DEC r		r<-max(0,r-1)
+CLR r		r<-0
+JEQ r1,r2,kam	if r1=r2:  goto kam
+JNE r1,r2,kam	if r1<>r2: goto kam
+JL  r1,r2,kam	if r1<r2:  goto kam
+
+-----------------------------------
+JMP kam
+
+JEQ r1,r1,kam
+
+-----------------------------------
+r1<-r2
+
+CLR r1
+:start
+JEQ r1,r2,end
+INC r1
+JMP start
+:end
+
+-----------------------------------
+r1<-r1+r2
+
+CLR r3
+:start
+JEQ r2,r3,end
+INC r3
+INC r1
+JMP start
+:end
+
+----------------------------------
+r1<-r1-r2
+
+CLR r3
+:start
+JEQ r2,r3
+INC r3
+DEC r1
+JMP start
+:end
+
+-----------------------------------
+r1<-r1*r2
+
+CLR r3
+:start
+JEQ r2,r3
+INC r3
+r1<-r1+r2
+JMP start
+:end
+
+==================================
+CLR r1
+
+JEQ r1,r2 start
+DEC r1
+:start
+DEC r1
+JEQ r1,r2,end
+DEC r2
+JMP start
+
+---------------------------------
+
+
