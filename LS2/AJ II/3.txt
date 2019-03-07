@@ -1,0 +1,41 @@
+statement - výraz
+hold - vyhovovat, být správně
+solution - výsledek
+plug - dosadit
+  *into formula
+  * in for x
+suppose  - předpoklad
+such that - takové, že
+
+x [ví]
+v [vaj]
+
+matfyzpress) 26) 8)
+A) a is greater than or equal to zero is equivalent to absolute value of a is equal to a
+
+D) A is a subset of B and B is a subset of C implies A is a subset of C
+
+G) U or V implies negation U and negation V
+
+I) A is a subset of B is equivalet to A conjunction B is equal to B
+
+K) C is a subset of A and C is a subset of B is equvivalent to C is a subset of A intersection B
+
+L) for all X, Y, Z in real numbers such that x is less than y and y less than z implies x is less than z
+
+studentsbook) 54) 5)
+1 is going to finish
+2 am playing
+3 will have gone
+4 am haveing
+5 will have finished
+6 will be lieing
+7 are going to spend
+8 am haveing 
+
+8)
+1 save time
+2 waste time
+3 spend ... time
+4 time to spaier
+7 run out of time
