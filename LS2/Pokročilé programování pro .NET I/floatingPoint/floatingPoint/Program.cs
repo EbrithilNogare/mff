@@ -11,115 +11,114 @@ namespace floatingPoint
         static void Main(string[] args)
         {
             var f1 = new Fixed<Q24_8>(3);
-            Console.WriteLine($"3: {f1}");
-
             var f2 = new Fixed<Q24_8>(2);
-            var f3 = f1.Add(f2);
-            Console.WriteLine($"3 + 2: {f3}");
+            var f3 = f1.Multiply(f2);
+            Console.WriteLine($"a:{f1}, b={f2}, vysledek: {f3}");
+
 
             Console.ReadKey();
         }
     }
 
-    class Fixed<T> where T : Q24_8
+    class Fixed<T>where T:Q,new()
     {
-        public T number;
-        public Fixed(int number) {
-            this.number = number;
-        }
-        public double Add(Fixed<T> q)
+        
+        Int32 floatingPointNumber; //not a number, just 4bytes
+        T precision;
+        public Fixed(int integer, bool interpretAsFP = false)
         {
-            return number.Add(q.number);
+            precision = new T();
+            if(interpretAsFP)
+                floatingPointNumber = integer;
+            else
+                floatingPointNumber = precision.Init(integer);
+        }
+
+        public Fixed<T> Add(Fixed<T> q)
+        {
+            return new Fixed<T>(precision.Add(floatingPointNumber, q.floatingPointNumber), true);
+        }
+        public Fixed<T> Subtract(Fixed<T> q)
+        {
+            return new Fixed<T>(precision.Subtract(floatingPointNumber, q.floatingPointNumber), true);
+        }
+        public Fixed<T> Multiply(Fixed<T> q)
+        {
+            return new Fixed<T>(precision.Multiply(floatingPointNumber, q.floatingPointNumber), true);
+        }
+        public override string ToString()
+        {
+            return precision.ToString(floatingPointNumber);
         }
     }
     abstract class Q
     {
-        //public abstract double Add(Q n);
-    }
-    /*
-    class Fixed<Q24_8> : Fixed{
-        byte i1, i2, i3, f1;
-        public Fixed(int n, bool obo = false)
+        public int Add(int a, int b)
         {
-            i3 = (byte)(n & 0xFF);
-            i2 = (byte)(n >> 8);
-            i1 = (byte)(n >> 16);
-            f1 = (byte)(0);
+            return a + b;
         }
-        public Fixed<Q24_8> Add(Fixed<Q24_8> n)
+        public int Subtract(int a, int b)
         {
-            Int32 a = BitConverter.ToInt32(new byte[] { i1, i2, i3, f1 }, 0);
-            Int32 b = BitConverter.ToInt32(new byte[] { n.i1, n.i2, n.i3, n.f1 }, 0);
-            return new Fixed<Q24_8>(a + b, true);
+            return a - b;
         }
+        public abstract int Multiply(int a, int b);        
+        public abstract string ToString(int floatingPointNumber);
+        public abstract int Init(int floatingPointNumber);
     }
-    */
     class Q24_8 : Q
     {
-        public byte i1, i2, i3, f1;
-        public Q24_8 (int n)
+        public override int Multiply(int a, int b)
         {
-            i3 = (byte)(n & 0xFF);
-            i2 = (byte)(n >> 8);
-            i1 = (byte)(n >> 16);
-            f1 = (byte)(0);
+            a = a & 0x00FF;
+            b = b & 0x00FF;
+            long c = a * b;
 
+
+            return (byte)(c >> 8);
         }
-        public double Add(Q24_8 n)
+        public override string ToString(int n)
         {
-            Int32 a = BitConverter.ToInt32(new byte[] { i1, i2, i3, f1 }, 0);
-            return (a + (int)n)/8;
+            byte f1 = (byte)(n >> 0);
+            byte i3 = (byte)(n >> 8);
+            byte i2 = (byte)(n >> 16);
+            byte i1 = (byte)(n >> 24);
+
+            if (f1 == 0)
+                return (i1 * 16 + i2 * 8 + i3).ToString();
+            else
+                return String.Format(i1 * 16 + i2 * 8 + i3 + "." + f1);
         }
-        public static implicit operator int(Q24_8 q)
+        public override int Init(int floatingPointNumber)
         {
-            return BitConverter.ToInt32(new byte[] { q.i1, q.i2, q.i3, q.f1 }, 0);
+            return floatingPointNumber << 8;
         }
     }
-    /*/
     class Q16_16 : Q
     {
-        private byte i1, i2, f1, f2;
-        public Q16_16(byte i1, byte i2, byte f1, byte f2)
+        public override int Multiply(int a, int b)
         {
-            this.i1 = i1;
-            this.i2 = i2;
-            this.f1 = f1;
-            this.f2 = f2;
+            a = a & 0x00FF;
+            b = b & 0x00FF;
+            long c = a * b;
+
+
+            return (byte)(c >> 16);
         }
-        public static explicit operator Q16_16(int integer)
+        public override string ToString(int n)
         {
-            byte i1 = (byte)(integer & 0xFF);
-            byte i2 = (byte)(integer >> 8);
-            byte f1 = (byte)(0);
-            byte f2 = (byte)(0);
-            return new Q16_16(i1, i2, f1, f2);
-        }        
-        public override string ToString()
+            byte f2 = (byte)(n >> 0);
+            byte f1 = (byte)(n >> 8);
+            byte i1 = (byte)(n >> 16);
+            byte i2 = (byte)(n >> 24);
+
+            if (f1 == 0 && f2 == 0)
+                return (i2 * 8 + i1).ToString();
+            else
+                return String.Format(i2 * 8 + i1 + "." + f1 + f2);
+        }
+        public override int Init(int floatingPointNumber)
         {
-            return String.Format(i1 + i2 + "." + f1 + f2);
+            return floatingPointNumber << 16;
         }
     }
-    class Q8_24 : Q
-    {
-        private byte i1, f1, f2, f3;
-        public Q8_24(byte i1, byte f1, byte f2, byte f3)
-        {
-            this.i1 = i1;
-            this.f1 = f1;
-            this.f2 = f2;
-            this.f3 = f3;
-        }
-        public static explicit operator Q8_24(int integer)
-        {
-            byte i1 = (byte)(integer & 0xFF);
-            byte f1 = (byte)(0);
-            byte f2 = (byte)(0);
-            byte f3 = (byte)(0);
-            return new Q8_24(i1, f1, f2, f3);
-        }
-        public override string ToString()
-        {
-            return String.Format(i1 + "." + f1 + f2 + f3);
-        }
-    }/**/
 }
