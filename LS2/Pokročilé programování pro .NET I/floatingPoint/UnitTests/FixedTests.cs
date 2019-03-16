@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FixedPoint;
+using Cuni.Arithmetics.FixedPoint;
 using System;
 using System.Collections.Generic;
 using System.Linq;
