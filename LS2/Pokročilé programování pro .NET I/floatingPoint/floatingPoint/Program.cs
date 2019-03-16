@@ -6,145 +6,43 @@ using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("UnitTests")]
 
-namespace floatingPoint
+namespace FixedPoint
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Q24_8:");
-            {
-                var f1 = new Fixed<Q24_8>(3);
-                Console.WriteLine($"3: {f1}");
-
-                var f2 = new Fixed<Q24_8>(2);
-                var f3 = f1.Add(f2);
-                Console.WriteLine($"3 + 2: {f3}");
-
-                f3 = f1.Multiply(f2);
-                Console.WriteLine($"3 * 2: {f3}");
-
-                f1 = new Fixed<Q24_8>(19);
-                f2 = new Fixed<Q24_8>(13);
-                f3 = f1.Multiply(f2);
-                Console.WriteLine($"19 * 13: {f3}");
-
-                f1 = new Fixed<Q24_8>(3);
-                f2 = new Fixed<Q24_8>(2);
-                f3 = f1.Divide(f2);
-                Console.WriteLine($"3 / 2: {f3}");
-
-                f1 = new Fixed<Q24_8>(248);
-                f2 = new Fixed<Q24_8>(10);
-                f3 = f1.Divide(f2);
-                Console.WriteLine($"248 / 10: {f3}");
-
-                f1 = new Fixed<Q24_8>(625);
-                f2 = new Fixed<Q24_8>(1000);
-                f3 = f1.Divide(f2);
-                Console.WriteLine($"625 / 1000: {f3}");
-            }
-
-            //
-
-            Console.WriteLine();
-            Console.WriteLine("Q16_16:");
-            {
-                var f1 = new Fixed<Q16_16>(3);
-                Console.WriteLine($"3: {f1}");
-
-                var f2 = new Fixed<Q16_16>(2);
-                var f3 = f1.Add(f2);
-                Console.WriteLine($"3 + 2: {f3}");
-
-                f3 = f1.Multiply(f2);
-                Console.WriteLine($"3 * 2: {f3}");
-
-                f1 = new Fixed<Q16_16>(19);
-                f2 = new Fixed<Q16_16>(13);
-                f3 = f1.Multiply(f2);
-                Console.WriteLine($"19 * 13: {f3}");
-
-                f1 = new Fixed<Q16_16>(248);
-                f2 = new Fixed<Q16_16>(10);
-                f3 = f1.Divide(f2);
-                Console.WriteLine($"248 / 10: {f3}");
-
-                f1 = new Fixed<Q16_16>(625);
-                f2 = new Fixed<Q16_16>(1000);
-                f3 = f1.Divide(f2);
-                Console.WriteLine($"625 / 1000: {f3}");
-            }
-
-            //
-            
-            Console.WriteLine();
-            Console.WriteLine("Q8_24:");
-            {
-                var f1 = new Fixed<Q8_24>(3);
-                var f2 = new Fixed<Q8_24>(2);
-                var f3 = f1.Add(f2);
-                Console.WriteLine($"3 + 2: {f3}");
-
-                f3 = f1.Multiply(f2);
-                Console.WriteLine($"3 * 2: {f3}");
-
-                f1 = new Fixed<Q8_24>(19);
-                f2 = new Fixed<Q8_24>(13);
-                f3 = f1.Multiply(f2);
-                Console.WriteLine($"19 * 13: {f3}");
-
-                f1 = new Fixed<Q8_24>(248);
-                f2 = new Fixed<Q8_24>(10);
-                f3 = f1.Divide(f2);
-                Console.WriteLine($"248 / 10: {f3}");
-
-                f1 = new Fixed<Q8_24>(625);
-                f2 = new Fixed<Q8_24>(1000);
-                f3 = f1.Divide(f2);
-                Console.WriteLine($"625 / 1000: {f3}");
-            }
-            
-            Console.ReadKey();
-        }
-    }
-
-    class Fixed<T>where T:Q,new()
-    {
-        
-        Int32 floatingPointNumber; //not a number, just 4bytes
+    public class Fixed<T>where T:Q,new()
+    {        
+        Int32 fixedPointNumber; //not a number, just 4bytes
         T precision;
         public Fixed(int integer, bool interpretAsFP = false)
         {
             precision = new T();
             if(interpretAsFP)
-                floatingPointNumber = integer;
+                fixedPointNumber = integer;
             else
-                floatingPointNumber = precision.Init(integer);
+                fixedPointNumber = precision.Init(integer);
         }
 
         public Fixed<T> Add(Fixed<T> q)
         {
-            return new Fixed<T>(precision.Add(floatingPointNumber, q.floatingPointNumber), true);
+            return new Fixed<T>(precision.Add(fixedPointNumber, q.fixedPointNumber), true);
         }
         public Fixed<T> Subtract(Fixed<T> q)
         {
-            return new Fixed<T>(precision.Subtract(floatingPointNumber, q.floatingPointNumber), true);
+            return new Fixed<T>(precision.Subtract(fixedPointNumber, q.fixedPointNumber), true);
         }
         public Fixed<T> Multiply(Fixed<T> q)
         {
-            return new Fixed<T>(precision.Multiply(floatingPointNumber, q.floatingPointNumber), true);
+            return new Fixed<T>(precision.Multiply(fixedPointNumber, q.fixedPointNumber), true);
         }
         public Fixed<T> Divide(Fixed<T> q)
         {
-            return new Fixed<T>(precision.Divide(floatingPointNumber, q.floatingPointNumber), true);
+            return new Fixed<T>(precision.Divide(fixedPointNumber, q.fixedPointNumber), true);
         }
     public override string ToString()
         {
-            return precision.ToString(floatingPointNumber);
+            return precision.ToString(fixedPointNumber);
         }
     }
-    abstract class Q
+    public abstract class Q
     {
         public int Add(int a, int b)
         {
@@ -156,10 +54,10 @@ namespace floatingPoint
         }
         public abstract int Multiply(int a, int b);
         public abstract int Divide(int a, int b);
-        public abstract string ToString(int floatingPointNumber);
-        public abstract int Init(int floatingPointNumber);
+        public abstract string ToString(int fixedPointNumber);
+        public abstract int Init(int fixedPointNumber);
     }
-    class Q24_8 : Q
+    public class Q24_8 : Q
     {
         public override int Multiply(int a, int b)
         {
@@ -176,12 +74,12 @@ namespace floatingPoint
         {
             return ((double)(n) / Math.Pow(2, 8)).ToString();
         }
-        public override int Init(int floatingPointNumber)
+        public override int Init(int fixedPointNumber)
         {
-            return floatingPointNumber << 8;
+            return fixedPointNumber << 8;
         }
     }
-    class Q16_16 : Q
+    public class Q16_16 : Q
     {
         public override int Multiply(int a, int b)
         {
@@ -198,12 +96,12 @@ namespace floatingPoint
         {
             return ((double)(n) / Math.Pow(2, 16)).ToString();
         }
-        public override int Init(int floatingPointNumber)
+        public override int Init(int fixedPointNumber)
         {
-            return floatingPointNumber << 16;
+            return fixedPointNumber << 16;
         }
     }
-    class Q8_24 : Q
+    public class Q8_24 : Q
     {
         public override int Multiply(int a, int b)
         {
@@ -220,9 +118,9 @@ namespace floatingPoint
         {
             return ((double)(n) / Math.Pow(2, 24)).ToString();
         }
-        public override int Init(int floatingPointNumber)
+        public override int Init(int fixedPointNumber)
         {
-            return floatingPointNumber << 24;
+            return fixedPointNumber << 24;
         }
     }
 }

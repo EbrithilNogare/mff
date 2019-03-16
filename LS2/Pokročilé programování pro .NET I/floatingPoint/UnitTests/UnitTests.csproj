@@ -63,9 +63,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\floatingPoint\floatingPoint.csproj">
+    <ProjectReference Include="..\floatingPoint\Arithmetics.csproj">
       <Project>{6850E173-EA39-4E46-BC9B-CB2FB6327B4F}</Project>
-      <Name>floatingPoint</Name>
+      <Name>Arithmetics</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
