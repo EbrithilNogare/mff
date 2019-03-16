@@ -20,55 +20,59 @@ namespace floatingPoint
             Console.ReadKey();
         }
     }
-    class Fixed<T> where T : Q
+
+    class Fixed<T> where T : Q24_8
     {
-        private T t;
-        public Fixed(T t)
-        {
-            this.t = t;
+        public T number;
+        public Fixed(int number) {
+            this.number = number;
         }
-
-        public Q24_8 Add(Fixed<Q24_8> n)
+        public double Add(Fixed<T> q)
         {
-            var nn = n.t;
-            Q24_8 tt = t;
-            Int32 a = BitConverter.ToInt32(new byte[] { tt.i1, tt.i2, tt.i3, tt.f1, }, 0);
-            Int32 b = BitConverter.ToInt32(new byte[] { nn.i1, nn.i2, nn.i3, nn.f1, }, 0);
-            return (a + b);
+            return number.Add(q.number);
         }
-
-        public override string ToString()
-        {
-            return t.ToString();
-        }
-
     }
-
-    abstract class Q {
-
+    abstract class Q
+    {
+        //public abstract double Add(Q n);
     }
-    
-    class Q24_8:Q
+    /*
+    class Fixed<Q24_8> : Fixed{
+        byte i1, i2, i3, f1;
+        public Fixed(int n, bool obo = false)
+        {
+            i3 = (byte)(n & 0xFF);
+            i2 = (byte)(n >> 8);
+            i1 = (byte)(n >> 16);
+            f1 = (byte)(0);
+        }
+        public Fixed<Q24_8> Add(Fixed<Q24_8> n)
+        {
+            Int32 a = BitConverter.ToInt32(new byte[] { i1, i2, i3, f1 }, 0);
+            Int32 b = BitConverter.ToInt32(new byte[] { n.i1, n.i2, n.i3, n.f1 }, 0);
+            return new Fixed<Q24_8>(a + b, true);
+        }
+    }
+    */
+    class Q24_8 : Q
     {
         public byte i1, i2, i3, f1;
-        public Q24_8(byte i1, byte i2, byte i3, byte f1)
+        public Q24_8 (int n)
         {
-            this.i1 = i1;
-            this.i2 = i2;
-            this.i3 = i3;
-            this.f1 = f1;
+            i3 = (byte)(n & 0xFF);
+            i2 = (byte)(n >> 8);
+            i1 = (byte)(n >> 16);
+            f1 = (byte)(0);
+
         }
-        public static implicit operator Q24_8(int integer)
+        public double Add(Q24_8 n)
         {
-            byte i3 = (byte)(integer & 0xFF);
-            byte i2 = (byte)(integer >> 8);
-            byte i1 = (byte)(integer >> 16);
-            byte f1 = (byte)(0);
-            return new Q24_8(i1, i2, i3, f1);
+            Int32 a = BitConverter.ToInt32(new byte[] { i1, i2, i3, f1 }, 0);
+            return (a + (int)n)/8;
         }
-        public override string ToString()
+        public static implicit operator int(Q24_8 q)
         {
-            return String.Format(i1*16 + i2*8 + i3 + "." + f1);
+            return BitConverter.ToInt32(new byte[] { q.i1, q.i2, q.i3, q.f1 }, 0);
         }
     }
     /*/
