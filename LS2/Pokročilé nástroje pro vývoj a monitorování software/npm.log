@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.2.18)  4 MAR 2019 16:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018/Arch Linux) (preloaded format=pdflatex 2019.2.18)  18 MAR 2019 15:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -835,7 +835,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 sh.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (./npm.nav)
-<./images/npm_logo.png, id=70, 225.84375pt x 150.5625pt>
+<./images/npm_logo.png, id=71, 225.84375pt x 150.5625pt>
 File: ./images/npm_logo.png Graphic file (type png)
 <use ./images/npm_logo.png>
 Package pdftex.def Info: ./images/npm_logo.png  used on input line 32.
@@ -847,16 +847,16 @@ Package pdftex.def Info: ./images/npm_logo.png  used on input line 32.
 ] [3
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 61.
+LaTeX Font Info:    Try loading font information for U+msa on input line 66.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 61.
+LaTeX Font Info:    Try loading font information for U+msb on input line 66.
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 61.
+line 66.
 
 (/usr/share/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
@@ -901,10 +901,7 @@ thkerncmss.
 
 ] [22
 
-]
-\openout4 = `npm.vrb'.
-
- (./npm.vrb) [23
+] [23
 
 ] [24
 
@@ -915,7 +912,14 @@ thkerncmss.
 
 ] [26
 
- </usr/share/texmf-dist/tex/latex/beamer/beamericonarticle.pdf>] [27
+]
+\openout4 = `npm.vrb'.
+
+ (./npm.vrb) [27
+
+] [28
+
+ </usr/share/texmf-dist/tex/latex/beamer/beamericonarticle.pdf>] [29
 
 ]
 \tf@nav=\write6
@@ -927,19 +931,19 @@ thkerncmss.
 \tf@snm=\write8
 \openout8 = `npm.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 285.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 285.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 311.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 311.
  (./npm.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 285.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 285.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 311.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 311.
 Package rerunfilecheck Info: File `npm.out' has not changed.
 (rerunfilecheck)             Checksum: CB912CDA416B2AF3FEEE8B976CAEB9E9;220.
  ) 
 Here is how much of TeX's memory you used:
- 17512 strings out of 492616
- 331993 string characters out of 6135177
- 434264 words of memory out of 5000000
- 20954 multiletter control sequences out of 15000+600000
+ 17518 strings out of 492616
+ 332047 string characters out of 6135177
+ 436054 words of memory out of 5000000
+ 20956 multiletter control sequences out of 15000+600000
  12833 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,20n,69p,770b,821s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -952,10 +956,10 @@ sr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmssi9.pfb></usr/share/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmtt10.pfb>
-Output written on npm.pdf (27 pages, 155746 bytes).
+Output written on npm.pdf (29 pages, 160753 bytes).
 PDF statistics:
- 1141 PDF objects out of 1200 (max. 8388607)
- 1040 compressed objects within 11 object streams
- 61 named destinations out of 1000 (max. 500000)
+ 1244 PDF objects out of 1440 (max. 8388607)
+ 1139 compressed objects within 12 object streams
+ 65 named destinations out of 1000 (max. 500000)
  142 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,5 +1,5 @@
 \beamer@sectionintoc {1}{Introduction}{2}{0}{1}
 \beamer@sectionintoc {2}{Packages}{5}{0}{2}
-\beamer@sectionintoc {3}{Configs}{8}{0}{3}
-\beamer@sectionintoc {4}{Usage}{12}{0}{4}
-\beamer@sectionintoc {5}{example pages}{15}{0}{5}
+\beamer@sectionintoc {3}{Configs}{9}{0}{3}
+\beamer@sectionintoc {4}{Usage}{13}{0}{4}
+\beamer@sectionintoc {5}{example pages}{17}{0}{5}
