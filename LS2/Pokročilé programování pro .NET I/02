@@ -1,0 +1,15 @@
+1)  Novy projekt (exe) - benchmarky
+        gausova eliminace
+            fixed vs float vs double
+2)  Notes.md (mark down)
+    popis benchmarku
+3)  rozsirit Fixed
+            Fixed<Q>f1 = 3
+        operatory
+            f1=f2+f3
+         prevody mezi ruznymi Q
+            f2=f1+3
+    nove testy
+
+fixed:      ~kliber/Fixed.zip
+benchmark:  ~kliber/Benchmark.zip
