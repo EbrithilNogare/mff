@@ -196,3 +196,62 @@ namespace UnitTests
 
     }
 }
+
+namespace UnitTestsNew
+{
+    [TestClass()]
+    public class FixedQ24_8
+    {
+        [TestMethod()]
+        public void Convert()
+        {
+            Fixed<Q24_8> f1 = 3;
+            Assert.AreEqual("3", f1.ToString());
+        }
+        [TestMethod()]
+        public void OperatorPlus()
+        {
+            //Init
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(2);
+
+            //Test
+            var f3 = f1 + f2;
+
+            //Check
+            Assert.AreEqual("5", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorMinus()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(2);
+            var f3 = f1 - f2;
+            Assert.AreEqual("1", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorMultiply()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(2);
+            var f3 = f1 * f2;
+            Assert.AreEqual("6", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorDivide()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(2);
+            var f3 = f1 / f2;
+            Assert.AreEqual(((double)1.5).ToString(), f3.ToString());
+        }
+
+        [TestMethod()]
+        public void OperatorPlusInt()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f3 = f1 + 2;
+            Assert.AreEqual("5", f3.ToString());
+        }
+    }
+}

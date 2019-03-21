@@ -41,6 +41,33 @@ namespace Cuni.Arithmetics.FixedPoint
         {
             return precision.ToString(fixedPointNumber);
         }
+
+        public static Fixed<T> operator +(Fixed<T> a, Fixed<T> b)
+        {
+            T precision = new T();
+            return new Fixed<T>(precision.Add(a.fixedPointNumber, b.fixedPointNumber), true);
+        }
+        public static Fixed<T> operator -(Fixed<T> a, Fixed<T> b)
+        {
+            T precision = new T();
+            return new Fixed<T>(precision.Subtract(a.fixedPointNumber, b.fixedPointNumber), true);
+        }
+        public static Fixed<T> operator *(Fixed<T> a, Fixed<T> b)
+        {
+            T precision = new T();
+            return new Fixed<T>(precision.Multiply(a.fixedPointNumber, b.fixedPointNumber), true);
+        }
+        public static Fixed<T> operator /(Fixed<T> a, Fixed<T> b)
+        {
+            T precision = new T();
+            return new Fixed<T>(precision.Divide(a.fixedPointNumber, b.fixedPointNumber), true);
+        }
+
+        public static implicit operator Fixed<T>(int n)
+        {
+            return new Fixed<T>(n);
+        }
+
     }
     public abstract class Q
     {
