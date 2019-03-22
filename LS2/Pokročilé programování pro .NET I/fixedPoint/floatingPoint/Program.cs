@@ -20,6 +20,11 @@ namespace Cuni.Arithmetics.FixedPoint
             else
                 fixedPointNumber = precision.Init(integer);
         }
+        public Fixed()
+        {
+            precision = new T();
+            fixedPointNumber = 0;
+        }
 
         public Fixed<T> Add(Fixed<T> q)
         {
@@ -61,6 +66,16 @@ namespace Cuni.Arithmetics.FixedPoint
         {
             T precision = new T();
             return new Fixed<T>(precision.Divide(a.fixedPointNumber, b.fixedPointNumber), true);
+        }
+        public static bool operator ==(Fixed<T> a, Fixed<T> b)
+        {
+            T precision = new T();
+            return (a.fixedPointNumber == b.fixedPointNumber);
+        }
+        public static bool operator !=(Fixed<T> a, Fixed<T> b)
+        {
+            T precision = new T();
+            return (a.fixedPointNumber != b.fixedPointNumber);
         }
 
         public static implicit operator Fixed<T>(int n)

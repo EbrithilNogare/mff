@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTests
+namespace BasicArithmeticTests
 {
     [TestClass()]
     public class FixedQ24_8
@@ -197,7 +197,7 @@ namespace UnitTests
     }
 }
 
-namespace UnitTestsNew
+namespace AdvancedOperatorTests
 {
     [TestClass()]
     public class FixedQ24_8
@@ -252,6 +252,208 @@ namespace UnitTestsNew
             var f1 = new Fixed<Q24_8>(3);
             var f3 = f1 + 2;
             Assert.AreEqual("5", f3.ToString());
+        }
+
+        [TestMethod()]
+        public void Equation()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(3);
+            Assert.AreEqual(true, f1 == f2);
+        }
+        [TestMethod()]
+        public void Equation2()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(4);
+            Assert.AreEqual(false, f1 == f2);
+        }
+
+        [TestMethod()]
+        public void NEquation()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(3);
+            Assert.AreEqual(false, f1 != f2);
+        }
+        [TestMethod()]
+        public void NEquation2()
+        {
+            var f1 = new Fixed<Q24_8>(3);
+            var f2 = new Fixed<Q24_8>(4);
+            Assert.AreEqual(true, f1 != f2);
+        }
+    }
+
+    [TestClass()]
+    public class FixedQ16_16
+    {
+        [TestMethod()]
+        public void Convert()
+        {
+            Fixed<Q16_16> f1 = 3;
+            Assert.AreEqual("3", f1.ToString());
+        }
+        [TestMethod()]
+        public void OperatorPlus()
+        {
+            //Init
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(2);
+
+            //Test
+            var f3 = f1 + f2;
+
+            //Check
+            Assert.AreEqual("5", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorMinus()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(2);
+            var f3 = f1 - f2;
+            Assert.AreEqual("1", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorMultiply()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(2);
+            var f3 = f1 * f2;
+            Assert.AreEqual("6", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorDivide()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(2);
+            var f3 = f1 / f2;
+            Assert.AreEqual(((double)1.5).ToString(), f3.ToString());
+        }
+
+        [TestMethod()]
+        public void OperatorPlusInt()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f3 = f1 + 2;
+            Assert.AreEqual("5", f3.ToString());
+        }
+
+        [TestMethod()]
+        public void Equation()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(3);
+            Assert.AreEqual(true, f1 == f2);
+        }
+        [TestMethod()]
+        public void Equation2()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(4);
+            Assert.AreEqual(false, f1 == f2);
+        }
+
+        [TestMethod()]
+        public void NEquation()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(3);
+            Assert.AreEqual(false, f1 != f2);
+        }
+        [TestMethod()]
+        public void NEquation2()
+        {
+            var f1 = new Fixed<Q16_16>(3);
+            var f2 = new Fixed<Q16_16>(4);
+            Assert.AreEqual(true, f1 != f2);
+        }
+    }
+
+    [TestClass()]
+    public class FixedQ8_24
+    {
+        [TestMethod()]
+        public void Convert()
+        {
+            Fixed<Q8_24> f1 = 3;
+            Assert.AreEqual("3", f1.ToString());
+        }
+        [TestMethod()]
+        public void OperatorPlus()
+        {
+            //Init
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(2);
+
+            //Test
+            var f3 = f1 + f2;
+
+            //Check
+            Assert.AreEqual("5", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorMinus()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(2);
+            var f3 = f1 - f2;
+            Assert.AreEqual("1", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorMultiply()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(2);
+            var f3 = f1 * f2;
+            Assert.AreEqual("6", f3.ToString());
+        }
+        [TestMethod()]
+        public void OperatorDivide()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(2);
+            var f3 = f1 / f2;
+            Assert.AreEqual(((double)1.5).ToString(), f3.ToString());
+        }
+
+        [TestMethod()]
+        public void OperatorPlusInt()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f3 = f1 + 2;
+            Assert.AreEqual("5", f3.ToString());
+        }
+
+        [TestMethod()]
+        public void Equation()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(3);
+            Assert.AreEqual(true, f1 == f2);
+        }
+        [TestMethod()]
+        public void Equation2()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(4);
+            Assert.AreEqual(false, f1 == f2);
+        }
+
+        [TestMethod()]
+        public void NEquation()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(3);
+            Assert.AreEqual(false, f1 != f2);
+        }
+        [TestMethod()]
+        public void NEquation2()
+        {
+            var f1 = new Fixed<Q8_24>(3);
+            var f2 = new Fixed<Q8_24>(4);
+            Assert.AreEqual(true, f1 != f2);
         }
     }
 }
