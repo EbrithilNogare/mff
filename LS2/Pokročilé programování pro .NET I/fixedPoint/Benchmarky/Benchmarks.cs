@@ -17,12 +17,12 @@ namespace Benchmarky
         {
             List<BenchmarkDotNet.Reports.Summary> reports = new List<BenchmarkDotNet.Reports.Summary>();
             reports.Add(BenchmarkRunner.Run<AddTestsWithoutDeclarationForCycle>());
-            //reports.Add(BenchmarkRunner.Run<AddTestsWithoutDeclaration>());
-            //reports.Add(BenchmarkRunner.Run<AddTests>());
-            //reports.Add(BenchmarkRunner.Run<SubtractTests>());
-            //reports.Add(BenchmarkRunner.Run<MultiplyTests>());
-            //reports.Add(BenchmarkRunner.Run<DivideTests>());
-            //reports.Add(BenchmarkRunner.Run<GauseEliminationTests>());
+            reports.Add(BenchmarkRunner.Run<AddTestsWithoutDeclaration>());
+            reports.Add(BenchmarkRunner.Run<AddTests>());
+            reports.Add(BenchmarkRunner.Run<SubtractTests>());
+            reports.Add(BenchmarkRunner.Run<MultiplyTests>());
+            reports.Add(BenchmarkRunner.Run<DivideTests>());
+            reports.Add(BenchmarkRunner.Run<GauseEliminationTests>());
 
             //Console.Clear();
 
@@ -379,6 +379,7 @@ namespace Benchmarky
             bool succeded = gause.SolveLinearEquations(input);
         }
     }
+
 
     public class GauseElimination
     {
