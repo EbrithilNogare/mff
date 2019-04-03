@@ -22,36 +22,19 @@ Platformou byl Intel s hardwarovou podporou dìlení a desetiných èísel
 
 # výsledky testù
 
-## první bìh
-* Benchmarky.AddTests
-  *    Q24_8Test           :  456.6098 ns
-  *    Q16_16Test          :  444.5341 ns
-  *    Q8_24Test           :  470.4036 ns
-  *    FloatTest           :  0.0391 ns
-  *    DoubleTest          :  0.0387 ns
-* Benchmarky.SubtractTests
-  *    Q24_8Test           :  442.0263 ns
-  *    Q16_16Test          :  442.6848 ns
-  *    Q8_24Test           :  448.5160 ns
-  *    FloatTest           :  0.0405 ns
-  *    DoubleTest          :  0.0303 ns
-* Benchmarky.MultiplyTests
-  *    Q24_8Test           :  444.9907 ns
-  *    Q16_16Test          :  444.6477 ns
-  *    Q8_24Test           :  449.4225 ns
-  *    FloatTest           :  0.0271 ns
-  *    DoubleTest          :  0.0141 ns
-* Benchmarky.DivideTests
-  *    Q24_8Test           :  454.4039 ns
-  *    Q16_16Test          :  466.1081 ns
-  *    Q8_24Test           :  457.4034 ns
-  *    FloatTest           :  0.0368 ns
-  *    DoubleTest          :  0.0388 ns
-* Benchmarky.GauseEliminationTests
-  *    Q24_8Test           :  322.60 us
-  *    Q16_16Test          :  322.40 us
-  *    Q8_24Test           :  330.52 us
-  *    DoubleTest          :  28.30 us
+|                                         	|    Q24_8    	| Q16_16      	| Q8_24       	| Float     	| Double    	|
+|:---------------------------------------:	|:-----------:	|-------------	|-------------	|-----------	|-----------	|
+|                 AddTests                	| 260.3110 ns 	| 263.5006 ns 	| 266.6582 ns 	| 0.0388 ns 	| 0.0422 ns 	|
+|              SubtractTests              	| 264.3520 ns 	| 264.3670 ns 	| 266.9845 ns 	| 0.0238 ns 	| 0.0155 ns 	|
+|              MultiplyTests              	| 262.7965 ns 	| 262.1757 ns 	| 266.3476 ns 	| 0.0577 ns 	| 0.0376 ns 	|
+|               DivideTests               	| 272.6980 ns 	| 285.5533 ns 	| 271.6650 ns 	| 0.0089 ns 	| 0.0204 ns 	|
+|        AddTestsWithoutDeclaration       	|  94.3261 ns 	|  96.7004 ns 	|  87.4589 ns 	| 0.0019 ns 	| 0.0078 ns 	|
+|    AddTestsWithoutDeclarationForCycle   	| 99,859.3 ns 	| 90,994.1 ns 	| 87,650.3 ns 	|  593.0 ns 	|  596.3 ns 	|
+| SubtractTestsWithoutDeclarationForCycle 	| 94,394.8 ns 	| 90,432.1 ns 	| 87,801.4 ns 	|  592.2 ns 	|  612.9 ns 	|
+| MultiplyTestsWithoutDeclarationForCycle 	| 99,357.3 ns 	| 90,735.2 ns 	| 88,476.7 ns 	|  596.7 ns 	|  579.3 ns 	|
+|  DivideTestsWithoutDeclarationForCycle  	|   98.131 us 	|   98.907 us 	|   91.472 us 	|  1.133 us 	|  1.138 us 	|
+|         **GauseEliminationTests**     	|   234.09 us 	|   243.65 us 	|   242.82 us 	|  97.16 us 	|  42.41 us 	|
+
 
 
 První ètyøi skupiny testù byly zamìøeny na jednotlivé operace
@@ -66,34 +49,19 @@ Tudíž mùžeme øíct, že nejvíce èasu nám zabírá
 ona deklarace promìných typu FixedPoint.
 
 
-Testy jsem tedy pøedìlal a **deklaraci "vyndal" mimo test**.
-
-## druhý bìh
-* Benchmarky.AddTestsWithoutDeclaration
-  *    Q24_8Test           :  170.8000 ns
-  *    Q16_16Test          :  185.1193 ns
-  *    Q8_24Test           :  165.4359 ns
-  *    FloatTest           :  0.0357 ns
-  *    DoubleTest          :  0.0418 ns
-
-Po takovéto úpravì již máme reálné benchmarky èistì operací.
+V testu "AddTestsWithoutDeclaration" byly odebrány deklarace a
+byly umístìny pøed metody a tudíž se nepoèítali do èasu.
 **Rozdíl se snížil**, ale stále by šlo testovat èistì operace lépe.
-
 Zkusme izolovat danou operaci zvýšením poètu opakování.
 
 
-## tøetí bìh
-* Benchmarky.AddTestsWithoutDeclarationForCycle
-  *    Q24_8Test           :  1,668.693 us
-  *    Q16_16Test          :  1,620.104 us
-  *    Q8_24Test           :  1,632.980 us
-  *    FloatTest           :  6.456 us
-  *    DoubleTest          :  10.239 us
-
-Opakovích bylo nastaveno *10000* a z výslekù pozorujeme
-**stabilitu typu FP** a naopak neèekané **zpomalení pro
+Opakovích bylo nastaveno *1000* a z výslekù pozorujeme
+**stabilitu typu FP** a naopak **zpomalení pro
 typy float a double**, které se pøi vysokém poètu opakování
-stávají až 20x ménì efektivní.
+stávají až 20x ménì efektivní. Což je dáno tím, že samotný for cyklus 
+v sobì obsahuje pøièítání a porovnání.
+
+
 
 # Závìr
  Z celkových výsledkù vyplývá, že použití Fixed point typù je **øádovì
@@ -102,9 +70,6 @@ stávají až 20x ménì efektivní.
  Dále mùžeme øíct, že **dìlení není nijak výraznì horší**,
  než jiné operace na tomto typu procesoru.
 
- Dále vydíme, že aèkoliv benchmarky FixedPoint jsou stabilní,
- benchmarky u float a double jsou **nestabilní** a testy 
- u tìchto typù mají vyskou míru šumu.
 
 
 
