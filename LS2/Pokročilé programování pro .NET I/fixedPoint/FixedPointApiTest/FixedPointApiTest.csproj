@@ -60,7 +60,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\floatingPoint\Arithmetics.csproj">
+    <ProjectReference Include="..\Arithmetics\Arithmetics.csproj">
       <Project>{6850e173-ea39-4e46-bc9b-cb2fb6327b4f}</Project>
       <Name>Arithmetics</Name>
     </ProjectReference>

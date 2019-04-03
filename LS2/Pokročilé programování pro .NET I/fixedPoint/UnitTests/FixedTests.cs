@@ -456,4 +456,81 @@ namespace AdvancedOperatorTests
             Assert.AreEqual(true, f1 != f2);
         }
     }
+
+    [TestClass()]
+    public class Fixed
+    {
+        [TestMethod()]
+        public void Convert24to8()
+        {
+            Fixed<Q24_8> f1 = 1;
+            Fixed<Q24_8> f2 = 32;
+            Fixed<Q24_8> f3 = f1 / f2;
+            Fixed<Q8_24> f4 = new Fixed<Q8_24>();
+
+            f4 = (Fixed<Q8_24>)f3;
+
+            Assert.AreEqual(f3.ToString(), f4.ToString());
+        }
+        [TestMethod()]
+        public void Convert24to16()
+        {
+            Fixed<Q24_8> f1 = 1;
+            Fixed<Q24_8> f2 = 32;
+            Fixed<Q24_8> f3 = f1 / f2;
+            Fixed<Q16_16> f4 = new Fixed<Q16_16>();
+
+            f4 = (Fixed<Q16_16>)f3;
+
+            Assert.AreEqual(f3.ToString(), f4.ToString());
+        }
+        [TestMethod()]
+        public void Convert16to24()
+        {
+            Fixed<Q16_16> f1 = 1;
+            Fixed<Q16_16> f2 = 32;
+            Fixed<Q16_16> f3 = f1 / f2;
+            Fixed<Q24_8> f4 = new Fixed<Q24_8>();
+
+            f4 = (Fixed<Q24_8>)f3;
+
+            Assert.AreEqual(f3.ToString(), f4.ToString());
+        }
+        [TestMethod()]
+        public void Convert16to8()
+        {
+            Fixed<Q16_16> f1 = 1;
+            Fixed<Q16_16> f2 = 32;
+            Fixed<Q16_16> f3 = f1 / f2;
+            Fixed<Q8_24> f4 = new Fixed<Q8_24>();
+
+            f4 = (Fixed<Q8_24>)f3;
+
+            Assert.AreEqual(f3.ToString(), f4.ToString());
+        }
+        [TestMethod()]
+        public void Convert8to24()
+        {
+            Fixed<Q8_24> f1 = 1;
+            Fixed<Q8_24> f2 = 32;
+            Fixed<Q8_24> f3 = f1 / f2;
+            Fixed<Q24_8> f4 = new Fixed<Q24_8>();
+
+            f4 = (Fixed<Q24_8>)f3;
+
+            Assert.AreEqual(f3.ToString(), f4.ToString());
+        }
+        [TestMethod()]
+        public void Convert8to16()
+        {
+            Fixed<Q8_24> f1 = 1;
+            Fixed<Q8_24> f2 = 32;
+            Fixed<Q8_24> f3 = f1 / f2;
+            Fixed<Q16_16> f4 = new Fixed<Q16_16>();
+
+            f4 = (Fixed<Q16_16>)f3;
+
+            Assert.AreEqual(f3.ToString(), f4.ToString());
+        }
+    }
 }

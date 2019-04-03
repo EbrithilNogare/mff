@@ -26,6 +26,7 @@ namespace Cuni.Arithmetics.FixedPoint
             fixedPointNumber = 0;
         }
 
+
         public Fixed<T> Add(Fixed<T> q)
         {
             return new Fixed<T>(precision.Add(fixedPointNumber, q.fixedPointNumber), true);
@@ -83,9 +84,47 @@ namespace Cuni.Arithmetics.FixedPoint
             return new Fixed<T>(n);
         }
 
+        public static explicit operator Fixed<T>(Fixed<Q24_8> a)
+        {
+            var b = new Fixed<T>();
+            int uPoint = a.precision.point;
+            int tPoint = b.precision.point;
+            b = new Fixed<T>();
+            if (uPoint > tPoint)
+                b.fixedPointNumber = (int)(a.fixedPointNumber << (uPoint - tPoint));
+            else
+                b.fixedPointNumber = (int)(a.fixedPointNumber >> (tPoint - uPoint));
+            return b;
+        }
+        public static explicit operator Fixed<T>(Fixed<Q16_16> a)
+        {
+            var b = new Fixed<T>();
+            int uPoint = a.precision.point;
+            int tPoint = b.precision.point;
+            b = new Fixed<T>();
+            if (uPoint > tPoint)
+                b.fixedPointNumber = (int)(a.fixedPointNumber << (uPoint - tPoint));
+            else
+                b.fixedPointNumber = (int)(a.fixedPointNumber >> (tPoint - uPoint));
+            return b;
+        }
+        public static explicit operator Fixed<T>(Fixed<Q8_24> a)
+        {
+            var b = new Fixed<T>();
+            int uPoint = a.precision.point;
+            int tPoint = b.precision.point;
+            b = new Fixed<T>();
+            if (uPoint > tPoint)
+                b.fixedPointNumber = (int)(a.fixedPointNumber << (uPoint - tPoint));
+            else
+                b.fixedPointNumber = (int)(a.fixedPointNumber >> (tPoint - uPoint));
+            return b;
+        }
+
     }
     public abstract class Q
     {
+        public abstract int point { get; }
         public int Add(int a, int b)
         {
             return a + b;
@@ -101,6 +140,7 @@ namespace Cuni.Arithmetics.FixedPoint
     }
     public class Q24_8 : Q
     {
+        public override int point { get { return 24; } } 
         public override int Multiply(int a, int b)
         {
             long c = (long)a * (long)b;
@@ -123,6 +163,7 @@ namespace Cuni.Arithmetics.FixedPoint
     }
     public class Q16_16 : Q
     {
+        public override int point { get { return 16; } }
         public override int Multiply(int a, int b)
         {
             long c = (long)a * (long)b;
@@ -145,6 +186,7 @@ namespace Cuni.Arithmetics.FixedPoint
     }
     public class Q8_24 : Q
     {
+        public override int point { get { return 8; } }
         public override int Multiply(int a, int b)
         {
             long c = (long)a * (long)b;

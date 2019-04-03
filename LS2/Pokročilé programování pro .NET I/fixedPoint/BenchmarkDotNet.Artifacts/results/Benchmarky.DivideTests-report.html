@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Benchmarky.DivideTests</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.11.3, OS=Windows 10.0.17763.379 (1809/October2018Update/Redstone5)
+Intel Core M-5Y10c CPU 0.80GHz, 1 CPU, 4 logical and 2 physical cores
+  [Host]     : .NET Framework 4.7.2 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.3362.0
+  DefaultJob : .NET Framework 4.7.2 (CLR 4.0.30319.42000), 32bit LegacyJIT-v4.7.3362.0
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>Method</th><th> Mean</th><th>Error</th><th>StdDev</th>
+</tr>
+</thead><tbody><tr><td>Q24_8Test</td><td>448.4870 ns</td><td>2.2938 ns</td><td>2.1457 ns</td>
+</tr><tr><td>Q16_16Test</td><td>460.0918 ns</td><td>2.2544 ns</td><td>2.1087 ns</td>
+</tr><tr><td>Q8_24Test</td><td>446.8458 ns</td><td>0.2837 ns</td><td>0.2369 ns</td>
+</tr><tr><td>FloatTest</td><td>0.0306 ns</td><td>0.0118 ns</td><td>0.0110 ns</td>
+</tr><tr><td>DoubleTest</td><td>0.0263 ns</td><td>0.0046 ns</td><td>0.0043 ns</td>
+</tr></tbody></table>
+</body>
+</html>
