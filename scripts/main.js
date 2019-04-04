@@ -39,9 +39,9 @@ function initGL() {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   gl.enable(gl.DEPTH_TEST);
-  gl.enable(gl.CULL_FACE);
+  //gl.enable(gl.CULL_FACE);
   gl.frontFace(gl.CCW);
-  gl.cullFace(gl.BACK);
+  //gl.cullFace(gl.BACK);
 }
 
 function initProgram() {
@@ -88,67 +88,34 @@ function linkProgram() {
 }
 
 function initBuffer() {
-  boxVertices = [ // X, Y, Z           R, G, B
-    // Top
-    -1.0, 1.0, -1.0, 0.5, 0.5, 0.5,
-    -1.0, 1.0, 1.0, 0.5, 0.5, 0.5,
-    1.0, 1.0, 1.0, 0.5, 0.5, 0.5,
-    1.0, 1.0, -1.0, 0.5, 0.5, 0.5,
-
-    // Left
-    -1.0, 1.0, 1.0, 0.75, 0.25, 0.5,
-    -1.0, -1.0, 1.0, 0.75, 0.25, 0.5,
-    -1.0, -1.0, -1.0, 0.75, 0.25, 0.5,
-    -1.0, 1.0, -1.0, 0.75, 0.25, 0.5,
-
-    // Right
-    1.0, 1.0, 1.0, 0.25, 0.25, 0.75,
-    1.0, -1.0, 1.0, 0.25, 0.25, 0.75,
-    1.0, -1.0, -1.0, 0.25, 0.25, 0.75,
-    1.0, 1.0, -1.0, 0.25, 0.25, 0.75,
-
-    // Front
-    1.0, 1.0, 1.0, 1.0, 0.0, 0.15,
-    1.0, -1.0, 1.0, 1.0, 0.0, 0.15,
-    -1.0, -1.0, 1.0, 1.0, 0.0, 0.15,
-    -1.0, 1.0, 1.0, 1.0, 0.0, 0.15,
-
-    // Back
-    1.0, 1.0, -1.0, 0.0, 1.0, 0.15,
-    1.0, -1.0, -1.0, 0.0, 1.0, 0.15,
-    -1.0, -1.0, -1.0, 0.0, 1.0, 0.15,
-    -1.0, 1.0, -1.0, 0.0, 1.0, 0.15,
-
-    // Bottom
-    -1.0, -1.0, -1.0, 0.5, 0.5, 1.0,
-    -1.0, -1.0, 1.0, 0.5, 0.5, 1.0,
-    1.0, -1.0, 1.0, 0.5, 0.5, 1.0,
-    1.0, -1.0, -1.0, 0.5, 0.5, 1.0,
+  boxVertices = [ // X, Y, Z
+    1.0, 1.0, 1.0,
+    1.0, 1.0, -1.0,
+    1.0, -1.0, 1.0,
+    1.0, -1.0, -1.0,
+    -1.0, 1.0, 1.0,
+    -1.0, 1.0, -1.0,
+    -1.0, -1.0, 1.0,
+    -1.0, -1.0, -1.0,    
   ];
   boxIndices = [
-    // Top
     0, 1, 2,
-    0, 2, 3,
+    0, 1, 2,
 
-    // Left
-    5, 4, 6,
-    6, 4, 7,
-
-    // Right
-    8, 9, 10,
-    8, 10, 11,
-
-    // Front
-    13, 12, 14,
-    15, 14, 12,
-
-    // Back
-    16, 17, 18,
-    16, 18, 19,
-
-    // Bottom
-    21, 20, 22,
-    22, 20, 23
+    0, 1, 2,
+    0, 1, 2,
+    
+    0, 1, 2,
+    0, 1, 2,
+    
+    0, 1, 2,
+    0, 1, 2,
+    
+    0, 1, 2,
+    0, 1, 2,
+    
+    0, 1, 2,
+    0, 1, 2,
   ];
 
 
@@ -168,7 +135,7 @@ function initAttrib() {
     3, // Number of elements per attribute
     gl.FLOAT, // Type of elements
     gl.FALSE,
-    6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+    3 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
     0 // Offset from the beginning of a single vertex to this attribute
   );
 
