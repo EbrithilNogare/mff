@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dequeT", "dequeT\dequeT.csproj", "{5A3793AE-E233-4473-98F1-4B0702A47462}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dequeTTests", "dequeTTests\dequeTTests.csproj", "{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{5A3793AE-E233-4473-98F1-4B0702A47462}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A3793AE-E233-4473-98F1-4B0702A47462}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A3793AE-E233-4473-98F1-4B0702A47462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,12 +12,17 @@ namespace dequeT
         static void Main(string[] args)
         {
             var array = new Deque<int>();
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 200; i++)
             {
-                array.Add(i);
+                array.Insert(0, i);
             }
-            foreach(var o in array)
-                Console.WriteLine(o);
+
+            Console.WriteLine(array.Count);
+            Console.WriteLine();
+
+
+
+
 
             Console.WriteLine("done");
             Console.ReadKey();
@@ -40,7 +45,18 @@ namespace dequeT
             Clear(); // init
         }
 
-        public T this[int index] { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public T this[int index]
+        {
+            get => array[index + frontColumn / blockSize][index + frontColumn % blockSize];
+            set
+            {
+                if (array[index + frontColumn / blockSize]==null)
+                {
+                    array[index + frontColumn / blockSize] = new T[blockSize];
+                }
+                array[index + frontColumn / blockSize][index + frontColumn % blockSize] = value;
+            }
+        }
         public int Size => array.Length * blockSize;
 
         public bool IsReadOnly => false;
@@ -70,31 +86,33 @@ namespace dequeT
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return IndexOf(item) != -1;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
             throw new NotImplementedException();
         }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return (IEnumerator)GetEnumerator();
-        }
 
-        public Deque<T> GetEnumerator()
-        {
-            return new DequeEnum<T>(array);
-        }
+        public IEnumerator<T> GetEnumerator() => new DequeEnum<T>(array, blockSize, frontColumn, backColumn);
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            for (int x = frontColumn + 1; x < backColumn; x++)
+            {
+                if (array[x / blockSize][x % blockSize].Equals(item))
+                    return x - frontColumn-1;
+            }
+            return -1;
         }
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            for (int i = Count; i < index; i--)
+            {
+                array[i + 1] = array[i];
+            }
+            this[index] = item;
         }
 
         public bool Remove(T item)
@@ -106,41 +124,61 @@ namespace dequeT
         {
             throw new NotImplementedException();
         }
-        
 
         private void DoubleSize()
         {
-            int offset = array.Length / 2;
-            T[][] newArray = new T[array.Length*2][];
-            for (int i = offset; i < offset * 3; i++)
+            int offset;
+            if (frontColumn > Size-backColumn)
             {
-                newArray[i] = array[i - offset];
+                offset = 0;
+            }
+            else
+            {
+                offset = array.Length;
+            }
+            T[][] newArray = new T[array.Length*2][];
+            for (int i = 0; i < array.Length; i++)
+            {
+                newArray[i+offset] = array[i];
             }
             array = newArray;
             frontColumn += offset*blockSize;
             backColumn += offset*blockSize;
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }
-    public class DequeEnum<T> : IEnumerator
+    public class DequeEnum<T> : IEnumerator<T>
     {
-        public Deque<T>[][] _array;
+        public T[][] _array;
+        int blockSize;
+        int position;
+        int beginPosition;
+        int endPosition;
 
-        int position = -1;
-
-        public DequeEnum(Deque<T>[][] list)
+        public DequeEnum(T[][] list, int blockSize, int frontColumn, int backColumn)
         {
             _array = list;
+            this.blockSize = blockSize;
+            this.beginPosition = frontColumn;
+            Reset();
+            endPosition = backColumn;
         }
 
         public bool MoveNext()
         {
             position++;
-            return (position < _array.Length);
+            return (position < endPosition);
         }
 
         public void Reset()
         {
-            position = -1;
+            position = beginPosition;
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
         }
 
         object IEnumerator.Current
@@ -151,13 +189,15 @@ namespace dequeT
             }
         }
 
-        public Deque<T> Current
+        public T Current
         {
             get
             {
                 try
                 {
-                    return _array[position / _array[0].Length][position % _array[0].Length];
+                    int x = position / blockSize;
+                    int y = position % blockSize;
+                    return _array[x][y];
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -168,4 +208,6 @@ namespace dequeT
     }
 
 
+    // Sometimes I think the compiler ignores my comments...
+    // So, why even write comments if they get ignored anyway?
 }
