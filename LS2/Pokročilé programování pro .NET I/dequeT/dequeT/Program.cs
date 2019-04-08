@@ -1,33 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace dequeT
+namespace DequeSpace
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var array = new Deque<int>();
-            for (int i = 0; i < 200; i++)
-            {
-                array.Insert(0, i);
-            }
-
-            Console.WriteLine(array.Count);
-            Console.WriteLine();
-
-
-
-
-
-            Console.WriteLine("done");
-            Console.ReadKey();
-        }
-    }
     public class Deque<T> : IList<T>
     {
         //  +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
@@ -47,19 +25,25 @@ namespace dequeT
 
         public T this[int index]
         {
-            get => array[index + frontColumn / blockSize][index + frontColumn % blockSize];
+            get => array[(index + frontColumn+1) / blockSize][(index + frontColumn+1) % blockSize];
             set
             {
-                if (array[index + frontColumn / blockSize]==null)
+                if (array[(index + frontColumn + 1) / blockSize]==null)
                 {
-                    array[index + frontColumn / blockSize] = new T[blockSize];
+                    array[(index + frontColumn + 1) / blockSize] = new T[blockSize];
                 }
-                array[index + frontColumn / blockSize][index + frontColumn % blockSize] = value;
+                array[(index + frontColumn + 1) / blockSize][(index + frontColumn + 1) % blockSize] = value;
             }
         }
         public int Size => array.Length * blockSize;
+        public T First => this[0];
+        
+        public T Last => this[Count - 1];
 
-        public bool IsReadOnly => false;
+        public bool IsReadOnly
+        {
+            get => false;
+        }
 
         public int Count => backColumn - frontColumn - 1;
 
@@ -91,16 +75,22 @@ namespace dequeT
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < Count; i++)
+            {
+                array[i + arrayIndex] = this[i];
+            }
         }
 
-        public IEnumerator<T> GetEnumerator() => new DequeEnum<T>(array, blockSize, frontColumn, backColumn);
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new DequeEnum<T>(array, blockSize, frontColumn, backColumn);
+        }
 
         public int IndexOf(T item)
         {
             for (int x = frontColumn + 1; x < backColumn; x++)
             {
-                if (array[x / blockSize][x % blockSize].Equals(item))
+                if (Object.Equals(array[x / blockSize][x % blockSize], item))
                     return x - frontColumn-1;
             }
             return -1;
@@ -108,21 +98,32 @@ namespace dequeT
 
         public void Insert(int index, T item)
         {
-            for (int i = Count; i < index; i--)
+            Add(item);
+            for (int i = Count-1; i > index; i--)
             {
-                array[i + 1] = array[i];
+                this[i] = this[i-1];
             }
             this[index] = item;
         }
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            int index = IndexOf(item);
+            if (index==-1)
+            {
+                return false;
+            }
+            RemoveAt(index);
+            return true;
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            for (int i = index; i < Count-1; i++)
+            {
+                this[i] = this[i+1];
+            }
+            backColumn--;
         }
 
         private void DoubleSize()
@@ -205,6 +206,13 @@ namespace dequeT
                 }
             }
         }
+    }
+    public static class DequeTest
+    {
+        public static IList<T> GetReverseView<T>(Deque<T> d)
+        {
+            throw new NotImplementedException();
+	    }   
     }
 
 

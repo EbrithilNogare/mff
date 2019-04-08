@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using dequeT;
+using DequeSpace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,8 @@ namespace dequeT.Tests
         [TestMethod()]
         public void AddTest()
         {
-            var array = new Deque<int>(); for (int i = 0; i < 20; i++)
+            var array = new Deque<int>();
+            for (int i = 0; i < 20; i++)
             {
                 array.Add(i);
             }
@@ -37,11 +38,17 @@ namespace dequeT.Tests
             Assert.AreEqual(20, array.Count);
         }
         [TestMethod()]
+        public void CountTest2()
+        {
+            var array = new Deque<int>();
+            Assert.AreEqual(0, array.Count);
+        }
+        [TestMethod()]
         public void GetEnumeratorTest()
         {
             int x = 0;
             var array = new Deque<int>();
-            for (int i = 0; i < 20; i++)
+            for (int i = x; i < 20; i++)
             {
                 array.Add(i);
             }
@@ -56,12 +63,19 @@ namespace dequeT.Tests
         [TestMethod()]
         public void ClearTest()
         {
-            var array = new Deque<int>(); for (int i = 0; i < 20; i++)
+            var array = new Deque<int>();
+            for (int i = 0; i < 20; i++)
             {
                 array.Add(i);
             }
             array.Clear();
             Assert.AreEqual(0, array.Count);
+
+            for (int i = 0; i < 20; i++)
+            {
+                array.Add(i);
+            }
+            Assert.AreEqual(20, array.Count);
         }
 
         [TestMethod()]
@@ -88,7 +102,17 @@ namespace dequeT.Tests
         [TestMethod()]
         public void CopyToTest()
         {
-            throw new NotImplementedException();
+            var array = new Deque<int>();
+            for (int i = 0; i < 100; i++)
+            {
+                array.Add(i);
+            }
+            var newarray = new int[200];
+            array.CopyTo(newarray, 25);
+
+            Assert.AreEqual(0, newarray[25]);
+            Assert.AreEqual(1, newarray[26]);
+            Assert.AreEqual(99, newarray[124]);
         }
 
         [TestMethod()]
@@ -115,19 +139,64 @@ namespace dequeT.Tests
         [TestMethod()]
         public void InsertTest()
         {
-            throw new NotImplementedException();
+            var array = new Deque<int>();
+            for (int i = 0; i < 200; i++)
+            {
+                array.Insert(0, i);
+            }
+            Assert.AreEqual(200, array.Count, "count not equal");
+
+            int x = 199;
+            foreach (var o in array)
+            {
+                Assert.AreEqual(x, o);
+                x--;
+            }
         }
 
         [TestMethod()]
         public void RemoveTest()
         {
-            throw new NotImplementedException();
+            var array = new Deque<int>();
+            for (int i = 0; i < 100; i++)
+            {
+                array.Add(i);
+            }
+
+            Assert.AreEqual(true, array.Remove(42));
+            Assert.AreEqual(99, array.Count);
+            Assert.AreEqual(41, array[41]);
+            Assert.AreEqual(43, array[42]);
+            Assert.AreEqual(44, array[43]);
+        }
+        [TestMethod()]
+        public void RemoveTest2()
+        {
+            var array = new Deque<int>();
+            for (int i = 0; i < 100; i++)
+            {
+                array.Add(i);
+            }
+
+            
+            Assert.AreEqual(false, array.Remove(142));
+            Assert.AreEqual(100, array.Count);
         }
 
         [TestMethod()]
         public void RemoveAtTest()
         {
-            throw new NotImplementedException();
+            var array = new Deque<int>();
+            for (int i = 0; i < 100; i++)
+            {
+                array.Add(i);
+            }
+
+            array.RemoveAt(42);
+            Assert.AreEqual(99, array.Count);
+            Assert.AreEqual(41, array[41]);
+            Assert.AreEqual(43, array[42]);
+            Assert.AreEqual(44, array[43]);
         }
     }
 }

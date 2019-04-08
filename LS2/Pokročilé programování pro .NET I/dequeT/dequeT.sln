@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dequeT", "dequeT\dequeT.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dequeTTests", "dequeTTests\dequeTTests.csproj", "{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mianen", "mianen\mianen.csproj", "{6F564901-AF15-43EA-99D7-DB2F8C5B4D7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DBC4B7B-B198-4FCE-861D-2917DCC5009B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F564901-AF15-43EA-99D7-DB2F8C5B4D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F564901-AF15-43EA-99D7-DB2F8C5B4D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F564901-AF15-43EA-99D7-DB2F8C5B4D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F564901-AF15-43EA-99D7-DB2F8C5B4D7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
