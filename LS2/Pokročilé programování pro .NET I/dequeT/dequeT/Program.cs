@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-
+/**///releaseSwitch
 namespace DequeSpace
 {
+/**/
     public class Deque<T> : IList<T>
     {
         //  +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
@@ -14,25 +15,55 @@ namespace DequeSpace
         //  front                                        back
         
         static int blockSize = (int)Math.Pow(2,4);
-        T[][] array;
-        int frontColumn;
-        int backColumn;
+        /// <summary>
+        /// true  -> add to back
+        /// false -> add to front
+        /// </summary>
+        bool direction = true;
+        static T[][] array = new T[2][];
+        static int frontColumn;
+        static int backColumn;
+
 
         public Deque()
         {
-            Clear(); // init
+            frontColumn = blockSize - 1;
+            backColumn = blockSize;
         }
 
         public T this[int index]
         {
-            get => array[(index + frontColumn+1) / blockSize][(index + frontColumn+1) % blockSize];
+            get
+            {
+                if (index >= Count || index < 0) throw new ArgumentOutOfRangeException();
+                if (direction)
+                {
+                    return array[(index + frontColumn + 1) / blockSize][(index + frontColumn + 1) % blockSize];
+                }
+                else
+                {
+                    return array[(Size - index - frontColumn+1) / blockSize][(Size - index - frontColumn+1) % blockSize];
+                }
+            }
             set
             {
-                if (array[(index + frontColumn + 1) / blockSize]==null)
+                if (IsReadOnly) throw new InvalidOperationException();
+                if (direction)
                 {
-                    array[(index + frontColumn + 1) / blockSize] = new T[blockSize];
+                    if (array[(index + frontColumn + 1) / blockSize] == null)
+                    {
+                        array[(index + frontColumn + 1) / blockSize] = new T[blockSize];
+                    }
+                    array[(index + frontColumn + 1) / blockSize][(index + frontColumn + 1) % blockSize] = value;
                 }
-                array[(index + frontColumn + 1) / blockSize][(index + frontColumn + 1) % blockSize] = value;
+                else
+                {
+                    if (array[(Count - index - frontColumn) / blockSize] == null)
+                    {
+                        array[(Count - index - frontColumn) / blockSize] = new T[blockSize];
+                    }
+                    array[(Size - index - frontColumn) / blockSize][(Size - index - frontColumn) % blockSize] = value;
+                }
             }
         }
         public int Size => array.Length * blockSize;
@@ -40,15 +71,24 @@ namespace DequeSpace
         
         public T Last => this[Count - 1];
 
-        public bool IsReadOnly
-        {
-            get => false;
-        }
-
         public int Count => backColumn - frontColumn - 1;
+        public bool IsReadOnly { get; set; } = false;
+
 
         public void Add(T item)
         {
+            if (direction)
+            {
+                AddBack(item);
+            }
+            else
+            {
+                AddFront(item);
+            }
+        }
+        private void AddBack(T item)
+        {
+            if (IsReadOnly) throw new InvalidOperationException();
             if (backColumn == Size)
             {
                 DoubleSize();
@@ -60,9 +100,24 @@ namespace DequeSpace
             array[backColumn / blockSize][backColumn % blockSize] = item;
             backColumn++;
         }
+        private void AddFront(T item)
+        {
+            if (IsReadOnly) throw new InvalidOperationException();
+            if (frontColumn == 0)
+            {
+                DoubleSize();
+            }
+            if (frontColumn % blockSize == blockSize-1)
+            {
+                array[frontColumn / blockSize] = new T[blockSize];
+            }
+            array[frontColumn / blockSize][frontColumn % blockSize] = item;
+            frontColumn--;
+        }
 
         public void Clear()
         {
+            if (IsReadOnly) throw new InvalidOperationException();
             array = new T[2][];
             frontColumn = blockSize - 1;
             backColumn = blockSize;
@@ -83,21 +138,35 @@ namespace DequeSpace
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new DequeEnum<T>(array, blockSize, frontColumn, backColumn);
+            IsReadOnly = true;
+            return new DequeEnum<T>(array, blockSize, frontColumn, backColumn, this);
         }
 
         public int IndexOf(T item)
         {
-            for (int x = frontColumn + 1; x < backColumn; x++)
+            if (direction)
             {
-                if (Object.Equals(array[x / blockSize][x % blockSize], item))
-                    return x - frontColumn-1;
+                for (int x = frontColumn + 1; x < backColumn; x++)
+                {
+                    if (Object.Equals(array[x / blockSize][x % blockSize], item))
+                        return x - frontColumn - 1;
+                }
+                return -1;
             }
-            return -1;
+            else
+            {
+                for (int x = frontColumn + 1; x < backColumn; x++)
+                {
+                    if (Object.Equals(array[x / blockSize][x % blockSize], item))
+                        return Count - (x - frontColumn);
+                }
+                return -1;
+            }
         }
 
         public void Insert(int index, T item)
         {
+            if (IsReadOnly) throw new InvalidOperationException();
             Add(item);
             for (int i = Count-1; i > index; i--)
             {
@@ -108,6 +177,7 @@ namespace DequeSpace
 
         public bool Remove(T item)
         {
+            if (IsReadOnly) throw new InvalidOperationException();
             int index = IndexOf(item);
             if (index==-1)
             {
@@ -119,6 +189,8 @@ namespace DequeSpace
 
         public void RemoveAt(int index)
         {
+            if (index >= Count || index < 0) throw new ArgumentOutOfRangeException();
+            if (IsReadOnly) throw new InvalidOperationException();
             for (int i = index; i < Count-1; i++)
             {
                 this[i] = this[i+1];
@@ -146,6 +218,15 @@ namespace DequeSpace
             frontColumn += offset*blockSize;
             backColumn += offset*blockSize;
         }
+        public Deque<T> Reverse()
+        {
+            int temp1 = frontColumn, temp2 = backColumn;
+            var toReturn = new Deque<T>();
+            toReturn.direction = false;
+            frontColumn = temp1;
+            backColumn = temp2;
+            return toReturn;
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }
@@ -156,14 +237,16 @@ namespace DequeSpace
         int position;
         int beginPosition;
         int endPosition;
+        Deque<T> readOnlyFallBack;
 
-        public DequeEnum(T[][] list, int blockSize, int frontColumn, int backColumn)
+        public DequeEnum(T[][] list, int blockSize, int frontColumn, int backColumn, Deque<T> readOnlyFallBack)
         {
             _array = list;
             this.blockSize = blockSize;
             this.beginPosition = frontColumn;
             Reset();
             endPosition = backColumn;
+            this.readOnlyFallBack = readOnlyFallBack;
         }
 
         public bool MoveNext()
@@ -179,6 +262,7 @@ namespace DequeSpace
 
         public void Dispose()
         {
+            readOnlyFallBack.IsReadOnly = false;
             GC.SuppressFinalize(this);
         }
 
@@ -211,11 +295,14 @@ namespace DequeSpace
     {
         public static IList<T> GetReverseView<T>(Deque<T> d)
         {
-            throw new NotImplementedException();
-	    }   
+            return d.Reverse();
+        }
     }
 
 
-    // Sometimes I think the compiler ignores my comments...
-    // So, why even write comments if they get ignored anyway?
+// Sometimes I think the compiler ignores my comments...
+// So, why even write comments if they get ignored anyway?
+
+/**///releaseSwitch
 }
+/**/
