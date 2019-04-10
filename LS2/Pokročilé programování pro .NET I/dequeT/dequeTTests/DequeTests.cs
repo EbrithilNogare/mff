@@ -441,6 +441,33 @@ namespace dequeT.Tests
         }
         // Insert
         [TestMethod()]
+        public void InsertBasicTest()
+        {
+            var array = new Deque<int>();
+            array.Insert(0, 1);
+            Assert.AreEqual(1, array[0]);
+            Assert.AreEqual(1, array.First);
+            Assert.AreEqual(1, array.Last);
+        }
+        [TestMethod()]
+        public void InsertBasicReversedTest()
+        {
+            var array = new Deque<int>();
+            var reverseView = DequeTest.GetReverseView(array);
+            array.Insert(0, 3);
+            array.Insert(0, 2);
+            array.Insert(0, 1);
+            reverseView.Insert(0, 4);
+            reverseView.Insert(0, 5);
+            reverseView.Insert(0, 6);
+
+            for (int i = 1; i < 7; i++)
+            {
+                Assert.AreEqual(i, array[i-1]);
+            }
+
+        }
+        [TestMethod()]
         public void InsertTest()
         {
             var array = new Deque<int>();
@@ -547,26 +574,19 @@ namespace dequeT.Tests
         }
         // SupresedTests
         [TestMethod()]
-        public void InsertBasicTest()
-        {
-            var array = new Deque<int>();
-            array.Insert(0, 1);
-            Assert.AreEqual(array[0], 1);
-            Assert.AreEqual(array.First, 1);
-            Assert.AreEqual(array.Last, 1);
-        }
-        [TestMethod()]
         public void AddNullTest()
         {
             var array = new Deque<string>();
+            var reverseView = DequeTest.GetReverseView(array);
             array.Add("tacocat");
             array.Add(null);
             array.Add("tacocat"); // writen reversed :D
             array.Add(null);
             Assert.AreEqual(1, array.IndexOf(null));
+            Assert.AreEqual(0, reverseView.IndexOf(null));
         }
         [TestMethod()]
-        public void SeldEqualityTest()
+        public void SelfEqualityTest()
         {
             var array = new Deque<int> { 0, 1, 2, 3, 4, 5 };
             int i = 0;
@@ -576,14 +596,14 @@ namespace dequeT.Tests
             }
         }
         [TestMethod()]
-        public void SeldEqualityReversedTest()
+        public void SelfEqualityReversedTest()
         {
             var array = new Deque<int> {0, 1, 2, 3, 4, 5};
             var reverseView = DequeTest.GetReverseView(array);
-            int i = 5;
+            int i = 0;
             foreach (var item in reverseView)
             {
-                Assert.AreEqual(item, reverseView[i--]);
+                Assert.AreEqual(item, reverseView[i++]);
             }
         }
     }

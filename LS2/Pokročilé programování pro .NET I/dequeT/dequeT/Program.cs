@@ -14,7 +14,7 @@ namespace DequeSpace
         //  +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
         //  front                                        back
         
-        static int blockSize = (int)Math.Pow(2,4);
+        static int blockSize = (int)Math.Pow(2,8);
         /// <summary>
         /// true  -> add to back
         /// false -> add to front
@@ -171,7 +171,7 @@ namespace DequeSpace
             }
             else
             {
-                for (int x = frontColumn + 1; x < backColumn; x++)
+                for (int x = backColumn - 1; x > frontColumn; x--)
                 {
                     if (Object.Equals(array[x / blockSize][x % blockSize], item))
                         return Count - (x - frontColumn);
@@ -309,8 +309,8 @@ namespace DequeSpace
                 }
                 else
                 {
-                    x = (beginPosition + readOnlyFallBack.Count - position - 1) / blockSize;
-                    y = (beginPosition + readOnlyFallBack.Count - position - 1) % blockSize;
+                    x = (beginPosition + 1 + readOnlyFallBack.Count - (position - beginPosition - 1)) / blockSize;
+                    y = (beginPosition + readOnlyFallBack.Count - (position - beginPosition - 1)) % blockSize;
                 }
                 if (x>=0&&x<_array.Length)
                 {
