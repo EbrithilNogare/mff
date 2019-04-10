@@ -155,7 +155,7 @@ namespace DequeSpace
         public IEnumerator<T> GetEnumerator()
         {
             IsReadOnly = true;
-            return new DequeEnum<T>(array, blockSize, frontColumn, backColumn, this);
+            return new DequeEnum<T>(array, blockSize, frontColumn, backColumn, this, direction);
         }
 
         public int IndexOf(T item)
@@ -258,9 +258,10 @@ namespace DequeSpace
         int position;
         int beginPosition;
         int endPosition;
+        bool direction;
         Deque<T> readOnlyFallBack;
 
-        public DequeEnum(T[][] list, int blockSize, int frontColumn, int backColumn, Deque<T> readOnlyFallBack)
+        public DequeEnum(T[][] list, int blockSize, int frontColumn, int backColumn, Deque<T> readOnlyFallBack, bool direction)
         {
             _array = list;
             this.blockSize = blockSize;
@@ -268,6 +269,7 @@ namespace DequeSpace
             Reset();
             endPosition = backColumn;
             this.readOnlyFallBack = readOnlyFallBack;
+            this.direction = direction;
         }
 
         public bool MoveNext()
@@ -299,16 +301,22 @@ namespace DequeSpace
         {
             get
             {
-                try
+                int x, y;
+                if (direction)
                 {
-                    int x = position / blockSize;
-                    int y = position % blockSize;
+                    x = position / blockSize;
+                    y = position % blockSize;
+                }
+                else
+                {
+                    x = (beginPosition + readOnlyFallBack.Count - position - 1) / blockSize;
+                    y = (beginPosition + readOnlyFallBack.Count - position - 1) % blockSize;
+                }
+                if (x>=0&&x<_array.Length)
+                {
                     return _array[x][y];
                 }
-                catch (IndexOutOfRangeException)
-                {
-                    throw new InvalidOperationException();
-                }
+                throw new InvalidOperationException();                
             }
         }
     }
@@ -318,7 +326,6 @@ namespace DequeSpace
         {
             return d.Reverse();
         }
-
     }
 
 

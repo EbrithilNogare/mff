@@ -575,5 +575,16 @@ namespace dequeT.Tests
                 Assert.AreEqual(item, array[i++]);
             }
         }
+        [TestMethod()]
+        public void SeldEqualityReversedTest()
+        {
+            var array = new Deque<int> {0, 1, 2, 3, 4, 5};
+            var reverseView = DequeTest.GetReverseView(array);
+            int i = 5;
+            foreach (var item in reverseView)
+            {
+                Assert.AreEqual(item, reverseView[i--]);
+            }
+        }
     }
 }
