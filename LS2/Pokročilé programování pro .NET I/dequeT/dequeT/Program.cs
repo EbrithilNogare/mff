@@ -20,13 +20,14 @@ namespace DequeSpace
         /// false -> add to front
         /// </summary>
         bool direction = true;
-        static T[][] array = new T[2][];
+        static T[][] array;
         static int frontColumn;
         static int backColumn;
 
 
         public Deque()
         {
+            array = new T[2][];
             frontColumn = blockSize - 1;
             backColumn = blockSize;
         }
@@ -42,12 +43,13 @@ namespace DequeSpace
                 }
                 else
                 {
-                    return array[(Size - index - frontColumn+1) / blockSize][(Size - index - frontColumn+1) % blockSize];
+                    return array[(backColumn - index -1) / blockSize][(backColumn - index - 1) % blockSize];
                 }
             }
             set
             {
                 if (IsReadOnly) throw new InvalidOperationException();
+                if (index >= Count || index < 0) throw new ArgumentOutOfRangeException();
                 if (direction)
                 {
                     if (array[(index + frontColumn + 1) / blockSize] == null)
@@ -58,25 +60,27 @@ namespace DequeSpace
                 }
                 else
                 {
-                    if (array[(Count - index - frontColumn) / blockSize] == null)
+                    if (array[(backColumn - index - 1) / blockSize] == null)
                     {
-                        array[(Count - index - frontColumn) / blockSize] = new T[blockSize];
+                        array[(backColumn - index - 1) / blockSize] = new T[blockSize];
                     }
-                    array[(Size - index - frontColumn) / blockSize][(Size - index - frontColumn) % blockSize] = value;
+                    array[(backColumn - index - 1) / blockSize][(backColumn - index - 1) % blockSize] = value;
                 }
             }
         }
-        public int Size => array.Length * blockSize;
+        private int Size => array.Length * blockSize;
         public T First => this[0];
-        
+
         public T Last => this[Count - 1];
 
         public int Count => backColumn - frontColumn - 1;
-        public bool IsReadOnly { get; set; } = false;
+        internal static bool isReadOnly = false;
+        public bool IsReadOnly { get => isReadOnly; set { isReadOnly = value; } }
 
 
         public void Add(T item)
         {
+            if (IsReadOnly) throw new InvalidOperationException();
             if (direction)
             {
                 AddBack(item);
@@ -88,7 +92,6 @@ namespace DequeSpace
         }
         private void AddBack(T item)
         {
-            if (IsReadOnly) throw new InvalidOperationException();
             if (backColumn == Size)
             {
                 DoubleSize();
@@ -102,7 +105,6 @@ namespace DequeSpace
         }
         private void AddFront(T item)
         {
-            if (IsReadOnly) throw new InvalidOperationException();
             if (frontColumn == 0)
             {
                 DoubleSize();
@@ -130,9 +132,23 @@ namespace DequeSpace
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            for (int i = 0; i < Count; i++)
+            if (array == null) throw new ArgumentNullException();
+            if (arrayIndex < 0 || arrayIndex >= array.Length) throw new ArgumentOutOfRangeException();
+            if (array.Length - arrayIndex < Count) throw new ArgumentException();
+
+            if (direction)
             {
-                array[i + arrayIndex] = this[i];
+                for (int i = 0; i < Count; i++)
+                {
+                    array[i + arrayIndex] = this[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Count; i++)
+                {
+                    array[i + arrayIndex] = this[Count - i - 1];
+                }
             }
         }
 
@@ -195,7 +211,10 @@ namespace DequeSpace
             {
                 this[i] = this[i+1];
             }
-            backColumn--;
+            if (direction)
+                backColumn--;
+            else
+                frontColumn++;
         }
 
         private void DoubleSize()
@@ -221,10 +240,12 @@ namespace DequeSpace
         public Deque<T> Reverse()
         {
             int temp1 = frontColumn, temp2 = backColumn;
+            T[][] temp3 = array;
             var toReturn = new Deque<T>();
             toReturn.direction = false;
             frontColumn = temp1;
             backColumn = temp2;
+            array = temp3;
             return toReturn;
         }
 
@@ -293,10 +314,11 @@ namespace DequeSpace
     }
     public static class DequeTest
     {
-        public static IList<T> GetReverseView<T>(Deque<T> d)
+        public static Deque<T> GetReverseView<T>(Deque<T> d)
         {
             return d.Reverse();
         }
+
     }
 
 
