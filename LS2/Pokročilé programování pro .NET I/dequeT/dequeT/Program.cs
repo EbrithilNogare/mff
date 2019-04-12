@@ -1,37 +1,34 @@
-﻿using System;
+﻿//#define RecoDex
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-/**///releaseSwitch
+#if !RecoDex
 namespace DequeSpace
 {
-/**/
+#endif
     public class Deque<T> : IList<T>
     {
         //  +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
         //  |  |  |  |  |  |  |  | .|. |  |  |  |  |  |  |  |
         //  +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
         //  front                                        back
-        
-        static int blockSize = (int)Math.Pow(2,8);
+
+        private const int blockSize = 256;
         /// <summary>
         /// true  -> add to back
         /// false -> add to front
         /// </summary>
-        bool direction = true;
-        static T[][] array;
-        static int frontColumn;
-        static int backColumn;
+        private bool direction = true;
+        private DequeStruct<T> array;
 
 
         public Deque()
         {
-            array = new T[2][];
-            frontColumn = blockSize - 1;
-            backColumn = blockSize;
+            this.array = new DequeStruct<T>(blockSize);
         }
-
+        
         public T this[int index]
         {
             get
@@ -39,11 +36,11 @@ namespace DequeSpace
                 if (index >= Count || index < 0) throw new ArgumentOutOfRangeException();
                 if (direction)
                 {
-                    return array[(index + frontColumn + 1) / blockSize][(index + frontColumn + 1) % blockSize];
+                    return array.Data[(index + array.Front + 1) / blockSize][(index + array.Front + 1) % blockSize];
                 }
                 else
                 {
-                    return array[(backColumn - index -1) / blockSize][(backColumn - index - 1) % blockSize];
+                    return array.Data[(array.Back - index - 1) / blockSize][(array.Back - index - 1) % blockSize];
                 }
             }
             set
@@ -52,30 +49,35 @@ namespace DequeSpace
                 if (index >= Count || index < 0) throw new ArgumentOutOfRangeException();
                 if (direction)
                 {
-                    if (array[(index + frontColumn + 1) / blockSize] == null)
+                    if (array.Data[(index + array.Front + 1) / blockSize] == null)
                     {
-                        array[(index + frontColumn + 1) / blockSize] = new T[blockSize];
+                        array.Data[(index + array.Front + 1) / blockSize] = new T[blockSize];
                     }
-                    array[(index + frontColumn + 1) / blockSize][(index + frontColumn + 1) % blockSize] = value;
+                    array.Data[(index + array.Front + 1) / blockSize][(index + array.Front + 1) % blockSize] = value;
                 }
                 else
                 {
-                    if (array[(backColumn - index - 1) / blockSize] == null)
+                    if (array.Data[(array.Back - index - 1) / blockSize] == null)
                     {
-                        array[(backColumn - index - 1) / blockSize] = new T[blockSize];
+                        array.Data[(array.Back - index - 1) / blockSize] = new T[blockSize];
                     }
-                    array[(backColumn - index - 1) / blockSize][(backColumn - index - 1) % blockSize] = value;
+                    array.Data[(array.Back - index - 1) / blockSize][(array.Back - index - 1) % blockSize] = value;
                 }
             }
         }
-        private int Size => array.Length * blockSize;
+        private int Size => array.Data.Length * blockSize;
+        /// <summary>
+        /// tets
+        /// </summary>
+        public int Capacity => Size;
+
+        //TODO: help
         public T First => this[0];
 
         public T Last => this[Count - 1];
 
-        public int Count => backColumn - frontColumn - 1;
-        internal static bool isReadOnly = false;
-        public bool IsReadOnly { get => isReadOnly; set { isReadOnly = value; } }
+        public int Count => array.Back - array.Front - 1;
+        public bool IsReadOnly { get => array.IsReadOnly; set { array.IsReadOnly = value; } }
 
 
         public void Add(T item)
@@ -92,37 +94,34 @@ namespace DequeSpace
         }
         private void AddBack(T item)
         {
-            if (backColumn == Size)
+            if (array.Back == Size)
             {
                 DoubleSize();
             }
-            if (backColumn % blockSize == 0)
+            if (array.Back % blockSize == 0)
             {
-                array[backColumn / blockSize] = new T[blockSize];
+                array.Data[array.Back / blockSize] = new T[blockSize];
             }
-            array[backColumn / blockSize][backColumn % blockSize] = item;
-            backColumn++;
+            array.Data[array.Back / blockSize][array.Back % blockSize] = item;
+            array.Back++;
         }
         private void AddFront(T item)
         {
-            if (frontColumn == 0)
+            if (array.Front == 0)
             {
                 DoubleSize();
             }
-            if (frontColumn % blockSize == blockSize-1)
+            if (array.Front % blockSize == blockSize - 1)
             {
-                array[frontColumn / blockSize] = new T[blockSize];
+                array.Data[array.Front / blockSize] = new T[blockSize];
             }
-            array[frontColumn / blockSize][frontColumn % blockSize] = item;
-            frontColumn--;
+            array.Data[array.Front / blockSize][array.Front % blockSize] = item;
+            array.Front--;
         }
 
         public void Clear()
         {
-            if (IsReadOnly) throw new InvalidOperationException();
-            array = new T[2][];
-            frontColumn = blockSize - 1;
-            backColumn = blockSize;
+            this.array = new DequeStruct<T>(blockSize);
         }
 
         public bool Contains(T item)
@@ -155,26 +154,26 @@ namespace DequeSpace
         public IEnumerator<T> GetEnumerator()
         {
             IsReadOnly = true;
-            return new DequeEnum<T>(array, blockSize, frontColumn, backColumn, this, direction);
+            return new DequeEnum<T>(array.Data, blockSize, array.Front, array.Back, this, direction);
         }
 
         public int IndexOf(T item)
         {
             if (direction)
             {
-                for (int x = frontColumn + 1; x < backColumn; x++)
+                for (int x = array.Front + 1; x < array.Back; x++)
                 {
-                    if (Object.Equals(array[x / blockSize][x % blockSize], item))
-                        return x - frontColumn - 1;
+                    if (Object.Equals(array.Data[x / blockSize][x % blockSize], item))
+                        return x - array.Front - 1;
                 }
                 return -1;
             }
             else
             {
-                for (int x = backColumn - 1; x > frontColumn; x--)
+                for (int x = array.Back - 1; x > array.Front; x--)
                 {
-                    if (Object.Equals(array[x / blockSize][x % blockSize], item))
-                        return Count - (x - frontColumn);
+                    if (Object.Equals(array.Data[x / blockSize][x % blockSize], item))
+                        return Count - (x - array.Front);
                 }
                 return -1;
             }
@@ -184,9 +183,9 @@ namespace DequeSpace
         {
             if (IsReadOnly) throw new InvalidOperationException();
             Add(item);
-            for (int i = Count-1; i > index; i--)
+            for (int i = Count - 1; i > index; i--)
             {
-                this[i] = this[i-1];
+                this[i] = this[i - 1];
             }
             this[index] = item;
         }
@@ -195,7 +194,7 @@ namespace DequeSpace
         {
             if (IsReadOnly) throw new InvalidOperationException();
             int index = IndexOf(item);
-            if (index==-1)
+            if (index == -1)
             {
                 return false;
             }
@@ -203,135 +202,154 @@ namespace DequeSpace
             return true;
         }
 
+
         public void RemoveAt(int index)
         {
             if (index >= Count || index < 0) throw new ArgumentOutOfRangeException();
             if (IsReadOnly) throw new InvalidOperationException();
-            for (int i = index; i < Count-1; i++)
+            for (int i = index; i < Count - 1; i++)
             {
-                this[i] = this[i+1];
+                this[i] = this[i + 1];
             }
             if (direction)
-                backColumn--;
+                array.Back--;
             else
-                frontColumn++;
+                array.Front++;
         }
 
         private void DoubleSize()
         {
             int offset;
-            if (frontColumn > Size-backColumn)
+            if (array.Front > Size - array.Back)
             {
                 offset = 0;
             }
             else
             {
-                offset = array.Length;
+                offset = array.Data.Length;
             }
-            T[][] newArray = new T[array.Length*2][];
-            for (int i = 0; i < array.Length; i++)
+            T[][] newArray = new T[array.Data.Length * 2][];
+            for (int i = 0; i < array.Data.Length; i++)
             {
-                newArray[i+offset] = array[i];
+                newArray[i + offset] = array.Data[i];
             }
-            array = newArray;
-            frontColumn += offset*blockSize;
-            backColumn += offset*blockSize;
+            array.Data = newArray;
+            array.Front += offset * blockSize;
+            array.Back += offset * blockSize;
         }
-        public Deque<T> Reverse()
+        public Deque<T> GetReversed()
         {
-            int temp1 = frontColumn, temp2 = backColumn;
-            T[][] temp3 = array;
-            var toReturn = new Deque<T>();
-            toReturn.direction = false;
-            frontColumn = temp1;
-            backColumn = temp2;
-            array = temp3;
-            return toReturn;
+            var reversed = new Deque<T>();
+            reversed.array = this.array;
+            reversed.direction ^= this.direction;
+            return reversed;
+
+        }
+        public void Reverse()
+        {
+            direction ^= direction;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+        public class DequeEnum<T> : IEnumerator<T>
+        {
+            public T[][] _array;
+            int blockSize;
+            int position;
+            int beginPosition;
+            int endPosition;
+            bool direction;
+            Deque<T> readOnlyFallBack;
+
+            public DequeEnum(T[][] list, int blockSize, int front, int back, Deque<T> readOnlyFallBack, bool direction)
+            {
+                _array = list;
+                this.blockSize = blockSize;
+                this.beginPosition = front;
+                Reset();
+                endPosition = back;
+                this.readOnlyFallBack = readOnlyFallBack;
+                this.direction = direction;
+            }
+
+            public bool MoveNext()
+            {
+                position++;
+                return (position < endPosition);
+            }
+
+            public void Reset()
+            {
+                position = beginPosition;
+            }
+
+            public void Dispose()
+            {
+                readOnlyFallBack.IsReadOnly = false;
+                GC.SuppressFinalize(this);
+            }
+
+            object IEnumerator.Current
+            {
+                get
+                {
+                    return Current;
+                }
+            }
+
+            public T Current
+            {
+                get
+                {
+                    int x, y;
+                    if (direction)
+                    {
+                        x = position / blockSize;
+                        y = position % blockSize;
+                    }
+                    else
+                    {
+                        x = (beginPosition + 1 + readOnlyFallBack.Count - (position - beginPosition - 1)) / blockSize;
+                        y = (beginPosition + readOnlyFallBack.Count - (position - beginPosition - 1)) % blockSize;
+                    }
+                    if (x >= 0 && x < _array.Length)
+                    {
+                        return _array[x][y];
+                    }
+                    throw new InvalidOperationException();
+                }
+            }
+        }
     }
-    public class DequeEnum<T> : IEnumerator<T>
+    public class DequeStruct<T>
     {
-        public T[][] _array;
-        int blockSize;
-        int position;
-        int beginPosition;
-        int endPosition;
-        bool direction;
-        Deque<T> readOnlyFallBack;
-
-        public DequeEnum(T[][] list, int blockSize, int frontColumn, int backColumn, Deque<T> readOnlyFallBack, bool direction)
-        {
-            _array = list;
-            this.blockSize = blockSize;
-            this.beginPosition = frontColumn;
-            Reset();
-            endPosition = backColumn;
-            this.readOnlyFallBack = readOnlyFallBack;
-            this.direction = direction;
-        }
-
-        public bool MoveNext()
-        {
-            position++;
-            return (position < endPosition);
-        }
-
-        public void Reset()
-        {
-            position = beginPosition;
-        }
-
-        public void Dispose()
-        {
-            readOnlyFallBack.IsReadOnly = false;
-            GC.SuppressFinalize(this);
-        }
-
-        object IEnumerator.Current
-        {
-            get
-            {
-                return Current;
-            }
-        }
-
-        public T Current
-        {
-            get
-            {
-                int x, y;
-                if (direction)
-                {
-                    x = position / blockSize;
-                    y = position % blockSize;
-                }
-                else
-                {
-                    x = (beginPosition + 1 + readOnlyFallBack.Count - (position - beginPosition - 1)) / blockSize;
-                    y = (beginPosition + readOnlyFallBack.Count - (position - beginPosition - 1)) % blockSize;
-                }
-                if (x>=0&&x<_array.Length)
-                {
-                    return _array[x][y];
-                }
-                throw new InvalidOperationException();                
-            }
+        public T[][] Data { get; set; }
+        public int Front { get; set; }
+        public int Back { get; set; }
+        public bool IsReadOnly { get; set; }
+        public DequeStruct(int blockSize){
+            Data = new T[2][];
+            Front = blockSize - 1;
+            Back = blockSize;
+            IsReadOnly = false;
         }
     }
+
     public static class DequeTest
     {
-        public static Deque<T> GetReverseView<T>(Deque<T> d)
+        public static Deque<T> GetReverseView<T>(Deque<T> deque)
         {
-            return d.Reverse();
+            if (deque == null)
+                throw new ArgumentNullException();
+            return deque.GetReversed();
         }
     }
 
 
-// Sometimes I think the compiler ignores my comments...
-// So, why even write comments if they get ignored anyway?
+    // Sometimes I think the compiler ignores my comments...
+    // So, why even write comments if they get ignored anyway?
 
-/**///releaseSwitch
+#if !RecoDex
 }
-/**/
+#endif
