@@ -71,7 +71,6 @@ namespace DequeSpace
         /// </summary>
         public int Capacity => Size;
 
-        //TODO: help
         public T First => this[0];
 
         public T Last => this[Count - 1];
@@ -121,7 +120,10 @@ namespace DequeSpace
 
         public void Clear()
         {
-            this.array = new DequeStruct<T>(blockSize);
+            if (IsReadOnly) throw new InvalidOperationException();
+            this.array.Data = new T[2][];
+            this.array.Front = blockSize - 1;
+            this.array.Back = blockSize;
         }
 
         public bool Contains(T item)
@@ -154,7 +156,7 @@ namespace DequeSpace
         public IEnumerator<T> GetEnumerator()
         {
             IsReadOnly = true;
-            return new DequeEnum<T>(array.Data, blockSize, array.Front, array.Back, this, direction);
+            return new DequeEnum<T>(array, Count, blockSize, direction);
         }
 
         public int IndexOf(T item)
@@ -254,22 +256,22 @@ namespace DequeSpace
 
         public class DequeEnum<T> : IEnumerator<T>
         {
-            public T[][] _array;
+            public DequeStruct<T> array;
             int blockSize;
             int position;
             int beginPosition;
             int endPosition;
+            int count;
             bool direction;
-            Deque<T> readOnlyFallBack;
 
-            public DequeEnum(T[][] list, int blockSize, int front, int back, Deque<T> readOnlyFallBack, bool direction)
+            public DequeEnum(DequeStruct<T> deque, int count, int blockSize, bool direction)
             {
-                _array = list;
+                array = deque;
                 this.blockSize = blockSize;
-                this.beginPosition = front;
+                this.beginPosition = deque.Front;
+                this.count = count;
                 Reset();
-                endPosition = back;
-                this.readOnlyFallBack = readOnlyFallBack;
+                endPosition = deque.Back;
                 this.direction = direction;
             }
 
@@ -286,7 +288,7 @@ namespace DequeSpace
 
             public void Dispose()
             {
-                readOnlyFallBack.IsReadOnly = false;
+                array.IsReadOnly = false;
                 GC.SuppressFinalize(this);
             }
 
@@ -310,12 +312,12 @@ namespace DequeSpace
                     }
                     else
                     {
-                        x = (beginPosition + 1 + readOnlyFallBack.Count - (position - beginPosition - 1)) / blockSize;
-                        y = (beginPosition + readOnlyFallBack.Count - (position - beginPosition - 1)) % blockSize;
+                        x = (beginPosition + 1 + count - (position - beginPosition - 1)) / blockSize;
+                        y = (beginPosition + count - (position - beginPosition - 1)) % blockSize;
                     }
-                    if (x >= 0 && x < _array.Length)
+                    if (x >= 0 && x < array.Data.Length)
                     {
-                        return _array[x][y];
+                        return array.Data[x][y];
                     }
                     throw new InvalidOperationException();
                 }
