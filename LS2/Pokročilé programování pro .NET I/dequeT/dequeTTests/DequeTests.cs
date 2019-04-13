@@ -22,12 +22,24 @@ namespace dequeT.Tests
         [TestMethod()]
         public void AddTest()
         {
+            const int repetition = 20;
             var array = new Deque<int>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(i);
             }
-            Assert.AreEqual(20, array.Count);
+            Assert.AreEqual(repetition, array.Count);
+        }
+        [TestMethod()]
+        public void AddLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(i);
+            }
+            Assert.AreEqual(repetition, array.Count);
         }
         [TestMethod()]
         public void AddTestReverse()
@@ -46,57 +58,118 @@ namespace dequeT.Tests
                 Assert.AreEqual(i, array[repetition - i - 1]);
             }
         }
+        [TestMethod()]
+        public void AddTestLargeReverse()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            var reverseView = DequeTest.GetReverseView(array);
+            for (int i = 0; i < repetition; i++)
+            {
+                reverseView.Add(i);
+            }
+            Assert.AreEqual(repetition, array.Count);
+            Assert.AreEqual(repetition, reverseView.Count);
+            for (int i = 0; i < repetition; i++)
+            {
+                Assert.AreEqual(i, array[repetition - i - 1]);
+            }
+        }
         // Indexer
         [TestMethod()]
         public void IndexerGetTest()
         {
+            const int repetition = 20;
             var array = new Deque<int>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(i);
             }
             Assert.AreEqual(0, array[0]);
-            Assert.AreEqual(19, array[19]);
+            Assert.AreEqual(repetition - 1, array[repetition - 1]);
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
                 var temp = array[-1];
             });
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
-                var temp = array[20];
+                var temp = array[repetition];
+            });
+        }
+        [TestMethod()]
+        public void IndexerGetLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(i);
+            }
+            Assert.AreEqual(0, array[0]);
+            Assert.AreEqual(repetition - 1, array[repetition - 1]);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                var temp = array[-1];
+            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                var temp = array[repetition];
             });
         }
         [TestMethod()]
         public void IndexerGetReversedTest()
         {
+            const int repetition = 20;
             var array = new Deque<int>();
             var reverseView = DequeTest.GetReverseView(array);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(i);
             }
-            Assert.AreEqual(0, reverseView[19]);
-            Assert.AreEqual(19, reverseView[0]);
+            Assert.AreEqual(0, reverseView[repetition - 1]);
+            Assert.AreEqual(repetition - 1, reverseView[0]);
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
                 var temp = reverseView[-1];
             });
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
-                var temp = reverseView[20];
+                var temp = reverseView[repetition];
+            });
+        }
+        [TestMethod()]
+        public void IndexerGetReversedLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            var reverseView = DequeTest.GetReverseView(array);
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(i);
+            }
+            Assert.AreEqual(0, reverseView[repetition - 1]);
+            Assert.AreEqual(repetition - 1, reverseView[0]);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                var temp = reverseView[-1];
+            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                var temp = reverseView[repetition];
             });
         }
         [TestMethod()]
         public void IndexerSetTest()
         {
+            const int repetition = 20;
             var array = new Deque<int>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(1);
             }
             array[0] = 3;
-            array[19] = 2;
-            Assert.AreEqual(2, array[19]);
+            array[repetition - 1] = 2;
+            Assert.AreEqual(2, array[repetition - 1]);
             Assert.AreEqual(3, array[0]);
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
@@ -104,21 +177,70 @@ namespace dequeT.Tests
             });
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
-                array[20] = 42;
+                array[repetition] = 42;
+            });
+        }
+        [TestMethod()]
+        public void IndexerSetLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(1);
+            }
+            array[0] = 3;
+            array[repetition - 1] = 2;
+            Assert.AreEqual(2, array[repetition - 1]);
+            Assert.AreEqual(3, array[0]);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                array[-1] = 42;
+            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                array[repetition] = 42;
+            });
+        }
+        [TestMethod()]
+        public void IndexerImplicitSetLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(1);
+            }
+            for (int i = 0; i < repetition; i++)
+            {
+                array[i] = i;
+            }
+            for (int i = 0; i < repetition; i++)
+            {
+                array[i] = i;
+            }
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                array[-1] = 42;
+            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                array[repetition] = 42;
             });
         }
         [TestMethod()]
         public void IndexerSetReversedTest()
         {
+            const int repetition = 20;
             var array = new Deque<int>();
             var reverseView = DequeTest.GetReverseView(array);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(1);
             }
             reverseView[0] = 3;
-            reverseView[19] = 2;
-            Assert.AreEqual(2, reverseView[19]);
+            reverseView[repetition - 1] = 2;
+            Assert.AreEqual(2, reverseView[repetition - 1]);
             Assert.AreEqual(3, reverseView[0]);
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
@@ -126,15 +248,39 @@ namespace dequeT.Tests
             });
             Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
             {
-                reverseView[20] = 42;
+                reverseView[repetition] = 42;
+            });
+        }
+        [TestMethod()]
+        public void IndexerSetReversedLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            var reverseView = DequeTest.GetReverseView(array);
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(1);
+            }
+            reverseView[0] = 3;
+            reverseView[repetition - 1] = 2;
+            Assert.AreEqual(2, reverseView[repetition - 1]);
+            Assert.AreEqual(3, reverseView[0]);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                reverseView[-1] = 42;
+            });
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() =>
+            {
+                reverseView[repetition] = 42;
             });
         }
         // First
         [TestMethod()]
         public void FirstTest()
         {
+            const int repetition = 10000;
             var array = new Deque<int>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(i + 1);
             }
@@ -143,31 +289,34 @@ namespace dequeT.Tests
         [TestMethod()]
         public void FirstReversedTest()
         {
+            const int repetition = 10000;
             var array = new Deque<int>();
             var reverseView = DequeTest.GetReverseView(array);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(i + 1);
             }
-            Assert.AreEqual(20, reverseView.First);
+            Assert.AreEqual(repetition, reverseView.First);
         }
         // Last
         [TestMethod()]
         public void LastTest()
         {
+            const int repetition = 10000;
             var array = new Deque<int>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(i + 1);
             }
-            Assert.AreEqual(20, array.Last);
+            Assert.AreEqual(repetition, array.Last);
         }
         [TestMethod()]
         public void LastReversedTest()
         {
+            const int repetition = 10000;
             var array = new Deque<int>();
             var reverseView = DequeTest.GetReverseView(array);
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < repetition; i++)
             {
                 array.Add(i + 1);
             }
@@ -177,7 +326,7 @@ namespace dequeT.Tests
         [TestMethod()]
         public void CountTest()
         {
-            const int repetition = 40;
+            const int repetition = 400;
             var array = new Deque<int>();
             var reverseView = DequeTest.GetReverseView(array);
             for (int i = 0; i < repetition; i++)
@@ -188,9 +337,26 @@ namespace dequeT.Tests
             Assert.AreEqual(repetition, reverseView.Count);
         }
         [TestMethod()]
+        public void CountLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            var reverseView = DequeTest.GetReverseView(array);
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(i);
+            }
+            for (int i = 0; i < repetition; i++)
+            {
+                reverseView.Add(i);
+            }
+            Assert.AreEqual(2*repetition, array.Count);
+            Assert.AreEqual(2*repetition, reverseView.Count);
+        }
+        [TestMethod()]
         public void CountReverseTest()
         {
-            const int repetition = 40;
+            const int repetition = 400;
             var array = new Deque<int>();
             var reverseView = DequeTest.GetReverseView(array);
             for (int i = 0; i < repetition; i++)
@@ -269,19 +435,35 @@ namespace dequeT.Tests
             }
         }
         [TestMethod()]
-        public void GetEnumeratorReversedTest()
+        public void GetEnumeratorLargeTest()
         {
-            int x = 19;
+            const int repetition = 10000;
+            int x = 0;
             var array = new Deque<int>();
-            var reverseView = DequeTest.GetReverseView(array);
-            for (int i = x; i < 20; i++)
+            for (int i = x; i < repetition; i++)
             {
                 array.Add(i);
             }
-            foreach (var o in reverseView)
+            foreach (var o in array)
             {
                 Assert.AreEqual(x, o);
-                x--;
+                x++;
+            }
+        }
+        [TestMethod()]
+        public void GetEnumeratorReversedTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            var reverseView = DequeTest.GetReverseView(array);
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(i);
+            }
+            int x = repetition-1;
+            foreach (var o in reverseView)
+            {
+                Assert.AreEqual(x--, o);
             }
         }
         // Clear
@@ -419,6 +601,17 @@ namespace dequeT.Tests
             Assert.AreEqual(10, array.IndexOf(10));
         }
         [TestMethod()]
+        public void IndexOfLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            for (int i = 0; i < repetition+1; i++)
+            {
+                array.Add(i);
+            }
+            Assert.AreEqual(repetition, array.IndexOf(repetition));
+        }
+        [TestMethod()]
         public void IndexOfReverseTest()
         {
             var array = new Deque<int>();
@@ -476,8 +669,25 @@ namespace dequeT.Tests
                 array.Insert(0, i);
             }
             Assert.AreEqual(200, array.Count, "count not equal");
-
             int x = 199;
+            foreach (var o in array)
+            {
+                Assert.AreEqual(x, o);
+                x--;
+            }
+        }
+        [TestMethod()]
+        public void InsertLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Insert(0, i);
+            }
+            Assert.AreEqual(repetition, array.Count, "count not equal");
+
+            int x = repetition - 1;
             foreach (var o in array)
             {
                 Assert.AreEqual(x, o);
@@ -494,12 +704,10 @@ namespace dequeT.Tests
                 reverseView.Insert(0, i);
             }
             Assert.AreEqual(200, array.Count, "count not equal");
-
             int x = 0;
             foreach (var o in array)
             {
-                Assert.AreEqual(x, o);
-                x++;
+                Assert.AreEqual(x++, o);
             }
         }
         // Remove
@@ -511,12 +719,25 @@ namespace dequeT.Tests
             {
                 array.Add(i);
             }
-
             Assert.AreEqual(true, array.Remove(42));
             Assert.AreEqual(99, array.Count);
             Assert.AreEqual(41, array[41]);
             Assert.AreEqual(43, array[42]);
             Assert.AreEqual(44, array[43]);
+        }
+        [TestMethod()]
+        public void RemoveLargeTest()
+        {
+            var array = new Deque<int>();
+            for (int i = 0; i < 10000; i++)
+            {
+                array.Add(i);
+            }
+            Assert.AreEqual(true, array.Remove(9942));
+            Assert.AreEqual(9999, array.Count);
+            Assert.AreEqual(9941, array[9941]);
+            Assert.AreEqual(9943, array[9942]);
+            Assert.AreEqual(9944, array[9943]);
         }
         [TestMethod()]
         public void RemoveReverseTest()
@@ -596,15 +817,125 @@ namespace dequeT.Tests
             }
         }
         [TestMethod()]
+        public void SelfEqualityLargeTest()
+        {
+            const int repetition = 10000;
+            var array = new Deque<int>();
+            for (int i = 0; i < repetition; i++)
+            {
+                array.Add(i);
+            }
+            int k = 0;
+            foreach (var item in array)
+            {
+                Assert.AreEqual(item, array[k++]);
+            }
+            k = 0;
+            foreach (var item in array)
+            {
+                Assert.AreEqual(item, k++);
+            }
+        }
+        [TestMethod()]
         public void SelfEqualityReversedTest()
         {
-            var array = new Deque<int> {0, 1, 2, 3, 4, 5};
+            var array = new Deque<int> { 0, 1, 2, 3, 4, 5 };
             var reverseView = DequeTest.GetReverseView(array);
             int i = 0;
             foreach (var item in reverseView)
             {
                 Assert.AreEqual(item, reverseView[i++]);
             }
+        }
+        [TestMethod()]
+        public void EnumExceptionsTest()
+        {
+            var array = new Deque<int> { 0, 1, 2, 3, 4, 5 };
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    array.Add(42);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    array.Clear();
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    array.Insert(0, 42);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    array.Remove(42);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    array.RemoveAt(0);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    array.Reverse();
+                }
+            });
+            var reverseView = DequeTest.GetReverseView(array);
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    reverseView.Add(42);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    reverseView.Clear();
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    reverseView.Insert(0, 42);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    reverseView.Remove(42);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    reverseView.RemoveAt(0);
+                }
+            });
+            Assert.ThrowsException<InvalidOperationException>(() =>
+            {
+                foreach (var item in array)
+                {
+                    reverseView.Reverse();
+                }
+            });
         }
     }
 }
