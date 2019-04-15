@@ -1,5 +1,5 @@
-﻿//#define RecoDex
-//#define yield
+﻿#define RecoDex
+#define yield
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -142,7 +142,7 @@ namespace DequeSpace
         {
             IsReadOnly = true;
             #if yield
-            return new DequeYieldEnum<T>(array, Count, blockSize, direction);
+            return DequeYieldEnum();
             #else
             return new DequeEnum<T>(array, Count, blockSize, direction);
             #endif
@@ -248,7 +248,11 @@ namespace DequeSpace
             if (IsReadOnly) throw new InvalidOperationException();
             direction = !direction;
         }
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
         public class DequeEnum<U> : IEnumerator<U>
         {
             public DequeArray<U> array;
@@ -319,75 +323,13 @@ namespace DequeSpace
                 }
             }
         }
-        public class DequeYieldEnum<U> : IEnumerator<U>
+        public IEnumerator<T> DequeYieldEnum()
         {
-            public DequeArray<U> array;
-            int blockSize;
-            int position;
-            int beginPosition;
-            int endPosition;
-            int count;
-            bool direction;
-
-            public DequeYieldEnum(DequeArray<U> deque, int count, int blockSize, bool direction)
+            for (int i = 0; i < Count; i++)
             {
-                array = deque;
-                this.blockSize = blockSize;
-                this.beginPosition = deque.Front;
-                this.count = count;
-                Reset();
-                endPosition = deque.Back;
-                this.direction = direction;
+                yield return this[i];
             }
-
-            public bool MoveNext()
-            {
-                position++;
-                return (position < endPosition);
-            }
-
-            public void Reset()
-            {
-                position = beginPosition;
-            }
-
-            public void Dispose()
-            {
-                array.IsReadOnly = false;
-                GC.SuppressFinalize(this);
-            }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return Current;
-                }
-            }
-
-            public U Current
-            {
-                get
-                {
-                    int x, y;
-                    if (direction)
-                    {
-                        x = position / blockSize;
-                        y = position % blockSize;
-                    }
-                    else
-                    {
-                        x = (beginPosition + count - (position - beginPosition - 1)) / blockSize;
-                        y = (beginPosition + count - (position - beginPosition - 1)) % blockSize;
-                    }
-
-                    if (x >= 0 && x < array.Data.Length)
-                    {
-                        return array.Data[x][y];
-                    }
-                    throw new InvalidOperationException();
-                }
-            }
+            IsReadOnly = false;
         }
     }
     public class DequeArray<T>
