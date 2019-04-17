@@ -1,5 +1,4 @@
 let gl, program, buffer;
-let boxVertices, boxIndices;
 let matWorldUniformLocation;
 
 main();
@@ -88,34 +87,23 @@ function linkProgram() {
 }
 
 function initBuffer() {
-  boxVertices = [ // X, Y, Z
-    1.0, 1.0, 1.0,
-    1.0, 1.0, -1.0,
-    1.0, -1.0, 1.0,
+  let boxVertices = [ // X, Y, Z
     1.0, -1.0, -1.0,
-    -1.0, 1.0, 1.0,
-    -1.0, 1.0, -1.0,
     -1.0, -1.0, 1.0,
-    -1.0, -1.0, -1.0,    
+    1.0, -1.0, 1.0,
+    -1.0, 1.0, 1.0,
+    1.0, 1.0, 1.0,
+    -1.0, 1.0, -1.0,
+    1.0, 1.0, -1.0,
+    -1.0, -1.0, -1.0,
   ];
-  boxIndices = [
-    0, 1, 2,
-    0, 1, 2,
-
-    0, 1, 2,
-    0, 1, 2,
-    
-    0, 1, 2,
-    0, 1, 2,
-    
-    0, 1, 2,
-    0, 1, 2,
-    
-    0, 1, 2,
-    0, 1, 2,
-    
-    0, 1, 2,
-    0, 1, 2,
+  let boxIndices = [
+    1, 2, 3,    3, 2, 4,
+    3, 4, 5,    5, 4, 6,
+    5, 6, 7,    7, 6, 0,
+    7, 0, 1,    1, 0, 2,
+    2, 0, 4,    4, 0, 6,
+    7, 1, 5,    5, 1, 3,
   ];
 
 
@@ -168,13 +156,16 @@ function renderLoop() {
   const identityMatrix = new Float32Array(16);
   mat4.identity(worldMatrix);
   mat4.identity(identityMatrix);
-  mat4.rotate(yRotationMatrix, identityMatrix, angle, [0, 1, 0]);
-  mat4.rotate(xRotationMatrix, identityMatrix, angle / 4, [1, 0, 0]);
-  mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+  worldMatrix[0] = angle;
+  console.log(
+    worldMatrix);
+  //mat4.rotate(yRotationMatrix, identityMatrix, angle, [0, 1, 0]);
+  //mat4.rotate(xRotationMatrix, identityMatrix, angle / 4, [1, 0, 0]);
+  //mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
   gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 
   //gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
-  gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0);
+  gl.drawElements(gl.TRIANGLES, 12, gl.UNSIGNED_SHORT, 0);
 
   requestAnimationFrame(renderLoop);
 }
