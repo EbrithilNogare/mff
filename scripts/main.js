@@ -2,9 +2,9 @@ let gl;
 let vertexShaderProgram, fragmentShaderProgram;
 let model, texture;
 let program;
-let modelVertices, modelIndices, modelTexCoords, modelNormals, modelTexture;
 let matWorldUniformLocation, matViewUniformLocation, matProjUniformLocation;
 let worldMatrix, viewMatrix, projMatrix;
+const controls = {angle: {x:0, y:0, z:0}, rotating:{x:0, y:1, z:0}};
 
 loadAsyncData();
 
@@ -12,11 +12,11 @@ function Init() {
 	InitGL();
 	InitShaders();
 	LinkProgram();
-	InitGeometry();
 	InitBufferAndAtributes();
 	CreateTexture();
 	gl.useProgram(program);
 	InitUniforms();
+	initKeyboardInput();
 	requestAnimationFrame(Loop);
 }
 
@@ -38,16 +38,27 @@ function loadAsyncData() {
 		fragmentShaderProgram = text;
 		allAsyncReady()
 	});
-
-	loadJSONResource('models/Susan.json', function (err, obj) {
+	/*/
+	loadTextResource('models/Susan.json', function (err, text) {
 		if (err) {
 			console.error(err);
 			return;
 		}
-		model = obj;
+		model = JSON.parse(text);
+		model = model.meshes[0];
+		model.faces = [].concat.apply([], model.faces);
 		allAsyncReady()
 	});
-
+	/*/
+	loadTextResource('models/suzanne.obj', function (err, text) {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		model = objToJSON(text);
+		allAsyncReady()
+	});
+	/**/
 	loadImage('textures/SusanTexture.png', function (err, img) {
 		if (err) {
 			console.error(err);
@@ -63,7 +74,7 @@ function loadAsyncData() {
 			fragmentShaderProgram != undefined &&
 			model != undefined &&
 			texture != undefined
-		) {
+		) {			
 			Init();
 		}
 	}
@@ -125,29 +136,22 @@ function LinkProgram() {
 	}
 }
 
-function InitGeometry() {
-	modelVertices = model.meshes[0].vertices;
-	modelIndices = [].concat.apply([], model.meshes[0].faces);
-	modelTexCoords = model.meshes[0].texturecoords[0];
-	modelNormals = model.meshes[0].normals;
-}
-
 function InitBufferAndAtributes() {
 	const posVertexBufferObject = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(modelVertices), gl.STATIC_DRAW);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
 
 	const susanTexCoordVertexBufferObject = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(modelTexCoords), gl.STATIC_DRAW);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texturecoords), gl.STATIC_DRAW);
 
 	const susanIndexBufferObject = gl.createBuffer();
 	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, susanIndexBufferObject);
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(modelIndices), gl.STATIC_DRAW);
+	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.faces), gl.STATIC_DRAW);
 
 	const susanNormalBufferObject = gl.createBuffer();
 	gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(modelNormals), gl.STATIC_DRAW);
+	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
 
 
 	gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
@@ -220,31 +224,54 @@ function InitUniforms() {
 	gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 	gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, viewMatrix);
 	gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, projMatrix);
+}
 
-	// lighting  
-	const ambientUniformLocation = gl.getUniformLocation(program, 'ambientLightIntensity');
-	const sunlightDirUniformLocation = gl.getUniformLocation(program, 'sun.direction');
-	const sunlightIntUniformLocation = gl.getUniformLocation(program, 'sun.color');
+function initKeyboardInput(){
+	document.onkeydown=function keydown(e){
+		switch (e.key) {
+			case "w": controls.rotating.x = -1; break;
+			case "s": controls.rotating.x = 1; break;
+			
+			case "a": controls.rotating.y = -1; break;
+			case "d": controls.rotating.y = 1; break;
+			
+			case "e": controls.rotating.z = -1; break;
+			case "q": controls.rotating.z = 1; break;
 
-	gl.uniform3f(ambientUniformLocation, 0.2, 0.2, 0.2);
-	gl.uniform3f(sunlightDirUniformLocation, 3.0, 4.0, -2.0);
-	gl.uniform3f(sunlightIntUniformLocation, 0.9, 0.9, 0.9);
+			case " ": controls.rotating.y = !!!controls.rotating.y; break;
+		}    
+	};
+	document.onkeyup=function keyup(e){
+		switch (e.key) {
+			case "w":
+			case "s": controls.rotating.x = 0; break;
+			case "a":
+			case "d": controls.rotating.y = 0; break;
+			case "e":
+			case "q": controls.rotating.z = 0; break;
+		}
+	};
 }
 
 function Loop() {
-	// do something to show its live
-	const angle = performance.now() / 1000 / 6 * 2 * Math.PI;
+	controls.angle.x += controls.rotating.x*(6 * Math.PI)/1000;
+	controls.angle.y += controls.rotating.y*(6 * Math.PI)/1000;
+	controls.angle.z += controls.rotating.z*(6 * Math.PI)/1000;
 	const identityMatrix = mat4.identity(new Float32Array(16));	
-	const xRotationMatrix = mat4.rotate(new Float32Array(16), identityMatrix, Math.PI * 3 / 2, [1, 0, 0]);
-	const yRotationMatrix = mat4.rotate(new Float32Array(16), identityMatrix, Math.PI * 3 / 2, [1, 0, 0]);
-	mat4.rotate(yRotationMatrix, identityMatrix, angle, [0, 1, 0]);
+	const xRotationMatrix = mat4.identity(new Float32Array(16));	
+	const yRotationMatrix = mat4.identity(new Float32Array(16));
+	const zRotationMatrix = mat4.identity(new Float32Array(16));
+	mat4.rotate(xRotationMatrix, identityMatrix, controls.angle.x, [1, 0, 0]);
+	mat4.rotate(yRotationMatrix, identityMatrix, controls.angle.y, [0, 1, 0]);
+	mat4.rotate(zRotationMatrix, identityMatrix, controls.angle.z, [0, 0, 1]);
 	
 	mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
+	mat4.mul(worldMatrix, worldMatrix, zRotationMatrix);
 	gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 
 	// render everything
 	gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
-	gl.drawElements(gl.TRIANGLES, modelIndices.length, gl.UNSIGNED_SHORT, 0);
+	gl.drawElements(gl.TRIANGLES, model.faces.length, gl.UNSIGNED_SHORT, 0);
 
 	// go to next frame
 	requestAnimationFrame(Loop);
