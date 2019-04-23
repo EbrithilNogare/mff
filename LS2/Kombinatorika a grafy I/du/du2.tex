@@ -27,9 +27,27 @@ A takove cislo nemuze byt ani obsazeno v nasem poslednim radku, nebot na vsech o
 
 \subsection{}
 \begin{itemize}
-\item \\
-b
+\item plati\\
+pro kazdy podraf grafu G musi platit, ze existuji 4 vrcholi jez jsou v cyklu
+(stupen dva a neni bipartitni) a po odebrani presne dvou se stanou
+zbyle dva vrcholi nesouvisle.
+Pokud si za zbyle vrcholi dosadime cele komponenty grafu a hrany mezi
+odstranenymi vrcholi definujeme jako rez a celou situaci aplikujeme
+na kazdy podgraf jez lezi na rezu, tak mame dokazano ze tvrzeni plati.
+
+\item plati\\
+pro kazdy podraf grafu G musi platit, ze existuje 5 vrcholu jez jsou stupne minimalne 3. Predpokladejme ze tvrzeni neplati, pak v grafu existuje pouze jedna kruznice obsahujici vsechny vrcholi, to je ale ve sporu s tvrzenim ze kazdy vrchol ma stupen min 3. Neboli takovy graf musi mit hlavni kruznici a min jedno "ucho".
+
+\item plati\\
+mejme graf ktery je hranove l-souvisly pak existuje bijektivni zobrazeni $l$ hran na $l$ vrcholu. Nebot kazdou hranu kterou bychom odebrali muzem odebrat i tak ze ji sebereme jeden z vrcholu.
 \end{itemize}
+
+\subsection{}
+mnozinovy system ma SRR pro kazde kladne $k$, nebot splineme Hallovu podminku.
+tj. libovolnych $n$ hran z hypergrafu $G$ ma dohromady alespon $n$ prvku.
+
+\subsection{}
+takove grafy budou k-hranove souvisle, nebot mezi kazdymi dvemi body bude minimalne $k$ hranove disjunktnich cest. A tudiz budou i k-vrcholove souvisle.
  
 
 \end{document}
