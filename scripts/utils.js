@@ -35,7 +35,7 @@ function objToJSON(obj){
 		const splited=element.split(" ");
 		switch(splited[0]){
 			case "v":
-			model.vertices.push(parseFloat(splited[1]), parseFloat(splited[2]), parseFloat(splited[3]));
+				model.vertices.push(parseFloat(splited[1]), parseFloat(splited[2]), parseFloat(splited[3]));
 				break;
 			case "vt":
 				texturecoords.push([parseFloat(splited[1]), parseFloat(splited[2])]);

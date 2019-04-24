@@ -21,7 +21,7 @@ function Init() {
 }
 
 function loadAsyncData() {
-	loadTextResource('shaders/vertex.glsl', function (err, text) {
+	loadTextResource('shaders/vertex/main.glsl', function (err, text) {
 		if (err) {
 			console.error(err);
 			return;
@@ -30,7 +30,7 @@ function loadAsyncData() {
 		allAsyncReady()
 	});
 
-	loadTextResource('shaders/fragment.glsl', function (err, text) {
+	loadTextResource('shaders/fragment/defered.glsl', function (err, text) {
 		if (err) {
 			console.error(err);
 			return;
@@ -38,18 +38,7 @@ function loadAsyncData() {
 		fragmentShaderProgram = text;
 		allAsyncReady()
 	});
-	/*/
-	loadTextResource('models/Susan.json', function (err, text) {
-		if (err) {
-			console.error(err);
-			return;
-		}
-		model = JSON.parse(text);
-		model = model.meshes[0];
-		model.faces = [].concat.apply([], model.faces);
-		allAsyncReady()
-	});
-	/*/
+
 	loadTextResource('models/suzanne.obj', function (err, text) {
 		if (err) {
 			console.error(err);
@@ -58,7 +47,6 @@ function loadAsyncData() {
 		model = objToJSON(text);
 		allAsyncReady()
 	});
-	/**/
 	loadImage('textures/SusanTexture.png', function (err, img) {
 		if (err) {
 			console.error(err);
@@ -137,57 +125,58 @@ function LinkProgram() {
 }
 
 function InitBufferAndAtributes() {
-	const posVertexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
+	{	//vertPosition
+		const posVertexBufferObject = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
+		const positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
+		gl.vertexAttribPointer(
+			positionAttribLocation, // Attribute location
+			3, // Number of elements per attribute
+			gl.FLOAT, // Type of elements
+			gl.FALSE,
+			3 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+			0 // Offset from the beginning of a single vertex to this attribute
+		);
+		gl.enableVertexAttribArray(positionAttribLocation);
+	}
 
-	const susanTexCoordVertexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texturecoords), gl.STATIC_DRAW);
+	{	//vertTexCoord
+		const susanTexCoordVertexBufferObject = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texturecoords), gl.STATIC_DRAW);
+		const texCoordAttribLocation = gl.getAttribLocation(program, 'vertTexCoord');
+		gl.vertexAttribPointer(
+			texCoordAttribLocation, // Attribute location
+			2, // Number of elements per attribute
+			gl.FLOAT, // Type of elements
+			gl.FALSE,
+			2 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+			0
+		);
+		gl.enableVertexAttribArray(texCoordAttribLocation);
+	}
 
-	const susanIndexBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, susanIndexBufferObject);
-	gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.faces), gl.STATIC_DRAW);
+	{	//faces
+		const susanIndexBufferObject = gl.createBuffer();
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, susanIndexBufferObject);
+		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.faces), gl.STATIC_DRAW);
+	}
 
-	const susanNormalBufferObject = gl.createBuffer();
-	gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
-	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
-
-
-	gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
-	const positionAttribLocation = gl.getAttribLocation(program, 'vertPosition');
-	gl.vertexAttribPointer(
-		positionAttribLocation, // Attribute location
-		3, // Number of elements per attribute
-		gl.FLOAT, // Type of elements
-		gl.FALSE,
-		3 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-		0 // Offset from the beginning of a single vertex to this attribute
-	);
-	gl.enableVertexAttribArray(positionAttribLocation);
-
-	gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
-	const texCoordAttribLocation = gl.getAttribLocation(program, 'vertTexCoord');
-	gl.vertexAttribPointer(
-		texCoordAttribLocation, // Attribute location
-		2, // Number of elements per attribute
-		gl.FLOAT, // Type of elements
-		gl.FALSE,
-		2 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-		0
-	);
-	gl.enableVertexAttribArray(texCoordAttribLocation);
-
-	gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
-	const normalAttribLocation = gl.getAttribLocation(program, 'vertNormal');
-	gl.vertexAttribPointer(
-		normalAttribLocation,
-		3, gl.FLOAT,
-		gl.TRUE,
-		3 * Float32Array.BYTES_PER_ELEMENT,
-		0
-	);
-	gl.enableVertexAttribArray(normalAttribLocation);
+	{	//vertNormal
+		const susanNormalBufferObject = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
+		const normalAttribLocation = gl.getAttribLocation(program, 'vertNormal');
+		gl.vertexAttribPointer(
+			normalAttribLocation,
+			3, gl.FLOAT,
+			gl.TRUE,
+			3 * Float32Array.BYTES_PER_ELEMENT,
+			0
+		);
+		gl.enableVertexAttribArray(normalAttribLocation);
+	}	
 }
 
 function CreateTexture() {
@@ -203,8 +192,6 @@ function CreateTexture() {
 		gl.UNSIGNED_BYTE,
 		texture
 	);
-	gl.bindTexture(gl.TEXTURE_2D, null);
-	gl.bindTexture(gl.TEXTURE_2D, modelTexture);
 	gl.activeTexture(gl.TEXTURE0);
 }
 

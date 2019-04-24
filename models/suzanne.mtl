@@ -8,4 +8,4 @@ Kd 0.8 0.8 0.8
 Ks 0.8 0.8 0.8
 d 1
 illum 2
-map_Kd F:\git\WebGL\textures\SusanTexture.png
+map_Kd /data/git/WebGL/textures/SusanTexture.png
