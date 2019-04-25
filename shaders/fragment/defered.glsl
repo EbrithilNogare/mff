@@ -8,6 +8,7 @@ struct light
 
 varying vec2 fragTexCoord;
 varying vec3 fragNormal;
+varying vec3 fragPosition;
 
 uniform sampler2D sampler;
 

@@ -30,7 +30,7 @@ function loadAsyncData() {
 		allAsyncReady()
 	});
 
-	loadTextResource('shaders/fragment/defered.glsl', function (err, text) {
+	loadTextResource('shaders/fragment/zBuffer.glsl', function (err, text) {
 		if (err) {
 			console.error(err);
 			return;
@@ -39,7 +39,7 @@ function loadAsyncData() {
 		allAsyncReady()
 	});
 
-	loadTextResource('models/suzanne.obj', function (err, text) {
+	loadTextResource('models/sphere.obj', function (err, text) {
 		if (err) {
 			console.error(err);
 			return;
