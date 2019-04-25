@@ -1,0 +1,64 @@
+paper) 3)
+1   a,c
+2   a,c
+3   a,b,c
+4   b
+5   a,c
+6   b,c
+7   a,c
+8   a,b
+9   b
+10  b
+
+mfpress) 35) 5)
+d)  positive a plus positive b equals positive the fraction of the sum of a and b equals a plus b
+l)  a plus the expresion b plus c minus d equals a plus b plus c minus d
+n)  a times bc equals ab times c equals product of a b and c
+r)  a times b equals zero is equivalent to a equals zero or b equals zero
+w)  the fraction of a plus b times the fraction c plus d equals ac plus bc plus 
+ah) the expresion a plus b minus c that all divided m equals a over by m plus b divided by m minus c divided by m equals fraction whichs numerator is a + b - c denomerator is m
+
+82) 7)
+1   I wish I'd
+2   If I had had
+3   fine
+4   I could have bought
+5   I was going
+6   fine
+7   I regret
+
+8) just three
+3   ... I could finished homework
+5   ... I was going to start everyday running
+8   ... not saying bad things when we were on party
+
+9)
+1   trip to beach, when she was 6
+2   5y ago
+3   leaving that eautiful place, 10y ago
+
+11)
+1
+it doesnt feel that long ago
+it makse me feel nostalgic ...
+it feels like last week
+
+2
+football with team
+every sunday
+at park
+vere good
+friends on university
+
+it brings back so many memories
+those were the days!
+
+3
+Italy
+cafe on main square
+best time in life
+friendly people
+10y ago
+
+I can remember that place so clearly
+?i can picture it so well
