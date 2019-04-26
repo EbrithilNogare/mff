@@ -1,10 +1,18 @@
-let gl;
-let vertexShaderProgram, fragmentShaderProgram;
-let model, texture;
-let program;
+let gl;					// Graphic Library
+let fs = [], vs = []; 	// Array of shader programs
+let model;				// rendered model
+let textures = [];		// Array of textures
+let program;			// Array of programs //TODO
+
+const renderSettings = {
+	clearColor: [0.0, 0.0, 0.0, 1.0],
+	rotating: {x:0, y:1, z:0}
+};
+
 let matWorldUniformLocation, matViewUniformLocation, matProjUniformLocation;
 let worldMatrix, viewMatrix, projMatrix;
-const controls = {angle: {x:0, y:0, z:0}, rotating:{x:0, y:1, z:0}};
+const controls = {angle: {x:0, y:0, z:0}};
+
 
 loadAsyncData();
 
@@ -26,7 +34,7 @@ function loadAsyncData() {
 			console.error(err);
 			return;
 		}
-		vertexShaderProgram = text;
+		vs["main"] = text;
 		allAsyncReady()
 	});
 
@@ -35,11 +43,29 @@ function loadAsyncData() {
 			console.error(err);
 			return;
 		}
-		fragmentShaderProgram = text;
+		fs["zBuffer"] = text;
 		allAsyncReady()
 	});
 
-	loadTextResource('models/sphere.obj', function (err, text) {
+	loadTextResource('shaders/fragment/defered.glsl', function (err, text) {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		fs["defered"] = text;
+		allAsyncReady()
+	});
+
+	loadTextResource('shaders/fragment/normals.glsl', function (err, text) {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		fs["normals"] = text;
+		allAsyncReady()
+	});
+
+	loadTextResource('models/susan.obj', function (err, text) {
 		if (err) {
 			console.error(err);
 			return;
@@ -47,21 +73,24 @@ function loadAsyncData() {
 		model = objToJSON(text);
 		allAsyncReady()
 	});
-	loadImage('textures/SusanTexture.png', function (err, img) {
+
+	loadImage('textures/susan.png', function (err, img) {
 		if (err) {
 			console.error(err);
 			return;
 		}
-		texture = img;
+		textures["susan"] = img;
 		allAsyncReady()
 	});
 
 	function allAsyncReady() {
 		if (
-			vertexShaderProgram != undefined &&
-			fragmentShaderProgram != undefined &&
 			model != undefined &&
-			texture != undefined
+			vs["main"] != undefined &&
+			fs["zBuffer"] != undefined &&
+			fs["defered"] != undefined &&
+			fs["normals"] != undefined &&
+			textures["susan"] != undefined
 		) {			
 			Init();
 		}
@@ -70,18 +99,20 @@ function loadAsyncData() {
 
 function InitGL() {
 	const canvas = document.getElementById('canvas');
-	gl = canvas.getContext('webgl');
-
+	gl = canvas.getContext('webgl2');
 	if (!gl) {
-		console.log('WebGL not supported, falling back on experimental-webgl');
+		console.log('webgl2 not supported, falling back on webgl');
+		gl = canvas.getContext('webgl');
+	}
+	if (!gl) {
+		console.log('webgl not supported, falling back on experimental-webgl');
 		gl = canvas.getContext('experimental-webgl');
 	}
-
 	if (!gl) {
-		alert('Your browser does not support WebGL');
+		console.error('Your browser does not support WebGL');
 	}
-
-	gl.clearColor(0.95, 0.95, 0.95, 1.0);
+	
+	gl.clearColor(...renderSettings.clearColor);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	gl.enable(gl.DEPTH_TEST);
 	gl.enable(gl.CULL_FACE);
@@ -93,7 +124,7 @@ function InitGL() {
 
 function InitShaders() {
 	const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-	gl.shaderSource(vertexShader, vertexShaderProgram);
+	gl.shaderSource(vertexShader, vs["main"]);
 	gl.compileShader(vertexShader);
 	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
 		console.error('ERROR compiling vertex shader!', gl.getShaderInfoLog(vertexShader));
@@ -102,7 +133,7 @@ function InitShaders() {
 	gl.attachShader(program, vertexShader);
 
 	const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-	gl.shaderSource(fragmentShader, fragmentShaderProgram);
+	gl.shaderSource(fragmentShader, fs["defered"]);
 	gl.compileShader(fragmentShader);
 	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
 		console.error('ERROR compiling fragment shader!', gl.getShaderInfoLog(fragmentShader));
@@ -180,6 +211,7 @@ function InitBufferAndAtributes() {
 }
 
 function CreateTexture() {
+	const texture = textures["susan"];
 	modelTexture = gl.createTexture();
 	gl.bindTexture(gl.TEXTURE_2D, modelTexture);
 	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
@@ -216,44 +248,39 @@ function InitUniforms() {
 function initKeyboardInput(){
 	document.onkeydown=function keydown(e){
 		switch (e.key) {
-			case "w": controls.rotating.x = -1; break;
-			case "s": controls.rotating.x = 1; break;
+			case "w": renderSettings.rotating.x = -1; break;
+			case "s": renderSettings.rotating.x = 1; break;
 			
-			case "a": controls.rotating.y = -1; break;
-			case "d": controls.rotating.y = 1; break;
+			case "a": renderSettings.rotating.y = -1; break;
+			case "d": renderSettings.rotating.y = 1; break;
 			
-			case "e": controls.rotating.z = -1; break;
-			case "q": controls.rotating.z = 1; break;
+			case "e": renderSettings.rotating.z = -1; break;
+			case "q": renderSettings.rotating.z = 1; break;
 
-			case " ": controls.rotating.y = !!!controls.rotating.y; break;
+			case " ": renderSettings.rotating.y = !!!renderSettings.rotating.y; break;
 		}    
 	};
 	document.onkeyup=function keyup(e){
 		switch (e.key) {
 			case "w":
-			case "s": controls.rotating.x = 0; break;
+			case "s": renderSettings.rotating.x = 0; break;
 			case "a":
-			case "d": controls.rotating.y = 0; break;
+			case "d": renderSettings.rotating.y = 0; break;
 			case "e":
-			case "q": controls.rotating.z = 0; break;
+			case "q": renderSettings.rotating.z = 0; break;
 		}
 	};
 }
 
 function Loop() {
-	controls.angle.x += controls.rotating.x*(6 * Math.PI)/1000;
-	controls.angle.y += controls.rotating.y*(6 * Math.PI)/1000;
-	controls.angle.z += controls.rotating.z*(6 * Math.PI)/1000;
-	const identityMatrix = mat4.identity(new Float32Array(16));	
-	const xRotationMatrix = mat4.identity(new Float32Array(16));	
-	const yRotationMatrix = mat4.identity(new Float32Array(16));
-	const zRotationMatrix = mat4.identity(new Float32Array(16));
-	mat4.rotate(xRotationMatrix, identityMatrix, controls.angle.x, [1, 0, 0]);
-	mat4.rotate(yRotationMatrix, identityMatrix, controls.angle.y, [0, 1, 0]);
-	mat4.rotate(zRotationMatrix, identityMatrix, controls.angle.z, [0, 0, 1]);
+	gl.clearColor(...renderSettings.clearColor);
+	controls.angle.x += renderSettings.rotating.x*(6 * Math.PI)/1000;
+	controls.angle.y += renderSettings.rotating.y*(6 * Math.PI)/1000;
+	controls.angle.z += renderSettings.rotating.z*(6 * Math.PI)/1000;
+	mat4.rotate(worldMatrix, worldMatrix, renderSettings.rotating.x*(6 * Math.PI)/1000, [1, 0, 0]);
+	mat4.rotate(worldMatrix, worldMatrix, renderSettings.rotating.y*(6 * Math.PI)/1000, [0, 1, 0]);
+	mat4.rotate(worldMatrix, worldMatrix, renderSettings.rotating.z*(6 * Math.PI)/1000, [0, 0, 1]);
 	
-	mat4.mul(worldMatrix, yRotationMatrix, xRotationMatrix);
-	mat4.mul(worldMatrix, worldMatrix, zRotationMatrix);
 	gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
 
 	// render everything
