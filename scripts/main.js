@@ -8,10 +8,20 @@ const renderSettings = {
 	clearColor: [0.0, 0.0, 0.0, 1.0],
 	rotating: {x:0, y:1, z:0}
 };
-
-let matWorldUniformLocation, matViewUniformLocation, matProjUniformLocation;
-let worldMatrix, viewMatrix, projMatrix;
-const controls = {angle: {x:0, y:0, z:0}};
+const matrices = {
+	world:{
+		matrix:new Float32Array(16),	// matrix of Float32
+		uniform:null 					// uniform location
+	},	
+	view:{
+		matrix:new Float32Array(16),
+		uniform:null
+	},	
+	projection:{
+		matrix:new Float32Array(16),
+		uniform:null
+	}	
+};
 
 
 loadAsyncData();
@@ -19,7 +29,7 @@ loadAsyncData();
 function Init() {
 	InitGL();
 	InitShaders();
-	LinkProgram();
+	LinkProgram(program);
 	InitBufferAndAtributes();
 	CreateTexture();
 	gl.useProgram(program);
@@ -99,6 +109,9 @@ function loadAsyncData() {
 
 function InitGL() {
 	const canvas = document.getElementById('canvas');
+	canvas.height = window.innerHeight;
+	canvas.width = window.innerWidth;
+
 	gl = canvas.getContext('webgl2');
 	if (!gl) {
 		console.log('webgl2 not supported, falling back on webgl');
@@ -142,15 +155,15 @@ function InitShaders() {
 	gl.attachShader(program, fragmentShader);
 }
 
-function LinkProgram() {
-	gl.linkProgram(program);
-	if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-		console.error('ERROR linking program!', gl.getProgramInfoLog(program));
+function LinkProgram(programToLink) {
+	gl.linkProgram(programToLink);
+	if (!gl.getProgramParameter(programToLink, gl.LINK_STATUS)) {
+		console.error('ERROR linking program!', gl.getProgramInfoLog(programToLink));
 		return;
 	}
-	gl.validateProgram(program);
-	if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
-		console.error('ERROR validating program!', gl.getProgramInfoLog(program));
+	gl.validateProgram(programToLink);
+	if (!gl.getProgramParameter(programToLink, gl.VALIDATE_STATUS)) {
+		console.error('ERROR validating program!', gl.getProgramInfoLog(programToLink));
 		return;
 	}
 }
@@ -228,21 +241,17 @@ function CreateTexture() {
 }
 
 function InitUniforms() {
-	matWorldUniformLocation = gl.getUniformLocation(program, 'mWorld');
-	matViewUniformLocation = gl.getUniformLocation(program, 'mView');
-	matProjUniformLocation = gl.getUniformLocation(program, 'mProj');
+	matrices.world.uniform = gl.getUniformLocation(program, 'mWorld');
+	matrices.view.uniform = gl.getUniformLocation(program, 'mView');
+	matrices.projection.uniform = gl.getUniformLocation(program, 'mProj');
 
-	worldMatrix = new Float32Array(16);
-	viewMatrix = new Float32Array(16);
-	projMatrix = new Float32Array(16);
+	mat4.identity(matrices.world.matrix);
+	mat4.lookAt(matrices.view.matrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
+	mat4.perspective(matrices.projection.matrix, glMatrix.toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
 
-	mat4.identity(worldMatrix);
-	mat4.lookAt(viewMatrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
-	mat4.perspective(projMatrix, glMatrix.toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
-
-	gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
-	gl.uniformMatrix4fv(matViewUniformLocation, gl.FALSE, viewMatrix);
-	gl.uniformMatrix4fv(matProjUniformLocation, gl.FALSE, projMatrix);
+	gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
+	gl.uniformMatrix4fv(matrices.view.uniform, gl.FALSE, matrices.view.matrix);
+	gl.uniformMatrix4fv(matrices.projection.uniform, gl.FALSE, matrices.projection.matrix);
 }
 
 function initKeyboardInput(){
@@ -257,7 +266,7 @@ function initKeyboardInput(){
 			case "e": renderSettings.rotating.z = -1; break;
 			case "q": renderSettings.rotating.z = 1; break;
 
-			case " ": renderSettings.rotating.y = !!!renderSettings.rotating.y; break;
+			case " ": renderSettings.rotating.y = !renderSettings.rotating.y; break;
 		}    
 	};
 	document.onkeyup=function keyup(e){
@@ -274,14 +283,12 @@ function initKeyboardInput(){
 
 function Loop() {
 	gl.clearColor(...renderSettings.clearColor);
-	controls.angle.x += renderSettings.rotating.x*(6 * Math.PI)/1000;
-	controls.angle.y += renderSettings.rotating.y*(6 * Math.PI)/1000;
-	controls.angle.z += renderSettings.rotating.z*(6 * Math.PI)/1000;
-	mat4.rotate(worldMatrix, worldMatrix, renderSettings.rotating.x*(6 * Math.PI)/1000, [1, 0, 0]);
-	mat4.rotate(worldMatrix, worldMatrix, renderSettings.rotating.y*(6 * Math.PI)/1000, [0, 1, 0]);
-	mat4.rotate(worldMatrix, worldMatrix, renderSettings.rotating.z*(6 * Math.PI)/1000, [0, 0, 1]);
+
+	mat4.rotate(matrices.world.matrix, matrices.world.matrix, renderSettings.rotating.x*(6 * Math.PI)/1000, [1, 0, 0]);
+	mat4.rotate(matrices.world.matrix, matrices.world.matrix, renderSettings.rotating.y*(6 * Math.PI)/1000, [0, 1, 0]);
+	mat4.rotate(matrices.world.matrix, matrices.world.matrix, renderSettings.rotating.z*(6 * Math.PI)/1000, [0, 0, 1]);
 	
-	gl.uniformMatrix4fv(matWorldUniformLocation, gl.FALSE, worldMatrix);
+	gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
 
 	// render everything
 	gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
