@@ -9,24 +9,23 @@ using System.Xml.Serialization;
 
 namespace UnreflectedSerializer
 {
-
+    abstract class RootDescriptor{
+            
+    }
     public class RootDescriptor<T>
     {
-        string[] variables;
+        object[] variables;
         string ownName;
         public void Serialize(TextWriter writer, T instance)
         {
             writer.WriteLine($"<{ownName}>");
             foreach (string item in variables)
             {
-                writer.WriteLine($"<{item}>");
-                string test = (string)instance.GetType().GetField(item).GetValue(instance);
-                writer.WriteLine();
-                writer.WriteLine($"</{item}>");
+                item.ser
             }
             writer.WriteLine($"</{ownName}>");
         }
-        public RootDescriptor(string ownName, string[] variables)
+        public RootDescriptor(string ownName, object[] variables)
         {
             this.variables = variables;
             this.ownName = ownName;
@@ -85,17 +84,74 @@ namespace UnreflectedSerializer
         static RootDescriptor<Person> GetPersonDescriptor()
         {
             string ownName = nameof(Person);
-            string[] variables = new string[]
+            object[] variables = new object[]
             {
                 nameof(Person.FirstName),
                 nameof(Person.LastName),
-                //nameof(Person.HomeAddress),
-                //nameof(Person.WorkAddress),
-                //nameof(Person.CitizenOf),
-                //nameof(Person.MobilePhone),
+                nameof(Person.HomeAddress),
+                nameof(Person.WorkAddress),
+                nameof(Person.CitizenOf),
+                nameof(Person.MobilePhone),
             };
 
             var rootDesc = new RootDescriptor<Person>(ownName, variables);
+
+            return rootDesc;
+        }
+        static RootDescriptor<Address> GetAdressDescriptor()
+        {
+            string ownName = nameof(Address);
+            string[] variables = new string[]
+            {
+                nameof(Address.Street),
+                nameof(Address.City),
+            };
+
+            var rootDesc = new RootDescriptor<Address>(ownName, variables);
+
+            return rootDesc;
+        }
+        static RootDescriptor<PhoneNumber> GetPhoneNumberDescriptor()
+        {
+            string ownName = nameof(PhoneNumber);
+            object[] variables = new object[]
+            {
+                nameof(PhoneNumber.Country),
+                nameof(PhoneNumber.Number),
+            };
+
+            var rootDesc = new RootDescriptor<PhoneNumber>(ownName, variables);
+
+            return rootDesc;
+        }
+        static RootDescriptor<Country> GetCountryDescriptor()
+        {
+            string ownName = nameof(Country);
+            string[] variables = new string[]
+            {
+                nameof(Country.Name),
+                nameof(Country.AreaCode),
+            };
+
+            var rootDesc = new RootDescriptor<Country>(ownName, variables);
+
+            return rootDesc;
+        }
+        static RootDescriptor<String> GetStringDescriptor()
+        {
+            string ownName = nameof(String);
+            string[] variables = new string[] { };
+
+            var rootDesc = new RootDescriptor<String>(ownName, variables);
+
+            return rootDesc;
+        }
+        static RootDescriptor<Int32> GetInt32Descriptor()
+        {
+            string ownName = nameof(Int32);
+            string[] variables = new string[] { };
+
+            var rootDesc = new RootDescriptor<Int32>(ownName, variables);
 
             return rootDesc;
         }
