@@ -1,4 +1,5 @@
-let gl;					// Graphic Library
+let gl;					// Graphic Library and extension
+let buffers = [];		// Aray of gBuffer
 let fs = [], vs = []; 	// Array of shader programs
 let model;				// rendered model
 let textures = [];		// Array of textures
@@ -27,15 +28,19 @@ const matrices = {
 loadAsyncData();
 
 function Init() {
-	InitGL();
-	InitShaders();
-	LinkProgram(program);
-	InitBufferAndAtributes();
-	CreateTexture();
-	gl.useProgram(program);
-	InitUniforms();
-	initKeyboardInput();
-	requestAnimationFrame(Loop);
+	try{
+		InitGL();
+		InitShaders();
+		LinkProgram(program);
+		InitBufferAndAtributes();
+		CreateTexture();
+		gl.useProgram(program);
+		InitUniforms();
+		initKeyboardInput();
+		requestAnimationFrame(Loop);
+	}catch(e){
+		console.error(e);		
+	}
 }
 
 function loadAsyncData() {
@@ -109,21 +114,16 @@ function loadAsyncData() {
 
 function InitGL() {
 	const canvas = document.getElementById('canvas');
+	const webglVersions = ['webgl2'];
+
 	canvas.height = window.innerHeight;
 	canvas.width = window.innerWidth;
 
-	gl = canvas.getContext('webgl2');
-	if (!gl) {
-		console.log('webgl2 not supported, falling back on webgl');
-		gl = canvas.getContext('webgl');
+	for (let i = 0; i < webglVersions.length; i++) {
+		gl = canvas.getContext(webglVersions[i]);
+		if(gl) break;
 	}
-	if (!gl) {
-		console.log('webgl not supported, falling back on experimental-webgl');
-		gl = canvas.getContext('experimental-webgl');
-	}
-	if (!gl) {
-		console.error('Your browser does not support WebGL');
-	}
+	if(!gl) throw `webgl not supported \n supported versions: \n ${webglVersions}`
 	
 	gl.clearColor(...renderSettings.clearColor);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -140,8 +140,7 @@ function InitShaders() {
 	gl.shaderSource(vertexShader, vs["main"]);
 	gl.compileShader(vertexShader);
 	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-		console.error('ERROR compiling vertex shader!', gl.getShaderInfoLog(vertexShader));
-		return;
+		throw `ERROR compiling vertex shader! ${gl.getShaderInfoLog(vertexShader)}`;
 	}
 	gl.attachShader(program, vertexShader);
 
@@ -149,8 +148,7 @@ function InitShaders() {
 	gl.shaderSource(fragmentShader, fs["defered"]);
 	gl.compileShader(fragmentShader);
 	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
-		console.error('ERROR compiling fragment shader!', gl.getShaderInfoLog(fragmentShader));
-		return;
+		throw `ERROR compiling fragment shader! ${gl.getShaderInfoLog(fragmentShader)}`;
 	}
 	gl.attachShader(program, fragmentShader);
 }
@@ -158,17 +156,28 @@ function InitShaders() {
 function LinkProgram(programToLink) {
 	gl.linkProgram(programToLink);
 	if (!gl.getProgramParameter(programToLink, gl.LINK_STATUS)) {
-		console.error('ERROR linking program!', gl.getProgramInfoLog(programToLink));
-		return;
+		throw `ERROR linking program! ${gl.getShaderInfoLog(programToLink)}`;
 	}
 	gl.validateProgram(programToLink);
 	if (!gl.getProgramParameter(programToLink, gl.VALIDATE_STATUS)) {
-		console.error('ERROR validating program!', gl.getProgramInfoLog(programToLink));
-		return;
+		throw `ERROR validating program! ${gl.getShaderInfoLog(programToLink)}`;
 	}
 }
 
 function InitBufferAndAtributes() {
+	{
+        fb = gl.createFramebuffer();
+		gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+		
+		buffers[0] = gl.COLOR_ATTACHMENT0;
+		buffers[1] = gl.COLOR_ATTACHMENT1;
+		buffers[2] = gl.COLOR_ATTACHMENT2;
+		buffers[3] = gl.COLOR_ATTACHMENT3;
+
+		gl.drawBuffers(buffers);
+	}
+
+
 	{	//vertPosition
 		const posVertexBufferObject = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
@@ -291,6 +300,7 @@ function Loop() {
 	gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
 
 	// render everything
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 	gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 	gl.drawElements(gl.TRIANGLES, model.faces.length, gl.UNSIGNED_SHORT, 0);
 
