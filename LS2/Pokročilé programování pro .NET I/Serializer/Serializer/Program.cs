@@ -9,23 +9,43 @@ using System.Xml.Serialization;
 
 namespace UnreflectedSerializer
 {
-    abstract class RootDescriptor{
-            
-    }
+    public delegate string SerializerHelperPointingToVariableValue<T>(T person); // TODO change name
     public class RootDescriptor<T>
     {
-        object[] variables;
+        SerializerHelperPointingToVariableValue<T>[] variables;
         string ownName;
         public void Serialize(TextWriter writer, T instance)
         {
             writer.WriteLine($"<{ownName}>");
-            foreach (string item in variables)
+            foreach (var item in variables)
             {
-                item.ser
+                writer.WriteLine(item(instance));
             }
             writer.WriteLine($"</{ownName}>");
         }
-        public RootDescriptor(string ownName, object[] variables)
+        public string Serialize(string name, T instance)
+        {
+            string result = String.Empty;
+
+            if (variables.Length == 0)
+            {
+                result += $"<{name}>";
+                result += $"{instance}";
+                result += $"</{name}>";
+            }
+            else
+            {
+                result += $"<{name}>\n";
+                foreach (var item in variables)
+                {
+                    result += item(instance).ToString();
+                    result += "\n";
+                }
+                result += $"</{name}>";
+            }
+            return result;
+        }
+        public RootDescriptor(string ownName, SerializerHelperPointingToVariableValue<T>[] variables)
         {
             this.variables = variables;
             this.ownName = ownName;
@@ -84,63 +104,90 @@ namespace UnreflectedSerializer
         static RootDescriptor<Person> GetPersonDescriptor()
         {
             string ownName = nameof(Person);
-            object[] variables = new object[]
+
+            RootDescriptor<String> stringDesc = GetStringDescriptor();
+            RootDescriptor<Int32> int32Desc = GetInt32Descriptor();
+            RootDescriptor<Address> adressDesc = GetAdressDescriptor();
+            RootDescriptor<Country> countryDesc = GetCountryDescriptor();
+            RootDescriptor<PhoneNumber> phoneNumberDesc = GetPhoneNumberDescriptor();
+
+            SerializerHelperPointingToVariableValue<Person>[] variables = new SerializerHelperPointingToVariableValue<Person>[]
             {
-                nameof(Person.FirstName),
-                nameof(Person.LastName),
-                nameof(Person.HomeAddress),
-                nameof(Person.WorkAddress),
-                nameof(Person.CitizenOf),
-                nameof(Person.MobilePhone),
+                new SerializerHelperPointingToVariableValue<Person>(FirstName),
+                new SerializerHelperPointingToVariableValue<Person>(LastName),
+                new SerializerHelperPointingToVariableValue<Person>(HomeAddress),
+                new SerializerHelperPointingToVariableValue<Person>(WorkAddress),
+                new SerializerHelperPointingToVariableValue<Person>(CitizenOf),
+                new SerializerHelperPointingToVariableValue<Person>(MobilePhone),
             };
 
-            var rootDesc = new RootDescriptor<Person>(ownName, variables);
+            string FirstName(Person person)     => stringDesc.Serialize(nameof(FirstName),person.FirstName);
+            string LastName(Person person)      => stringDesc.Serialize(nameof(LastName), person.LastName);
+            string HomeAddress(Person person)   => adressDesc.Serialize(nameof(HomeAddress), person.HomeAddress);
+            string WorkAddress(Person person)   => adressDesc.Serialize(nameof(WorkAddress), person.WorkAddress);
+            string CitizenOf(Person person)     => countryDesc.Serialize(nameof(CitizenOf), person.CitizenOf);
+            string MobilePhone(Person person)   => phoneNumberDesc.Serialize(nameof(MobilePhone), person.MobilePhone);
 
-            return rootDesc;
+            return new RootDescriptor<Person>(ownName, variables);
         }
         static RootDescriptor<Address> GetAdressDescriptor()
         {
             string ownName = nameof(Address);
-            string[] variables = new string[]
+
+            RootDescriptor<String> stringDesc = GetStringDescriptor();
+
+            SerializerHelperPointingToVariableValue<Address>[] variables = new SerializerHelperPointingToVariableValue<Address>[]
             {
-                nameof(Address.Street),
-                nameof(Address.City),
+                new SerializerHelperPointingToVariableValue<Address>(Street),
+                new SerializerHelperPointingToVariableValue<Address>(City),
             };
 
-            var rootDesc = new RootDescriptor<Address>(ownName, variables);
+            string Street(Address address) => stringDesc.Serialize(nameof(Street), address.Street);
+            string City(Address address) => stringDesc.Serialize(nameof(City), address.City);
 
-            return rootDesc;
+            return new RootDescriptor<Address>(ownName, variables);
         }
         static RootDescriptor<PhoneNumber> GetPhoneNumberDescriptor()
         {
             string ownName = nameof(PhoneNumber);
-            object[] variables = new object[]
+
+            RootDescriptor<Country> adressDesc = GetCountryDescriptor();
+            RootDescriptor<Int32> int32Desc = GetInt32Descriptor();
+
+            SerializerHelperPointingToVariableValue<PhoneNumber>[] variables = new SerializerHelperPointingToVariableValue<PhoneNumber>[]
             {
-                nameof(PhoneNumber.Country),
-                nameof(PhoneNumber.Number),
+                new SerializerHelperPointingToVariableValue<PhoneNumber>(Country),
+                new SerializerHelperPointingToVariableValue<PhoneNumber>(Number),
             };
 
-            var rootDesc = new RootDescriptor<PhoneNumber>(ownName, variables);
+            string Country(PhoneNumber phoneNumber) => adressDesc.Serialize(nameof(Country), phoneNumber.Country);
+            string Number(PhoneNumber phoneNumber) => int32Desc.Serialize(nameof(Number), phoneNumber.Number);
 
-            return rootDesc;
+            return new RootDescriptor<PhoneNumber>(ownName, variables);
         }
         static RootDescriptor<Country> GetCountryDescriptor()
         {
             string ownName = nameof(Country);
-            string[] variables = new string[]
+
+            RootDescriptor<String> stringDesc = GetStringDescriptor();
+            RootDescriptor<Int32> int32Desc = GetInt32Descriptor();
+
+            SerializerHelperPointingToVariableValue<Country>[] variables = new SerializerHelperPointingToVariableValue<Country>[]
             {
-                nameof(Country.Name),
-                nameof(Country.AreaCode),
+                new SerializerHelperPointingToVariableValue<Country>(Name),
+                new SerializerHelperPointingToVariableValue<Country>(AreaCode),
             };
 
-            var rootDesc = new RootDescriptor<Country>(ownName, variables);
+            string Name(Country country) => stringDesc.Serialize(nameof(Name), country.Name);
+            string AreaCode(Country country) => int32Desc.Serialize(nameof(AreaCode), country.AreaCode);
 
-            return rootDesc;
+            return new RootDescriptor<Country>(ownName, variables);
         }
+
         static RootDescriptor<String> GetStringDescriptor()
         {
             string ownName = nameof(String);
-            string[] variables = new string[] { };
+            SerializerHelperPointingToVariableValue<String>[] variables = new SerializerHelperPointingToVariableValue<String>[] { };
 
             var rootDesc = new RootDescriptor<String>(ownName, variables);
 
@@ -149,7 +196,7 @@ namespace UnreflectedSerializer
         static RootDescriptor<Int32> GetInt32Descriptor()
         {
             string ownName = nameof(Int32);
-            string[] variables = new string[] { };
+            SerializerHelperPointingToVariableValue<Int32>[] variables = new SerializerHelperPointingToVariableValue<Int32>[] { };
 
             var rootDesc = new RootDescriptor<Int32>(ownName, variables);
 
