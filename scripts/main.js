@@ -71,12 +71,30 @@ function loadAsyncData() {
 		allAsyncReady()
 	});
 
-	loadTextResource('shaders/fragment/normals.glsl', function (err, text) {
+	loadTextResource('shaders/fragment/normal.glsl', function (err, text) {
 		if (err) {
 			console.error(err);
 			return;
 		}
-		fs["normals"] = text;
+		fs["normal"] = text;
+		allAsyncReady()
+	});
+
+	loadTextResource('shaders/fragment/color.glsl', function (err, text) {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		fs["color"] = text;
+		allAsyncReady()
+	});
+
+	loadTextResource('shaders/fragment/forward.glsl', function (err, text) {
+		if (err) {
+			console.error(err);
+			return;
+		}
+		fs["forward"] = text;
 		allAsyncReady()
 	});
 
@@ -94,7 +112,7 @@ function loadAsyncData() {
 			console.error(err);
 			return;
 		}
-		textures["susan"] = img;
+		textures["model"] = img;
 		allAsyncReady()
 	});
 
@@ -104,8 +122,10 @@ function loadAsyncData() {
 			vs["main"] != undefined &&
 			fs["zBuffer"] != undefined &&
 			fs["defered"] != undefined &&
-			fs["normals"] != undefined &&
-			textures["susan"] != undefined
+			fs["normal"] != undefined &&
+			fs["color"] != undefined &&
+			fs["forward"] != undefined &&
+			textures["model"] != undefined
 		) {			
 			Init();
 		}
@@ -145,7 +165,7 @@ function InitShaders() {
 	gl.attachShader(program, vertexShader);
 
 	const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-	gl.shaderSource(fragmentShader, fs["defered"]);
+	gl.shaderSource(fragmentShader, fs["forward"]);
 	gl.compileShader(fragmentShader);
 	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
 		throw `ERROR compiling fragment shader! ${gl.getShaderInfoLog(fragmentShader)}`;
@@ -166,6 +186,99 @@ function LinkProgram(programToLink) {
 
 function InitBufferAndAtributes() {
 	{
+		textures["depth"] = gl.createTexture();
+		textures["depthRGB"] = gl.createTexture();
+		textures["normal"] = gl.createTexture();
+		textures["position"] = gl.createTexture();
+		textures["color"] = gl.createTexture();
+
+		gl.getExtension("EXT_color_buffer_float");
+
+		gl.bindTexture(gl.TEXTURE_2D, textures["depth"]);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texImage2D(
+			gl.TEXTURE_2D,
+			0,
+			gl.DEPTH_COMPONENT16,
+			canvas.width,
+			canvas.height,
+			0,
+			gl.DEPTH_COMPONENT,
+			gl.UNSIGNED_SHORT,
+			null
+		);
+
+		gl.bindTexture(gl.TEXTURE_2D, textures["normal"]);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texImage2D(
+			gl.TEXTURE_2D,
+			0,
+			gl.RGBA16F,
+			canvas.width,
+			canvas.height,
+			0,
+			gl.RGBA,
+			gl.FLOAT,
+			null
+		);
+
+		gl.bindTexture(gl.TEXTURE_2D, textures["position"]);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texImage2D(
+			gl.TEXTURE_2D,
+			0,
+			gl.RGBA16F,
+			canvas.width,
+			canvas.height,
+			0,
+			gl.RGBA,
+			gl.FLOAT,
+			null
+		);
+
+		gl.bindTexture(gl.TEXTURE_2D, textures["color"]);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texImage2D(
+			gl.TEXTURE_2D,
+			0,
+			gl.RGBA16F,
+			canvas.width,
+			canvas.height,
+			0,
+			gl.RGBA,
+			gl.FLOAT,
+			null
+		);
+
+		gl.bindTexture(gl.TEXTURE_2D, textures["depthRGB"]);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texImage2D(
+			gl.TEXTURE_2D,
+			0,
+			gl.RGBA16F,
+			canvas.width,
+			canvas.height,
+			0,
+			gl.RGBA,
+			gl.FLOAT,
+			null
+		);
+
         fb = gl.createFramebuffer();
 		gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
 		
@@ -175,6 +288,46 @@ function InitBufferAndAtributes() {
 		buffers[3] = gl.COLOR_ATTACHMENT3;
 
 		gl.drawBuffers(buffers);
+
+		gl.framebufferTexture2D(
+            gl.FRAMEBUFFER,
+            gl.DEPTH_ATTACHMENT,
+            gl.TEXTURE_2D,
+            textures["depth"],
+            0
+        );
+        gl.framebufferTexture2D(
+            gl.FRAMEBUFFER,
+            buffers[0],
+            gl.TEXTURE_2D,
+            textures["depthRGB"],
+            0
+        );
+        gl.framebufferTexture2D(
+            gl.FRAMEBUFFER,
+            buffers[1],
+            gl.TEXTURE_2D,
+            textures["normal"],
+            0
+        );
+        gl.framebufferTexture2D(
+            gl.FRAMEBUFFER,
+            buffers[2],
+            gl.TEXTURE_2D,
+            textures["position"],
+            0
+        );
+        gl.framebufferTexture2D(
+            gl.FRAMEBUFFER,
+            buffers[3],
+            gl.TEXTURE_2D,
+            textures["color"],
+            0
+		);
+		const FBOstatus = gl.checkFramebufferStatus(gl.FRAMEBUFFER);
+        if (FBOstatus != gl.FRAMEBUFFER_COMPLETE) {
+            throw "GL_FRAMEBUFFER_COMPLETE failed, CANNOT use FBO";
+        }
 	}
 
 
@@ -233,7 +386,7 @@ function InitBufferAndAtributes() {
 }
 
 function CreateTexture() {
-	const texture = textures["susan"];
+	const texture = textures["model"];
 	modelTexture = gl.createTexture();
 	gl.bindTexture(gl.TEXTURE_2D, modelTexture);
 	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);

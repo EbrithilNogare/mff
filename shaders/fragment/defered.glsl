@@ -1,3 +1,4 @@
+#version 300 es
 precision mediump float;
 
 struct light
@@ -6,9 +7,11 @@ struct light
 	vec3 color;
 };
 
-varying vec2 fragTexCoord;
-varying vec3 fragNormal;
-varying vec3 fragPosition;
+in vec2 fragTexCoord;
+in vec3 fragNormal;
+in vec3 fragPosition;
+
+out vec4 FragColor;
 
 uniform sampler2D sampler;
 
@@ -18,9 +21,9 @@ light sun 		= light(normalize(vec3( 0.0, 0.0,-1.0)), vec3(0.8, 0.8, 0.8));
 
 void main()
 {
-	vec4 texture = texture2D(sampler, fragTexCoord);
+	vec4 texture = texture(sampler, fragTexCoord);
 	vec3 lightIntensity =
 		ambientLightIntensity +
 		sun.color 	* max(dot(fragNormal, sun.direction	), 0.0);
-	gl_FragColor = vec4(texture.rgb * lightIntensity, texture.a);
+	FragColor = vec4(texture.rgb * lightIntensity, texture.a);
 }
