@@ -1,29 +1,30 @@
 #version 300 es
 precision mediump float;
-
-struct light
-{
-	vec3 direction;
-	vec3 color;
-};
-
-in vec2 fragTexCoord;
-in vec3 fragNormal;
-in vec3 fragPosition;
-
-out vec4 FragColor;
-
-uniform sampler2D sampler;
-
-vec3 ambientLightIntensity 	= vec3(0.2, 0.2, 0.2);
-light sun 		= light(normalize(vec3( 0.0, 0.0,-1.0)), vec3(0.8, 0.8, 0.8));
-
-
-void main()
-{
-	vec4 texture = texture(sampler, fragTexCoord);
-	vec3 lightIntensity =
-		ambientLightIntensity +
-		sun.color 	* max(dot(fragNormal, sun.direction	), 0.0);
-	FragColor = vec4(texture.rgb * lightIntensity, texture.a);
+uniform LightUniforms {
+	mat4 mvp;
+	vec4 position;
+	vec4 color;
+} uLight; 
+uniform vec3 uEyePosition;
+uniform sampler2D uPositionBuffer;
+uniform sampler2D uNormalBuffer;
+uniform sampler2D uUVBuffer;
+uniform sampler2D uTextureMap;
+out vec4 fragColor;
+void main() {
+	ivec2 fragCoord = ivec2(gl_FragCoord.xy);
+	vec3 position = texelFetch(uPositionBuffer, fragCoord, 0).xyz;
+	vec3 normal = normalize(texelFetch(uNormalBuffer, fragCoord, 0).xyz);
+	vec2 uv = texelFetch(uUVBuffer, fragCoord, 0).xy;
+	vec4 baseColor = texture(uTextureMap, uv);
+	vec3 eyeDirection = normalize(uEyePosition - position);
+	vec3 lightVec = uLight.position.xyz - position;
+	float attenuation = 1.0 - length(lightVec);
+	vec3 lightDirection = normalize(lightVec);
+	vec3 reflectionDirection = reflect(-lightDirection, normal);
+	float nDotL = max(dot(lightDirection, normal), 0.0);
+	vec3 diffuse = nDotL * uLight.color.rgb;
+	float ambient = 0.1;
+	vec3 specular = pow(max(dot(reflectionDirection, eyeDirection), 0.0), 20.0) * uLight.color.rgb;
+	fragColor = vec4(attenuation * (ambient + diffuse + specular) * baseColor.rgb, baseColor.a);
 }
