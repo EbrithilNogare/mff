@@ -6,3 +6,91 @@ paper)
 5   I am not studiing at ...
 6   ... I liked to be a vet.
 
+mffpress) 37) 1)
+a   sector
+b   segment
+c   chord
+d   points on circumference
+e   diameter
+f   radii (radiuses)
+g   center
+
+wtudentsbook) 84) 1)
+1   optimistic
+2   uninterested
+3   confused
+4   relieved
+5   uneasy
+6   curious
+7   sceptical
+8   excited
+9   annoyed
+10  suspicious
+11  shocked
+
+2)
+1   relieved
+2   excited
+3   uneasy
+4   optimistic
+5   annoyed
+6   confused
+7   sceptical
+8   curious
+9   uninterested
+10  suspicious
+11  shocked
+
+3) just 3 emotions
+I was a bit confused about having physical education duriong vacation.
+I was optimistic during finding my lost bottle in bus.
+
+86) 8)
+2 - c
+3 - h
+4 - d
+5 - e
+6 - a
+7 - g
+8 - a
+
+9) just three of them
+1   It's exciting how fast tha new mff building is groving
+5   It's good to sleep atleast 6 hours or you will be unusable
+4   It's exciting that teachers are wathing mff memes too
+
+87) 1) a)
+1 - f
+2 - h
+3 - b
+4 - 
+5 - 
+6 - c
+7 - d
+8 - e
+
+b)
+A   a pain in the nack
+B   real know all
+C   awkward customer
+D   a loner
+E   high flyer
+
+2)
+1   know-all
+2   a loner
+3   high flyer
+4   in the neck
+5   awkward custiomer
+6   in the right place
+7   as nails
+8   fish
+
+
+
+3) two people with multiple idioms
+1   boss - cold fish, a loner, an awkward customer
+2   sister - hear's in the right place, a pain in the neck sometimes
+
+
+
