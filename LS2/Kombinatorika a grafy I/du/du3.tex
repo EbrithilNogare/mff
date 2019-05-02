@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{graphicx}
 \usepackage{amssymb}
 \setlength{\parindent}{0in}
 \usepackage{fancyhdr}
@@ -29,18 +30,21 @@ R                       &                        & \#                     &     
 \end{tabular}\\
 kde \# je cerne policko, cesta je ohranicena a R jsou vymazana policka\\
 \\
-pak mame mezi policky sudy pocet policek a tudiz lze poskladat domino.
+pak mame ruzne barvy policek na obou koncich cesty a tudiz lze poskladat domino.
 
 \subsection{tok cesta a rez}
-
+\textbf{tvrzeni plati}\\
+reseni vychazi z definice minimalniho rezu, nebot velikost minimalniho rezu odpovida velikosti toku
 
 \subsection{kruznice}
-graf bude 4-souvisly jak hranove tak i vrcholove.
+pokud mame kazdy vrchol stupne 2 a pridame dalsi 2 hrany (na kazdou stranu jednu), tak graf bude 4-souvisly jak hranove tak i vrcholove.
 
 \subsection{souvisly graf}
 Ja bych radeji dokazal opak a to sice ze existuje graf, ktery ma mene nez 30 hran, je souvisly, 
 rovinny a presto muze jeho vrchol mit stupen vetsi nez 4.\\
 Vytvorme kruznici o vice nez 4 vrcholech a pak jeden bod uprostred, pote napojime kazdy vrchol z kruznice na bod uprostred a dostaneme rovinny, souvisly graf s mene nez 30 hranami  jez ma vrchol stupne vice nez 4.
+
+\includegraphics[height=3cm]{circle}
 
 \subsection{magicka krychle}
 \textbf{ano, plati}\\
