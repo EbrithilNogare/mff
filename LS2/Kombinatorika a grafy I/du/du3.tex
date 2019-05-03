@@ -4,6 +4,10 @@
 \usepackage{amsfonts}
 \usepackage{graphicx}
 \usepackage{amssymb}
+\usepackage[
+	top=3cm,
+	bottom=4cm,
+	]{geometry}
 \setlength{\parindent}{0in}
 \usepackage{fancyhdr}
 
@@ -34,7 +38,8 @@ pak mame ruzne barvy policek na obou koncich cesty a tudiz lze poskladat domino.
 
 \subsection{tok cesta a rez}
 \textbf{tvrzeni plati}\\
-reseni vychazi z definice minimalniho rezu, nebot velikost minimalniho rezu odpovida velikosti toku
+reseni vychazi z definice minimalniho rezu, nebot velikost minimalniho rezu odpovida velikosti toku a zaroven rez obsahuje pouze hrany ze zdroje do stoku.
+Tudiz nemuze existovat cesta takova, ze prekroci onen min. rez dvakrat, nebot bychom dostali spor u rovnosti min. rezu a max. toku.
 
 \subsection{kruznice}
 pokud mame kazdy vrchol stupne 2 a pridame dalsi 2 hrany (na kazdou stranu jednu), tak graf bude 4-souvisly jak hranove tak i vrcholove.
