@@ -1,11 +1,12 @@
 let gl;					// Graphic Library and extension
-let fb;					// frame buffer
+let gBuffer;			// gBuffer
 let buffers = [];		// Array for gBuffer
 let fs = [], vs = []; 	// Array of shader programs
 let model;				// rendered model
 let textures = [];		// Array of textures
 let programs = [];		// Array of programs
 let lights = [];		// Array of lights
+let vertexArrays = [];	// Arrays of geometry data
 
 const renderSettings = {
 	rotating: {x:0, y:1, z:0}
@@ -170,15 +171,14 @@ function Init() {
 
 
 	// create gl programs
-	programs["forward"] = gl.createProgram();
 	programs["defered"] = gl.createProgram();
 	programs["geo"] = gl.createProgram();
 
 
 
 	/**
-	*	shaders init
-	*/
+	 *	shaders init
+	 */
 	// vertex
 	let vertexShader = gl.createShader(gl.VERTEX_SHADER);
 	gl.shaderSource(vertexShader, vs["geo"]);
@@ -194,7 +194,7 @@ function Init() {
 	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
 		throw `ERROR compiling vertex shader! ${gl.getShaderInfoLog(vertexShader)}`;
 	}
-	gl.attachShader(programs["forward"], vertexShader);
+	gl.attachShader(programs["defered"], vertexShader);
 
 	// fragment
 	let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -211,23 +211,23 @@ function Init() {
 	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
 		throw `ERROR compiling fragment shader! ${gl.getShaderInfoLog(fragmentShader)}`;
 	}
-	gl.attachShader(programs["forward"], fragmentShader);
+	gl.attachShader(programs["defered"], fragmentShader);
 
 
 
 
 
 	/**
-	*	link programs
-	*/
+	 *	link programs
+	 */
 	// main program
-	gl.linkProgram(programs["forward"]);
-	if (!gl.getProgramParameter(programs["forward"], gl.LINK_STATUS)) {
-		throw `ERROR linking program! ${gl.getShaderInfoLog(programs["forward"])}`;
+	gl.linkProgram(programs["defered"]);
+	if (!gl.getProgramParameter(programs["defered"], gl.LINK_STATUS)) {
+		throw `ERROR linking program! ${gl.getShaderInfoLog(programs["defered"])}`;
 	}
-	gl.validateProgram(programs["forward"]);
-	if (!gl.getProgramParameter(programs["forward"], gl.VALIDATE_STATUS)) {
-		throw `ERROR validating program! ${gl.getShaderInfoLog(programs["forward"])}`;
+	gl.validateProgram(programs["defered"]);
+	if (!gl.getProgramParameter(programs["defered"], gl.VALIDATE_STATUS)) {
+		throw `ERROR validating program! ${gl.getShaderInfoLog(programs["defered"])}`;
 	}
 
 	// geo program
@@ -246,8 +246,9 @@ function Init() {
 	 *	buffers init
 	 */
 	{	// gBuffer 
-        fb = gl.createFramebuffer();
-		gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+        gBuffer = gl.createFramebuffer();
+		gl.bindFramebuffer(gl.FRAMEBUFFER, gBuffer);
+		gl.activeTexture(gl.TEXTURE0);
 
 		/**
 		 *	create textures for geo pass
@@ -274,7 +275,7 @@ function Init() {
 		gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA16F, gl.drawingBufferWidth, gl.drawingBufferHeight);
 		gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT1, gl.TEXTURE_2D, textures["normal"], 0);
 
-		// depth texture
+		// uv texture
 		textures["uv"] = gl.createTexture();
 		gl.bindTexture(gl.TEXTURE_2D, textures["uv"]);
 		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
@@ -285,109 +286,87 @@ function Init() {
 		gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RG16F, gl.drawingBufferWidth, gl.drawingBufferHeight);
 		gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT2, gl.TEXTURE_2D, textures["uv"], 0);
 
+		// depth texture
+		textures["depth"] = gl.createTexture();
+		gl.bindTexture(gl.TEXTURE_2D, textures["depth"]);
+		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texStorage2D(gl.TEXTURE_2D, 1, gl.DEPTH_COMPONENT16, gl.drawingBufferWidth, gl.drawingBufferHeight);
+		gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.TEXTURE_2D, textures["depth"], 0);
 		
+		// model texture
+		textures["color"] = gl.createTexture();
+		gl.bindTexture(gl.TEXTURE_2D, textures["color"]);
+		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+		gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textures["model"]);
+
 		gl.drawBuffers([
 			gl.COLOR_ATTACHMENT0,
 			gl.COLOR_ATTACHMENT1,
 			gl.COLOR_ATTACHMENT2
 		]);
+
+		// bind all textures
+		gl.activeTexture(gl.TEXTURE0);
+		gl.bindTexture(gl.TEXTURE_2D, textures["position"]);
+		gl.activeTexture(gl.TEXTURE1);
+		gl.bindTexture(gl.TEXTURE_2D, textures["normal"]);
+		gl.activeTexture(gl.TEXTURE2);
+		gl.bindTexture(gl.TEXTURE_2D, textures["uv"]);
+		gl.activeTexture(gl.TEXTURE3);
+		gl.bindTexture(gl.TEXTURE_2D, textures["color"]);
+		
+		gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 	}
 	
+	{	// model
+		vertexArrays["model"] = gl.createVertexArray();
+		gl.bindVertexArray(vertexArrays["model"]);
 
-	{	//vertPosition
-		const posVertexBufferObject = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
-		const positionAttribLocation = gl.getAttribLocation(programs["forward"], 'vertPosition');
-		gl.vertexAttribPointer(
-			positionAttribLocation, // Attribute location
-			3, // Number of elements per attribute
-			gl.FLOAT, // Type of elements
-			gl.FALSE,
-			3 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-			0 // Offset from the beginning of a single vertex to this attribute
-		);
-		gl.enableVertexAttribArray(positionAttribLocation);
+		{	// position
+			const posVertexBufferObject = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
+			gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+			gl.enableVertexAttribArray(0);
+		}
+
+		{	// normal
+			const susanNormalBufferObject = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
+			gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+			gl.enableVertexAttribArray(1);
+		}
+
+		{	// uv
+			const susanTexCoordVertexBufferObject = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
+			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texturecoords), gl.STATIC_DRAW);
+			gl.vertexAttribPointer(2, 2, gl.FLOAT, false, 0, 0);
+			gl.enableVertexAttribArray(2);
+		}
+
+		gl.bindVertexArray(null);
 	}
 
-	{	//vertTexCoord
-		const susanTexCoordVertexBufferObject = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texturecoords), gl.STATIC_DRAW);
-		const texCoordAttribLocation = gl.getAttribLocation(programs["forward"], 'vertTexCoord');
-		gl.vertexAttribPointer(
-			texCoordAttribLocation, // Attribute location
-			2, // Number of elements per attribute
-			gl.FLOAT, // Type of elements
-			gl.FALSE,
-			2 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
-			0
-		);
-		gl.enableVertexAttribArray(texCoordAttribLocation);
-	}
-
-	{	//faces
-		const susanIndexBufferObject = gl.createBuffer();
-		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, susanIndexBufferObject);
-		gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(model.faces), gl.STATIC_DRAW);
-	}
-
-	{	//vertNormal
-		const susanNormalBufferObject = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
-		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
-		const normalAttribLocation = gl.getAttribLocation(programs["forward"], 'vertNormal');
-		gl.vertexAttribPointer(
-			normalAttribLocation,
-			3, gl.FLOAT,
-			gl.TRUE,
-			3 * Float32Array.BYTES_PER_ELEMENT,
-			0
-		);
-		gl.enableVertexAttribArray(normalAttribLocation);
-	}
-
-
-
-	/**
-	 *	model texture
-	 */
-	textures["color"] = gl.createTexture();
-	gl.bindTexture(gl.TEXTURE_2D, textures["color"]);
-	gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-	gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-	gl.texImage2D(
-		gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,
-		gl.UNSIGNED_BYTE,
-		textures["model"]
-	);
-
-
-	/**
-	 * bind all textures
-	 */
-	gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, textures["position"]);
-    gl.activeTexture(gl.TEXTURE1);
-    gl.bindTexture(gl.TEXTURE_2D, textures["normal"]);
-    gl.activeTexture(gl.TEXTURE2);
-    gl.bindTexture(gl.TEXTURE_2D, textures["uv"]);
-    gl.activeTexture(gl.TEXTURE3);
-	gl.bindTexture(gl.TEXTURE_2D, textures["color"]);
-	
 
 
 	/**
 	 *	world setup
 	 */
-	gl.useProgram(programs["forward"]);
+	gl.useProgram(programs["defered"]);
 
-	matrices.world.uniform = gl.getUniformLocation(programs["forward"], 'mWorld');
-	matrices.view.uniform = gl.getUniformLocation(programs["forward"], 'mView');
-	matrices.projection.uniform = gl.getUniformLocation(programs["forward"], 'mProj');
+	matrices.world.uniform = gl.getUniformLocation(programs["defered"], 'mWorld');
+	matrices.view.uniform = gl.getUniformLocation(programs["defered"], 'mView');
+	matrices.projection.uniform = gl.getUniformLocation(programs["defered"], 'mProj');
 
 	mat4.identity(matrices.world.matrix);
 	mat4.lookAt(matrices.view.matrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
@@ -413,7 +392,7 @@ function Init() {
 		));		
 	}
 
-	for (var i = 0; i < lights.length; ++i) { //? what does it does? do weed this like that?
+	for (var i = 0; i < lights.length; ++i) { //? what does it does? do we need this like that?
 		const mvpMatrix = mat4.create();
 		mvpMatrix[0] = lights[i].position[0];
 		mat4.multiply(mvpMatrix, matrices["projection"], mvpMatrix);
@@ -472,29 +451,31 @@ function Loop() {
 	mat4.rotate(matrices.world.matrix, matrices.world.matrix, renderSettings.rotating.y*(6 * Math.PI)/1000, [0, 1, 0]);
 	mat4.rotate(matrices.world.matrix, matrices.world.matrix, renderSettings.rotating.z*(6 * Math.PI)/1000, [0, 0, 1]);
 	
+	
 	gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
+
 
 	/**
 	 * render everything
 	 */
 	// draw to gBuffer
-	gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+	gl.bindFramebuffer(gl.FRAMEBUFFER, gBuffer);
 	gl.useProgram(programs["geo"]);
+	gl.bindVertexArray(vertexArrays["model"]);
 	gl.depthMask(true);
 	gl.disable(gl.BLEND);
 	gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, buffers["matrix"]);
-	gl.drawElements(gl.TRIANGLES, model.faces.length, gl.UNSIGNED_SHORT, 0);
+	gl.drawArrays(gl.TRIANGLES, 0, model.faces.length);
 
 	// draw from gBuffer
-
-
-
-
-
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-	gl.useProgram(programs["forward"]);
+	gl.useProgram(programs["defered"]);
+	//gl.bindVertexArray(sphereVertexArray);
+	gl.depthMask(false);
+	gl.enable(gl.BLEND);
 	gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 	gl.drawElements(gl.TRIANGLES, model.faces.length, gl.UNSIGNED_SHORT, 0);
+
 
 	// go to next frame
 	requestAnimationFrame(Loop);
