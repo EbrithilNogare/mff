@@ -281,7 +281,7 @@ function Init() {
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
 		gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-		gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RG16F, gl.drawingBufferWidth, gl.drawingBufferHeight);
+		gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA16F, gl.drawingBufferWidth, gl.drawingBufferHeight);
 		gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT2, gl.TEXTURE_2D, textures["color"], 0);
 
 		// depth texture
@@ -353,7 +353,7 @@ function Init() {
 			gl.bindBuffer(gl.ARRAY_BUFFER, posVertexBufferObject);
 			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.vertices), gl.STATIC_DRAW);
 			const location = gl.getAttribLocation(programs["geo"], 'aPosition');
-			gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 0, 0);
+			gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 3 * Float32Array.BYTES_PER_ELEMENT, 0);
 			gl.enableVertexAttribArray(0);
 		}
 
@@ -362,7 +362,7 @@ function Init() {
 			gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
 			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
 			const location = gl.getAttribLocation(programs["geo"], 'aNormal');
-			gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 0, 0);
+			gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 3 * Float32Array.BYTES_PER_ELEMENT, 0);
 			gl.enableVertexAttribArray(1);
 		}
 
@@ -371,7 +371,7 @@ function Init() {
 			gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
 			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texturecoords), gl.STATIC_DRAW);
 			const location = gl.getAttribLocation(programs["geo"], 'aUV');
-			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 0, 0);
+			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 2 * Float32Array.BYTES_PER_ELEMENT, 0);
 			gl.enableVertexAttribArray(2);
 		}
 
@@ -405,11 +405,11 @@ function Init() {
 	/**
 	 *	world setup
 	 */
-	gl.useProgram(programs["defered"]);
+	gl.useProgram(programs["geo"]);
 
-	matrices.world.uniform = gl.getUniformLocation(programs["defered"], 'mWorld');
-	matrices.view.uniform = gl.getUniformLocation(programs["defered"], 'mView');
-	matrices.projection.uniform = gl.getUniformLocation(programs["defered"], 'mProj');
+	matrices.world.uniform = gl.getUniformLocation(programs["geo"], 'mWorld');
+	matrices.view.uniform = gl.getUniformLocation(programs["geo"], 'mView');
+	matrices.projection.uniform = gl.getUniformLocation(programs["geo"], 'mProj');
 
 	mat4.identity(matrices.world.matrix);
 	mat4.lookAt(matrices.view.matrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
@@ -487,6 +487,7 @@ function Loop() {
 	mat4.rotate(matrices.world.matrix, matrices.world.matrix, renderSettings.rotating.z*(6 * Math.PI)/1000, [0, 0, 1]);
 	
 	
+	gl.useProgram(programs["geo"]);
 	gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
 
 
@@ -494,17 +495,15 @@ function Loop() {
 	 * render everything
 	 */
 	// draw to gBuffer
-	gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+	gl.bindFramebuffer(gl.FRAMEBUFFER, gBuffer);
 	gl.useProgram(programs["geo"]);
 	gl.bindVertexArray(vertexArrays["model"]);	
 	gl.depthMask(true);
 	gl.disable(gl.BLEND);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	// draw each model
-	//gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, matrixUniformBuffer);
-	//gl.bufferSubData(gl.UNIFORM_BUFFER, 0, matrixUniformData);
 	gl.drawArrays(gl.TRIANGLES, 0, model.faces.length);
-/*
+
 	// draw from gBuffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
 	gl.useProgram(programs["defered"]);
@@ -513,7 +512,7 @@ function Loop() {
 	gl.enable(gl.BLEND);
 	gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
 	gl.drawArrays(gl.TRIANGLES, 0, 6);
-*/
+
 
 	// go to next frame
 	requestAnimationFrame(Loop);
