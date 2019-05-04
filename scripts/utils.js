@@ -22,12 +22,13 @@ function loadImage (url, callback) {
 function objToJSON(obj){
 	const model = {
 		vertices: [],
-		faces: [],
 		texturecoords: [],
 		normals: []
 	};
+	const vertices = [];
 	const texturecoords = [];
 	const normals = [];
+	let faceCounter = 0;
 
 	obj = obj.split("\n");
 	for (let i = 0; i < obj.length; i++) {
@@ -35,7 +36,7 @@ function objToJSON(obj){
 		const splited=element.split(" ");
 		switch(splited[0]){
 			case "v":
-				model.vertices.push(parseFloat(splited[1]), parseFloat(splited[2]), parseFloat(splited[3]));
+				vertices.push([parseFloat(splited[1]), parseFloat(splited[2]), parseFloat(splited[3])]);
 				break;
 			case "vt":
 				texturecoords.push([parseFloat(splited[1]), parseFloat(splited[2])]);
@@ -44,17 +45,23 @@ function objToJSON(obj){
 				normals.push([parseFloat(splited[1]), parseFloat(splited[2]), parseFloat(splited[3])]);
 				break;
 			case "f":
-				if(splited.length>4) console.error("model must have triangle faces!", `line number${i}`);
+				if(splited.length>4) throw `model must have triangle faces! \nline number${i}`;
 				for (let i = 1; i <= 3; i++) {	
-					const index = splited[i].split("/");			
-					model.texturecoords[(index[0]-1)*2+0] = texturecoords[index[1]-1][0];
-					model.texturecoords[(index[0]-1)*2+1] = texturecoords[index[1]-1][1];
+					const index = splited[i].split("/");	
 					
-					model.normals[(index[0]-1)*3+0] = normals[index[2]-1][0];
-					model.normals[(index[0]-1)*3+1] = normals[index[2]-1][1];
-					model.normals[(index[0]-1)*3+2] = normals[index[2]-1][2];
+					model.vertices[(faceCounter)*3+0] = vertices[index[0]-1][0];
+					model.vertices[(faceCounter)*3+1] = vertices[index[0]-1][1];
+					model.vertices[(faceCounter)*3+2] = vertices[index[0]-1][2];
+					
+					model.texturecoords[(faceCounter)*2+0] = texturecoords[index[1]-1][0];
+					model.texturecoords[(faceCounter)*2+1] = texturecoords[index[1]-1][1];
+					
+					model.normals[(faceCounter)*3+0] = normals[index[2]-1][0];
+					model.normals[(faceCounter)*3+1] = normals[index[2]-1][1];
+					model.normals[(faceCounter)*3+2] = normals[index[2]-1][2];
+
+					faceCounter++;
 				}
-				model.faces.push(splited[1].split("/")[0]-1, splited[2].split("/")[0]-1, splited[3].split("/")[0]-1);
 				break;
 			case "#": 			//comment
 			case "o": 			//obejct name
@@ -64,7 +71,7 @@ function objToJSON(obj){
 			case "": 			//file end
 				break; 			//just ignore them
 			default:
-				console.warn(`not implemented type in obj file: ${splited[0]}`);
+				throw `not implemented type in obj file: ${splited[0]}`;
 				break;
 		}
 		

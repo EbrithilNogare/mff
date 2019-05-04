@@ -44,7 +44,7 @@ try{
 
 
 function loadAsyncData() {
-	/*
+	/**
 	* vertex shaders
 	*/
 	loadTextResource('shaders/vertex/defered.glsl', function (err, text) {
@@ -57,21 +57,10 @@ function loadAsyncData() {
 		vs["geo"] = text;
 		allAsyncReady()
 	});	
-	loadTextResource('shaders/vertex/forward.glsl', function (err, text) {
-		if (err) throw err;
-		vs["forward"] = text;
-		allAsyncReady()
-	});
 
-	/*
+	/**
 	* fragment shaders
 	*/
-	loadTextResource('shaders/fragment/zBuffer.glsl', function (err, text) {
-		if (err) throw err;
-		fs["zBuffer"] = text;
-		allAsyncReady()
-	});
-
 	loadTextResource('shaders/fragment/geo.glsl', function (err, text) {
 		if (err) throw err;
 		fs["geo"] = text;
@@ -84,25 +73,7 @@ function loadAsyncData() {
 		allAsyncReady()
 	});
 
-	loadTextResource('shaders/fragment/normal.glsl', function (err, text) {
-		if (err) throw err;
-		fs["normal"] = text;
-		allAsyncReady()
-	});
-
-	loadTextResource('shaders/fragment/color.glsl', function (err, text) {
-		if (err) throw err;
-		fs["color"] = text;
-		allAsyncReady()
-	});
-
-	loadTextResource('shaders/fragment/forward.glsl', function (err, text) {
-		if (err) throw err;
-		fs["forward"] = text;
-		allAsyncReady()
-	});
-
-	/*
+	/**
 	* model
 	*/
 	loadTextResource('models/susan.obj', function (err, text) {
@@ -111,7 +82,7 @@ function loadAsyncData() {
 		allAsyncReady()
 	});
 
-	/*
+	/**
 	* model texture
 	*/
 	loadImage('textures/susan.png', function (err, img) {
@@ -125,12 +96,7 @@ function loadAsyncData() {
 			model != undefined &&
 			vs["geo"] != undefined &&
 			vs["defered"] != undefined &&
-			vs["forward"] != undefined &&
-			fs["zBuffer"] != undefined &&
 			fs["defered"] != undefined &&
-			fs["normal"] != undefined &&
-			fs["color"] != undefined &&
-			fs["forward"] != undefined &&
 			textures["modelSource"] != undefined
 		) {			
 			Init();
@@ -173,77 +139,73 @@ function Init() {
 	programs["geo"] = gl.createProgram();
 
 
-
 	/**
 	 *	shaders init
-	 */
-	// vertex
-	let vertexShader = gl.createShader(gl.VERTEX_SHADER);
-	gl.shaderSource(vertexShader, vs["geo"]);
-	gl.compileShader(vertexShader);
-	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-		throw `ERROR compiling vertex shader! ${gl.getShaderInfoLog(vertexShader)}`;
+	 */{
+		// vertex
+		let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+		gl.shaderSource(vertexShader, vs["geo"]);
+		gl.compileShader(vertexShader);
+		if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+			throw `ERROR compiling vertex shader! ${gl.getShaderInfoLog(vertexShader)}`;
+		}
+		gl.attachShader(programs["geo"], vertexShader);
+
+		vertexShader = gl.createShader(gl.VERTEX_SHADER);
+		gl.shaderSource(vertexShader, vs["defered"]);
+		gl.compileShader(vertexShader);
+		if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+			throw `ERROR compiling vertex shader! ${gl.getShaderInfoLog(vertexShader)}`;
+		}
+		gl.attachShader(programs["defered"], vertexShader);
+
+		// fragment
+		let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+		gl.shaderSource(fragmentShader, fs["geo"]);
+		gl.compileShader(fragmentShader);
+		if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+			throw `ERROR compiling fragment shader! ${gl.getShaderInfoLog(fragmentShader)}`;
+		}
+		gl.attachShader(programs["geo"], fragmentShader);
+
+		fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+		gl.shaderSource(fragmentShader, fs["defered"]);
+		gl.compileShader(fragmentShader);
+		if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+			throw `ERROR compiling fragment shader! ${gl.getShaderInfoLog(fragmentShader)}`;
+		}
+		gl.attachShader(programs["defered"], fragmentShader);
 	}
-	gl.attachShader(programs["geo"], vertexShader);
-
-	vertexShader = gl.createShader(gl.VERTEX_SHADER);
-	gl.shaderSource(vertexShader, vs["forward"]);	//TODO change to defered shader
-	gl.compileShader(vertexShader);
-	if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
-		throw `ERROR compiling vertex shader! ${gl.getShaderInfoLog(vertexShader)}`;
-	}
-	gl.attachShader(programs["defered"], vertexShader);
-
-	// fragment
-	let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-	gl.shaderSource(fragmentShader, fs["geo"]);
-	gl.compileShader(fragmentShader);
-	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
-		throw `ERROR compiling fragment shader! ${gl.getShaderInfoLog(fragmentShader)}`;
-	}
-	gl.attachShader(programs["geo"], fragmentShader);
-
-	fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-	gl.shaderSource(fragmentShader, fs["forward"]);	//TODO change to defered shader
-	gl.compileShader(fragmentShader);
-	if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
-		throw `ERROR compiling fragment shader! ${gl.getShaderInfoLog(fragmentShader)}`;
-	}
-	gl.attachShader(programs["defered"], fragmentShader);
-
-
-
 
 
 	/**
 	 *	link programs
-	 */
-	// main program
-	gl.linkProgram(programs["defered"]);
-	if (!gl.getProgramParameter(programs["defered"], gl.LINK_STATUS)) {
-		throw `ERROR linking program! ${gl.getShaderInfoLog(programs["defered"])}`;
-	}
-	gl.validateProgram(programs["defered"]);
-	if (!gl.getProgramParameter(programs["defered"], gl.VALIDATE_STATUS)) {
-		throw `ERROR validating program! ${gl.getShaderInfoLog(programs["defered"])}`;
-	}
+	 */{
+		// main program
+		gl.linkProgram(programs["defered"]);
+		if (!gl.getProgramParameter(programs["defered"], gl.LINK_STATUS)) {
+			throw `ERROR linking program! ${gl.getShaderInfoLog(programs["defered"])}`;
+		}
+		gl.validateProgram(programs["defered"]);
+		if (!gl.getProgramParameter(programs["defered"], gl.VALIDATE_STATUS)) {
+			throw `ERROR validating program! ${gl.getShaderInfoLog(programs["defered"])}`;
+		}
 
-	// geo program
-	gl.linkProgram(programs["geo"]);
-	if (!gl.getProgramParameter(programs["geo"], gl.LINK_STATUS)) {
-		throw `ERROR linking program! ${gl.getShaderInfoLog(programs["geo"])}`;
+		// geo program
+		gl.linkProgram(programs["geo"]);
+		if (!gl.getProgramParameter(programs["geo"], gl.LINK_STATUS)) {
+			throw `ERROR linking program! ${gl.getShaderInfoLog(programs["geo"])}`;
+		}
+		gl.validateProgram(programs["geo"]);
+		if (!gl.getProgramParameter(programs["geo"], gl.VALIDATE_STATUS)) {
+			throw `ERROR validating program! ${gl.getShaderInfoLog(programs["geo"])}`;
+		}
 	}
-	gl.validateProgram(programs["geo"]);
-	if (!gl.getProgramParameter(programs["geo"], gl.VALIDATE_STATUS)) {
-		throw `ERROR validating program! ${gl.getShaderInfoLog(programs["geo"])}`;
-	}
-
 
 	
 	/**
 	 *	buffers init
-	 */
-	{	// gBuffer 
+	 */{	// gBuffer 
         gBuffer = gl.createFramebuffer();
 		gl.bindFramebuffer(gl.FRAMEBUFFER, gBuffer);
 		gl.activeTexture(gl.TEXTURE0);
@@ -344,6 +306,10 @@ function Init() {
 		
 	}
 	
+
+	/**
+	 * geometry init
+	 */
 	{	// model
 		vertexArrays["model"] = gl.createVertexArray();
 		gl.bindVertexArray(vertexArrays["model"]);
@@ -377,7 +343,7 @@ function Init() {
 
 		gl.bindVertexArray(null);
 	}
-
+	
 	{	//	screen
 		vertexArrays["screen"] = gl.createVertexArray();
 		gl.bindVertexArray(vertexArrays["screen"]);		
@@ -401,45 +367,46 @@ function Init() {
 	}
 
 
-
 	/**
 	 *	world setup
-	 */
-	gl.useProgram(programs["geo"]);
+	 */{
+		gl.useProgram(programs["geo"]);
 
-	matrices.world.uniform = gl.getUniformLocation(programs["geo"], 'mWorld');
-	matrices.view.uniform = gl.getUniformLocation(programs["geo"], 'mView');
-	matrices.projection.uniform = gl.getUniformLocation(programs["geo"], 'mProj');
+		matrices.world.uniform = gl.getUniformLocation(programs["geo"], 'mWorld');
+		matrices.view.uniform = gl.getUniformLocation(programs["geo"], 'mView');
+		matrices.projection.uniform = gl.getUniformLocation(programs["geo"], 'mProj');
 
-	mat4.identity(matrices.world.matrix);
-	mat4.lookAt(matrices.view.matrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
-	mat4.perspective(matrices.projection.matrix, glMatrix.toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
+		mat4.identity(matrices.world.matrix);
+		mat4.lookAt(matrices.view.matrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
+		mat4.perspective(matrices.projection.matrix, glMatrix.toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
 
-	gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
-	gl.uniformMatrix4fv(matrices.view.uniform, gl.FALSE, matrices.view.matrix);
-	gl.uniformMatrix4fv(matrices.projection.uniform, gl.FALSE, matrices.projection.matrix);
+		gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
+		gl.uniformMatrix4fv(matrices.view.uniform, gl.FALSE, matrices.view.matrix);
+		gl.uniformMatrix4fv(matrices.projection.uniform, gl.FALSE, matrices.projection.matrix);
 
-	//todo get rid of this section below
-	matrixUniformData = new Float32Array(32);
-	matrixUniformBuffer = gl.createBuffer();
-	gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, matrixUniformBuffer);
-	gl.bufferData(gl.UNIFORM_BUFFER, 128, gl.DYNAMIC_DRAW);
-		
+		//todo get rid of this section below
+		matrixUniformData = new Float32Array(32);
+		matrixUniformBuffer = gl.createBuffer();
+		gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, matrixUniformBuffer);
+		gl.bufferData(gl.UNIFORM_BUFFER, 128, gl.DYNAMIC_DRAW);
+	}
 
 
 	/**
 	 * setup lights
-	 */
-	const lightsCount = 16;
-	for (let i = 0; i < lightsCount; i++) {
-		lights.push(new light(
-			vec3.fromValues(i - lightsCount/2, i - lightsCount/2, i - lightsCount/2),
-			vec3.fromValues(i/lightsCount, 1-i/lightsCount, 0.0)
-		));		
+	 */{	
+		const lightsCount = 16;
+		const lightRandomDistanceLimit = 5;
+		for (let i = 0; i < lightsCount; i++) {
+			lights.push(new light(
+				vec3.fromValues(i - lightsCount/2, i - lightsCount/2, i - lightsCount/2),
+				vec3.fromValues(i/lightsCount, 1-i/lightsCount, 0.0)
+			));		
+		}
 	}
 
-
-	/*
+	
+	/**
 	*	animation launch
 	*/
 	requestAnimationFrame(Loop);
@@ -502,7 +469,8 @@ function Loop() {
 	gl.disable(gl.BLEND);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	// draw each model
-	gl.drawArrays(gl.TRIANGLES, 0, model.faces.length);
+	gl.drawArrays(gl.TRIANGLES, 0, model.vertices.length/3/2);
+	gl.drawArrays(gl.TRIANGLES, model.vertices.length/3/2-1, model.vertices.length/3/2+2);
 
 	// draw from gBuffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
