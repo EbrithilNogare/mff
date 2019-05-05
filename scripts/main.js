@@ -9,7 +9,8 @@ let lights = [];		// Array of lights
 let vertexArrays = [];	// Arrays of geometry data
 
 const renderSettings = {
-	rotating: {x:0, y:1, z:0}
+	rotating: {x:0, y:1, z:0},
+	downSampling: 1
 };
 const matrices = {
 	world:{
@@ -108,8 +109,9 @@ function Init() {
 	// get canvas
 	const canvas = document.getElementById('canvas');
 
-	canvas.height = window.innerHeight;
-	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight/renderSettings.downSampling;
+	canvas.width = window.innerWidth/renderSettings.downSampling;
+	canvas.style.width = canvas.style.height = "100%";
 
 	// get right gl version
 	const webglVersions = ['webgl2'];
@@ -377,7 +379,7 @@ function Init() {
 		matrices.projection.uniform = gl.getUniformLocation(programs["geo"], 'mProj');
 
 		mat4.identity(matrices.world.matrix);
-		mat4.lookAt(matrices.view.matrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
+		mat4.lookAt(matrices.view.matrix, [0, 0, -4], [0, 0, 0], [0, 1, 0]);
 		mat4.perspective(matrices.projection.matrix, glMatrix.toRadian(45), canvas.width / canvas.height, 0.1, 1000.0);
 
 		gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
@@ -400,7 +402,7 @@ function Init() {
 		for (let i = 0; i < lightsCount; i++) {
 			lights.push(new light(
 				vec3.fromValues(i - lightsCount/2, i - lightsCount/2, i - lightsCount/2),
-				vec3.fromValues(i/lightsCount, 1-i/lightsCount, 0.0)
+				vec3.fromValues(1.0,1.0,1.0)
 			));		
 		}
 	}
@@ -442,7 +444,7 @@ function InitKeyboardInput(){
 	};
 }
 
-/*
+/**
 *	animation loop
 */
 function Loop() {
@@ -470,7 +472,7 @@ function Loop() {
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	// draw each model
 	gl.drawArrays(gl.TRIANGLES, 0, model.vertices.length/3/2);
-	gl.drawArrays(gl.TRIANGLES, model.vertices.length/3/2-1, model.vertices.length/3/2+2);
+	gl.drawArrays(gl.TRIANGLES, model.vertices.length/3/2, model.vertices.length/3/2);
 
 	// draw from gBuffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -479,6 +481,7 @@ function Loop() {
 	gl.depthMask(false);
 	gl.enable(gl.BLEND);
 	gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+	// draw each light
 	gl.drawArrays(gl.TRIANGLES, 0, 6);
 
 
