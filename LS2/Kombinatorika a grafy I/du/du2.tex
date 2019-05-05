@@ -9,7 +9,7 @@
 \begin{document}
 
 \pagestyle{fancy}
-\rhead{David Nápravník - přezdívka ":)"}
+\rhead{David Nápravník - přezdívka ":)" - v.2}
 
 \setcounter{section}{1}
 \section{du}
@@ -17,37 +17,31 @@
 Mejme latinsky ctverec rozmeru $n*n$ s vyplnenymi $m$ radky.\\
 Kde $m = n-1$, protoze pro ostatni $m$ to bude pote platit tez.\\
 \\
-Dokazme sporem, predpokladejme ze existuje $n-1$ korektne vyplennych
-radku a na $n$tem radku neexistuje permutace takova, ze odpovida definici
-lat. ctvercu.\\
-Pak existuje index v permutaci jez nemuze obsahovat zadne z cisel $1$ az $n$.
-Takove cislo, ale vzdy musime najit,
-nebot prave takove jedno cislo chybi v danem sloupci lat. ctverce\\
-A takove cislo nemuze byt ani obsazeno v nasem poslednim radku, nebot na vsech ostatnich pozicich byt nemuze, nebot je obsazeno v kazdem sloupci nad danou pozici.
+Dokazme sporem, predpokladejme ze na radku $m+1$ existuje policko takove, 
+ze do nej nelze dosadit zadne cislo, neboli ve sloupci nad chybi cislo a toto cislo jsme jiz pouzili na soucasnem radku. To je ale ve sporu s predpokladem ze mame spravne vyplneny zbytek tabulky.
 
 \subsection{}
 \begin{itemize}
 \item plati\\
-pro kazdy podraf grafu G musi platit, ze existuji 4 vrcholi jez jsou v cyklu
-(stupen dva a neni bipartitni) a po odebrani presne dvou se stanou
-zbyle dva vrcholi nesouvisle.
-Pokud si za zbyle vrcholi dosadime cele komponenty grafu a hrany mezi
-odstranenymi vrcholi definujeme jako rez a celou situaci aplikujeme
-na kazdy podgraf jez lezi na rezu, tak mame dokazano ze tvrzeni plati.
+Dokazme sporem, mejme graf takovy, ze obsahuje dva vrcholi na kruznici a jeden takovy, ze na kruznici nelezi. Pak tento treti vrchol musi byt list (nebo byt mostem k listu) a to je ve sporu s predpokladem ze je graf 2-souvisly.
 
 \item plati\\
-pro kazdy podraf grafu G musi platit, ze existuje 5 vrcholu jez jsou stupne minimalne 3. Predpokladejme ze tvrzeni neplati, pak v grafu existuje pouze jedna kruznice obsahujici vsechny vrcholi, to je ale ve sporu s tvrzenim ze kazdy vrchol ma stupen min 3. Neboli takovy graf musi mit hlavni kruznici a min jedno "ucho".
+Takovy vrchol musi existovat, nebot pro "zniceni souvislosti" grafu musime odebrat 3 vrcholi, takze muzeme odebrat vrchol $z$ a graf musi byt vrcholove 2-souvisly a tudiz obsahuje kruznici. Neboli kruznici na ktere nelezel bod $z$.
 
-\item plati\\
-mejme graf ktery je hranove l-souvisly pak existuje bijektivni zobrazeni $l$ hran na $l$ vrcholu. Nebot kazdou hranu kterou bychom odebrali muzem odebrat i tak ze ji sebereme jeden z vrcholu.
+\item neplati\\
+specificky nebude platit pro graf "motylka"\\
+motylek: graf o dvou n-kompletnich grafech spojenych pres jediny vrchol.
+Takovy graf bude n-hranove souvisly, ale pouze 1 vrcholove.
+Tudiz pro $k>1$ neexistuje dostatecne velke $l$, tudiz tvrzeni neplati.
 \end{itemize}
 
 \subsection{}
-mnozinovy system ma SRR pro kazde kladne $k$, nebot splineme Hallovu podminku.
-tj. libovolnych $n$ hran z hypergrafu $G$ ma dohromady alespon $n$ prvku.
+\textbf{puze pro k=1}, jedine graf kde kazda hrana obsahuje maximalne jeden vrchol splni Hallovu podminku. Nebot pro $k>1$ existuje hypergraf takovy, ze mame vice hran nez vrcholu.
 
 \subsection{}
-takove grafy budou k-hranove souvisle, nebot mezi kazdymi dvemi body bude minimalne $k$ hranove disjunktnich cest. A tudiz budou i k-vrcholove souvisle.
+Takovy graf bude mit vrcholi stupne minimalne $k$, nebot kazdy vrchol musi pobrat $k$ hran potrebnych pro $k$ disjunktnich koster.\\
+Tudiz bude \textbf{hranove k-souvisly}.\\
+O vrcholove souvislosti nam to nic nerekne, nebot muze nastat graf typu motylek viz vise. A takovy graf bude tedy pouze \textbf{vrcholove 1-souvisly}.
  
 
 \end{document}
