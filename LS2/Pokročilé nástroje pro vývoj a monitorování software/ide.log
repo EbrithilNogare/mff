@@ -679,9 +679,36 @@ Dictionary: translator-numbers-dictionary, Language: English
 Dictionary: translator-theorem-dictionary, Language: English 
 ) (/data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/ide.nav) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-] [2
+]
+[2
 
-] [3
+]
+LaTeX Font Info:    Try loading font information for U+msa on input line 63.
+ (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 63.
+
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
+line 63.
+
+(/usr/share/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
+File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
+thkerncmss.
+)
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 63.
+
+LaTeX Font Info:    No file OMScmss.fd. on input line 63.
+
+
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textbraceleft' on input line 63.
+
+[3
 
 ] [4
 
@@ -697,13 +724,14 @@ Dictionary: translator-theorem-dictionary, Language: English
 
 ] [10
 
-] [11
+ <./images/intelisense.png>] [11
 
 ] [12
 
 ] [13
 
-] [14
+]
+[14
 
 ] [15
 

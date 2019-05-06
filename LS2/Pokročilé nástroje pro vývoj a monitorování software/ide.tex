@@ -12,7 +12,7 @@
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
 
-\title[Short title]{Atom \& VSCode customization} % The short title appears at the bottom of every slide, the full title is only on the title page
+\title[Short title]{IDE customization} % The short title appears at the bottom of every slide, the full title is only on the title page
 
 \author{David Nápravník} % Your name
 \institute[mff] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
@@ -43,8 +43,6 @@ Charles University \\ % Your institution for the title page
 \item better orientation
 \item do it once, and leave computer to repeat it
 \end{itemize}
-
-
 \end{frame}
 
 \begin{frame}
@@ -57,8 +55,29 @@ Charles University \\ % Your institution for the title page
 
 \section{packages}
 \begin{frame}
+\frametitle{making package}
+\textbf{nmp package}\\
+writen in JS or TS
+\begin{block}{import library}
+import * as vscode from 'vscode';
+\end{block}
+
+\begin{block}{VS Code API}
+commands.registerCommand('extension.sayHello', () =$>$ \{\\
+~~~~window.showInformationMessage('Hello World!');\\
+\});
+\end{block}
+\end{frame}
+
+\begin{frame}
 \frametitle{Installation}
-packages browser inside IDE\\
+\begin{block}{where are extensions stored}
+\$HOME/.vscode/extensions/myextension
+\end{block}
+\begin{block}{install over shell}
+code myExtensionFolder/myExtension.vsix
+\end{block}
+install inside IDE under package browser
 \end{frame}
 
 
@@ -102,10 +121,8 @@ indent\\
 \section{write faster}
 \begin{frame}
 \frametitle{intelliSense}
-\end{frame}
-
-\begin{frame}
-\frametitle{tag auto complete}
+\includegraphics[scale=0.4]{images/intelisense.png}
+Path Intellisense
 \end{frame}
 
 \begin{frame}
@@ -114,26 +131,36 @@ indent\\
 
 \begin{frame}
 \frametitle{beautify}
+help with:
+\begin{itemize}
+\item indent based on brackets
+\item spaces in math
+\item split lines by content
+\end{itemize}
+can be envoked with file save\\
+can be customized\\
+~~~~eg. indent with tabs / spaces (and number of spaces)
 \end{frame}
 
+\begin{frame}
+\frametitle{keyshortcuts}
+shown in menu $->$ easy to learn\\
+can be added in settings.json
+\end{frame}
 
 \section{after coding}
 \begin{frame}
-\frametitle{docker package}
-\end{frame}
-
-\begin{frame}
 \frametitle{live server}
-\end{frame}
-
-
-\section{keyshortcuts}
-\begin{frame}
-\frametitle{}
+run server for html and JS testing\\
+AJAX can be send\\
+with extension can debug inside chrome
 \end{frame}
 
 \begin{frame}
-\frametitle{}
+\frametitle{docker package}
+control docker from IDE\\
+inspect containers\\
+get info about running container
 \end{frame}
 
 
