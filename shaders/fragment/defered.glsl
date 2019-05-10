@@ -2,21 +2,27 @@
 precision mediump float;
 
 in vec2 vertCoordinates;
+in vec4 lightPosition;
+in vec4 lightColor;
+
+float lightIntensity = 0.2;
 
 uniform sampler2D uPositionBuffer;
 uniform sampler2D uNormalBuffer;
-uniform sampler2D uUVBuffer;
+uniform sampler2D uColorBuffer;
 
 out vec4 FragColor;
 
-void main()
-{	vec4 texPos = texture(uPositionBuffer, vertCoordinates/2.0+0.5);
-	vec4 texNormal = texture(uNormalBuffer, vertCoordinates/2.0+0.5);
-	vec4 texUV = texture(uUVBuffer, vertCoordinates/2.0+0.5);
+void main() {
+	vec4 texPos = texture(uPositionBuffer, vertCoordinates * 0.5 + 0.5);
+	vec4 texNormal = texture(uNormalBuffer, vertCoordinates * 0.5 + 0.5);
+	vec4 texUV = texture(uColorBuffer, vertCoordinates * 0.5 + 0.5);
+
 	FragColor = vec4(
 		max(
 			dot(
-				texNormal.xyz, vec3( 0.0, 0.0,-1.0)
+				texNormal.xyz, normalize(lightPosition.xyz)
 			), 0.0
-		) * texUV.rgb,1.0);
+		) * texUV.rgb*lightColor.rgb*lightIntensity, 1.0
+	);
 }

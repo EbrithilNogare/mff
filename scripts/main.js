@@ -6,10 +6,11 @@ let model;				// rendered model
 let textures = [];		// Array of textures
 let programs = [];		// Array of programs
 let lights = [];		// Array of lights
+let lightUniforms=[];	// Array of uniform locations for lights
 let vertexArrays = [];	// Arrays of geometry data
 
 const renderSettings = {
-	rotating: {x:0, y:1, z:0},
+	rotating: {x:0, y:0, z:0},
 	downSampling: 1
 };
 const matrices = {
@@ -45,7 +46,7 @@ try{
 
 
 function loadAsyncData() {
-	/**
+	/*
 	* vertex shaders
 	*/
 	loadTextResource('shaders/vertex/defered.glsl', function (err, text) {
@@ -59,7 +60,7 @@ function loadAsyncData() {
 		allAsyncReady()
 	});	
 
-	/**
+	/*
 	* fragment shaders
 	*/
 	loadTextResource('shaders/fragment/geo.glsl', function (err, text) {
@@ -74,16 +75,16 @@ function loadAsyncData() {
 		allAsyncReady()
 	});
 
-	/**
+	/*
 	* model
 	*/
-	loadTextResource('models/susan.obj', function (err, text) {
+	loadTextResource('models/sphere.obj', function (err, text) {
 		if (err) throw err;
 		model = objToJSON(text);
 		allAsyncReady()
 	});
 
-	/**
+	/*
 	* model texture
 	*/
 	loadImage('textures/susan.png', function (err, img) {
@@ -141,7 +142,7 @@ function Init() {
 	programs["geo"] = gl.createProgram();
 
 
-	/**
+	/*
 	 *	shaders init
 	 */{
 		// vertex
@@ -180,7 +181,7 @@ function Init() {
 	}
 
 
-	/**
+	/*
 	 *	link programs
 	 */{
 		// main program
@@ -205,14 +206,14 @@ function Init() {
 	}
 
 	
-	/**
+	/*
 	 *	buffers init
 	 */{	// gBuffer 
         gBuffer = gl.createFramebuffer();
 		gl.bindFramebuffer(gl.FRAMEBUFFER, gBuffer);
 		gl.activeTexture(gl.TEXTURE0);
 
-		/**
+		/*
 		 *	create textures for geo pass
 		 */
 		// position texture
@@ -237,7 +238,7 @@ function Init() {
 		gl.texStorage2D(gl.TEXTURE_2D, 1, gl.RGBA16F, gl.drawingBufferWidth, gl.drawingBufferHeight);
 		gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT1, gl.TEXTURE_2D, textures["normal"], 0);
 
-		// uv texture
+		// color texture
 		textures["color"] = gl.createTexture();
 		gl.bindTexture(gl.TEXTURE_2D, textures["color"]);
 		gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
@@ -292,12 +293,12 @@ function Init() {
 		
 		const positionBufferLocation = gl.getUniformLocation(programs["defered"], "uPositionBuffer");
 		const normalBufferLocation = gl.getUniformLocation(programs["defered"], "uNormalBuffer");
-		const uVBufferLocation = gl.getUniformLocation(programs["defered"], "uUVBuffer");
+		const colorBufferLocation = gl.getUniformLocation(programs["defered"], "uColorBuffer");
 		
 		gl.useProgram(programs["defered"]);
 		gl.uniform1i(positionBufferLocation, 0);
 		gl.uniform1i(normalBufferLocation, 1);
-		gl.uniform1i(uVBufferLocation, 2);
+		gl.uniform1i(colorBufferLocation, 2);
 
 
 
@@ -309,7 +310,7 @@ function Init() {
 	}
 	
 
-	/**
+	/*
 	 * geometry init
 	 */
 	{	// model
@@ -326,19 +327,19 @@ function Init() {
 		}
 
 		{	// normal
-			const susanNormalBufferObject = gl.createBuffer();
-			gl.bindBuffer(gl.ARRAY_BUFFER, susanNormalBufferObject);
+			const modelNormalBufferObject = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, modelNormalBufferObject);
 			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.normals), gl.STATIC_DRAW);
 			const location = gl.getAttribLocation(programs["geo"], 'aNormal');
 			gl.vertexAttribPointer(location, 3, gl.FLOAT, false, 3 * Float32Array.BYTES_PER_ELEMENT, 0);
 			gl.enableVertexAttribArray(1);
 		}
 
-		{	// uv
-			const susanTexCoordVertexBufferObject = gl.createBuffer();
-			gl.bindBuffer(gl.ARRAY_BUFFER, susanTexCoordVertexBufferObject);
+		{	// color
+			const modelTexCoordVertexBufferObject = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, modelTexCoordVertexBufferObject);
 			gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(model.texturecoords), gl.STATIC_DRAW);
-			const location = gl.getAttribLocation(programs["geo"], 'aUV');
+			const location = gl.getAttribLocation(programs["geo"], 'aColor');
 			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 2 * Float32Array.BYTES_PER_ELEMENT, 0);
 			gl.enableVertexAttribArray(2);
 		}
@@ -364,12 +365,18 @@ function Init() {
 			const location = gl.getAttribLocation(programs["defered"], 'vertPosition');
 			gl.vertexAttribPointer(location, 2, gl.FLOAT, false, 2 * Float32Array.BYTES_PER_ELEMENT, 0);
 			gl.enableVertexAttribArray(0);
+		}		
+		{	// light position
+			lightUniforms["light"] = gl.getUniformLocation(programs["defered"], 'light');
+			lightUniforms["mWorld"] = gl.getUniformLocation(programs["defered"], 'mWorld');
+			lightUniforms["mView"] = gl.getUniformLocation(programs["defered"], 'mView');
+			lightUniforms["mProj"] = gl.getUniformLocation(programs["defered"], 'mProj');
 		}
 		gl.bindVertexArray(null);
 	}
 
 
-	/**
+	/*
 	 *	world setup
 	 */{
 		gl.useProgram(programs["geo"]);
@@ -394,21 +401,21 @@ function Init() {
 	}
 
 
-	/**
+	/*
 	 * setup lights
 	 */{	
-		const lightsCount = 16;
-		const lightRandomDistanceLimit = 5;
+		const lightsCount = 5;
+		const lightRandomDistanceLimit = 5; // todo: make positions generate randomly 
 		for (let i = 0; i < lightsCount; i++) {
 			lights.push(new light(
-				vec3.fromValues(i - lightsCount/2, i - lightsCount/2, i - lightsCount/2),
-				vec3.fromValues(1.0,1.0,1.0)
+				vec3.fromValues((i-lightsCount/2)*10, 20, -5),
+				vec3.fromValues(1,1,1)
 			));		
 		}
 	}
 
 	
-	/**
+	/*
 	*	animation launch
 	*/
 	requestAnimationFrame(Loop);
@@ -444,11 +451,11 @@ function InitKeyboardInput(){
 	};
 }
 
-/**
+/*
 *	animation loop
 */
 function Loop() {
-	/**
+	/*
 	 * rotate everything
 	 */
 	mat4.rotate(matrices.world.matrix, matrices.world.matrix, renderSettings.rotating.x*(6 * Math.PI)/1000, [1, 0, 0]);
@@ -460,7 +467,7 @@ function Loop() {
 	gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
 
 
-	/**
+	/*
 	 * render everything
 	 */
 	// draw to gBuffer
@@ -471,8 +478,8 @@ function Loop() {
 	gl.disable(gl.BLEND);
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	// draw each model
-	gl.drawArrays(gl.TRIANGLES, 0, model.vertices.length/3/2);
-	gl.drawArrays(gl.TRIANGLES, model.vertices.length/3/2, model.vertices.length/3/2);
+	gl.drawArrays(gl.TRIANGLES, 0, model.vertices.length/6);
+	gl.drawArrays(gl.TRIANGLES, model.vertices.length/6, model.vertices.length/6);
 
 	// draw from gBuffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -481,8 +488,16 @@ function Loop() {
 	gl.depthMask(false);
 	gl.enable(gl.BLEND);
 	gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT);
+	gl.uniformMatrix4fv(lightUniforms["mWorld"], false, matrices.world.matrix);
+	gl.uniformMatrix4fv(lightUniforms["mView"], false, matrices.view.matrix);
+	gl.uniformMatrix4fv(lightUniforms["mProj"], false, matrices.projection.matrix);
 	// draw each light
-	gl.drawArrays(gl.TRIANGLES, 0, 6);
+	for (let i = 0; i < lights.length; i++) {
+		const light = lights[i];
+		const lightMatrix = new Float32Array([...light.position, ...light.color, 0,0,0]);
+		gl.uniformMatrix3fv(lightUniforms["light"], false, lightMatrix);
+		gl.drawArrays(gl.TRIANGLES, 0, 6);		
+	}
 
 
 	// go to next frame
