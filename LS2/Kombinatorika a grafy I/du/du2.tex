@@ -9,24 +9,31 @@
 \begin{document}
 
 \pagestyle{fancy}
-\rhead{David Nápravník - přezdívka ":)" - v.2}
+\rhead{David Nápravník - přezdívka ":)" - v.3}
 
 \setcounter{section}{1}
 \section{du}
 \subsection{}
-Mejme latinsky ctverec rozmeru $n*n$ s vyplnenymi $m$ radky.\\
-Kde $m = n-1$, protoze pro ostatni $m$ to bude pote platit tez.\\
-\\
-Dokazme sporem, predpokladejme ze na radku $m+1$ existuje policko takove, 
-ze do nej nelze dosadit zadne cislo, neboli ve sloupci nad chybi cislo a toto cislo jsme jiz pouzili na soucasnem radku. To je ale ve sporu s predpokladem ze mame spravne vyplneny zbytek tabulky.
+Mejme uplny bipartitni graf velikosti $n,n$ kde na jedne strane jsou indexy policek a
+na druhe cisla ktera do nich budeme dosazovat.\\
+Dale mejme latinsky obdelnik rozmeru $r*n$ kde $n>r$.\\
+V bipartitnim grafu odeberme hrany jenz jiz jsou soucasti latinskeho obdelniku.\\
+\textit{Pozorovani:} kazda hrana je stupne $n-r$\\
+Tudiz radku $r+1$ pak bude na pozici kazdeho indexu mozno priradit rozdilne cislo.
+Dle hran ktere vedou z daneho vrcholu v grafu do vrcholu s cislem. 
+
 
 \subsection{}
 \begin{itemize}
 \item plati\\
-Dokazme sporem, mejme graf takovy, ze obsahuje dva vrcholi na kruznici a jeden takovy, ze na kruznici nelezi. Pak tento treti vrchol musi byt list (nebo byt mostem k listu) a to je ve sporu s predpokladem ze je graf 2-souvisly.
+Dokazme sporem, mejme graf takovy, ze obsahuje dva vrcholi na kruznici a jeden
+takovy, ze na kruznici nelezi. Pak tento treti vrchol musi byt list (nebo byt
+mostem k listu) a to je ve sporu s predpokladem ze je graf 2-souvisly.
 
 \item plati\\
-Takovy vrchol musi existovat, nebot pro "zniceni souvislosti" grafu musime odebrat 3 vrcholi, takze muzeme odebrat vrchol $z$ a graf musi byt vrcholove 2-souvisly a tudiz obsahuje kruznici. Neboli kruznici na ktere nelezel bod $z$.
+Takovy vrchol musi existovat, nebot pro "zniceni souvislosti" grafu musime
+odebrat 3 vrcholi, takze muzeme odebrat vrchol $z$ a graf musi byt vrcholove
+2-souvisly a tudiz obsahuje kruznici. Neboli kruznici na ktere nelezel bod $z$.
 
 \item neplati\\
 specificky nebude platit pro graf "motylka"\\
@@ -35,13 +42,19 @@ Takovy graf bude n-hranove souvisly, ale pouze 1 vrcholove.
 Tudiz pro $k>1$ neexistuje dostatecne velke $l$, tudiz tvrzeni neplati.
 \end{itemize}
 
-\subsection{}
-\textbf{puze pro k=1}, jedine graf kde kazda hrana obsahuje maximalne jeden vrchol splni Hallovu podminku. Nebot pro $k>1$ existuje hypergraf takovy, ze mame vice hran nez vrcholu.
 
 \subsection{}
-Takovy graf bude mit vrcholi stupne minimalne $k$, nebot kazdy vrchol musi pobrat $k$ hran potrebnych pro $k$ disjunktnich koster.\\
+\textbf{puze pro k=1}, jedine graf kde kazda hrana obsahuje maximalne jeden
+vrchol splni Hallovu podminku. Nebot pro $k>1$ existuje hypergraf takovy, ze
+mame vice hran nez vrcholu.
+
+
+\subsection{}
+Takovy graf bude mit vrcholi stupne minimalne $k$, nebot kazdy vrchol musi
+pobrat $k$ hran potrebnych pro $k$ disjunktnich koster.\\
 Tudiz bude \textbf{hranove k-souvisly}.\\
-O vrcholove souvislosti nam to nic nerekne, nebot muze nastat graf typu motylek viz vise. A takovy graf bude tedy pouze \textbf{vrcholove 1-souvisly}.
- 
+O vrcholove souvislosti nam to nic nerekne, nebot muze nastat graf typu motylek
+viz vise. A takovy graf bude tedy pouze \textbf{vrcholove 1-souvisly}.
+
 
 \end{document}
