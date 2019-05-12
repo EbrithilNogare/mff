@@ -392,12 +392,6 @@ function Init() {
 		gl.uniformMatrix4fv(matrices.world.uniform, gl.FALSE, matrices.world.matrix);
 		gl.uniformMatrix4fv(matrices.view.uniform, gl.FALSE, matrices.view.matrix);
 		gl.uniformMatrix4fv(matrices.projection.uniform, gl.FALSE, matrices.projection.matrix);
-
-		//todo get rid of this section below
-		matrixUniformData = new Float32Array(32);
-		matrixUniformBuffer = gl.createBuffer();
-		gl.bindBufferBase(gl.UNIFORM_BUFFER, 0, matrixUniformBuffer);
-		gl.bufferData(gl.UNIFORM_BUFFER, 128, gl.DYNAMIC_DRAW);
 	}
 
 
