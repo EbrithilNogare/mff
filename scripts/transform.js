@@ -126,8 +126,7 @@ function Init() {
 	// Get uniform locations for the draw program
 	drawTimeLocation = gl.getUniformLocation(programs["transform"], 'u_time');
 	var drawAccelerationLocation = gl.getUniformLocation(programs["transform"], 'u_acceleration');
-	var drawColorLocation = gl.getUniformLocation(programs["transform"], 'u_color');
-
+	
 	// -- Initialize particle data
 
 	var particlePositions = new Float32Array(NUM_PARTICLES * 2);
@@ -209,7 +208,6 @@ function Init() {
 	}
 
 	gl.useProgram(programs["transform"]);
-	gl.uniform4f(drawColorLocation, 0.0, 1.0, 1.0, 1.0);
 	gl.uniform2f(drawAccelerationLocation, 0.0, ACCELERATION);
 
 	gl.enable(gl.BLEND);
@@ -240,11 +238,8 @@ function Loop() {
 	var time = Date.now() - appStartTime;
 	var destinationIdx = (currentSourceIdx + 1) % 2;
 
-	// Set the viewport
-	gl.viewport(0, 0, canvas.width, canvas.height - 10);
 
 	// Clear color buffer
-	gl.clearColor(0.0, 0.0, 0.0, 1.0);
 	gl.clear(gl.COLOR_BUFFER_BIT);
 
 	// Toggle source and destination VBO
@@ -253,14 +248,6 @@ function Loop() {
 
 	gl.bindVertexArray(sourceVAO);
 	gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, destinationTransformFeedback);
-
-	// NOTE: The following four lines shouldn't be necessary, but are required to work in ANGLE
-	// due to a bug in its handling of transform feedback objects.
-	// https://bugs.chromium.org/p/angleproject/issues/detail?id=2051
-	gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, particleVBOs[destinationIdx][POSITION_LOCATION]);
-	gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 1, particleVBOs[destinationIdx][VELOCITY_LOCATION]);
-	gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 2, particleVBOs[destinationIdx][SPAWNTIME_LOCATION]);
-	gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 3, particleVBOs[destinationIdx][LIFETIME_LOCATION]);
 
 	// Set uniforms
 	gl.uniform1f(drawTimeLocation, time);
