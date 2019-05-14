@@ -6,6 +6,7 @@
 \setlength{\parindent}{0in}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
+\usepackage[margin=.8in]{geometry}
 
 \begin{document}
 
@@ -52,9 +53,12 @@ mame vice hran nez vrcholu.
 
 
 \subsection{}
-Takovy graf bude mit vrcholi stupne minimalne $k$, nebot kazdy vrchol musi
-pobrat $k$ hran potrebnych pro $k$ disjunktnich koster.\\
-Tudiz bude \textbf{hranove k-souvisly}.\\
+Kostra spojuje kazde dva vrcholy prave jednou cestou.
+Dalsi disjunktni kostra nam prida disjunktni cestu mezi kazdymi dvemi vrcholi.
+Tudiz kolik disjunktnich koster graf ma,
+tolik disjunktnich cest existuje mezi kazdymi dvemi vrcholy.
+Z cehoz plyne ze takovy graf bude \textbf{hranove k-souvisly}.
+\\
 O vrcholove souvislosti nam to nic nerekne, nebot muze nastat graf typu motylek
 viz vise. A takovy graf bude tedy pouze \textbf{vrcholove 1-souvisly}.
 
