@@ -78,7 +78,7 @@ function loadAsyncData() {
 	/*
 	* model
 	*/
-	loadTextResource('models/sphere.obj', function (err, text) {
+	loadTextResource('models/susan.obj', function (err, text) {
 		if (err) throw err;
 		model = objToJSON(text);
 		allAsyncReady()
