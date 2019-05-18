@@ -3,18 +3,18 @@
 
 precision highp float;
 
-layout(location = POSITION_LOCATION) in vec2 a_position;
+in vec2 aPosition;
 
-out vec2 v_position;
+out vec2 vPosition;
 
 void main()
 {
-    if (a_position.y < -1.0) {
-        v_position = vec2(a_position.x, 1.0);
+    if (aPosition.y < -1.0) {
+        vPosition = vec2(aPosition.x, aPosition.y+2.0);
     } else {
-        v_position = a_position - vec2(0.0, 0.01);
+        vPosition = aPosition - vec2(0.0, 0.01);
     }
 
-    gl_Position = vec4(v_position, 0.0, 1.0);
+    gl_Position = vec4(vPosition, 0.0, 1.0);
     gl_PointSize = 2.0;
 }

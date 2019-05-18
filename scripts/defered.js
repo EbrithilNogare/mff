@@ -40,7 +40,7 @@ InitKeyboardInput();
 try{
 	loadAsyncData();
 }catch(e){
-	console.error(e);	
+	errorHandler(e)
 }
 
 
@@ -101,7 +101,11 @@ function loadAsyncData() {
 			fs["defered"] != undefined &&
 			textures["modelSource"] != undefined
 		) {			
-			Init();
+			try{
+				Init();
+			}catch(e){
+				errorHandler(e)
+			}			
 		}
 	}
 }

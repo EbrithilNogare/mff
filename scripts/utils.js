@@ -78,3 +78,21 @@ function objToJSON(obj){
 	}
 	return model;
 }
+
+
+/*
+ * message show for debuging  
+ */
+function errorHandler(e){
+	const box = document.createElement("div");
+	box.style.position= "absolute";
+	box.style.top="0";
+	box.style.left="0";
+	box.style.color="#fff";
+	box.style.background="#333";
+	box.style.padding="10px";
+
+	box.innerText="ERROR HANDLER:\n" + e;
+	document.body.appendChild(box);
+	console.error(e);	
+}

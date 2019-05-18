@@ -5,13 +5,14 @@ let programs = [];		// Array of programs
 let vertexArrays = [];	// Arrays of geometry data
 let particles = [];
 let currentSourceIdx = 0;
-const NUM_PARTICLES = 10000;
+const NUM_PARTICLES = 50*1000;
 
 try{
 	loadAsyncData();
 }catch(e){
-	console.error(e);	
+	errorHandler(e)
 }
+
 
 function loadAsyncData() {
 	/*
@@ -37,7 +38,11 @@ function loadAsyncData() {
 			vs["transform"] != undefined &&
 			fs["transform"] != undefined
 		) {			
-			Init();
+			try{
+				Init();
+			}catch(e){
+				errorHandler(e)
+			}
 		}
 	}
 }
@@ -83,7 +88,7 @@ function Init() {
 		gl.attachShader(programs["transform"], fragmentShader);
 	}
 
-	let varyings = ['v_position'];
+	let varyings = ['vPosition'];
 	gl.transformFeedbackVaryings(programs["transform"], varyings, gl.SEPARATE_ATTRIBS);
 
 	/*
@@ -108,9 +113,6 @@ function Init() {
 
 	let particlePositions = new Float32Array(NUM_PARTICLES * 2);
 
-	POSITION_LOCATION = 0;
-	NUM_LOCATIONS = 1;
-
 	for (let p = 0; p < NUM_PARTICLES; p++) {
 		particlePositions[p * 2] = Math.random()*2-1;
 		particlePositions[p * 2 + 1] = Math.random()*2-1;
@@ -125,22 +127,21 @@ function Init() {
 	particleVBOs = new Array(particleVAOs.length);
 
 	for (let i = 0; i < particleVAOs.length; ++i) {
-		particleVBOs[i] = new Array(NUM_LOCATIONS);
-
 		// Set up input
 		gl.bindVertexArray(particleVAOs[i]);
 
-		particleVBOs[i][POSITION_LOCATION] = gl.createBuffer();
-		gl.bindBuffer(gl.ARRAY_BUFFER, particleVBOs[i][POSITION_LOCATION]);
+		const positionBufferLocation = gl.getUniformLocation(programs["transform"], "aPosition");
+		particleVBOs[i] = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, particleVBOs[i]);
 		gl.bufferData(gl.ARRAY_BUFFER, particlePositions, gl.STREAM_COPY);
-		gl.vertexAttribPointer(POSITION_LOCATION, 2, gl.FLOAT, false, 0, 0);
-		gl.enableVertexAttribArray(POSITION_LOCATION);
+		gl.vertexAttribPointer(positionBufferLocation, 2, gl.FLOAT, false, 0, 0);
+		gl.enableVertexAttribArray(positionBufferLocation);
 
 		gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
 		// Set up output
 		gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, particleTransformFeedbacks[i]);
-		gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, particleVBOs[i][POSITION_LOCATION]);
+		gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, particleVBOs[i]);
 	}
 
 	gl.useProgram(programs["transform"]);
