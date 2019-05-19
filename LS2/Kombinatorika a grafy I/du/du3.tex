@@ -5,9 +5,9 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage[
-	top=3cm,
-	bottom=4cm,
-	]{geometry}
+top=3cm,
+bottom=4cm,
+]{geometry}
 \setlength{\parindent}{0in}
 \usepackage{fancyhdr}
 
@@ -20,41 +20,67 @@
 \section{du}
 \subsection{sachovnice}
 z sachovnice si udelejme jednu dlouhou cestu ktera prochazi kazdym polickem:\\
-\begin{tabular}{|l|l|l|l|l|l|} 
+\begin{tabular}{|l|l|l|l|l|l|}
 \hline
-\multicolumn{1}{|l}{\#} & \multicolumn{1}{l}{}   & \multicolumn{1}{l}{\#} & \multicolumn{1}{l}{}   & \multicolumn{1}{l}{\#} &     \\ 
+\multicolumn{1}{|l}{\#} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{\#} &
+\multicolumn{1}{l}{} & \multicolumn{1}{l}{\#} & \\
 \cline{2-5}
-                        & \multicolumn{1}{l}{\#} &                        & \multicolumn{1}{l}{\#} &                        & \#  \\
-R                       &                        & \#                     &                        & \#                     &     \\
-                        & \#                     &                        & \#                     &                        & \#  \\
-\#                      &                        & \#                     &                        & \#                     & R   \\
-                        & \#                     &                        & \#                     &                        & \#  \\
-\multicolumn{1}{|l}{\#} &                        & \multicolumn{1}{l}{\#} &                        & \multicolumn{1}{l}{\#} &     \\
+& \multicolumn{1}{l}{\#} & & \multicolumn{1}{l}{\#} & & \# \\
+R & & \# & & \# & \\
+& \# & & \# & & \# \\
+\# & & \# & & \# & R \\
+& \# & & \# & & \# \\
+\multicolumn{1}{|l}{\#} & & \multicolumn{1}{l}{\#} & & \multicolumn{1}{l}{\#} &
+\\
 \hline
 \end{tabular}\\
 kde \# je cerne policko, cesta je ohranicena a R jsou vymazana policka\\
 \\
 pak mame ruzne barvy policek na obou koncich cesty a tudiz lze poskladat domino.
 
+
 \subsection{tok cesta a rez}
 \textbf{tvrzeni plati}\\
-reseni vychazi z definice minimalniho rezu, nebot velikost minimalniho rezu odpovida velikosti toku a zaroven rez obsahuje pouze hrany ze zdroje do stoku.
-Tudiz nemuze existovat cesta takova, ze prekroci onen min. rez dvakrat, nebot bychom dostali spor u rovnosti min. rezu a max. toku.
+Mejme graf G kde $f$ je velikost maximalniho toku.\\
+Z vety \textit{o maximalnim toku a minimalnim rezu} vime ze,
+maximalni velikost toku v siti je rovna minimalni velikosti rezu.\\
+Jelikoz cesta $P$ neprochazi na hranach kde celkovy tok je mensi roven nule,
+tak musi jit o tok ze zdroje do stoku, ktery se jiz neda zlepsit. 
+Potom cesta $P$ bude obsahovat prave jednu hranu z $S$, nebot
+neobsahovala-li by hranu, znamenalo by to, ze zde existuje zlepsujici cesta,
+ze zdroje do stoku. Nebo obsahovala-li by vice nez jednu hranu, pak
+by se do vypoctu velikost minimalniho rezu zapocital dvakrat, ale 
+do maximalniho toku by se zapocital pouze jednou. Pote by nesedela rovnost
+o min rezu a max toku.
+
+
 
 \subsection{kruznice}
-pokud mame kazdy vrchol stupne 2 a pridame dalsi 2 hrany (na kazdou stranu jednu), tak graf bude 4-souvisly jak hranove tak i vrcholove.
+pro $n \leq 5$ dostaneme $K_n$ ktery ma $n-1$hranovou a vrcholovou souvislost.\\
+pro $n > 5$ pak zustane 4-souvisly jak hranove tak i vrcholove.\\ 
+Dukaz sporem, predpokladejme existenci rezu velikosti 3.
+To snadno dokazeme pomoci nalezeni maximalniho toku
+(tudiz i minimalniho rezu) v grafu $n=5$, pro ostatni n to bude pote platit tez.
+Nebot pouze prodluzujeme "obvod" kruznice stejnym patternem. Takovy
+min rez bude velikosti 4 -- spor.
+
+
 
 \subsection{souvisly graf}
-Ja bych radeji dokazal opak a to sice ze existuje graf, ktery ma mene nez 30 hran, je souvisly, 
-rovinny a presto muze jeho vrchol mit stupen vetsi nez 4.\\
-Vytvorme kruznici o vice nez 4 vrcholech a pak jeden bod uprostred, pote napojime kazdy vrchol z kruznice na bod uprostred a dostaneme rovinny, souvisly graf s mene nez 30 hranami  jez ma vrchol stupne vice nez 4.
+Mejme graf $G(V,E)$ kde plati: $E<30~\&~2E < 5V$.\\
+Pri 29 hranach dostaneme 12 vrcholu. A predpokladejme ze kazdy
+vrchol je stupne minimalne 5 (tudiz celkem potrebuji $5*12/2=30$ hran).
+Pomoci \textit{lemma o holubniku} lehce nahledneme ze
+alespon jeden vrchol musi byt stupne nejvyse 4.
 
-\includegraphics[height=3cm]{circle}
 
 \subsection{magicka krychle}
 \textbf{ano, plati}\\
-Definujme si jednotkovou krychly jakozto krychly, ktera ma na pricne diagonale jednicky.\\
-pak muzeme provadet upravy podobne na maticich, neboli prohozeni poradi dvou ctvercu(jedne vrstvy) a dostaneme stale krychli sily 1\\
-Pak dve krychle sily 1 ktere vzniknou rozlozenim krychle sily dva bodou pouze nejakou permutaci jednotkove krychle.
+Definujme si jednotkovou krychly jakozto krychly, ktera ma na pricne diagonale
+jednicky.\\
+pak muzeme provadet upravy podobne na maticich, neboli prohozeni poradi dvou
+ctvercu(jedne vrstvy) a dostaneme stale krychli sily 1\\
+Pak dve krychle sily 1 ktere vzniknou rozlozenim krychle sily dva bodou pouze
+nejakou permutaci jednotkove krychle.
 
 \end{document}
