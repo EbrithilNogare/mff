@@ -5,8 +5,8 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage[
-    top=3cm,
-    bottom=4cm,
+    top=2cm,
+    bottom=2cm,
 ]{geometry}
 \setlength{\parindent}{0in}
 \usepackage{fancyhdr}
@@ -73,12 +73,25 @@ alespon jeden vrchol musi byt stupne nejvyse 4.
 
 
 \subsection{magicka krychle}
-\textbf{ano, plati}\\
+\textbf{ne, neplati}\\
+magicka krychle sily 2:\\
 \begin{tabular}{|c|l|l|l|l|l|l|l|l|l|l|}
     \cline{1-3} \cline{5-7} \cline{9-11}
       & 1 & 1 &  & 2 &   &   &  &   & 1 & 1 \\ \cline{1-3} \cline{5-7} \cline{9-11} 
     1 &   & 1 &  &   & 1 & 1 &  & 1 & 1 &   \\ \cline{1-3} \cline{5-7} \cline{9-11} 
     1 & 1 &   &  &   & 1 & 1 &  & 1 &   & 1 \\ \cline{1-3} \cline{5-7} \cline{9-11} 
-\end{tabular}
+\end{tabular}\\
+tuto krychli nelze rozlozit na dve magicke krychle sily jedna.\\
+Protoze kazda jednotkova krychle je pemutaci/rotaci teto krychle:\\
+\begin{tabular}{|c|l|l|l|l|l|l|l|l|l|l|}
+  \cline{1-3} \cline{5-7} \cline{9-11}
+  1 &   &   &  &   & 1 &   &  &   &   & 1 \\ \cline{1-3} \cline{5-7} \cline{9-11} 
+    & 1 &   &  &   &   & 1 &  & 1 &   &   \\ \cline{1-3} \cline{5-7} \cline{9-11} 
+    &   & 1 &  & 1 &   &   &  &   & 1 &   \\ \cline{1-3} \cline{5-7} \cline{9-11} 
+\end{tabular}\\
+A jelikoz neexistuje parovani takove ze se kazda jednicka z
+jednotkove krychle promitne na jednu hodnotu(1 nebo 2)
+tak mame zaruceno, ze existuje magicka krychle sily dva,
+takova ze nejde rozlozit na dve jednotkove.
 
 \end{document}
