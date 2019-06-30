@@ -12,28 +12,47 @@ namespace Requester
         private static readonly HttpClient client = new HttpClient();
         static void Main(string[] args)
         {
-            NewMethod();
             Console.ReadKey();
         }
 
-        private static async void NewMethod()
+        
+    }
+
+    public class Comunicator
+    {
+        private static readonly HttpClient client = new HttpClient();
+
+        public Comunicator()
         {
-            var values = new Dictionary<string, string>
+
+        }
+
+        public async Task<string> Send(string url, string type, string header)
+        {
+            if (!url.Contains("http://"))
+                url = "http://" + url;
+            var values = new Dictionary<string, string> //TODO remove it
                 {
                    { "thing1", "hello" },
                    { "thing2", "world" }
                 };
 
             var content = new FormUrlEncodedContent(values);
+            HttpResponseMessage response = null;
+            switch (type)
+            {
+                case "GET":
+                    response = await client.GetAsync(url);
+                    break;
+                case "POST":
+                    response = await client.PostAsync(url,content);
+                    break;
+            }
 
-            var response = await client.PostAsync("http://www.example.com/recepticle.aspx", content);
-
-            var responseString = await response.Content.ReadAsStringAsync();
-
-            Console.WriteLine(response);
-            Console.ReadKey();
+            string responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
         }
-        
+
     }
 
     
