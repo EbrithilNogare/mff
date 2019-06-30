@@ -5,32 +5,56 @@
 \usepackage{amssymb}
 \setlength{\parindent}{0in}
 \usepackage{fancyhdr}
+\usepackage[sfdefault]{roboto}
+\usepackage{roboto-mono}
 
 \begin{document}
 
 \pagestyle{fancy}
 \rhead{David Nápravník}
 
-\section{specifikace k projektu Requester}
-\subsection{motivace}
-Program ktery dokaze plne modifikovat request pres http protokol.
+{
+    \huge{
+		\textsf{
+			\centerline{
+				\textbf{
+                    specifikace k projektu Requester
+                }
+			}
+		}
+    }
+}
+    
+\section{motivace}
+Program ktery dokaze plne modifikovat request http protokolu.
 
-\subsection{detailni specifikace}
+\section{detailni specifikace}
 Program bude umet odeslat POST nebo GET request pres http.\\
 V requestu bude jednoduse mozne menit veskere vlastnosti vcetne hlavicky.\\
-Response se bude parsovat a bude jej mozne dale zpracovavat.\\
+Response se bude parsovat a bude jej mozne dale zpracovavat.
 
-\subsection{Prostredi}
+\section{Prostredi}
 Program bude mozne spustit jako aplikaci vcetne GUI, nebo
 jako headless, kdy dostane instrukce co ma delat a to bud pres
 config, nebo parametry programu.
 
-\subsection{Vyuziti}
+\section{Vyuziti}
 \begin{itemize}
     \item automaticke stahovani souboru z webu
-    \item 
+    \item automaticke testovani webovych aplikaci
+    \item bruteforce webovych aplikaci
+    \item ziskavani syntetickych dat pres http
 \end{itemize}
 
-
+\section{Technologie}
+\begin{itemize}
+    \item HTTP Client (.Net \textasciicircum 4.5)
+    \item Material design pro GUI
+    \item AJAX
+    \begin{itemize}
+        \item multivlaknove rozesilani/zpracovavani pozadavku
+        \item Lazy vyhodnocovani
+    \end{itemize}
+\end{itemize}
 
 \end{document}
