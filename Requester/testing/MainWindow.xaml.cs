@@ -12,9 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Requester;
 
-namespace GUI
+namespace testing
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -26,18 +25,21 @@ namespace GUI
             InitializeComponent();
         }
 
-        private async void SendButton_Click(object sender, RoutedEventArgs e)
+        private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            string url = urlTextBox.Text;
-            string type = typeComboBox.Text;
-            string header = "";// headerTextBlock.Text; //TODO
+            var box = richTextBox;
+            box.AppendText("Hello ");
+            AppendText(box, "world", "0xff0000");
+        }
 
-            Comunicator cm = new Requester.Comunicator();
-                            
-            string response = await cm.Send(url, type, header);
 
-            previewHTML.NavigateToString(response);
-            rawTextBlock.Text = response;
+
+        public void AppendText(RichTextBox box, string text, string color)
+        {
+            TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
+            tr.Text = text;
+            tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
+
         }
     }
 }

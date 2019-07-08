@@ -12,6 +12,15 @@ namespace Requester
         private static readonly HttpClient client = new HttpClient();
         static void Main(string[] args)
         {
+            string url = "https://request.urih.com/";
+            string type = "POST";
+            string header = "";
+
+            Comunicator cm = new Requester.Comunicator();
+
+            cm.Send(url, type, header);
+
+            
             Console.ReadKey();
         }
 
@@ -29,8 +38,8 @@ namespace Requester
 
         public async Task<string> Send(string url, string type, string header)
         {
-            if (!url.Contains("http://"))
-                url = "http://" + url;
+            if (!(url.Contains("http://") || url.Contains("https://")))
+                url = "https://" + url;
             var values = new Dictionary<string, string> //TODO remove it
                 {
                    { "thing1", "hello" },
@@ -38,6 +47,7 @@ namespace Requester
                 };
 
             var content = new FormUrlEncodedContent(values);
+            //Console.WriteLine(await content.ReadAsStringAsync());
             HttpResponseMessage response = null;
             switch (type)
             {
@@ -54,6 +64,5 @@ namespace Requester
         }
 
     }
-
-    
+   
 }

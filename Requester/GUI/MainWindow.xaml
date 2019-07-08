@@ -16,35 +16,115 @@
          Background="{DynamicResource MaterialDesignPaper}"
          FontFamily="{DynamicResource MaterialDesignFont}">
     <Grid Background="Black">
-        <Grid HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="1273" Background="#FF850000">
-            <Button x:Name="newButton" Content="NEW" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="113"/>
-            <Button x:Name="loadButton" Content="LOAD" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="113" Margin="118,0,0,0"/>
-            <Button x:Name="saveButton" Content="SAVE" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="113" Margin="236,0,0,0"/>
-            <Button x:Name="templateButton" Content="TEMPLEATE" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="113" Margin="354,0,0,0"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Background="#FF212121" Grid.ColumnSpan="3">
+            <Button x:Name="newButton" Content="NEW" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Margin="0" Padding="20,10"/>
+            <Button x:Name="loadButton" Content="LOAD" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Margin="77,0,0,0" Padding="20,10"/>
+            <Button x:Name="saveButton" Content="SAVE" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Margin="159,0,0,-0.333" Padding="20,10"/>
+            <Button x:Name="templateButton" Content="TEMPLEATE" HorizontalAlignment="Left" Height="Auto" VerticalAlignment="Top" Margin="237,0,0,-0.333" Padding="20,10"/>
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="1273" Background="#FF001885" Margin="0,50,0,0">
-            <Button x:Name="sendButton" Content="SEND" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="113" Margin="1160,0,0,0" Click="SendButton_Click"/>
-            <TextBox x:Name="urlTextBox" HorizontalAlignment="Left" Height="50" TextWrapping="Wrap" Text="google.com" Width="982" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" Padding="10,0,0,0" Margin="55,0,0,0" FontSize="24" SelectionBrush="{x:Null}"/>
-            <Label x:Name="label" Content="URL" HorizontalAlignment="Left" Height="50" Width="50" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"/>
-            <ComboBox x:Name="typeComboBox" HorizontalAlignment="Left" Height="50" Margin="1037,0,0,0" VerticalAlignment="Stretch" Width="118" Background="#FF673AB7" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="{x:Null}">
-                <ComboBoxItem IsSelected="True">POST</ComboBoxItem>
-                <ComboBoxItem>GET</ComboBoxItem>
+        <Grid Background="#FF2C2C2C" Margin="0" Grid.ColumnSpan="3" Grid.Row="1">
+            <Label x:Name="label" Content="URL" HorizontalAlignment="Left" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"/>
+            <TextBox x:Name="urlTextBox" HorizontalAlignment="Left" Height="50" TextWrapping="Wrap" Text="google.com" Width="982" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" Padding="10,0,0,0" Margin="55,0,0,0" FontSize="24" SelectionBrush="#FF0078D7" Grid.ColumnSpan="2" CaretBrush="{x:Null}"/>
+            <ComboBox x:Name="typeComboBox" HorizontalAlignment="Right" Height="50" Margin="0,0,118,0" VerticalAlignment="Stretch" Width="118" Background="#FF673AB7" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="{x:Null}" FontSize="16" FontWeight="Bold">
+                <ComboBoxItem IsSelected="True">GET</ComboBoxItem>
+                <ComboBoxItem>POST</ComboBoxItem>
             </ComboBox>
+            <Button x:Name="sendButton" Content="SEND" Height="50" VerticalAlignment="Top" Width="113" Margin="0" Click="SendButton_Click" HorizontalAlignment="Right" FontSize="16"/>
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="589" VerticalAlignment="Top" Width="635" Background="#FF088500" Margin="0,100,0,0">
-            <Button x:Name="headerButton" Content="Header" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="113"/>
-            <Button x:Name="bodyButton" Content="Body" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="113" Margin="118,0,0,0"/>
-            <TextBlock x:Name="headerTextBlock" HorizontalAlignment="Left" Height="530" Margin="10,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="615"/>
+        <Grid Background="#FF3A3A3A" Margin="0" Grid.Row="2">
+            <TabControl Background="#FF3A3A3A" BorderBrush="{x:Null}" Padding="0">
+                <TabItem Header="Header" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                    <StackPanel>
+                        <Grid Height="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button BorderBrush="{x:Null}" FontSize="16" FontWeight="Bold" Background="#22FFFFFF" HorizontalAlignment="Right">+</Button>
+                            <Label x:Name="keyLabel2" Grid.ColumnSpan="2" Content="Key" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Foreground="#DDFFFFFF" FontSize="16" FontWeight="Bold"/>
+                            <Label x:Name="valueLabel2" Grid.ColumnSpan="2" Content="Value" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Foreground="#DDFFFFFF" FontSize="16" FontWeight="Bold"/>
+                        </Grid>
+
+                        <local:paramsControl></local:paramsControl>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Body" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                    <TabControl Background="#FF3A3A3A" BorderBrush="{x:Null}">
+                        <TabItem Header="Form" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                            <StackPanel>
+                                <Grid Height="40">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button BorderBrush="{x:Null}" FontSize="16" FontWeight="Bold" Background="#22FFFFFF" HorizontalAlignment="Right">+</Button>
+                                    <Label x:Name="keyLabel" Grid.ColumnSpan="2" Content="Key" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Foreground="#DDFFFFFF" FontSize="16" FontWeight="Bold"/>
+                                    <Label x:Name="valueLabel" Grid.ColumnSpan="2" Content="Value" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Foreground="#DDFFFFFF" FontSize="16" FontWeight="Bold"/>
+                                </Grid>
+
+                                <local:paramsControl></local:paramsControl>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem Header="Raw" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                            <RichTextBox x:Name="bodyTextBlock" Background="{x:Null}" Foreground="White" FontFamily="Roboto Mono"></RichTextBox>
+                        </TabItem>
+                    </TabControl>
+                </TabItem>
+                <TabItem Header="Params" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                    <StackPanel>
+                        <Grid Height="40">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button BorderBrush="{x:Null}" FontSize="16" FontWeight="Bold" Background="#22FFFFFF" HorizontalAlignment="Right">+</Button>
+                            <Label x:Name="keyLabel3" Grid.ColumnSpan="2" Content="Key" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Foreground="#DDFFFFFF" FontSize="16" FontWeight="Bold"/>
+                            <Label x:Name="valueLabel3" Grid.ColumnSpan="2" Content="Value" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="3" Foreground="#DDFFFFFF" FontSize="16" FontWeight="Bold"/>
+                        </Grid>
+
+                        <local:paramsControl></local:paramsControl>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
         </Grid>
-        <Grid HorizontalAlignment="Left" Height="589" VerticalAlignment="Top" Width="638" Background="#FFB2CA00" Margin="635,100,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="629*"/>
-                <ColumnDefinition Width="9*"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="rawButton" Content="Raw" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="113"/>
-            <Button x:Name="prettyButton" Content="Pretty" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="113" Margin="118,0,0,0"/>
-            <Button x:Name="previewButton" Content="Preview" HorizontalAlignment="Left" Height="44" VerticalAlignment="Top" Width="113" Margin="236,0,0,0"/>
-            <TextBlock x:Name="rawTextBlock" HorizontalAlignment="Left" Height="530" Margin="10,49,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="619"/>
+        <GridSplitter Grid.Row="2" Grid.Column="1" Background="Black" Width="4"/>
+        <Grid Background="#FF3A3A3A" Margin="0" Grid.Column="2" Grid.Row="2">
+            <TabControl Background="#FF3A3A3A" BorderBrush="{x:Null}">
+                <TabItem Header="Raw" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                    <Grid>
+                        <ScrollViewer Background="#FF3A3A3A">
+                            <TextBox x:Name="rawTextBlock" TextWrapping="Wrap" FontFamily="Roboto Mono"/>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Pretty" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                    <RichTextBox x:Name="formatedRichTextBox" Background="{x:Null}" Foreground="White" FontFamily="Roboto Mono"/>
+                </TabItem>
+                <TabItem Header="Preview" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+                    <Grid >
+                        <WebBrowser x:Name="previewHTML"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
         </Grid>
 
     </Grid>
