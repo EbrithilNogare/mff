@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280">
     <Grid>
-        <RichTextBox x:Name="richTextBox" HorizontalAlignment="Left" Height="671" Margin="10,10,0,0" VerticalAlignment="Top" Width="990">
+        <RichTextBox x:Name="richTextBox" HorizontalAlignment="Left" Height="671" Margin="10,10,0,0" VerticalAlignment="Top" Width="990" Background="#FF282828" FontFamily="Roboto Mono">
             <RichTextBox.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0" />

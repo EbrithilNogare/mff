@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Requester;
+
 namespace testing
 {
     /// <summary>
@@ -27,19 +29,12 @@ namespace testing
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            var box = richTextBox;
-            box.AppendText("Hello ");
-            AppendText(box, "world", "0xff0000");
+            var input = textBox;
+            var output = richTextBox;
+            Beautifier beautifier = new Beautifier();
+            beautifier.BeatyFromTo(input.Text, output);
         }
 
-
-
-        public void AppendText(RichTextBox box, string text, string color)
-        {
-            TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
-            tr.Text = text;
-            tr.ApplyPropertyValue(TextElement.ForegroundProperty, Brushes.Red);
-
-        }
     }
+
 }

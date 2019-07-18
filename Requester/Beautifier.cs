@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Threading.Tasks;
-
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
 namespace Requester
 {
     public class Beautifier
@@ -23,6 +26,128 @@ namespace Requester
 
 
             throw new NotImplementedException();
+        }
+
+
+        public void BeatyRichTextBox(string input, RichTextBox output)
+        {
+            const int indentSize = 4;
+            StringBuilder sb = new StringBuilder();
+            JSONobject status = new JSONobject(0);
+            colorPalete palete = new colorPalete(false);
+
+
+            foreach (char item in input)
+            {
+                if (status.isEscaped)
+                {
+                    status.isEscaped = false;
+                    sb.Append(item);
+                }
+                else
+                {
+                    switch (item)
+                    {
+                        case '{':
+                            status.depth++;
+                            status.leftRight = true;
+                            AppendText(output, item.ToString() + "\n" + new string(' ', status.depth * indentSize), palete.objectBracket);
+                            break;
+                        case '}':
+                            status.depth--;
+                            AppendText(output, "\n" + new string(' ', status.depth * indentSize) + item.ToString(), palete.objectBracket);
+                            break;
+                        case '"':
+                            sb.Append(item);
+                            if (status.leftRight)
+                            { //left
+                                if (status.inMarks)
+                                { // second
+                                    AppendText(output, sb.ToString(), palete.objectName);
+                                    sb.Clear();
+                                }
+                            }
+                            else
+                            { //right
+                                if (status.inMarks)
+                                { // second
+                                    AppendText(output, sb.ToString(), palete.text);
+                                    sb.Clear();
+                                }
+                            }
+                            status.inMarks = !status.inMarks;
+                            break;
+                        case '[':
+                            status.depth++;
+                            status.leftRight = true;
+                            AppendText(output, item.ToString() + "\n" + new string(' ', status.depth * indentSize), palete.arrayBracket);
+                            break;
+                        case ']':
+                            status.depth--;
+                            AppendText(output, "\n" + new string(' ', status.depth * indentSize) + item.ToString(), palete.arrayBracket);
+                            break;
+                        case ':': //colon
+                            if (status.inMarks)
+                            {
+                                sb.Append(item);
+                            }
+                            else
+                            {
+                                status.leftRight = false;
+                                AppendText(output, item.ToString(), palete.colon);
+                            }
+                            break;
+                        case ',':
+                            status.leftRight = true;
+                            sb.Append(item);
+                            sb.Append("\n" + new string(' ', status.depth * indentSize));
+                            break;
+                        case '\\':
+                            status.isEscaped = true;
+                            break;
+                        case '\n':
+                        case '\r':
+                        case ' ':
+                            if (status.inMarks)
+                                sb.Append(item);
+                            break;
+                        default:
+                            if (!status.inMarks && (
+                                item == '0' ||
+                                item == '1' ||
+                                item == '2' ||
+                                item == '3' ||
+                                item == '4' ||
+                                item == '5' ||
+                                item == '6' ||
+                                item == '7' ||
+                                item == '8' ||
+                                item == '9' ||
+                                item == '.'))
+                            {
+                                AppendText(output, item.ToString(), palete.number);
+                            }
+                            else
+                            {
+                                sb.Append(item);
+                                if (sb.ToString() == "true" || sb.ToString() == "false")
+                                {
+                                    AppendText(output, sb.ToString(), palete.boolean);
+                                    sb.Clear();
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+        public void AppendText(RichTextBox box, string text, string color)
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
+            tr.Text = text;
+            tr.ApplyPropertyValue(TextElement.ForegroundProperty, (Brush)converter.ConvertFromString(color));
         }
     }
 
@@ -112,6 +237,63 @@ namespace Requester
             hex.AppendFormat("{0:x2}", g);
             hex.AppendFormat("{0:x2}", b);
             return hex.ToString();
+        }
+    }
+
+    struct JSONobject
+    {
+        public int depth;
+        public bool isEscaped;
+        public bool inMarks;
+        /// <summary>
+        /// left = true
+        /// </summary>
+        public bool leftRight;
+
+
+        public JSONobject(int depth)
+        {
+            this.depth = depth;
+            isEscaped = false;
+            inMarks = false;
+            leftRight = true;
+        }
+
+    }
+
+    struct colorPalete
+    {
+        public string objectBracket;
+        public string arrayBracket;
+        public string objectName;
+        public string text;
+        public string number;
+        public string boolean;
+        public string colon;
+        public colorPalete(bool light)
+        {
+            objectBracket = "#000000";
+            arrayBracket = "#000000";
+            objectName = "#000000";
+            text = "#000000";
+            number = "#000000";
+            boolean = "#000000";
+            colon = "#000000";
+
+            if (light)
+            {
+
+            }
+            else
+            {
+                objectBracket = "#ff2222";
+                arrayBracket = "#22ff22";
+                objectName = "#2222ff";
+                text = "#ffffff";
+                number = "#ffff22";
+                boolean = "#22ffff";
+                colon = "#666666";
+            }
         }
     }
 }

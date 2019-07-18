@@ -37,6 +37,9 @@ namespace GUI
             string response = await cm.Send(url, type, header);
 
             previewHTML.NavigateToString(response);
+            var output = formatedRichTextBox;
+            Beautifier beautifier = new Beautifier();
+            beautifier.BeatyRichTextBox(response, output);
             rawTextBlock.Text = response;
         }
     }

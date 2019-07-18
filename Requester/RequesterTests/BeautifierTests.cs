@@ -62,7 +62,7 @@ namespace Requester.Tests
         {
             Assert.ThrowsException<ArgumentException>(() => {
                 Color color = new Color("rgba(170, 136, 34, 0.2)");
-                });
+            });
         }
     }
 }
