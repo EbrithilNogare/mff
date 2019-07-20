@@ -1,6 +1,5 @@
-numbers = [5,2,5,2,2,]
-for n in numbers:
-    string=""
-    for a in range(n):
-        string += "x"
-    print(string)
+words = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", ]
+number = input("Phone: ")
+for letter in number:
+    print(words[int(letter)],end=' ')
+print()
