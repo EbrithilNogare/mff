@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+\documentclass[a5paper]{article}
 
 \usepackage{geometry}
 \usepackage[utf8]{inputenc}
@@ -10,10 +10,11 @@
 \usepackage{sectsty}
 \usepackage{longtable}					% kvuli seznamu ve slovniku pres dve stranky
 \usepackage{ulem} 						% preskrtnuty text
-\usepackage{lmodern}					%pro spravne nacitani fontu
+\usepackage{lmodern}
+
+\def\readyForPrint{0} % switch pro tisk [0:preview, 1:tisk]		%pro spravne nacitani fontu
 
 \geometry{
-	a5paper,
 	twoside,
 	outer=7mm,
 	inner=12mm,
@@ -29,9 +30,16 @@
 %\addtolength{\textheight}{50pt}
 
 \setlength\parindent{1.5em}
-\setcounter{page}{0}
 \setcounter{tocdepth}{2}
 
+\if\readyForPrint1
+	\usepackage[
+		b5,
+		cam,
+		pdftex,
+		center
+	]{crop}	
+\fi	
 
 \allsectionsfont{\sffamily\mdseries\larger}
 \subsubsectionfont{\it\sffamily\mdseries\larger}
@@ -94,7 +102,9 @@
 
 
 \begin{document}
-\input{titlePage}
+\if\readyForPrint0
+	\input{titlePage}
+\fi
 \input{mainPage}	
 \input{uvodDoMatfyzu}
 %	\input{coVyriditPredem}
@@ -119,5 +129,7 @@
 \input{recepty}
 \input{mapkyAPlany}
 \input{zaver}
-\input{endPage}
+\if\readyForPrint0
+	\input{endPage}
+\fi
 \end{document}
