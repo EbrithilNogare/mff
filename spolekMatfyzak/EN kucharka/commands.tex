@@ -1,0 +1,55 @@
+%adresa budovy
+\newcommand\budovaInfo[6]{
+	\begin{center}
+	\begin{tabularx}{0.9\textwidth}{ |l|X| }
+		\hline
+	    \textsf{Address} & #1 \\ \hline
+	    \textsf{Residents} & #2 \\ \hline
+	    \textsf{Tips} & #3 \\ \hline
+	    \textsf{Lecture rooms} & #4 \\ \hline
+		\textsf{Where to eat} & #5 \\ \hline
+		\textsf{Bikes} & #6 \\ \hline
+	\end{tabularx}
+	\end{center}
+	\noindent
+}
+\newcommand\budovaKratce[2]{
+	\begin{center}
+	\begin{tabularx}{0.9\textwidth}{ |l|X| }
+		\hline
+	    \textsf{Adress} & #1 \\ \hline
+	    \textsf{Residents} & #2 \\ \hline
+	\end{tabularx}
+	\end{center}
+	\noindent
+}
+%adresa budovy - zkracena
+\newcommand\budovaAdresa[1]{
+	\begin{center}
+	\begin{tabularx}{0.9\textwidth}{ |l|X| }
+		\hline
+	    \textsf{Address} & #1 \\ \hline
+	\end{tabularx}
+	\end{center}
+	\noindent
+}
+
+\newcommand{\subsubsubsection}[1]{
+	\vspace{5pt}
+	\noindent
+	\textbf{#1}\\
+}
+
+\newcommand{\nadpis}[1]{{
+	\huge{
+		\textsf{
+			\centerline{
+				\textbf{#1}
+			}
+			\vskip5
+			\bigskipamount
+		}
+	}
+}}
+
+\newcommand{\uv}[1]{``#1"}

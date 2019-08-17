@@ -5,7 +5,7 @@
 \usepackage{graphicx}
 \usepackage[unicode]{hyperref}			%unicode pro nadpisy (labely)
 \usepackage{tabularx}
-\usepackage[czech]{babel}
+\usepackage[english, czech]{babel}
 \usepackage{relsize}
 \usepackage{sectsty}
 \usepackage{longtable}					% kvuli seznamu ve slovniku pres dve stranky
@@ -44,59 +44,7 @@
 \allsectionsfont{\sffamily\mdseries\larger}
 \subsubsectionfont{\it\sffamily\mdseries\larger}
 
-%adresa budovy
-\newcommand\budovaInfo[6]{
-	\begin{center}
-	\begin{tabularx}{0.9\textwidth}{ |l|X| }
-		\hline
-	    \textsf{Adresa} & #1 \\ \hline
-	    \textsf{Osazenstvo} & #2 \\ \hline
-	    \textsf{Zajímavost} & #3 \\ \hline
-	    \textsf{Posluchárny} & #4 \\ \hline
-		\textsf{Kde se najíst} & #5 \\ \hline
-		\textsf{Kola} & #6 \\ \hline
-	\end{tabularx}
-	\end{center}
-	\noindent
-}
-\newcommand\budovaKratce[2]{
-	\begin{center}
-	\begin{tabularx}{0.9\textwidth}{ |l|X| }
-		\hline
-	    \textsf{Adresa} & #1 \\ \hline
-	    \textsf{Osazenstvo} & #2 \\ \hline
-	\end{tabularx}
-	\end{center}
-	\noindent
-}
-%adresa budovy - zkracena
-\newcommand\budovaAdresa[1]{
-	\begin{center}
-	\begin{tabularx}{0.9\textwidth}{ |l|X| }
-		\hline
-	    \textsf{Adresa budovy} & #1 \\ \hline
-	\end{tabularx}
-	\end{center}
-	\noindent
-}
-
-\newcommand{\subsubsubsection}[1]{
-	\vspace{5pt}
-	\noindent
-	\textbf{#1}\\
-}
-
-\newcommand{\nadpis}[1]{{
-	\huge{
-		\textsf{
-			\centerline{
-				\textbf{#1}
-			}
-			\vskip5
-			\bigskipamount
-		}
-	}
-}}
+\input{commands}
 
 \def\ra{$\rightarrow$}
 
@@ -107,8 +55,6 @@
 \fi
 \input{mainPage}	
 \input{uvodDoMatfyzu}
-%	\input{coVyriditPredem}
-	\input{oganizace}
 	\input{studium}	
 	\input{fakultniBudovy}
 	\input{nefakultniBudovy}
