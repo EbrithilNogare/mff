@@ -18,7 +18,6 @@ void vypis(const vector <string> & arg) {
     }
 }
 
-
 int main(int argc, char ** argv) {
     vector <string> arg(argv, argv + argc);
 
