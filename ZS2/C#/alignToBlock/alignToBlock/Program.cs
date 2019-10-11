@@ -66,7 +66,7 @@ namespace alignToBlock
                                 actualWord.Append(actualSymbol);
                             }
                         }
-                        WriteLeftWords();
+                        WriteLineFromBuffer(false);
                     }
                 }
             }
@@ -76,23 +76,26 @@ namespace alignToBlock
             }
         }
 
-        private static void WriteLeftWords()
-        {
-            WriteLineFromBuffer(words.Count, false);
-        }
-
         private static void AddWordToBuffer(string word, char separator)
         {
+            // check if we can pass it into buffer
+            if (lettersOnRow + words.Count + word.Length > lineWidth)
+            {
+                WriteLineFromBuffer(true);
+            }
+
             words.Add(word);
             lettersOnRow += word.Length;
 
-            if (lettersOnRow + words.Count - 1 > lineWidth)
-            {
-                WriteLineFromBuffer(Math.Max(words.Count - 1, 1));
+            // check if word is super long
+            if (word.Length > lineWidth) {
+                WriteLineFromBuffer(false);
             }
-            if (separator == '\n')
+
+            // check if there is end of paragraph
+            if (separator == '\n' && words.Count != 0)
             {
-                WriteLeftWords();
+                WriteLineFromBuffer(false);
             }
         }
 
@@ -101,24 +104,23 @@ namespace alignToBlock
             return symbol == ' ' || symbol == '\t' || symbol == '\n';
         }
 
-        static void WriteLineFromBuffer(int count, bool blockAlign=true)
+        static void WriteLineFromBuffer(bool blockAlign)
         {
-            for (int i = 0; i < count-1; i++)
+            for (int i = 0; i < words.Count-1; i++)
             {
                 sw.Write(words[i]);
 
-                int spacesCount = lineWidth - lettersOnRow;
-                if(spacesCount%count-1 > i)
-                    sw.Write(new String(' ', spacesCount / count + 1));
+                int spacesCount = lineWidth - lettersOnRow; // todo repair it
+                if(spacesCount% words.Count - 1 > i)
+                    sw.Write(new String(' ', spacesCount / words.Count + 1));
                 else
-                    sw.Write(new String(' ', spacesCount / count));
+                    sw.Write(new String(' ', spacesCount / words.Count));
             }
-            sw.WriteLine(words[count-1]);
+            sw.WriteLine(words[words.Count - 1]);
 
             // reset all
             lettersOnRow = 0;
-            string leftWord = words[words.Count - 1];
-            words = new List<string>() { leftWord};
+            words = new List<string>();
         }
     }
 }
