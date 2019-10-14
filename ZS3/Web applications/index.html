@@ -1,7 +1,11 @@
 <!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Shop with something</title>
+    <meta name="author" content="David Napravnik">
+
+    <title>🦄 Shop with unicorns</title>
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -15,12 +19,59 @@
 
 <body>
 
-    <h1>Awesome shop</h1>
-    <h2>we have everything</h2>
-    <h3>even unicorns</h3>
-    <button class="btn-large black waves-effect waves-light" onclick="this.innerHTML='🦄 you touched me 🦄'">click me!</button>
+    <img src="logo.png" alt="logo" height="200"
+        style="position: absolute; right: 0; bottom: 0">
+    <article>
+        <h1>Awesome shop</h1>
+        <section>
+            <h2>product info</h2>
+            <p>Occaecat ut <strong>culpa</strong>culpa voluptate dolore ullamco. Consequat laboris
+                velit aute in cillum proident. Dolor ullamco proident fugiat
+                minim ea tempor sint.
+            </p>
+        </section>
 
-
+    </article>
+    <button class="btn-large black waves-effect waves-light"
+        onclick="this.innerHTML='🦄 you dont have enough money, sry :( 🦄'">BUY IT!</button>
+    <ul>
+        <li>Parameters</li>
+        <li>
+            <ol>
+                <li>length: 2.5m</li>
+                <li>height: 1.5m</li>
+                <li>custom color: <a href="colorpicker.html">colorPicker</a>
+                </li>
+            </ol>
+        </li>
+    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Size
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="2">
+                    100$
+                </td>
+                <td>
+                    Big
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Medium
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 
 
