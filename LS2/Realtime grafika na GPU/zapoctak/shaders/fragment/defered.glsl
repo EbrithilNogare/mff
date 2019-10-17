@@ -5,7 +5,7 @@ in vec2 vertCoordinates;
 in vec4 lightPosition;
 in vec4 lightColor;
 
-float lightIntensity = 0.2;
+float lightIntensity = 0.3;
 
 uniform sampler2D uPositionBuffer;
 uniform sampler2D uNormalBuffer;

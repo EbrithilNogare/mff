@@ -1,0 +1,24 @@
+ukazka palety od adobe:
+https://color.adobe.com/cs/create
+
+jak prebarvit obrazek:
+rotace barev obrazku dle HSV
+udelat masku (selekce kruhem kolem mysi) aby se neobarvilo vse
+
+
+
+DU:
+
+stahnout si repozitar tres SVN
+viz https://cgg.mff.cuni.cz/~pepca/grcis/
+spustit 117raster
+
+doinstalovat .NET 4.7
+
+manual zde:
+https://cgg.mff.cuni.cz/~pepca/lectures/cv/117raster.cz.php
+
+pro domaci ukol:
+rict modulu: umim jeden vstupni obrazek
+vyrobim okno a neco nakreslim
+Metoda update() a pixelUpdate(x, y)
