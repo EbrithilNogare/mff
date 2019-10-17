@@ -1,4 +1,4 @@
-﻿#define testing
+﻿//#define testing
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +14,8 @@ namespace alignToBlock
         static List<string> words = new List<string>();
         static int lettersOnRow = 0;
         static StreamWriter sw;
+        static int newLines = 0;
+        static bool newLineWaiting = false;
 
         static void Main(string[] args)
         {
@@ -53,19 +55,39 @@ namespace alignToBlock
                 {
                     using (sw = new StreamWriter(fileOut, false))
                     {
-                        StringBuilder actualWord = new StringBuilder();
+                        sw.NewLine = "\n"; // because of UNIX line ending
+                        StringBuilder actualWord = new StringBuilder(); // build word letter by letter
                         char actualSymbol;
                         while (sr.Peek() > -1)
                         {
                             actualSymbol = (char)sr.Read();
-                            if (IsSeparator(actualSymbol)){
-                                AddWordToBuffer(actualWord.ToString(), actualSymbol);
-                                actualWord.Clear();
+
+                            if (actualSymbol == '\r') continue; // is promised no \r will apear, but one never know
+
+                            // look for two new lines, meaning paragraph
+                            if (paragraphCheck(actualSymbol)) 
+                            {
+                                WriteLineFromBuffer(false);
+                                newLineWaiting = true;
+                            }
+
+                            // letter or separator char?
+                            if (IsSeparator(actualSymbol))
+                            {
+                                if (actualWord.Length != 0)
+                                {
+                                    AddWordToBuffer(actualWord.ToString(), actualSymbol);
+                                    actualWord.Clear();
+                                }
                             }
                             else{
                                 actualWord.Append(actualSymbol);
                             }
                         }
+                        // save last word to buffer
+                        if(actualWord.Length!=0)
+                            AddWordToBuffer(actualWord.ToString(), ' ');
+                        // clean buffer
                         WriteLineFromBuffer(false);
                     }
                 }
@@ -74,6 +96,23 @@ namespace alignToBlock
             {
                 Console.WriteLine("File Error");
             }
+        }
+
+        private static bool paragraphCheck(char actualSymbol)
+        {
+            if (actualSymbol == '\n')
+                newLines++;
+
+            if (!IsSeparator(actualSymbol))
+                newLines = 0;
+
+            // because of edge case 2x\n and than separator give two paragraphs
+            if (newLines == 2)
+            {
+                newLines++;
+                return true;
+            }
+            return false;
         }
 
         private static void AddWordToBuffer(string word, char separator)
@@ -91,12 +130,6 @@ namespace alignToBlock
             if (word.Length > lineWidth) {
                 WriteLineFromBuffer(false);
             }
-
-            // check if there is end of paragraph
-            if (separator == '\n' && words.Count != 0)
-            {
-                WriteLineFromBuffer(false);
-            }
         }
 
         static bool IsSeparator(char symbol)
@@ -105,16 +138,31 @@ namespace alignToBlock
         }
 
         static void WriteLineFromBuffer(bool blockAlign)
-        {
+        {   // nothing to write, dont waste time
+            if (words.Count == 0)
+                return;
+
+            // because of condition of new paragraph on end of file
+            if (newLineWaiting)
+            {
+                sw.WriteLine();
+                newLineWaiting = false;
+            }
+
+            // write all words from buffer to stream
             for (int i = 0; i < words.Count-1; i++)
             {
                 sw.Write(words[i]);
+                
+                // count spaces and where to put them
+                int spacesCount = Math.Max(lineWidth - lettersOnRow, 0);
+                int countInOne = spacesCount / (words.Count-1);
+                int countOfLonger = spacesCount % (words.Count - 1);
 
-                int spacesCount = lineWidth - lettersOnRow; // todo repair it
-                if(spacesCount% words.Count - 1 > i)
-                    sw.Write(new String(' ', spacesCount / words.Count + 1));
+                if (i < countOfLonger)
+                    sw.Write(new String(' ', blockAlign ? countInOne + 1 : 1));
                 else
-                    sw.Write(new String(' ', spacesCount / words.Count));
+                    sw.Write(new String(' ', blockAlign ? countInOne : 1));
             }
             sw.WriteLine(words[words.Count - 1]);
 
