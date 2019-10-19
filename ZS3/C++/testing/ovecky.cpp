@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include "ovecky.h"
 
 int ovecky::CountWords(std::string data) {
