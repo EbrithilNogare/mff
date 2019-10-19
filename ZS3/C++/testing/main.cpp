@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "main.h"
-#include "ovecky.h"
+#include "ovecky.cpp"
 
 
 int main()
