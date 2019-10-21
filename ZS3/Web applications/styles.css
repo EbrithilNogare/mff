@@ -1,0 +1,33 @@
+body{
+    font-family: auto;
+    text-align: left;
+}
+button{
+    background-color: black;
+    color:white;
+}
+.owfulButton{
+    background-image: url("logo.png");
+}
+table{
+    border: solid 1px;
+    padding: 0px;
+    margin: 0px;
+}
+img[src^="logo"]{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+body .article #shopName{
+    color:black;
+}
+li~li{
+    font-size: 10px;
+}
+[onclick]:hover{
+    font-style: italic;
+}
+h1:focus {
+    font-variant-caps: all-small-caps;
+}
