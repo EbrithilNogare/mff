@@ -1,177 +1,108 @@
+/**
+ * @file ovecky.cpp
+ *
+ * @author David Napravnik
+ * Contact: d@nogare.cz
+ */
 #include "ovecky.h"
 
-int ovecky::CountWords(std::string data) {
-	int count = 0;
-	bool inWord = false;
-	bool inNumber = false;
-	for (int i = 0; i < data.length(); i++)
-	{
-		if (!isalnum(data[i])) {
-			if (inWord)
-				count++;
-			inWord = false;
-			inNumber = false;
-			continue;
-		}
+int ovecky::ComputeAll(std::istream& input) {
+	char c;
 
-		if (inWord || inNumber)
-			continue;
+	while (true) {
+		c = input.get();
+		if (input.fail())
+			return 0;
 
-		if (isdigit(data[i])) {
-			inNumber = true;
-		}
-		else {
-			inWord = true;
-		}
-	}
-	return count;
-}
-
-int ovecky::CountSentences(std::string data) {
-	int count = 0;
-	int state = 0;
-	int character = 0; // 0=letter, 1=sentence separator, 2=other
-
-
-	for (int i = 0; i < data.length(); i++)
-	{
-		//set direction
-		if (isalnum(data[i]) && !isdigit(data[i]))
-			character = 0;
-		else if (data[i] == '.' || data[i] == '?' || data[i] == '!')
-			character = 1;
+		if (isalpha(c))
+			currentTransition = transition::letter;
+		else if (isalnum(c))
+			currentTransition = transition::number;
 		else
-			character = 2;
+			currentTransition = transition::other;
 
-		//step in automata
-		switch (state)
-		{
-		case 0:
-			switch (character)
-			{
-			case 0:
-				state = 1;
-				break;
-			case 1:
-			case 2:
-				state = 0;
-				break;
-			}
-			break;
-		case 1:
-			switch (character)
-			{
-			case 0:
-			case 2:
-				state = 1;
-				break;
-			case 1:
-				state = 0;
-				count++;
-				break;
-			}
-			break;
-		}
+		chars++;
+		CountWords(c);
+		CountSentences(c);
+		CountLines(c);
+		CountNumbers(c);
 	}
-	return count;
 
+	return 0;
 }
 
-int ovecky::CountChars(std::string data) {
-	int count = 0;
-	for (size_t i = 0; i < data.length(); i++)
-	{
-		count++;
+void ovecky::CountWords(char data) {
+	switch (stateWords) {
+	case 0: // in word
+		switch (currentTransition) {
+		case transition::letter: stateWords = 1; words++; break;
+		case transition::number: stateWords = 0; break;
+		case transition::other: stateWords = 0; break;
+		} break;
+	case 1: // not in word
+		switch (currentTransition) {
+		case transition::letter: stateWords = 1; break;
+		case transition::number: stateWords = 1; break;
+		case transition::other: stateWords = 0; break;
+		} break;
 	}
-	return count - 1;
 }
 
-int ovecky::CountLines(std::string data) {
-	int count = 0;
-	for (size_t i = 0; i < data.length(); i++)
-	{
-		if (data[i] == '\n')
-			count++;
+void ovecky::CountSentences(char data) {
+	enum sentenseTransition { letter, mark, other };
+	sentenseTransition currentSentenseTransition;
+
+	if (data == '.' || data == '?' || data == '!')
+		currentSentenseTransition = mark;
+	else if (currentTransition == transition::letter)
+		currentSentenseTransition = sentenseTransition::letter;
+	else
+		currentSentenseTransition = sentenseTransition::other;
+
+	switch (stateSentences) {
+	case 0: // outside of sentense
+		switch (currentSentenseTransition) {
+		case sentenseTransition::letter: stateSentences = 1; break;
+		case sentenseTransition::mark: stateSentences = 0; break;
+		case sentenseTransition::other: stateSentences = 0; break;
+		} break;
+	case 1: // inside of sentense
+		switch (currentSentenseTransition) {
+		case sentenseTransition::letter: stateSentences = 1; break;
+		case sentenseTransition::mark: stateSentences = 0; sentences++; break;
+		case sentenseTransition::other: stateSentences = 1; break;
+		} break;
 	}
-	return count;
 }
 
-int ovecky::CountNumbers(std::string data) {
-	return (int)getNumbers(data).size();
+void ovecky::CountLines(char data) {
+	//BUG empty lines are also taken
+	if (data == '\n')
+		lines++;
 }
 
-int ovecky::SumOfNumbers(std::string data) {
-	int count = 0;
-	std::vector<int> numbers = getNumbers(data);
-	for (std::vector<int>::iterator it = numbers.begin(); it != numbers.end(); ++it)
-		count += *it;
-	return count;
-}
-
-std::vector<int> ovecky::getNumbers(std::string data) {
-	std::vector<int> output;
-	int state = 0;
-	int character = 0; // 0=number, 1=letter, 2=other
-	std::string uncompleteNumber = "";
-
-
-	for (int i = 0; i < data.length(); i++)
-	{
-		//set direction
-		if (isdigit(data[i]))
-			character = 0;
-		else if (isalnum(data[i]))
-			character = 1;
-		else
-			character = 2;
-
-		//step in automata
-		switch (state)
-		{
-		case 0:
-			switch (character)
-			{
-			case 0:
-				state = 1;
-				uncompleteNumber += data[i];
-				break;
-			case 1:
-				state = 2;
-				break;
-			case 2:
-				state = 0;
-				break;
-			}
+void ovecky::CountNumbers(char data) {
+	switch (stateNumbers) {
+	case 0: // outside
+		switch (currentTransition) {
+		case transition::letter: stateNumbers = 2; break;
+		case transition::number: stateNumbers = 1; numbers++; currentNumber += data; break;
+		case transition::other: stateNumbers = 0; break;
+		} break;
+	case 1: // inside number
+		switch (currentTransition) {
+		case transition::number: stateNumbers = 1; currentNumber += data; break;
+		case transition::letter:
+		case transition::other: stateNumbers = 0;
+			sum += std::stoi(currentNumber);
+			currentNumber = "";
 			break;
-		case 1:
-			switch (character)
-			{
-			case 0:
-				state = 1;
-				uncompleteNumber += data[i];
-				break;
-			case 1:
-			case 2:
-				state = 0;
-				output.push_back(std::stoi(uncompleteNumber));
-				uncompleteNumber = "";
-				break;
-			}
-			break;
-		case 2:
-			switch (character)
-			{
-			case 0:
-			case 1:
-				state = 2;
-				break;
-			case 2:
-				state = 0;
-				break;
-			}
-			break;
-		}
+		} break;
+	case 2: // inside word
+		switch (currentTransition) {
+		case transition::letter: stateNumbers = 2; break;
+		case transition::number: stateNumbers = 2; break;
+		case transition::other: stateNumbers = 0; break;
+		} break;
 	}
-	return output;
-
 }
