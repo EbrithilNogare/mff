@@ -1,27 +1,24 @@
+/**
+ * @file main.cpp
+ *
+ * @author David Napravnik
+ * Contact: d@nogare.cz
+ */
 #include "main.h"
 
 
 int main()
 {
-	std::string data = GetLine();
 	ovecky o;
-	std::cout << "znaku: " << o.CountChars(data) << "\n";
-	std::cout << "slov: " << o.CountWords(data) << "\n";
-	std::cout << "vet: " << o.CountSentences(data) << "\n";
-	std::cout << "radku: " << o.CountLines(data) << "\n";
-	std::cout << "cisel: " << o.CountNumbers(data) << "\n";
-	std::cout << "soucet: " << o.SumOfNumbers(data) << "\n";
+
+	o.ComputeAll(std::cin);
+
+	std::cout << "znaku: "	<< o.chars		<< "\n";
+	std::cout << "slov: "	<< o.words		<< "\n";
+	std::cout << "vet: "	<< o.sentences	<< "\n";
+	std::cout << "radku: "	<< o.lines		<< "\n";
+	std::cout << "cisel: "	<< o.numbers	<< "\n";
+	std::cout << "soucet: " << o.sum		<< "\n";
 
 	return 0;
-}
-
-std::string GetLine() {
-	std::string allData;
-	std::string data;
-	while (! std::cin.eof())
-	{
-		std::getline(std::cin, data);
-		allData += data + '\n';
-	}
-	return allData;
 }
