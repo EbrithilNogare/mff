@@ -1,0 +1,16 @@
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\alignToBlockTests.dll
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\alignToBlockTests.pdb
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\alignToBlock.exe
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\alignToBlock.pdb
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\alignToBlock.exe.config
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\obj\Debug\alignToBlockTests.csprojAssemblyReference.cache
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\obj\Debug\alignToBlockTests.csproj.CopyComplete
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\obj\Debug\alignToBlockTests.dll
+D:\git\mff\ZS3\C#\alignToBlockMultifile\alignToBlockTests\obj\Debug\alignToBlockTests.pdb
