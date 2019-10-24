@@ -10,13 +10,13 @@
 
 <body>
     <form method="POST" action="http://demo.stools.net">
-        <input type="text" name="username" placeholder="username"></br>
+        <input type="text" name="username" placeholder="username" required></br>
         <input type="email" name="email" placeholder="email"></br>
-        <input type="number" name="age" placeholder="age"></br>
-        <textarea name="comment" cols="30" rows="10"></textarea></br>
+        <input type="number" name="age" placeholder="age" min="0"></br>
+        <textarea name="comment" cols="30" rows="10" required></textarea></br>
         <select name="publish">
                 <option value="public">public</option>
-                <option value="private">private</option>
+                <option value="private" selected="selected">private</option>
         </select></br>
         <input type="submit">
     </form>

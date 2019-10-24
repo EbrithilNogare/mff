@@ -1,6 +1,0 @@
-﻿  testing.cpp
-D:\git\mff\ZS3\C++\testing\testing.cpp(7,21): error C3861: 'GetLine': identifier not found
-D:\git\mff\ZS3\C++\testing\testing.cpp(8,33): error C3861: 'CountWords': identifier not found
-D:\git\mff\ZS3\C++\testing\testing.cpp(20,36): error C3867: 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::length': non-standard syntax; use '&' to create a pointer to member
-D:\git\mff\ZS3\C++\testing\testing.cpp(20,36): error C2446: '<': no conversion from 'unsigned int (__thiscall std::basic_string<char,std::char_traits<char>,std::allocator<char>>::* )(void) noexcept const' to 'size_t'
-D:\git\mff\ZS3\C++\testing\testing.cpp(20,30): message : There is no context in which this conversion is possible
