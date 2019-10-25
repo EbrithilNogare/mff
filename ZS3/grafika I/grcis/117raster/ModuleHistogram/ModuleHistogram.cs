@@ -4,12 +4,12 @@ using Utilities;
 
 namespace Modules
 {
-  public class ModuleRoundedHistogram : DefaultRasterModule
+  public class ModuleGlobalHistogram : DefaultRasterModule
   {
     /// <summary>
     /// Mandatory plain constructor.
     /// </summary>
-    public ModuleRoundedHistogram ()
+    public ModuleGlobalHistogram ()
     {}
 
     /// <summary>
@@ -99,7 +99,7 @@ namespace Modules
 
     /// <summary>
     /// Returns true if there is an active GUI window associted with this module.
-    /// Open/close GUI window using the setter.
+    /// You can open/close GUI window using the setter.
     /// </summary>
     public override bool GuiWindow
     {
@@ -158,6 +158,8 @@ namespace Modules
     /// Blocking (synchronous) function.
     /// Logically equivalent to Update() but with potential local effect.
     /// </summary>
+    /// <param name="x">Horizontal image coordinate in pixels.</param>
+    /// <param name="y">Vertical image coordinate in pixels.</param>
     public override void PixelUpdate (
       int x,
       int y) => recompute();
@@ -167,6 +169,7 @@ namespace Modules
     /// </summary>
     public override void OnGuiWindowClose ()
     {
+      hForm?.Hide();
       hForm = null;
     }
   }

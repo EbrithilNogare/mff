@@ -19,6 +19,8 @@ namespace Rendering
     /// </summary>
     private Image image = null;
 
+    public Image CurrentImage () => image;
+
     private readonly Action<string> setWindowTitleSuffix;
 
     private PointF mouseDown;
@@ -137,7 +139,7 @@ namespace Rendering
     }
 
     public void UpdateZoomToMiddle (
-      float newZoom)
+      float newZoom = 1.0f)
     {
       if (image == null)
         return;
@@ -361,16 +363,14 @@ namespace Rendering
     /// <summary>
     /// Sets new image to PictueBox, clamps zoom and makes PictureBox to refresh (optionally, saves new iumage to history)
     /// </summary>
-    /// <param name="newImage">New image to set for PictureBox</param>
-    /// <param name="saveToHistory">TRUE to make this new image to save to history</param>
+    /// <param name="newImage">New image to set for PictureBox.</param>
+    /// <param name="saveToHistory">TRUE to make this new image to save to history.</param>
     public void SetNewImage (
       Image newImage,
       bool saveToHistory = false)
     {
-      if (newImage == null)
-        return;
-
-      setImage(newImage);
+      if (newImage != image)
+        setImage(newImage);
       // Now 'image' contains copy of the new image..
 
       if (saveToHistory)
@@ -421,7 +421,9 @@ namespace Rendering
     private void setImage (Image newImage)
     {
       image?.Dispose();
-      image = (Image)newImage.Clone();
+      Bitmap bmp = (Bitmap)newImage.Clone();
+      bmp.SetResolution(96.0f, 96.0f);
+      image = bmp;
     }
 
     /// <summary>

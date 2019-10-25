@@ -75,6 +75,9 @@
     <Compile Include="..\common\Util.cs">
       <Link>Util.cs</Link>
     </Compile>
+    <Compile Include="..\modules\HSV\ModuleHSV.cs">
+      <Link>ModuleHSV\ModuleHSV.cs</Link>
+    </Compile>
     <Compile Include="..\modules\Pixelize\ModulePixelize.cs">
       <Link>ModulePixelize\ModulePixelize.cs</Link>
     </Compile>
@@ -84,14 +87,6 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModuleRoundedHistogram\Histogram.cs" />
-    <Compile Include="ModuleRoundedHistogram\RoundedHistogramForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ModuleRoundedHistogram\RoundedHistogramForm.Designer.cs">
-      <DependentUpon>RoundedHistogramForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ModuleRoundedHistogram\ModuleHistogram.cs" />
     <Compile Include="ModuleHistogram\Histogram.cs" />
     <Compile Include="ModuleHistogram\HistogramForm.cs">
       <SubType>Form</SubType>
@@ -100,16 +95,25 @@
       <DependentUpon>HistogramForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ModuleHistogram\ModuleHistogram.cs" />
+    <Compile Include="..\modules\HSV\FormHSV.cs">
+      <Link>ModuleHSV\FormHSV.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\modules\HSV\FormHSV.Designer.cs">
+      <Link>ModuleHSV\FormHSV.Designer.cs</Link>
+      <DependentUpon>FormHSV.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ModuleRoundedHistogram\RoundedHistogramForm.resx">
-      <DependentUpon>RoundedHistogramForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ModuleHistogram\HistogramForm.resx">
       <DependentUpon>HistogramForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\modules\HSV\FormHSV.resx">
+      <Link>ModuleHSV\FormHSV.resx</Link>
+      <DependentUpon>FormHSV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -139,6 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\EmptyImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ModuleHSV\hue-wallpaper.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

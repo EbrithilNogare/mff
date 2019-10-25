@@ -15,7 +15,6 @@ F:\git\grcis\117raster\obj\Debug\117raster.pdb
 F:\git\grcis\117raster\obj\Debug\Modules.RoundedHistogramForm.resources
 F:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\117raster.csprojAssemblyReference.cache
 F:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\_117raster.FormMain.resources
-F:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\Modules.RoundedHistogramForm.resources
 F:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\Modules.HistogramForm.resources
 F:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\_117raster.Properties.Resources.resources
 F:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\117raster.csproj.GenerateResource.cache
@@ -40,3 +39,4 @@ D:\git\mff\ZS3\grafika I\grcis\117raster\bin\Debug\117raster.exe
 D:\git\mff\ZS3\grafika I\grcis\117raster\bin\Debug\117raster.pdb
 D:\git\mff\ZS3\grafika I\grcis\117raster\bin\Debug\OpenTK.dll.config
 D:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\117raster.csproj.CopyComplete
+F:\git\mff\ZS3\grafika I\grcis\117raster\obj\Debug\Modules.FormHSV.resources

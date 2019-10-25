@@ -18,7 +18,7 @@ namespace Utilities
   {
     static Util ()
     {
-      SetVersion("$Rev: 829 $");
+      SetVersion("$Rev$");
     }
 
     /// <summary>

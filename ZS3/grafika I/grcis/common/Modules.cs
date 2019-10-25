@@ -116,12 +116,14 @@ namespace Modules
     /// PixelUpdate() is called after every user interaction.
     /// </summary>
     bool HasPixelUpdate { get; }
- 
+
     /// <summary>
     /// Optional action performed at the given pixel.
     /// Blocking (synchronous) function.
     /// Logically equivalent to Update() but with potential local effect.
     /// </summary>
+    /// <param name="x">Horizontal image coordinate in pixels.</param>
+    /// <param name="y">Vertical image coordinate in pixels.</param>
     void PixelUpdate (
       int x,
       int y);
@@ -130,6 +132,8 @@ namespace Modules
     /// Async action performed at the given pixel.
     /// Logically equivalent to UpdateAsync() but with potential local effect.
     /// </summary>
+    /// <param name="x">Horizontal image coordinate in pixels.</param>
+    /// <param name="y">Vertical image coordinate in pixels.</param>
     /// <param name="notify">Optional notification handler.</param>
     void PixelUpdateAsync (
       int x,
@@ -159,14 +163,34 @@ namespace Modules
 
     /// <summary>
     /// Returns true if there is an active GUI window associted with this module.
-    /// Open/close GUI window using the setter.
+    /// You can open/close GUI window using the setter.
     /// </summary>
     bool GuiWindow { get; set; }
 
     /// <summary>
-    /// Notification: GUI window has been closed.
+    /// Notification (GUI -> module): GUI window has been closed.
     /// </summary>
     void OnGuiWindowClose ();
+
+    /// <summary>
+    /// Notification (GUI -> module): GUI window changed its values (sync GUI -> module is needed).
+    /// </summary>
+    void OnGuiWindowChanged ();
+
+    /// <summary>
+    /// The module is asking to be recomputed by its owner (module -> main).
+    /// </summary>
+    NotifyHandler UpdateRequest { get; set; }
+
+    /// <summary>
+    /// The module is changing the Param string (module -> main).
+    /// </summary>
+    NotifyHandler ParamUpdated { get; set; }
+
+    /// <summary>
+    /// The module is asking to be deactivated (module -> main).
+    /// </summary>
+    NotifyHandler DeactivateRequest { get; set; }
   }
 
   public abstract class DefaultRasterModule : IRasterModule
@@ -279,6 +303,8 @@ namespace Modules
     /// Blocking (synchronous) function.
     /// Logically equivalent to Update() but with potential local effect.
     /// </summary>
+    /// <param name="x">Horizontal image coordinate in pixels.</param>
+    /// <param name="y">Vertical image coordinate in pixels.</param>
     public virtual void PixelUpdate (
       int x,
       int y)
@@ -288,6 +314,8 @@ namespace Modules
     /// Async action performed at the given pixel.
     /// Logically equivalent to UpdateAsync() but with potential local effect.
     /// </summary>
+    /// <param name="x">Horizontal image coordinate in pixels.</param>
+    /// <param name="y">Vertical image coordinate in pixels.</param>
     /// <param name="notify">Optional notification handler.</param>
     public virtual void PixelUpdateAsync (
       int x,
@@ -324,16 +352,36 @@ namespace Modules
 
     /// <summary>
     /// Returns true if there is an active GUI window associted with this module.
-    /// Open/close GUI window using the setter.
+    /// You can open/close GUI window using the setter.
     /// </summary>
     public virtual bool GuiWindow { get; set; } = false;
 
     /// <summary>
-    /// Notification: GUI window has been closed.
+    /// Notification (GUI -> module): GUI window has been closed.
     /// </summary>
     public virtual void OnGuiWindowClose ()
-    {
-    }
+    {}
+
+    /// <summary>
+    /// Notification (GUI -> module): GUI window changed its values (sync GUI -> module is needed).
+    /// </summary>
+    public virtual void OnGuiWindowChanged ()
+    {}
+
+    /// <summary>
+    /// The module is asking to be recomputed by its owner (module -> main).
+    /// </summary>
+    public virtual NotifyHandler UpdateRequest { get; set; } = null;
+
+    /// <summary>
+    /// The module is changing the Param string (module -> main).
+    /// </summary>
+    public virtual NotifyHandler ParamUpdated { get; set; } = null;
+
+    /// <summary>
+    /// The module is asking to be deactivated (module -> main).
+    /// </summary>
+    public virtual NotifyHandler DeactivateRequest { get; set; } = null;
   }
 
   public class ModuleRegistry
