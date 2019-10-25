@@ -87,6 +87,17 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
+=======
+    <Compile Include="Module118Naprvnik\Histogram.cs" />
+    <Compile Include="Module118Naprvnik\RoundedHistogramForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module118Naprvnik\RoundedHistogramForm.Designer.cs">
+      <DependentUpon>RoundedHistogramForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Module118Naprvnik\ModuleHistogram.cs" />
+>>>>>>> 74697cef53843b05a83dfbc50616330975aeb54f
     <Compile Include="ModuleHistogram\Histogram.cs" />
     <Compile Include="ModuleHistogram\HistogramForm.cs">
       <SubType>Form</SubType>
@@ -108,6 +119,12 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
+=======
+    <EmbeddedResource Include="Module118Naprvnik\RoundedHistogramForm.resx">
+      <DependentUpon>RoundedHistogramForm.cs</DependentUpon>
+    </EmbeddedResource>
+>>>>>>> 74697cef53843b05a83dfbc50616330975aeb54f
     <EmbeddedResource Include="ModuleHistogram\HistogramForm.resx">
       <DependentUpon>HistogramForm.cs</DependentUpon>
     </EmbeddedResource>
