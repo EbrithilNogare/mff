@@ -120,9 +120,9 @@ namespace Modules
         // !!! TODO: Interrupt handling.
         for (x = 0; x < wid; x++)
         {
-          Color ic = input.GetPixel(x, y);
+          Color ic = inImage.GetPixel(x, y);
           Color oc = Color.FromArgb(255 - ic.R, 255 - ic.G, 255 - ic.B);
-          output.SetPixel(x, y, oc);
+          outImage.SetPixel(x, y, oc);
         }
       }
 
