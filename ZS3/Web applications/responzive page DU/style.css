@@ -1,0 +1,32 @@
+#sidebar{
+    width:100%;
+    min-width: 400px;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background: white;
+    border: 1px;
+    box-shadow: 5px 5px 10px black;
+
+
+}
+
+#sidebar ul{
+    text-align: center;
+}
+
+#sidebar ul li{
+    display: inline;
+    margin: 0 10px ;
+}
+
+#content{
+    margin-top: 86px;
+}
+
+
+
+@media screen and (min-width: 1000px){
+
+  }
