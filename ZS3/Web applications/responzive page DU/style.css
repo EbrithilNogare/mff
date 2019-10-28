@@ -1,3 +1,17 @@
+html, body{
+    height: 100%;
+    min-height: 100%;
+    padding: 0;
+
+    font-family: Roboto, Arial;
+}
+
+img{
+    max-width: 400px;
+    display: block;
+    margin: 10px auto;
+}
+
 #sidebar{
     width:100%;
     min-width: 400px;
@@ -6,8 +20,8 @@
     left: 0;
 
     background: white;
-    border: 1px;
-    box-shadow: 5px 5px 10px black;
+    border: 1px black;
+    box-shadow: 0px 5px 20px gray;
 
 
 }
@@ -22,11 +36,41 @@
 }
 
 #content{
-    margin-top: 86px;
+    margin: 86px 30px auto 30px;
 }
 
 
 
 @media screen and (min-width: 1000px){
+    img{
+        margin: 10px 20px;
+    }
 
-  }
+    img.floatright{
+        float: right;
+    }
+    
+    img.floatleft{
+        float: left;
+    }
+
+    #sidebar{
+        width: 200px;
+        min-width: 200px;
+        height: 100%;
+        box-shadow: 5px 0px 20px gray;
+    
+    
+    }
+
+    #sidebar ul li{
+        display: list-item;
+        text-align: left;
+    }
+
+    
+    #content{
+        width: 800px;
+        margin: 0 calc(50% - 500px) auto calc(50% - 300px);
+    }
+}
