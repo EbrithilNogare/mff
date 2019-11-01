@@ -37,20 +37,17 @@ header img{
 }
 
 nav{
-    min-width: 150px;
-
-    padding: 0 30px;
-    position: fixed;
-    top: 25%;
-    left:0;
+    width: 840px;
+    margin: 0 calc(50% - 420px);
+    padding: 5px 5px;
+    box-sizing: border-box;
 
     background: var(--primary-bg-color);
     color: var(--secondary-fg-color);
 }
 
 nav center{
-    font-size: 24px;
-    text-transform: uppercase;
+    display:none;
 }
 
 nav a:link{
@@ -60,9 +57,12 @@ nav a:link{
 
 nav ul{
     display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 30px;
     grid-row-gap: 15px;
     list-style-type: none;
     padding: 0;
+    margin:0;
 }
 
 nav ul li{
@@ -206,3 +206,30 @@ section.buySection .buy:hover{
 section.details{
     grid-area: details;
 }
+
+@media only screen and (min-width: 1300px) {
+    nav{
+        width: 150px;
+    
+        position: fixed;
+        top: 25%;
+        left:0;
+        margin:0;
+    }
+    
+    nav center{
+        display:block;
+        font-size: 24px;
+        text-transform: uppercase;
+    }
+    
+    nav ul{
+        grid-template-columns: 1fr;
+        margin: 15px;
+    }
+    
+    nav ul li{
+        display: block;
+        width: auto;
+    }
+} 
