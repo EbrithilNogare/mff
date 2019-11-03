@@ -75,6 +75,9 @@
     <Compile Include="..\common\Util.cs">
       <Link>Util.cs</Link>
     </Compile>
+    <Compile Include="..\modules\FullColor\ModuleFullColor.cs">
+      <Link>ModuleFullColor\ModuleFullColor.cs</Link>
+    </Compile>
     <Compile Include="..\modules\HSV\ModuleHSV.cs">
       <Link>ModuleHSV\ModuleHSV.cs</Link>
     </Compile>
@@ -87,17 +90,6 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-=======
-    <Compile Include="Module118Naprvnik\Histogram.cs" />
-    <Compile Include="Module118Naprvnik\RoundedHistogramForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Module118Naprvnik\RoundedHistogramForm.Designer.cs">
-      <DependentUpon>RoundedHistogramForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Module118Naprvnik\ModuleHistogram.cs" />
->>>>>>> 74697cef53843b05a83dfbc50616330975aeb54f
     <Compile Include="ModuleHistogram\Histogram.cs" />
     <Compile Include="ModuleHistogram\HistogramForm.cs">
       <SubType>Form</SubType>
@@ -119,12 +111,6 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-<<<<<<< HEAD
-=======
-    <EmbeddedResource Include="Module118Naprvnik\RoundedHistogramForm.resx">
-      <DependentUpon>RoundedHistogramForm.cs</DependentUpon>
-    </EmbeddedResource>
->>>>>>> 74697cef53843b05a83dfbc50616330975aeb54f
     <EmbeddedResource Include="ModuleHistogram\HistogramForm.resx">
       <DependentUpon>HistogramForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -161,8 +147,6 @@
   <ItemGroup>
     <None Include="Resources\EmptyImage.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ModuleHSV\hue-wallpaper.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

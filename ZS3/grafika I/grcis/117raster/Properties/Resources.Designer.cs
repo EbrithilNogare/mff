@@ -73,16 +73,6 @@ namespace _117raster.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap hue_wallpaper {
-            get {
-                object obj = ResourceManager.GetObject("hue-wallpaper", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap InitialImage {
             get {
                 object obj = ResourceManager.GetObject("InitialImage", resourceCulture);

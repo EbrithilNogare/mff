@@ -154,6 +154,14 @@ namespace Modules
       int slot = 0);
 
     /// <summary>
+    /// Returns an optional output message.
+    /// Can return null.
+    /// </summary>
+    /// <param name="slot">Slot number from 0 to OutputSlots-1.</param>
+    string GetOutputMessage (
+      int slot = 0);
+
+    /// <summary>
     /// Returns an output HDR image.
     /// Can return null.
     /// </summary>
@@ -213,10 +221,31 @@ namespace Modules
     public virtual string Tooltip => "-- no params --";
 
     /// <summary>
-    /// Param string.
-    /// Default behavior: no parameter.
+    /// True if 'param' has to be parsed in the next Update*() call.
     /// </summary>
-    public virtual string Param { get; set; } = "";
+    protected bool paramDirty = true;
+
+    /// <summary>
+    /// Current module parameters.
+    /// Set reasonable initial value in a derived class.
+    /// </summary>
+    protected string param = "";
+
+    /// <summary>
+    /// Setter logic defines the 'paramDirty' value.
+    /// </summary>
+    public virtual string Param
+    {
+      get => param;
+      set
+      {
+        if (value != param)
+        {
+          param = value;
+          paramDirty = true;
+        }
+      }
+    }
 
     /// <summary>
     /// Optional mouse handler: button down
@@ -271,6 +300,11 @@ namespace Modules
     {}
 
     /// <summary>
+    /// Default naive implementation of the user-break.
+    /// </summary>
+    public static volatile bool UserBreak = false;
+
+    /// <summary>
     /// Recompute the output image[s] according to input image[s].
     /// Blocking (synchronous) function.
     /// #GetOutput() functions can be called after that.
@@ -286,11 +320,10 @@ namespace Modules
       NotifyHandler notify = null
       )
     {
-      _ = Task.Factory.StartNew(() =>
-      {
-        Update();
-        notify?.Invoke(this);
-      });
+      Task t = Task.Factory.StartNew(() => Update());
+
+      if (notify != null)
+        t.ContinueWith((Task tt) => notify(this));
     }
 
     /// <summary>
@@ -322,11 +355,10 @@ namespace Modules
       int y,
       NotifyHandler notify = null)
     {
-      _ = Task.Factory.StartNew(() =>
-      {
-        PixelUpdate(x, y);
-        notify?.Invoke(this);
-      });
+      Task t = Task.Factory.StartNew(() => PixelUpdate(x, y));
+
+      if (notify != null)
+        t.ContinueWith((Task tt) => notify(this));
     }
 
     /// <summary>
@@ -340,6 +372,14 @@ namespace Modules
     /// </summary>
     /// <param name="slot">Slot number from 0 to OutputSlots-1.</param>
     public virtual Bitmap GetOutput (
+      int slot = 0) => null;
+
+    /// <summary>
+    /// Returns an optional output message.
+    /// Can return null.
+    /// </summary>
+    /// <param name="slot">Slot number from 0 to OutputSlots-1.</param>
+    public virtual string GetOutputMessage (
       int slot = 0) => null;
 
     /// <summary>
