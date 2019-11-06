@@ -132,8 +132,29 @@ namespace Modules
                     height = inImage.Height;
                     dataIn = inImage.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly, iFormat);
                     dI = Image.GetPixelFormatSize(iFormat) / 8;               // pixel size in bytes
+                    byte* baseIptr = (byte*)dataIn.Scan0;
 
-                    // todo: do something here
+
+                    blockSize = 512;
+                    for (int x = 0; x < wid; x++) // shuffle blocks of pixels
+                    {
+                        if (UserBreak) break;
+                        for (int y = 0; y < hei; y ++)
+                        {
+                            optr = baseOptr + (x * wid + y) * dO;
+                            iptr = baseIptr + ((x% height) * width + (y%width)) * dI;
+
+                            optr[0] = (byte)(iptr[0] + optr[0]);
+                            optr[1] = (byte)(iptr[1] + optr[1]);
+                            optr[2] = (byte)(iptr[2] + optr[2]);
+                        }
+                    }
+
+
+
+
+
+
 
 
 

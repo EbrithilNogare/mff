@@ -44,11 +44,11 @@ namespace Utilities
                 for (int hue = 0; hue <= (histArray.GetLength(0) - 1); hue++)
                     for (int saturation = 0; saturation <= (histArray.GetLength(1) - 1); saturation++)
                     {
-                        if (histArray[hue, saturation]==0)
+                        if (histArray[hue, saturation] == 0)
                             continue;
-                        
+
                         Color color = Arith.HSVToColor(hue * 360.0 / (histArray.GetLength(0) - 1), (double)saturation / (histArray.GetLength(1) - 1), 1.0);
-                        color = Color.FromArgb((int)Math.Min(Math.Log(histArray[hue, saturation], 2)*32,255), color);
+                        color = Color.FromArgb((int)Math.Min(Math.Log(histArray[hue, saturation], 2) * 32, 255), color);
                         //color = Color.FromArgb(255, 0, 0);
                         Pen graphPen = new Pen(color);
                         SolidBrush graphBrush = new SolidBrush(color);
@@ -80,7 +80,7 @@ namespace Utilities
 
                         // Draw polygon to screen.
                         gfx.FillPolygon(graphBrush, curvePoints);
-                    
+
                     }
             }
         }
@@ -92,14 +92,19 @@ namespace Utilities
         /// <param name="param">Textual parameter.</param>
         public static void ComputeHistogram(
           Bitmap input,
-          string param)
-        {
+          string param,
+            int mouseX,
+            int mouseY){
             // Text parameters:
             param = param.ToLower().Trim();
             // Graph appearance:
             alt = param.IndexOf("alt") >= 0;
-            
+
             int x, y;
+            bool mc = mouseX >= 0 && mouseY >= 0; // local or global histogram
+            byte radius = 25;
+
+
 
             // faster bitmap access
             LockBitmap lockBitmap = new LockBitmap(input);
@@ -112,16 +117,18 @@ namespace Utilities
 
             int width = input.Width;
             int height = input.Height;
+            if (mouseX > width) mouseX = width - 1;
+            if (mouseY > height) mouseY = height - 1;
 
-            for (y = 0; y < height; y++)
-                for (x = 0; x < width; x++)
+            for (y = Math.Max(mc ? mouseY- radius:0,0); y < Math.Min((mc ? mouseY + radius : height), height); y++)
+                for (x = Math.Max(mc ? mouseX - radius :0, 0); x < Math.Min((mc ? mouseX + radius : width), height); x++)
                 {
                     Color color = lockBitmap.GetPixel(x, y);
 
                     byte hue = (byte)(color.GetHue() * (histArray.GetLength(0) - 1) / 360.0);
                     byte saturation = (byte)(color.GetSaturation() * (histArray.GetLength(1) - 1));
 
-                    if(histArray[hue, saturation] < 255)
+                    if (histArray[hue, saturation] < 255)
                         histArray[hue, saturation]++;
                 }
             lockBitmap.UnlockBits();
@@ -148,8 +155,6 @@ namespace Utilities
         /// </summary>
         public void LockBits()
         {
-            try
-            {
                 // Get width and height of bitmap
                 Width = source.Width;
                 Height = source.Height;
@@ -170,8 +175,7 @@ namespace Utilities
                 }
 
                 // Lock bitmap and return bitmap data
-                bitmapData = source.LockBits(rect, ImageLockMode.ReadWrite,
-                                             source.PixelFormat);
+                bitmapData = source.LockBits(rect, ImageLockMode.ReadOnly, source.PixelFormat);
 
                 // create byte array to copy pixel values
                 int step = Depth / 8;
@@ -180,11 +184,6 @@ namespace Utilities
 
                 // Copy data from pointer to array
                 Marshal.Copy(Iptr, Pixels, 0, Pixels.Length);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
 
         /// <summary>
