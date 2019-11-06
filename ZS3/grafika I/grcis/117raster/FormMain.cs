@@ -200,21 +200,11 @@ namespace _117raster
         return;
       }
 
-      // Original "image probe": coordinates and color of the picked pixel.
-      x = Util.Clamp(x, 0, image.Width - 1);
-      y = Util.Clamp(y, 0, image.Height - 1);
+        // Original "image probe": coordinates and color of the picked pixel.
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat(" image[{0},{1}]", x, y);
 
-      Color c = image.GetPixel(x, y);
-      StringBuilder sb = new StringBuilder();
-      sb.AppendFormat(" image[{0},{1}] = ", x, y);
-      if (image.PixelFormat == PixelFormat.Format32bppArgb ||
-          image.PixelFormat == PixelFormat.Format64bppArgb ||
-          image.PixelFormat == PixelFormat.Format16bppArgb1555)
-        sb.AppendFormat("[{0},{1},{2},{3}] = #{0:X02}{1:X02}{2:X02}{3:X02}", c.R, c.G, c.B, c.A);
-      else
-        sb.AppendFormat("[{0},{1},{2}] = #{0:X02}{1:X02}{2:X02}", c.R, c.G, c.B);
-
-      SetText(sb.ToString());
+            SetText(sb.ToString());
     }
 
     private void buttonLoadImage_Click (object sender, EventArgs e)
