@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Utilities;
 
-namespace Modules
+namespace DavidNapravnik
 {
     public class ModuleFullColor : DefaultRasterModule
     {
