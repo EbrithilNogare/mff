@@ -1,0 +1,59 @@
+body {
+	font-family: Calibri;
+	margin: 0;
+	padding: 20px;
+}
+
+h1 {
+	text-align: center;
+	font-size: 32pt;
+}
+
+form table {
+	margin: 10px auto;
+}
+
+form table td {
+	padding: 5px;
+}
+
+
+
+div.numbers {
+	margin: 30px auto;
+	width: 725px;
+	font-size: 0;
+}
+
+div.numbers > div {
+	display: inline-block;
+	width: 64px;
+	height: 64px;
+	border: 1px solid #ccc;
+	margin: 3px;
+	padding: 0;
+	text-align: center;
+	font-size: 15pt;
+	line-height: 64px;
+	position: relative;
+	overflow: hidden;
+}
+
+div.number {
+	background-color: #f4f4f4;
+}
+
+div.prime {
+	background-color: #fff499;
+	box-shadow: 2px 2px 5px #aaa;
+}
+
+div.numbers > div > span {
+	font-size: 10pt;
+	line-height: 10pt;
+	padding: 3px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	color: #888;
+}

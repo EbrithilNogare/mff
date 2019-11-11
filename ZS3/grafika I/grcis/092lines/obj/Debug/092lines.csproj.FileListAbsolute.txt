@@ -1,0 +1,9 @@
+F:\git\mff\ZS3\grafika I\grcis\092lines\bin\Debug\092lines.exe.config
+F:\git\mff\ZS3\grafika I\grcis\092lines\bin\Debug\092lines.exe
+F:\git\mff\ZS3\grafika I\grcis\092lines\bin\Debug\092lines.pdb
+F:\git\mff\ZS3\grafika I\grcis\092lines\obj\Debug\092lines.csprojAssemblyReference.cache
+F:\git\mff\ZS3\grafika I\grcis\092lines\obj\Debug\_092lines.Form1.resources
+F:\git\mff\ZS3\grafika I\grcis\092lines\obj\Debug\_092lines.Properties.Resources.resources
+F:\git\mff\ZS3\grafika I\grcis\092lines\obj\Debug\092lines.csproj.GenerateResource.cache
+F:\git\mff\ZS3\grafika I\grcis\092lines\obj\Debug\092lines.exe
+F:\git\mff\ZS3\grafika I\grcis\092lines\obj\Debug\092lines.pdb
