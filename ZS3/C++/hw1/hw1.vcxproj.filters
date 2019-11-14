@@ -18,5 +18,11 @@
     <ClCompile Include="hw1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="automat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="automat.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
