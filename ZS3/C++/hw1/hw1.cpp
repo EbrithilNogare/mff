@@ -5,13 +5,15 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include "automat.h"
 
 using namespace std;
-
-
 
 int main()
 {
 
 
 }
+
+
+
