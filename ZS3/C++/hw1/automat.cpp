@@ -1,88 +1,101 @@
 // automat.cpp
 // author : David Napravnik
 
-#include <iostream>
-#include <vector>
-#include <set>
-#include <algorithm>
 #include "automat.h"
 
-using namespace std;
+//#define debug
 
-enum symbol {number, letter, fence, space}; // [0-9], [a-zA-z], [#], [ ]
-enum state {s1, s2, s3, s4, s5, s6, err};
-state currentState = s1;
-
-void automat(char inputSymbol) {
-	symbol symbolType;
-	if (isdigit(inputSymbol))symbolType = number;
-	else if (isalpha(inputSymbol))symbolType = letter;
-	else if (inputSymbol=='#')symbolType = fence;
-	else if (isspace(inputSymbol))symbolType = space;
-	// todo else some error
-
-	state newState;
-	switch (currentState)
-	{
-	s1:newState = state1(symbolType); break;
-	s2:newState = state2(symbolType); break;
-	s3:newState = state3(symbolType); break;
-	s4:newState = state4(symbolType); break;
-	s5:newState = state5(symbolType); break;
-	s6:newState = state6(symbolType); break;
-	}
-
-	currentState = newState;
+Automat::Automat(void)
+{
+	Automat::currentState = s0;
+	Automat::automatDirections = {
+		{s0, s0, s0, s1, s0}, //s0
+		{s0, s0, s2, s1, s0}, //s1
+		{er, s3, er, er, er}, //s2
+		{s3, s3, er, s4, er}, //s3
+		{s4, s4, er, s5, s4}, //s4
+		{s4, s4, s6, s5, s4}, //s5
+		{er, er, er, s1, er}, //s6
+		{er, er, er, er, er}, //er
+	};
 }
 
-state state1(symbol input) { // plain text
-	switch (input) {
-	number:
-	letter:
-	hash: return s1; break;
-	space: return s2; break;
+void Automat::runAutomat(char inputSymbol) {
+	symbol symbolType = GetSymbolType(inputSymbol);
+
+	currentState = Automat::automatDirections[Automat::currentState][symbolType];
+
+	switch (currentState) {
+	case s0: state0(inputSymbol); break;
+	case s1: state1(inputSymbol); break;
+	case s2: state2(inputSymbol); break;
+	case s3: state3(inputSymbol); break;
+	case s4: state4(inputSymbol); break;
+	case s5: state5(inputSymbol); break;
+	case s6: state6(inputSymbol); break;
+	default: stateEr(inputSymbol);
 	}
-}
-state state2(symbol input) { // end of word
-	switch (input) {
-	number:
-	letter: return s1; break;
-	hash: return s3; break;
-	space: return s2; break;
-	}
-}
-state state3(symbol input) { // first letter of macro name
-	switch (input) {
-	letter: return s4; break;
-	number:
-	hash:
-	space: return err; break;
-	}
-}
-state state4(symbol input) { // inside of macro name
-	switch (input) {
-	number:
-	letter:return s4; break;
-	hash: return err; break;
-	space: return s5; break;
-	}
-}
-state state5(symbol input) { // inside of macro content
-	switch (input) {
-	number:
-	letter:
-	space: return s5; break;
-	hash: return s6; break;
-	}
-}
-state state6(symbol input) { // end of macro
-	switch (input) {
-	number:
-	letter:
-	hash: return err; break;
-	space: return s2; break;
-	}
+
+#ifdef debug
+	cout << "input symbol: " << inputSymbol << "     automat state: " << currentState << " \033[" << (
+		currentState < 2 ? 42 :
+		currentState < 4 ? 43 :
+		currentState < 7 ? 44 : 41
+		) << "m" << string(currentState, ' ') << " \033[0m.\n";
+#endif
 }
 
+Automat::symbol Automat::GetSymbolType(char inputSymbol)
+{
+	if (isdigit(inputSymbol))return number;
+	if (isalpha(inputSymbol))return letter;
+	if (inputSymbol == '#')return fence;
+	if (isspace(inputSymbol))return space;
+	else return other;	// todo throw some nice error
+}
+
+void Automat::state0(char input) {
+	wordStorage.push_back(input);
+}
+void Automat::state1(char input) {
+	// check if it is macro name or plain text
+	string word(wordStorage.begin(), wordStorage.end());
+	wordStorage.clear();
+
+	if (marcoList.count(word) > 0) {
+		string macro = marcoList[word];
+		for (int i = 0; i < macro.length(); i++)
+		{
+			runAutomat(macro[i]);
+		}
+	}
+	else {
+		cout << word << input;
+	}
+}
+void Automat::state2(char input) {
+
+}
+void Automat::state3(char input) {
+	wordStorage.push_back(input);
+}
+void Automat::state4(char input) {
+	macroStorage.push_back(input);
+}
+void Automat::state5(char input) {
+	macroStorage.push_back(input);
+}
+void Automat::state6(char input) {
+	// todo remove first and last space
+	marcoList.insert(pair<string, string>(
+		string(wordStorage.begin(), wordStorage.end()),
+		string(macroStorage.begin(), macroStorage.end())
+		));
+	wordStorage.clear();
+	macroStorage.clear();
+}
+void Automat::stateEr(char input) {
+	return;
+}
 
 
