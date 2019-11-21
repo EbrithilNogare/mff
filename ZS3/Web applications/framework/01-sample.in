@@ -1,0 +1,125 @@
+{
+    "fortune-cookies": [
+        "U8xyj0a74m",
+        "7Wm\/MP4yAQJ3mm",
+        "ON8HF4EX",
+        [
+            {
+                "id": "5c0d867bc1a70-7",
+                "command": "ubcIPUh",
+                "priority": 3,
+                "dependencies": [
+                    "5c0d867bc1a41-6"
+                ]
+            }
+        ],
+        "m9HvUT0Gf",
+        "qo\/sy7OA+tO"
+    ],
+    "groups": "guSfxgeny",
+    "exercises": [
+        "nVYLA8clLfmR",
+        "rah16B5Ybsdto",
+        [
+            {
+                "id": "5c0d867bc1a11-5",
+                "command": "nCGwgG",
+                "priority": 2,
+                "dependencies": [
+                    "5c0d867bc19b1-3"
+                ]
+            }
+        ],
+        "9VUxqdx1f",
+        "1oQPfxH",
+        "esESzwhfhlaR"
+    ],
+    "categories": {
+        "wisdom": "CDqh8p8qo",
+        "groups": "3RXKvvwPEyBA",
+        "pipelines": "xYY11nqqinbUlD",
+        "fortune-cookies": "CXzYM8A5p",
+        "assignments": "gmQejk83bRDNM4",
+        "scrap": [
+            {
+                "id": "5c0d867bc1a41-6",
+                "command": "cJaxkTaRpqWuWm6",
+                "priority": 0,
+                "dependencies": []
+            }
+        ]
+    },
+    "assignments": {
+        "pipelines": "0sf1OU6H",
+        "assignments": "ygu52jEl2NSdh9t",
+        "groups": "APGcrJ5n1W",
+        "wisdom": "f5FYvGjtZcK",
+        "tests": "QEw49gAMe8J",
+        "scrap": "k0tysg7xOa2jE",
+        "fortune-cookies": [
+            {
+                "id": "5c0d867bc193d-1",
+                "command": "kd3Zx16BUN3",
+                "priority": 2,
+                "dependencies": [
+                    "5c0d867bc0471-0"
+                ]
+            }
+        ],
+        "categories": "CwPYI6Wbg\/VR\/",
+        "exercises": "aDox6LM\/",
+        "environments": [
+            {
+                "id": "5c0d867bc19b1-3",
+                "command": "vDQaoPa",
+                "priority": 3,
+                "dependencies": []
+            }
+        ]
+    },
+    "tests": "nnRUeDzPnltu",
+    "pipelines": [
+        "FzZifSPG",
+        "RSSx\/6kz5Bb1",
+        "XWuRWdVVO",
+        "Lad+Rhfa",
+        "CORKH4awGWJ",
+        "nbkLe0QIAtHzP",
+        "PXUMgIuYT6IQgjf",
+        "PKgbJb",
+        [
+            {
+                "id": "5c0d867bc1980-2",
+                "command": "aIjQuQ4",
+                "priority": 1,
+                "dependencies": [
+                    "5c0d867bc1a41-6"
+                ]
+            }
+        ]
+    ],
+    "environments": {
+        "groups": "lRMOX",
+        "categories": [
+            {
+                "id": "5c0d867bc0471-0",
+                "command": "e1zkuTF",
+                "priority": 2,
+                "dependencies": []
+            }
+        ],
+        "assignments": "CbigOINA",
+        "wisdom": [
+            {
+                "id": "5c0d867bc19e1-4",
+                "command": "pNqjRWvHZzG7Z7",
+                "priority": 1,
+                "dependencies": [
+                    "5c0d867bc1a70-7"
+                ]
+            }
+        ],
+        "tests": "9hF+Q",
+        "exercises": "rWCjsjYatSS6"
+    }
+}
