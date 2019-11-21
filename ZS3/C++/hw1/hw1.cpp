@@ -13,34 +13,24 @@ int main(int argc, char** argv)
 {
 	Automat automat;
 
-	// todo add macros in parameters support
 	vector<string> arg(argv, argv + argc);
 	if (arg.size() > 1) {
-		automat.currentState = Automat::s2;
-		for (int i = 1; i < arg.size(); i++)
-		{
-			string word = arg[i];
-			for (int j = 0; j < word.length(); j++)
-			{
-				automat.runAutomat(word[j]);
-			}
-			automat.runAutomat(' ');
-		}
-		automat.runAutomat('#');
-		automat.runAutomat(' ');
+		automat.addMacro(arg);
 	}
 
-	istream& s = cin;
 	char c;
 	for (;;)
 	{
-		c = s.get();
-		if (s.fail()) break;
-		//cout << (c == '\n' ? '^':c) ;
+		c = cin.get();
+		if (cin.fail()) break;
+
 		automat.runAutomat(c);
+
+		if (automat.currentState == Automat::er) {
+			cout << "Error" << "\n";
+			break;
+		}
 	}
-	if(automat.currentState == Automat::er)
-		cout << "Error" << "\n";
 }
 
 
