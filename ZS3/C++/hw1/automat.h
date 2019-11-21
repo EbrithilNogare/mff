@@ -18,14 +18,16 @@ public:
 	vector<char> wordStorage;
 	vector<char> macroStorage;
 	state currentState;
-	vector<vector<state>> automatDirections;
+	vector<vector<state>> automatDescription;
 
 	Automat();
 
-	symbol GetSymbolType(char inputSymbol);
-
 	void runAutomat(char inputSymbol);
+	void addMacro(vector<string> macro);
 
+
+	symbol GetSymbolType(char inputSymbol);
+	
 	void state0(char input);
 	void state1(char input);
 	void state2(char input);

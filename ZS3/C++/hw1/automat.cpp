@@ -8,7 +8,7 @@
 Automat::Automat(void)
 {
 	Automat::currentState = s0;
-	Automat::automatDirections = {
+	Automat::automatDescription = {
 		{s0, s0, s0, s1, s0}, //s0
 		{s0, s0, s2, s1, s0}, //s1
 		{er, s3, er, er, er}, //s2
@@ -20,10 +20,24 @@ Automat::Automat(void)
 	};
 }
 
+void Automat::addMacro(vector<string> macro){
+	currentState = Automat::s2;
+	for (int i = 1; i < macro.size(); i++)
+	{
+		string word = macro[i];
+		for (int j = 0; j < word.length(); j++)
+		{
+			runAutomat(word[j]);
+		}
+		runAutomat(' ');
+	}
+	runAutomat('#');
+	runAutomat(' ');
+}
 void Automat::runAutomat(char inputSymbol) {
 	symbol symbolType = GetSymbolType(inputSymbol);
 
-	currentState = Automat::automatDirections[Automat::currentState][symbolType];
+	currentState = Automat::automatDescription[Automat::currentState][symbolType];
 
 	switch (currentState) {
 	case s0: state0(inputSymbol); break;
@@ -51,7 +65,7 @@ Automat::symbol Automat::GetSymbolType(char inputSymbol)
 	if (isalpha(inputSymbol))return letter;
 	if (inputSymbol == '#')return fence;
 	if (isspace(inputSymbol))return space;
-	else return other;	// todo throw some nice error
+	else return other;
 }
 
 void Automat::state0(char input) {
@@ -86,7 +100,6 @@ void Automat::state5(char input) {
 	macroStorage.push_back(input);
 }
 void Automat::state6(char input) {
-	// todo remove first and last space
 	marcoList.insert(pair<string, string>(
 		string(wordStorage.begin(), wordStorage.end()),
 		string(macroStorage.begin(), macroStorage.end())
