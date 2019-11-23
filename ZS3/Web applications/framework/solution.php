@@ -1,27 +1,41 @@
 <?php
 
-class ConfigPreprocessor
-{
+class ConfigPreprocessor{
 	var $listOfObjects = [];
-	public function __construct($root)
-	{
-		//var_dump($root);
+	public function __construct($root){
 		$this->traverseObject($root);
 	}
+	
+	function get(&$table, $key) {
+		return gettype($table)=="object" ? $table->$key : $table[$key];
+	}
+	
+	function set(&$table, $key, &$value) {
+		return gettype($value)=="object" ? $table->$key=$value : $table[$key]=$value;
+	}
 
-	public function traverseObject($parent)
-	{
-		if(gettype($parent)=="object" && (isset($parent->id))){
-			//echo "o id ==> "; echo $parent->id; echo "\n"; // todo remove
-			array_push($this->listOfObjects, $parent);
+	function exists(&$table, $key) {
+		return gettype($table)=="object" ? isset($table->$key) : isset($table[$key]);
+	}
+	
+	function isTable(&$table) {
+		return gettype($table)=="object" || gettype($table)=="array";
+	}
+	
+	function isTask(&$task) {
+		return $this->isTable($task) && 
+			$this->exists($task, "id") && 
+			$this->exists($task, "command") && 
+			$this->exists($task, "priority") && 
+			$this->exists($task, "dependencies");
+	}
+
+	function traverseObject($parent){
+		if($this->isTask($parent)){
+			$this->listOfObjects[] = $parent;
 			return;
 		}
 
-		if(gettype($parent)=="array" && (isset($parent["id"]))){
-			//echo "a id ==> "; echo $parent["id"]; echo "\n"; // todo remove
-			array_push($this->listOfObjects, (object)$parent);
-			return;
-		}
 
 		foreach($parent as $key => $value) {
 			if(gettype($value)=="object"){
@@ -35,31 +49,72 @@ class ConfigPreprocessor
 
 	public function getAllTasks()
 	{		
-		usort($this->listOfObjects,function($a, $b) {
-			return $a->priority < $b->priority;
+		// sort by priority, if true => b is higher
+		mergesort($this->listOfObjects,function($a, $b) {
+			return $this->get($a, "priority") < $this->get($b, "priority");
 		});
 
 		$sortedList = [];
+		$sortedListIDs = [];
 
+		// sort by dependencies
 		$iterator=0;
-		while (count($this->listOfObjects) != 0) { 
+		while (count($this->listOfObjects)!=0) { 
 			$satisfied=true;
-			foreach ($this->listOfObjects[$iterator]->dependencies as $key)
-				if(!in_array($key, $sortedList))
+
+			$item = $this->listOfObjects[$iterator];
+			foreach ($this->get($item,"dependencies") as $value){
+				if(!in_array($value, $sortedListIDs))
 					$satisfied = false;
+			}
+
 			if($satisfied){
-				array_unshift($this->sortedList[$iterator]);
-				unset($this->listOfObjects[$iterator]); 
+				$sortedList[] = $item;
+				$sortedListIDs[] = $this->get($item,"id");
+				array_splice ($this->listOfObjects, $iterator, 1); 
 				$iterator=0;
 			}else{
 				$iterator++;
 			}
+
+			if($iterator!=0 && $iterator == count($this->listOfObjects))
+				throw new Exception('topological ordering does not exist');
 		}
-
-
-
-
-
 		return $sortedList;
+		
+		return $this->listOfObjects;
 	}
+}
+
+// Imported from https://www.php.net/manual/en/function.usort.php#38827
+function mergesort(&$array, $cmp_function = 'strcmp') {
+    // Arrays of size < 2 require no action.
+    if (count($array) < 2) return;
+    // Split the array in half
+    $halfway = count($array) / 2;
+    $array1 = array_slice($array, 0, $halfway);
+    $array2 = array_slice($array, $halfway);
+    // Recurse to sort the two halves
+    mergesort($array1, $cmp_function);
+    mergesort($array2, $cmp_function);
+    // If all of $array1 is <= all of $array2, just append them.
+    if (call_user_func($cmp_function, end($array1), $array2[0]) < 1) {
+        $array = array_merge($array1, $array2);
+        return;
+    }
+    // Merge the two sorted arrays into a single sorted array
+    $array = array();
+    $ptr1 = $ptr2 = 0;
+    while ($ptr1 < count($array1) && $ptr2 < count($array2)) {
+        if (call_user_func($cmp_function, $array1[$ptr1], $array2[$ptr2]) < 1) {
+            $array[] = $array1[$ptr1++];
+        }
+        else {
+            $array[] = $array2[$ptr2++];
+        }
+    }
+    // Merge the remainder
+    while ($ptr1 < count($array1)) $array[] = $array1[$ptr1++];
+    while ($ptr2 < count($array2)) $array[] = $array2[$ptr2++];
+    return;
 }
