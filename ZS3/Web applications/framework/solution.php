@@ -39,31 +39,31 @@
 	/`                            |            ||
 	`-.___,-.      .-.        ___,'            ||
 	         `---'`   `'----'`
-	My most awful code done by far. Pls do not read it or trying understand it
+	My most awful code done by far. Pls do not read it or trying understand it.
 */
 class ConfigPreprocessor{
-	var $listOfObjects = [];
+	private $listOfObjects = [];
 	public function __construct($root){
 		$this->traverseObject($root);
 	}
 	
-	function get(&$table, $key) {
-		return gettype($table)=="object" ? $table->$key : $table[$key];
+	function get(&$table, $key){
+		return is_object($table) ? $table->$key : $table[$key];
 	}
 	
-	function set(&$table, $key, &$value) {
-		return gettype($value)=="object" ? $table->$key=$value : $table[$key]=$value;
+	function set(&$table, $key, &$value){
+		return is_object($value) ? $table->$key=$value : $table[$key]=$value;
 	}
 
-	function exists(&$table, $key) {
-		return gettype($table)=="object" ? isset($table->$key) : isset($table[$key]);
+	function exists(&$table, $key){
+		return is_object($table) ? isset($table->$key) : isset($table[$key]);
 	}
 	
-	function isTable(&$table) {
-		return gettype($table)=="object" || gettype($table)=="array";
+	function isTable(&$table){
+		return is_object($table) || is_array($table)=="array";
 	}
 	
-	function isTask(&$task) {
+	function isTask(&$task){
 		return $this->isTable($task) && 
 			$this->exists($task, "id") && 
 			$this->exists($task, "command") && 
@@ -77,19 +77,17 @@ class ConfigPreprocessor{
 			return;
 		}
 
-
 		foreach($parent as $key => $value) {
-			if(gettype($value)=="object"){
+			if(is_object($value)){
 				$this->traverseObject($value);
 			}
-			if(gettype($value)=="array"){
+			if(is_array($value)){
 				$this->traverseObject($value);
 			}				
 		}
 	}
 
-	public function getAllTasks()
-	{		
+	public function getAllTasks(){
 		// sort by priority, if true => b is higher
 		mergesort($this->listOfObjects,function($a, $b) {
 			return $this->get($a, "priority") < $this->get($b, "priority");
@@ -122,8 +120,6 @@ class ConfigPreprocessor{
 				throw new Exception('topological ordering does not exist');
 		}
 		return $sortedList;
-		
-		return $this->listOfObjects;
 	}
 }
 
