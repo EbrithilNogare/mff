@@ -1,7 +1,9 @@
 <?php
 
 try {
+	include "templates/_header.php";
 	showPage();
+	include "templates/_footer.php";
 } catch (Exception $e) {
 	http_response_code(500);
 	echo $e;
@@ -16,24 +18,18 @@ function showPage(){
 		return;
 	}
 
-	if(!include "templates/_header.php")http_response_code(500);
-	incldeWithParams($pageLink);
-	if(!include "templates/_footer.php")http_response_code(500);
+	includeWithParams($pageLink);
 }
 
 function getPage(){
 	$pageName = parsePageName();
 	$pageArguments = parseFileReturn($pageName);
 	foreach($pageArguments as $key => $value){
-		if(!isset($_GET[$key])){
-			http_response_code(400);
-			return;
-		}
-		if(is_array($value) && !in_array($_GET[$key], $value)){
-			http_response_code(400);
-			return;
-		}
-		if($value === "int" && !is_numeric($_GET[$key])){
+		if(
+			(!isset($_GET[$key])) ||
+			(is_array($value) && !in_array($_GET[$key], $value)) ||
+			($value === "int" && !is_numeric($_GET[$key]))
+		){
 			http_response_code(400);
 			return;
 		}
@@ -41,16 +37,16 @@ function getPage(){
 	return $pageName;
 }
 
-function incldeWithParams($pageLink){
+function includeWithParams($pageLink){
 	$pageArguments = parseFileReturn($pageLink);
 	foreach($pageArguments as $key => $value){		
-		if($value === "int"){
+		if($value === "int")
 			$$key = intval($_GET[$key]);
-		}else{
+		else
 			$$key = $_GET[$key];
-		}
 	}
-	if(!(include "templates/".$pageLink))http_response_code(500);
+	if(!(include "templates/".$pageLink))
+		http_response_code(500);
 }
 
 function parseFileReturn($fileName){
@@ -68,11 +64,13 @@ function parsePageName(){
 		return;
 	}
 
-	if(is_dir("templates/".$pageArgument)){
+	if(
+		is_dir("templates/".$pageArgument)&&
+		file_exists("templates/".$pageArgument."/index.php")
+	){
 		return $pageArgument."/index.php";
 	}else if(file_exists("templates/".$pageArgument.".php")){
-		if("templates/".$pageArgument."/index.php")
-			return $pageArgument.".php";
+		return $pageArgument.".php";
 	}
 	http_response_code(404);
 }
