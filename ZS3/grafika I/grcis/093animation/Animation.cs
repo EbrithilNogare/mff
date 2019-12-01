@@ -131,7 +131,7 @@ namespace _093animation
 
             // computer light
             c.SetPenWidth(1);
-            c.SetColor(Color.Yellow);
+            c.SetColor(Color.Purple);
             float lightX = wh + (float)Math.Sin(time) * 300;
             float lightY = hh + (float)Math.Cos(time) * 300;
 
@@ -150,14 +150,6 @@ namespace _093animation
                 }
                 c.Line(lightX, lightY, lightX + (float)Math.Sin(angle) * minDistance, lightY + (float)Math.Cos(angle) * minDistance);
             }
-
-
-            // show where light is (sometimes it is not obvious)
-            c.SetColor(Color.Red);
-            c.SetPenWidth(5);
-            c.Line(lightX + 5, lightY + 5, lightX - 5, lightY - 5);
-            c.Line(lightX - 5, lightY + 5, lightX + 5, lightY - 5);
-
         }
         static PointF getIntersection(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4)
         {
