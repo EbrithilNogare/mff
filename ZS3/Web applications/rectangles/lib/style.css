@@ -1,0 +1,33 @@
+body {
+	font-size: 14pt;
+	font-family: Calibri, Arial, sans-serif;
+	background-color: #f0f0f8;
+}
+
+h1 {
+	text-align: center;
+}
+
+#imgArea {
+	margin: 20px auto;
+	padding: 0;
+	border: 2px solid #666;
+	background-color: white;
+	box-shadow: 0 0 5px #666;
+	position: relative;
+}
+
+div.rect {
+	position: absolute;
+	border: 2px solid;
+}
+
+div.result {
+	position: absolute;
+	border: 2px dashed #966;
+	background: white;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	background-color: #ff000042;
+}
