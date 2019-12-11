@@ -221,6 +221,12 @@ namespace Modules
     public virtual string Tooltip => "-- no params --";
 
     /// <summary>
+    /// Not-null while an async update (UpdateAsync() or PixelUpdateAsync()) is running.
+    /// Guarded by lock (this).
+    /// </summary>
+    protected Task task;
+
+    /// <summary>
     /// True if 'param' has to be parsed in the next Update*() call.
     /// </summary>
     protected bool paramDirty = true;
@@ -320,10 +326,19 @@ namespace Modules
       NotifyHandler notify = null
       )
     {
-      Task t = Task.Factory.StartNew(() => Update());
+      lock (this)
+      {
+        if (task == null)
+          task = Task.Factory.StartNew(() => Update());
 
-      if (notify != null)
-        t.ContinueWith((Task tt) => notify(this));
+        task.ContinueWith((Task tt) =>
+        {
+          notify?.Invoke(this);
+
+          lock (this)
+            task = null;
+        });
+      }
     }
 
     /// <summary>
@@ -355,10 +370,19 @@ namespace Modules
       int y,
       NotifyHandler notify = null)
     {
-      Task t = Task.Factory.StartNew(() => PixelUpdate(x, y));
+      lock (this)
+      {
+        if (task == null)
+          task = Task.Factory.StartNew(() => PixelUpdate(x, y));
 
-      if (notify != null)
-        t.ContinueWith((Task tt) => notify(this));
+        task.ContinueWith((Task tt) =>
+        {
+          notify?.Invoke(this);
+
+          lock (this)
+            task = null;
+        });
+      }
     }
 
     /// <summary>
@@ -437,6 +461,14 @@ namespace Modules
     internal static readonly Type[] voidArgs = new Type[0];
 
     /// <summary>
+    /// Decorated module name for humans (e.g. used in list-boxes)
+    /// </summary>
+    /// <param name="rm"></param>
+    /// <returns></returns>
+    public static string DecoratedModuleName (
+      IRasterModule rm) => rm.Author + '-' + rm.Name;
+
+    /// <summary>
     /// Register a new module.
     /// </summary>
     /// <param name="onlyDefault">True for modules inherited from 'DefaultRasterModule'.</param>
@@ -454,7 +486,7 @@ namespace Modules
         if (constructor != null)
         {
           if (constructor.Invoke(voidArgs) is IRasterModule rm)
-            reg[rm.Author + '-' + rm.Name] = t;
+            reg[DecoratedModuleName(rm)] = t;
         }
       }
     }
