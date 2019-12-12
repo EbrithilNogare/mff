@@ -107,9 +107,44 @@ namespace Scene3D
 
 
             // create shape
+            Vector3[] v = new Vector3[]
+            {
+                new Vector3(0,1,1),
+                new Vector3(0.866025f, 0.5f, 1),
+                new Vector3(0.866025f, -0.5f, 1),
+                new Vector3(0, -1, 1),
+                new Vector3(-0.866025f, -0.5f, 1),
+                new Vector3(0.866025f, 0.5f, 1),
+                new Vector3(0,0,1),
+
+                new Vector3(0,1,-1),
+                new Vector3(0.866025f, 0.5f, -1),
+                new Vector3(0.866025f, -0.5f, -1),
+                new Vector3(0, -1, -1),
+                new Vector3(-0.866025f, -0.5f, -1),
+                new Vector3(0.866025f, 0.5f, -1),
+                new Vector3(0,0,-1),
+            };
+            
 
 
 
+
+            List<Vector3[,]> shapeSkeleton = new List<Vector3[,]>();
+
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
 
 
             // draw shape
