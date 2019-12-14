@@ -19,8 +19,8 @@ namespace Scene3D
         public static void InitParams(out string name, out string param, out string tooltip)
         {
             name = "David Napravnik";
-            param = "r=1,seg=1000,kx=1.0,dx=1/2pi,ky=3/2,dy=1/2pi,kz=5/3,dz=pi";
-            tooltip = "r=<radius>, seg=<segments>, kx,dx,ky,dy,kz,dz .. frequencies and phase shifts,\ne.g. coordinate x = r*cos(kx*t+dx)";
+            param = "s=50, wid=1, depth=.2";
+            tooltip = "[s=<splits>,] [wid=<line width>,] [depth=<object thickness>,]";
         }
 
         #endregion
@@ -29,52 +29,28 @@ namespace Scene3D
 
         // !!! If you need any instance data, put them here..
 
-        private float radius = 1.0f;
-        private double kx = 1.0;
-        private double dx = 0.0;
-        private double ky = 1.0;
-        private double dy = 0.0;
-        private double kz = 1.0;
-        private double dz = 0.0;
-        private int segments = 1000;
-        private double maxT = 2.0 * Math.PI;
+        private int splits = 50;
+        private float lineWidth = 1.0f;
+        private float depth = .2f;
 
         private void parseParams(string param)
         {
             // Defaults.
-            radius = 1.0f;
-            kx = 1.0;
-            dx = 0.0;
-            ky = 1.0;
-            dy = 0.0;
-            kz = 1.0;
-            dz = 0.0;
-            segments = 1000;
+            splits = 50;
+            lineWidth = 1.0f;
+            depth = .2f;
 
             Dictionary<string, string> p = Util.ParseKeyValueList(param);
             if (p.Count > 0)
             {
-                // r=<double>
-                Util.TryParse(p, "r", ref radius);
+                // s=<int>
+                Util.TryParse(p, "s", ref splits);
 
-                // seg=<int>
-                if (Util.TryParse(p, "seg", ref segments) &&
-                    segments < 10)
-                    segments = 10;
-
-                // kx,dx,ky,dy,kz,dz .. frequencies and phase shifts.
-                Util.TryParseRational(p, "kx", ref kx);
-                Util.TryParseRational(p, "dx", ref dx);
-                Util.TryParseRational(p, "ky", ref ky);
-                Util.TryParseRational(p, "dy", ref dy);
-                Util.TryParseRational(p, "kz", ref kz);
-                Util.TryParseRational(p, "dz", ref dz);
-
-                // ... you can add more parameters here ...
+                // wid=<float>
+                Util.TryParse(p, "wid", ref lineWidth);
+                // depth=<float>
+                Util.TryParse(p, "depth", ref depth);
             }
-
-            // Estimate of upper bound for 't'.
-            maxT = 2.0 * Math.PI / Arith.GCD(Arith.GCD(kx, ky), kz);
         }
 
         #endregion
@@ -97,92 +73,100 @@ namespace Scene3D
         /// <returns>Number of generated faces (0 in case of failure)</returns>
         public int AddMesh(SceneBrep scene, Matrix4 m, string param)
         {
-
             parseParams(param);
-            scene.Reserve(segments + 1);
-
-
-
-
-
+            scene.LineWidth = lineWidth;            
 
             // create shape
-            Vector3[] v = new Vector3[]
+            // create vertices in 3D local space
+            Vector3[] shapeVerticesLocal = new Vector3[]
             {
-                new Vector3(0,1,1),
-                new Vector3(0.866025f, 0.5f, 1),
-                new Vector3(0.866025f, -0.5f, 1),
-                new Vector3(0, -1, 1),
-                new Vector3(-0.866025f, -0.5f, 1),
-                new Vector3(0.866025f, 0.5f, 1),
-                new Vector3(0,0,1),
+                new Vector3(0,1,depth),
+                new Vector3(0.866025f, 0.5f, depth),
+                new Vector3(0.866025f, -0.5f, depth),
+                new Vector3(0, -1, depth),
+                new Vector3(-0.866025f, -0.5f, depth),
+                new Vector3(-0.866025f, 0.5f, depth),
+                new Vector3(0,0,depth),
 
-                new Vector3(0,1,-1),
-                new Vector3(0.866025f, 0.5f, -1),
-                new Vector3(0.866025f, -0.5f, -1),
-                new Vector3(0, -1, -1),
-                new Vector3(-0.866025f, -0.5f, -1),
-                new Vector3(0.866025f, 0.5f, -1),
-                new Vector3(0,0,-1),
+                new Vector3(0,1,-depth),
+                new Vector3(0.866025f, 0.5f, -depth),
+                new Vector3(0.866025f, -0.5f, -depth),
+                new Vector3(0, -1, -depth),
+                new Vector3(-0.866025f, -0.5f, -depth),
+                new Vector3(-0.866025f, 0.5f, -depth),
+                new Vector3(0,0,-depth),
             };
-            
+
+            // push vertices to scene and get theirs indexes
+            int[] shapeVerticesIndex = new int[shapeVerticesLocal.Length];
+            for (int i = 0; i < shapeVerticesLocal.Length; i++)
+            {
+                int vertexIndex = scene.AddVertex(Vector3.TransformPosition(shapeVerticesLocal[i], m));
+                shapeVerticesIndex[i] = vertexIndex;
+                scene.SetColor(vertexIndex, new Vector3(0,0,0));
+            }
+
+            Vector3[] edgeColors = new Vector3[]{ new Vector3(1, 0, 0), new Vector3(1, 1, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 0) };
+
+            // { vertex, vertex, color }
+            List<int[,]> shapeEdges = new List<int[,]>();
+            shapeEdges.Add(new int[2, 3] { { 0, 1, 0 }, {  8,  9, 0 } });
+            shapeEdges.Add(new int[2, 3] { { 1, 2, 1 }, {  9, 13, 1 } });
+            shapeEdges.Add(new int[2, 3] { { 2, 6, 1 }, {  10, 9, 1 } });
+            shapeEdges.Add(new int[2, 3] { { 2, 3, 0 }, { 10, 11, 0 } });
+            shapeEdges.Add(new int[2, 3] { { 3, 4, 1 }, { 11, 13, 1 } });
+            shapeEdges.Add(new int[2, 3] { { 4, 6, 1 }, { 12, 11, 1 } });
+            shapeEdges.Add(new int[2, 3] { { 4, 5, 0 }, { 12,  7, 0 } });
+            shapeEdges.Add(new int[2, 3] { { 5, 0, 1 }, {  7, 13, 1 } });
+            shapeEdges.Add(new int[2, 3] { { 0, 6, 1 }, {  8,  7, 1 } });
+
+            shapeEdges.Add(new int[2, 3] { { 6, 0, 2 }, { 9, 13, 2 } });
+            shapeEdges.Add(new int[2, 3] { { 6, 2, 2 }, { 11, 13, 2 } });
+            shapeEdges.Add(new int[2, 3] { { 6, 4, 2 }, { 7, 13, 2 } });
+
+            shapeEdges.Add(new int[2, 3] { { 0, 1, 3 }, {  7,  8, 3 } });
+            shapeEdges.Add(new int[2, 3] { { 1, 2, 3 }, {  8,  9, 3 } });
+            shapeEdges.Add(new int[2, 3] { { 2, 3, 3 }, {  9, 10, 3 } });
+            shapeEdges.Add(new int[2, 3] { { 3, 4, 3 }, { 10, 11, 3 } });
+            shapeEdges.Add(new int[2, 3] { { 4, 5, 3 }, { 11, 12, 3 } });
+            shapeEdges.Add(new int[2, 3] { { 5, 0, 3 }, { 12, 7, 3 } });
 
 
 
-
-            List<Vector3[,]> shapeSkeleton = new List<Vector3[,]>();
-
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
-            shapeSkeleton.Add(new Vector3[2, 2] { { v[0], v[1] }, { v[0], v[1] } });
+            // push edges to scene
+            foreach (int[,] group in shapeEdges)
+            {
+                scene.AddLine(shapeVerticesIndex[group[0, 0]], shapeVerticesIndex[group[0, 1]]);
+                scene.AddLine(shapeVerticesIndex[group[1, 0]], shapeVerticesIndex[group[1, 1]]);
+            }
 
 
-            // draw shape
+            //push faces to scene
+            foreach (int[,] group in shapeEdges)
+            {
+                for (int i = 0; i < splits; i++)
+                {
+                    Vector3 beginDiff = shapeVerticesLocal[group[0, 0]] - shapeVerticesLocal[group[0, 1]];
+                    beginDiff /= splits;
+                    Vector3 begin = shapeVerticesLocal[group[0, 0]] - beginDiff*i;
+
+                    Vector3 endDiff = shapeVerticesLocal[group[1, 0]] - shapeVerticesLocal[group[1, 1]];
+                    endDiff /= splits;
+                    Vector3 end = shapeVerticesLocal[group[1, 0]] - endDiff*i;
 
 
+                    int beginIndex = scene.AddVertex(Vector3.TransformPosition(begin, m));
+                    scene.SetColor(beginIndex, edgeColors[group[0, 2]]);
 
+                    int endIndex = scene.AddVertex(Vector3.TransformPosition(end, m));
+                    scene.SetColor(endIndex, edgeColors[group[1, 2]]);
 
+                    scene.AddLine(beginIndex, endIndex);
+                }
 
-            // fill shape
-
-
-
-
-
-            //draw fill of shape
-
-
-
-
-
-
-
-
-
-
-
-
-            /*
-            int v = scene.AddVertex(Vector3.TransformPosition(A, m));
-            scene.SetTxtCoord(v, new Vector2((float)s, (float)s));
-            System.Drawing.Color c = Raster.Draw.ColorRamp(0.5 * (s + 1.0));
-            scene.SetColor(v, new Vector3(c.R / 255.0f, c.G / 255.0f, c.B / 255.0f));
-            scene.AddLine(vPrev, v);
-            scene.LineWidth = 3.0f;
-            */
-            return segments;
+            }
+            return 1; // some magic number
         }
-
         #endregion
     }
 }
