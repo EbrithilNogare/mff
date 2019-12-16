@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>JS Assignment: 15-Puzzle</title>
+	<script src="solution/lloyd.js" type="text/javascript"></script>
+	<style>
+		body {
+			font: 14pt Calibri, sans-serif;
+		}
+
+		h1, p {
+			text-align: center;
+		}
+
+		#game-board {
+			margin: auto;
+			border: 1px solid #ddd;
+			border-radius: 0.5vmin;
+			width: calc(80vmin);
+			height: calc(80vmin);
+			position: relative;
+			transition: all 1s ease;
+		}
+
+		#game-board div.game-tile {
+			width: calc(20vmin - 2px);
+			height: calc(20vmin - 2px);
+			position: absolute;
+			border: 1px solid #ccc;
+			border-radius: 0.5vmin;
+			background-color: #f4f4f9;
+			font-size: 12vmin;
+			text-align: center;
+			line-height: 20vmin;
+			cursor: pointer;
+			transition: all 1s ease;
+		}
+
+		/* Final position arrangement. */
+		#game-tile-5, #game-tile-6, #game-tile-7, #game-tile-8 { top: 20vmin; }
+		#game-tile-9, #game-tile-10, #game-tile-11, #game-tile-12 { top: 40vmin; }
+		#game-tile-13, #game-tile-14, #game-tile-15 { top: 60vmin; }
+		#game-tile-2, #game-tile-6, #game-tile-10, #game-tile-14 { left: 20vmin; }
+		#game-tile-3, #game-tile-7, #game-tile-11, #game-tile-15 { left: 40vmin; }
+		#game-tile-4, #game-tile-8, #game-tile-12 { left: 60vmin; }
+	</style>
+</head>
+
+<body>
+<h1>JS Assignment: 15-Puzzle</h1>
+<div id="game-board"><div>
+	<div id="game-tile-1" class="game-tile">1</div>
+	<div id="game-tile-2" class="game-tile">2</div>
+	<div id="game-tile-3" class="game-tile">3</div>
+	<div id="game-tile-4" class="game-tile">4</div>
+	<div id="game-tile-5" class="game-tile">5</div>
+	<div id="game-tile-6" class="game-tile">6</div>
+	<div id="game-tile-7" class="game-tile">7</div>
+	<div id="game-tile-8" class="game-tile">8</div>
+	<div id="game-tile-9" class="game-tile">9</div>
+	<div id="game-tile-10" class="game-tile">10</div>
+	<div id="game-tile-11" class="game-tile">11</div>
+	<div id="game-tile-12" class="game-tile">12</div>
+	<div id="game-tile-13" class="game-tile">13</div>
+	<div id="game-tile-14" class="game-tile">14</div>
+	<div id="game-tile-15" class="game-tile">15</div>
+</div></div>
+<p>
+	The <a href="https://en.wikipedia.org/wiki/15_puzzle">15-puzzle</a> is a game where one needs to order numbers from 1 to 15 (left to right, top to bottom).
+	Click on any tile that is next to an empty place to move the tile to the empty place.
+</p>
+</body>
+
+</html>
