@@ -18,5 +18,16 @@
     <ClCompile Include="polysort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="params.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="params.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="polysort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
