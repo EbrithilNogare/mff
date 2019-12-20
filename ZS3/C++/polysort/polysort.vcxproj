@@ -151,7 +151,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="params.cpp" />
     <ClCompile Include="polysort.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="params.h" />
+    <ClInclude Include="polysort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
