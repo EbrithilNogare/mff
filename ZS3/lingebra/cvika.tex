@@ -10,6 +10,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{lipsum}
+\usepackage[margin={1cm,1cm}]{geometry}
 
 
 \newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
@@ -216,6 +217,86 @@ coz se nam pri sloupcovem zapisu nestane
 \\
 v obou pripadech to ulohu nejak resi, ale vysledek se pak musi \uv{spravne precist}
 \\
+
+
+
+\section{20.12.}
+\subsection{reseni pisemky}
+$
+f((0,0,1)^T)=(1,2,3)^T\\
+f((0,1,1)^T)=(1,0,0)^T\\
+f((1,1,1)^T)=(-1,2,3)^T\\
+$
+\\mezivypocet:\\
+odectenim privniho vektoru od druheho dostaneme druhy vektor kan. baze\\
+podobne i pro treti vektor...\\
+$
+f((0,1,0)^T) = (0,-2-,-3)^T\\
+f((1,0,0)^T) = (-2,2,3)^T\\
+$
+\\vysledek:\\
+$
+\begin{bmatrix}
+	-2 & 0 & 1 \\
+	2 & -2 & 2 \\
+	3 & -3 & 3 
+\end{bmatrix}
+$
+
+\subsection{priklad na linearni zobrazeni}
+$f:Z^3_5 \rightarrow Z^3_5$\\
+$
+f((2,4,1)^T) = (2,1,2)^T\\
+f((2,3,4)^T) = (0,4,1)^T\\
+f((3,0,1)^T) = (4,4,1)^T\\
+$\\
+$
+\begin{bmatrix}
+	-2 & 0 & 1 \\
+	2 & -2 & 2 \\
+	3 & -3 & 3 
+\end{bmatrix}
+= {}_{kan}[f]_B
+$\\to co mame krat matice prechodu = to co hledame\\ 
+$
+{}_{kan}[f]_B {}_B[id]_{kan} = 
+{}_{kan}[f]_B {}_{kan}[id]_B^{-1} = 
+{}_{kan}[f]_{kan}
+$\\\textbf{veta}:\\
+$
+{}_{B3}[gf]_{B_1} =
+{}_{B_3}[g]_{B2} {}_{B_2}[f]_{B1} 
+$\\vysledek:\\
+$
+{}_k[f]_k = 
+\begin{bmatrix}
+	4 & 3 & 2 \\
+	2 & 1 & 3 \\
+	0 & 4 & 1 
+\end{bmatrix}
+$\\\textbf{pozorovani}:\\
+$
+{}_k[f]_k * [A] = [B] \rightarrow {}_k[f]_k = [b] * [A]^{-1} 
+$ , kde $[A]$ a $[B]$ jsou matice
+
+\subsection{dalsi priklad na linearni zobrazeni}
+$
+Z^4_5 : (1,2,0,1)^T, (4,1,3,1)^T, (3,1,3,4)^T, (2,0,2,2)^T\\
+		(1,2,3,1)^T, (4,4,1,1)^T, (2,0,2,1)^T, (3,1,4,0)^T
+$\\\\
+$
+{}_{B2}[id]_{B1} = {}_{B2}[id]_k {}_k[id]_{B1}\\
+= ({}_k[id]_{B2})^{-1} {}_k[id]_{B1}
+$
+
+\subsection{linearni zobrazeni v komplexnich cislech}
+$f:\mathbb{C} \rightarrow \mathbb{C}$\\
+a) $f_1(a+bi) = a - bi$ \dots neplati definice linearniho zobrazeni tudiz neni linearni zobrazeni\\
+b) $f_2(a+bi) = -b + ai$\\
+
+
+
+
 
 
 
