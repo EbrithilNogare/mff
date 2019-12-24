@@ -151,10 +151,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractVal.cpp" />
+    <ClCompile Include="IntVal.cpp" />
+    <ClCompile Include="PolyContainer.cpp" />
     <ClCompile Include="polysort.cpp" />
+    <ClCompile Include="StringVal.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractVal.hpp" />
+    <ClInclude Include="IntVal.hpp" />
+    <ClInclude Include="PolyContainer.hpp" />
     <ClInclude Include="polysort.hpp" />
+    <ClInclude Include="StringVal.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="in.txt" />

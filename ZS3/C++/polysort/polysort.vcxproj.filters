@@ -13,15 +13,45 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Values">
+      <UniqueIdentifier>{9404cf4a-c69b-4fd9-bd7e-f920ced2ea79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Values">
+      <UniqueIdentifier>{4ee33f1e-1b65-4638-9094-fd08a871e5f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="polysort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PolyContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractVal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IntVal.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
+    <ClCompile Include="StringVal.cpp">
+      <Filter>Source Files\Values</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="polysort.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PolyContainer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractVal.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntVal.hpp">
+      <Filter>Header Files\Values</Filter>
+    </ClInclude>
+    <ClInclude Include="StringVal.hpp">
+      <Filter>Header Files\Values</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
