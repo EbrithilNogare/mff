@@ -41,7 +41,20 @@ int main(int argc, char* argv[])
 
 
 	// sort container
-	//sort(container.begin(), container.end(), polyComparer); // todo continue here
+	auto comp = [paramRules](PolyContainer a, PolyContainer b) {
+		for (auto const& value : paramRules)
+		{
+			const int index = stoi(value.substr(1));
+			auto av = a.getOnIndex(index);
+			auto bv = b.getOnIndex(index);
+			if (av == bv) 
+				continue;
+
+			return av > bv;
+		}
+		return false;
+	};
+	sort(container.begin(), container.end(), comp);
 	
 
 

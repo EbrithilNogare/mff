@@ -7,8 +7,11 @@
 #include <iostream>
 
 class AbstractVal {
+private:
 public:
 	virtual void print(std::ostream& outStream) {};
+	virtual bool operator > (AbstractVal const& obj) { return false; };
+	virtual bool operator == (AbstractVal const& obj) { return false; };
 };
 
 

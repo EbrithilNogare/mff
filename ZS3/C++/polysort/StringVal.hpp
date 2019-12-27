@@ -13,6 +13,8 @@ private:
 public:
 	StringVal(std::string x) { x_ = x; }
 	virtual void print(std::ostream& outStream) { outStream << x_; };
+	virtual bool operator > (AbstractVal const& obj) { return true; }; // todo
+	virtual bool operator == (AbstractVal const& obj) { return false; }; // todo
 };
 
 #endif // StringVal_H_
