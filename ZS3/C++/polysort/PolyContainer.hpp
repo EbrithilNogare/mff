@@ -18,7 +18,7 @@ private:
 public:
 	void add(std::unique_ptr<AbstractVal> p) { container_.push_back(std::move(p)); }
 	void print(std::ostream& s, char separator); 
-	inline AbstractVal getOnIndex(int index) { return *container_[index]; } // todo fix that changing parameter
+	std::shared_ptr<AbstractVal> getOnIndex(int index) { return container_.at(index); }
 };
 
 

@@ -12,8 +12,8 @@ private:
 public:
 	IntVal(int x) { x_ = x; }
 	virtual void print(std::ostream& outStream) { outStream << x_; };
-	virtual bool operator > (AbstractVal const& obj) { return true; }; // todo
-	virtual bool operator == (AbstractVal const& obj) { return false; }; // todo
+	bool operator > (IntVal const& obj) { return obj.x_ > x_; };
+	bool operator == (IntVal const& obj) { return obj.x_ > x_; };
 };
 
 #endif // IntVal_H_
