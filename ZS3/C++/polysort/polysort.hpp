@@ -14,6 +14,7 @@
 #include <fstream>
 #include <vector>
 #include "PolyContainer.hpp"
+#include "AbstractVal.hpp"
 #include "IntVal.hpp"
 #include "StringVal.hpp"
 

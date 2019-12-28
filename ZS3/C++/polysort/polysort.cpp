@@ -44,13 +44,13 @@ int main(int argc, char* argv[])
 	auto comp = [paramRules](PolyContainer a, PolyContainer b) {
 		for (auto const& value : paramRules)
 		{
-			const int index = stoi(value.substr(1));
-			auto av = a.getOnIndex(index);
-			auto bv = b.getOnIndex(index);
-			if (av == bv) 
+			const int index = stoi(value.substr(1)) - 1; // numbering from one to from zero
+			std::shared_ptr<AbstractVal> av = a.getOnIndex(index);
+			std::shared_ptr<AbstractVal> bv = b.getOnIndex(index);
+			if (*av == *bv) 
 				continue;
 
-			return av > bv;
+			return *av > *bv;
 		}
 		return false;
 	};
