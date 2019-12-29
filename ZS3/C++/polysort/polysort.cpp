@@ -13,6 +13,7 @@ int main(int argc, char* argv[])
 	char paramS = ' ';
 	vector<string> paramRules;
 	vector<PolyContainer> container;
+	char sdt[] = {'S', 'N'}; // supportedDataType
 
 	// get params
 	if (!parseParams(argc, argv, paramI, paramO, paramS, paramRules)) {
@@ -22,8 +23,14 @@ int main(int argc, char* argv[])
 
 	// configure data types
 	map<int, char> dataTypes;
-	for (string const& value : paramRules)
+	for (string const& value : paramRules) {
+		if (find(sdt, sdt + size(sdt), value[0]) == sdt + size(sdt)) {
+			cerr << "unsupported data type";
+			return 0;
+		}
+
 		dataTypes.insert(pair<int, char>(stoi(value.substr(1)), value[0]));
+	}
 	
 	
 	// set input
@@ -45,12 +52,24 @@ int main(int argc, char* argv[])
 		for (auto const& value : paramRules)
 		{
 			const int index = stoi(value.substr(1)) - 1; // numbering from one to from zero
-			std::shared_ptr<AbstractVal> av = a.getOnIndex(index);
-			std::shared_ptr<AbstractVal> bv = b.getOnIndex(index);
-			if (*av == *bv) 
-				continue;
 
-			return *av > *bv;
+			auto absoluteA = a.getOnIndex(index);
+			auto absoluteB = b.getOnIndex(index);
+
+			switch (value[0]) {
+			case 'S': {
+				StringVal& a = dynamic_cast<StringVal&>(*absoluteA);
+				StringVal& b = dynamic_cast<StringVal&>(*absoluteB);
+				if (a == b) continue;
+				return a > b; 
+			}
+			case 'N': {
+				IntVal& a = dynamic_cast<IntVal&>(*absoluteA);
+				IntVal& b = dynamic_cast<IntVal&>(*absoluteB);
+				if (a == b) continue;
+				return a > b;
+			}
+			}
 		}
 		return false;
 	};
@@ -64,10 +83,10 @@ int main(int argc, char* argv[])
 		outputStream << "\n";
 	}
 
-
 }
 
 bool parseParams(int argc, char** argv, string& paramI, string& paramO, char& paramS, vector<string>& paramRules) {
+	/*
 	if (argc == 1) {
 		cout <<
 			"usage: polysort [-i in] [-o out] [-s separator] { type colnum }\n" <<
@@ -78,6 +97,7 @@ bool parseParams(int argc, char** argv, string& paramI, string& paramO, char& pa
 			"column : cislo logického sloupce(pocitano od 1)\n";
 		return false;
 	}
+	*/
 	while (*++argv) {
 		if (**argv == '-') {
 			switch (argv[0][1]) {
@@ -126,11 +146,11 @@ void addRecord(vector<PolyContainer>& container, string& data, char separator, m
 	vector<char> buffer;
 	PolyContainer newItem;
 
+	data.append(&separator);
 	for (auto it = data.begin(); it != data.end(); it++) {
 		if (*it != separator) {
 			buffer.push_back(*it);
-			if(next(it) != data.end())
-				continue;
+			continue;
 		}
 
 		fieldIndex++;
@@ -147,8 +167,6 @@ void addRecord(vector<PolyContainer>& container, string& data, char separator, m
 		case 'N':
 			newItem.add(make_unique<IntVal>(stoi(tempString))); // todo add some protection against non number
 			break;
-		default:
-			throw "unsupported data type";
 		}
 			
 		buffer.clear();
