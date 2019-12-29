@@ -11,13 +11,15 @@
 #include <memory>
 #include "AbstractVal.hpp"
 
+using valptr = std::shared_ptr<AbstractVal>;
+
 class PolyContainer
 {
 private:
-	std::vector<std::shared_ptr<AbstractVal>> container_; // todo fix: shared -> unique
+	std::vector<valptr> container_; // todo fix: shared -> unique
 public:
 	void add(std::unique_ptr<AbstractVal> p) { container_.push_back(std::move(p)); }
-	void print(std::ostream& s, char separator); 
+	void print(std::ostream& s, char separator);
 	std::shared_ptr<AbstractVal> getOnIndex(int index) { return container_.at(index); }
 };
 

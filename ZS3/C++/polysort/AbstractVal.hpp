@@ -10,8 +10,13 @@ class AbstractVal {
 private:
 public:
 	virtual void print(std::ostream& outStream) {};
-	virtual bool operator > (AbstractVal const& obj) = 0; // { return true; };
-	virtual bool operator == (AbstractVal const& obj) = 0; // { return true; };
+	/*/switch
+	virtual bool operator > (AbstractVal const& obj) = 0;
+	virtual bool operator == (AbstractVal const& obj) = 0;
+	/*/
+	virtual bool operator > (AbstractVal const& obj) { return true; };
+	virtual bool operator == (AbstractVal const& obj) { return true; };
+	/**/
 };
 
 

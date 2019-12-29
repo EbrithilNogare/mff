@@ -14,7 +14,7 @@ public:
 	StringVal(std::string x) { x_ = x; }
 	virtual void print(std::ostream& outStream) { outStream << x_; };
 	virtual bool operator > (StringVal const& obj) { return obj.x_ > x_; };
-	virtual bool operator == (StringVal const& obj) { return obj.x_ > x_; };
+	virtual bool operator == (StringVal const& obj) { return obj.x_ == x_; };
 };
 
 #endif // StringVal_H_

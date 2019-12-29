@@ -13,7 +13,7 @@ public:
 	IntVal(int x) { x_ = x; }
 	virtual void print(std::ostream& outStream) { outStream << x_; };
 	bool operator > (IntVal const& obj) { return obj.x_ > x_; };
-	bool operator == (IntVal const& obj) { return obj.x_ > x_; };
+	bool operator == (IntVal const& obj) { return obj.x_ == x_; };
 };
 
 #endif // IntVal_H_
