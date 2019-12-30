@@ -1,5 +1,7 @@
 // AbstractVal.hpp
 // Author: David Napravnik
+//
+// Abstract data structure for PolyContainer
 
 #ifndef AbstractVal_HPP_
 #define AbstractVal_HPP_
