@@ -1,8 +1,8 @@
 // StringVal.hpp
 // Author: David Napravnik
 
-#ifndef StringVal_H_
-#define StringVal_H_
+#ifndef StringVal_HPP_
+#define StringVal_HPP_
 
 #include <string>
 #include "AbstractVal.hpp"

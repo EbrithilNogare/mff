@@ -1,27 +1,24 @@
 // polysort.hpp
 // Author: David Napravnik
 
-#define DEBUG
+#ifndef polysort_HPP_
+#define polysort_HPP_
 
-#ifndef polysort_H_
-#define polysort_H_
-
-#include <array>
 #include <algorithm>
-#include <iostream>
-#include <string>
-#include <map>
+#include <array>
 #include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
 #include <vector>
-#include "PolyContainer.hpp"
+
 #include "AbstractVal.hpp"
 #include "IntVal.hpp"
+#include "PolyContainer.hpp"
 #include "StringVal.hpp"
-
 
 int main(int argc, char* argv[]);
 bool parseParams(int argc, char** argv, std::string& paramI, std::string& paramO, char& paramS, std::vector<std::string>& paramRules);
-void addRecord(std::vector<PolyContainer>& container, std::string& data, char separator, std::map<int, char> dataTypes);
-
+bool addRecord(std::vector<PolyContainer>& container, std::string& data, char separator, std::map<int, char> dataTypes);
 
 #endif // polysort_H_

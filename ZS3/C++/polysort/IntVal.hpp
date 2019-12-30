@@ -1,10 +1,10 @@
 // IntVal.hpp
 // Author: David Napravnik
 
-#include "AbstractVal.hpp"
+#ifndef IntVal_HPP_
+#define IntVal_HPP_
 
-#ifndef IntVal_H_
-#define IntVal_H_
+#include "AbstractVal.hpp"
 
 class IntVal : public AbstractVal {
 private:
