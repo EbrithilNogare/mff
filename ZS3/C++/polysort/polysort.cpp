@@ -178,5 +178,3 @@ bool addRecord(std::vector<PolyContainer>& container, std::string& data, char se
 	container.push_back(newItem);
 	return true;
 }
-
-

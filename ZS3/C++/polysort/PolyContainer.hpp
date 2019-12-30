@@ -1,5 +1,8 @@
 // PolyContainer.hpp
 // Author: David Napravnik
+//
+// container storing data of variable types together
+// new data structures must inherit from AbstractVal
 
 #ifndef PolyContainer_HPP_
 #define PolyContainer_HPP_

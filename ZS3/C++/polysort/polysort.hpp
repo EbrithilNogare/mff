@@ -1,5 +1,9 @@
 // polysort.hpp
+// Version: 1.1.0
 // Author: David Napravnik
+//
+// program simulating database structure
+// and sorting rows by user defined conditions
 
 #ifndef polysort_HPP_
 #define polysort_HPP_
