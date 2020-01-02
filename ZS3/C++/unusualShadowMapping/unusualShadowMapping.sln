@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unusualShadowMapping", "unusualShadowMapping.vcxproj", "{D90A3F24-F360-4048-8C7E-A0EBA62B214D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unusualShadowMapping", "unusualShadowMapping.vcxproj", "{7D18C270-1044-4A24-AF05-B24521176031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +13,19 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Debug|x64.ActiveCfg = Debug|x64
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Debug|x64.Build.0 = Debug|x64
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Debug|x86.ActiveCfg = Debug|Win32
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Debug|x86.Build.0 = Debug|Win32
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Release|x64.ActiveCfg = Release|x64
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Release|x64.Build.0 = Release|x64
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Release|x86.ActiveCfg = Release|Win32
-		{D90A3F24-F360-4048-8C7E-A0EBA62B214D}.Release|x86.Build.0 = Release|Win32
+		{7D18C270-1044-4A24-AF05-B24521176031}.Debug|x64.ActiveCfg = Debug|x64
+		{7D18C270-1044-4A24-AF05-B24521176031}.Debug|x64.Build.0 = Debug|x64
+		{7D18C270-1044-4A24-AF05-B24521176031}.Debug|x86.ActiveCfg = Debug|Win32
+		{7D18C270-1044-4A24-AF05-B24521176031}.Debug|x86.Build.0 = Debug|Win32
+		{7D18C270-1044-4A24-AF05-B24521176031}.Release|x64.ActiveCfg = Release|x64
+		{7D18C270-1044-4A24-AF05-B24521176031}.Release|x64.Build.0 = Release|x64
+		{7D18C270-1044-4A24-AF05-B24521176031}.Release|x86.ActiveCfg = Release|Win32
+		{7D18C270-1044-4A24-AF05-B24521176031}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EA2550FD-0879-4F72-92DF-56A132D3834E}
+		SolutionGuid = {A46E865B-6948-4523-92A2-D546148DC894}
 	EndGlobalSection
 EndGlobal
