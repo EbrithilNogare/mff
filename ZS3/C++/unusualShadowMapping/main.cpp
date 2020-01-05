@@ -1,645 +1,474 @@
-#include <cstdio>
-#include <vector>
+#include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "stb_image.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/transform.hpp>
 
-#include "Camera.h"
-#include "Scene.h"
-#include "Math.h"
-
-
-// ----------------------------------------------------------------------------
-// Instanced geometry vertex shader source
-// ----------------------------------------------------------------------------
-static const char* vsSource[] = { R"(
-#version 460 core
-
-// Uniform blocks, i.e., constants
-layout (location = 0) uniform mat4 worldToView;
-layout (location = 1) uniform mat4 projection;
-
-// Vertex attribute block, i.e., input
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 normal;
-layout (location = 2) in vec3 tangent;
-layout (location = 3) in vec2 texCoord;
-
-// Structure holding per instance data
-struct InstanceData
-{
-  // Model to world transformation
-  mat4 model;
-  // Texture repeat factor
-  vec4 texRepeat;
-};
-
-// Storage buffer used for instances using interface block syntax
-layout (binding = 0) buffer InstanceBuffer
-{
-  // only one variable length array allowed
-  InstanceData instanceData[];
-};
-
-// Vertex output
-out vec2 vTexCoord;
-out vec3 vTangent;
-out vec3 vBitangent;
-out vec3 vNormal;
-
-void main()
-{
-  // Construct the normal transformation matrix
-  mat3 normalTransform = mat3(transpose(inverse(instanceData[gl_InstanceID].model)));
-
-  // Create the tangent space matrix and pass it to the fragment shader
-  vNormal = normalize(normalTransform * normal);
-  vTangent = normalize(normalTransform * tangent);
-  vBitangent = normalize(cross(vTangent, vNormal));
-
-  // Transform vertex position
-  gl_Position = projection * worldToView * instanceData[gl_InstanceID].model * vec4(position.xyz, 1.0f);
-
-  // Pass texture coordinates to the fragment shader
-  vTexCoord = texCoord.st * instanceData[gl_InstanceID].texRepeat.xx;
-}
-)",
-// ----------------------------------------------------------------------------
-// Basic vertex shader
-// ----------------------------------------------------------------------------
-R"(
-#version 460 core
-
-// Uniform blocks, i.e., constants
-layout (location = 0) uniform mat4 worldToView;
-layout (location = 1) uniform mat4 projection;
-layout (location = 2) uniform vec3 position;
-
-
-void main()
-{
-  gl_Position = projection * worldToView * vec4(position.xyz, 1.0f);
-}
-)",
-"" };
-
-// ----------------------------------------------------------------------------
-// Blinn-Phong shading fragment shader source
-// ----------------------------------------------------------------------------
-static const char* fsSource[] = { R"(
-#version 460 core
-
-// Texture samplers
-layout (binding = 0) uniform sampler2D Diffuse;
-layout (binding = 1) uniform sampler2D Normal;
-layout (binding = 2) uniform sampler2D Specular;
-layout (binding = 3) uniform sampler2D Occlusion;
-
-// Light position/direction
-uniform vec3 light;
-
-in vec2 vTexCoord;
-in vec3 vTangent;
-in vec3 vBitangent;
-in vec3 vNormal;
-out vec4 color;
-
-void main()
-{
-  vec3 diffuse = texture(Diffuse, vTexCoord.st).rgb;
-  vec3 noSample = texture(Normal, vTexCoord.st).rgb;
-  float specular = texture(Specular, vTexCoord.st).r;
-  float occlusion = texture(Occlusion, vTexCoord.st).r;
-
-  color = vec4(diffuse, 1.0f);
-}
-)",
-// ----------------------------------------------------------------------------
-// Basic fragment shader source
-// ----------------------------------------------------------------------------
-R"(
-#version 460 core
-
-out vec4 color;
-
-void main()
-{
-  color = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-}
-)",
-"" };
-
-// ----------------------------------------------------------------------------
-
-// Enum class for storing default window parameters
-enum class WindowParams : int
-{
-	Width = 800,
-	Height = 600
-};
-
-// ----------------------------------------------------------------------------
-
-// Near clip plane settings
-float nearClipPlane = 0.01f;
-// Far clip plane settings
-float farClipPlane = 100.0f;
-
-// Mouse movement
-struct MouseStatus
-{
-	// Current position
-	double x, y;
-	// Previsous position
-	double prevX, prevY;
-} mouseStatus = { 0.0 };
-
-// ----------------------------------------------------------------------------
-
-namespace ShaderProgram
-{
-	enum
-	{
-		Geometry, LightPosition, NumShaderPrograms
-	};
-}
-
-// Max buffer length
-static const unsigned int MAX_BUFFER_LENGTH = 512;
-// Main window handle
-GLFWwindow* mainWindow = nullptr;
-// Shader program handles
-GLuint shaderProgram[ShaderProgram::NumShaderPrograms];
-// Camera instance
-Camera camera;
-// Scene instance
-Scene scene;
-// Vsync on?
-bool vsync = true;
-// Anisotropic filtering on?
-bool anisotropic = true;
-
-// ----------------------------------------------------------------------------
-
-// Number of cubes in the scene
-const int numCubes = 1;
-// Instance data for single objects in the scene
-InstanceData single;
-// Instance data for cubes
-std::vector<InstanceData> instanceData(numCubes);
-// Cube position
-std::vector<glm::vec3> cubePositions;
-
-// ----------------------------------------------------------------------------
-
-// Callback for handling GLFW errors
-void errorCallback(int error, const char* description)
-{
-	printf("GLFW Error %i: %s\n", error, description);
-}
-
-// Callback for handling window resize events
-void resizeCallback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
-	camera.SetProjection(45.0f, (float)width / (float)height, nearClipPlane, farClipPlane);
-}
-
-// Callback for handling mouse movement over the window
-void mouseMoveCallback(GLFWwindow* window, double x, double y)
-{
-	mouseStatus.prevX = mouseStatus.x;
-	mouseStatus.prevY = mouseStatus.y;
-	mouseStatus.x = x;
-	mouseStatus.y = y;
-}
-
-// Keyboard callback for handling system switches
-void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	// Notify the window that user wants to exit the application
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
-
-	// Enable/disable MSAA - note that it still uses the MSAA buffer
-	if (key == GLFW_KEY_F1 && action == GLFW_PRESS)
-	{
-		if (glIsEnabled(GL_MULTISAMPLE))
-			glDisable(GL_MULTISAMPLE);
-		else
-			glEnable(GL_MULTISAMPLE);
-	}
-
-	// Enable/disable wireframe rendering
-	if (key == GLFW_KEY_F2 && action == GLFW_PRESS)
-	{
-		GLint polygonMode;
-		glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
-		if (polygonMode == GL_FILL)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
-
-	// Enable/disable backface culling
-	if (key == GLFW_KEY_F3 && action == GLFW_PRESS)
-	{
-		if (glIsEnabled(GL_CULL_FACE))
-			glDisable(GL_CULL_FACE);
-		else
-			glEnable(GL_CULL_FACE);
-	}
-
-	// Enable/disable vsync
-	if (key == GLFW_KEY_F4 && action == GLFW_PRESS)
-	{
-		vsync = !vsync;
-		if (vsync)
-			glfwSwapInterval(1);
-		else
-			glfwSwapInterval(0);
-	}
-
-	// Enable/disable vsync
-	if (key == GLFW_KEY_F5 && action == GLFW_PRESS)
-	{
-		anisotropic = !anisotropic;
-		if (anisotropic)
-			glSamplerParameterf(scene.GetSampler(Scene::Anisotropic), GL_TEXTURE_MAX_ANISOTROPY, 16.0f);
-		else
-			glSamplerParameterf(scene.GetSampler(Scene::Anisotropic), GL_TEXTURE_MAX_ANISOTROPY, 1.0f);
-	}
-}
-
-// Helper function for creating and compiling the shaders
-bool compileShaders()
-{
-	GLuint vertexShader, fragmentShader;
-	GLint result;
-	GLchar log[MAX_BUFFER_LENGTH];
-
-	auto compileAndLinkShader = [&](int index)
-	{
-		// Create and compile the vertex shader
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, vsSource + index, nullptr);
-		glCompileShader(vertexShader);
-
-		// Check that compilation was a success
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &result);
-		if (result == GL_FALSE)
-		{
-			glGetShaderInfoLog(vertexShader, MAX_BUFFER_LENGTH, nullptr, log);
-			printf("Vertex shader compilation failed: %s\n", log);
-			return false;
-		}
-
-		// Create and compile the fragment shader
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, fsSource + index, nullptr);
-		glCompileShader(fragmentShader);
-
-		// Check that compilation was a success
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &result);
-		if (result == GL_FALSE)
-		{
-			glGetShaderInfoLog(fragmentShader, MAX_BUFFER_LENGTH, nullptr, log);
-			printf("Fragment shader compilation failed: %s\n", log);
-			glDeleteShader(vertexShader);
-			return false;
-		}
-
-		// Create the shader program, attach shaders, link
-		shaderProgram[index] = glCreateProgram();
-		glAttachShader(shaderProgram[index], vertexShader);
-		glAttachShader(shaderProgram[index], fragmentShader);
-		glLinkProgram(shaderProgram[index]);
-
-		// Check that linkage was a success
-		glGetProgramiv(shaderProgram[index], GL_LINK_STATUS, &result);
-		if (result == GL_FALSE)
-		{
-			glGetProgramInfoLog(shaderProgram[index], MAX_BUFFER_LENGTH, nullptr, log);
-			printf("Shader program linking failed: %s\n", log);
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-			return false;
-		}
-
-		// Clean up resources we don't need anymore at this point
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-	};
-
-	if (!compileAndLinkShader(ShaderProgram::Geometry))
-		return false;
-
-	if (!compileAndLinkShader(ShaderProgram::LightPosition))
-		return false;
-
-	return true;
-}
-
-// Helper method for OpenGL initialization
-bool initOpenGL()
-{
-	// Set the GLFW error callback
-	glfwSetErrorCallback(errorCallback);
-
-	// Initialize the GLFW library
-	if (!glfwInit()) return false;
-
-	// Request OpenGL 4.6 core profile upon window creation
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_DEPTH_BITS, 24);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	// Create the window
-	mainWindow = glfwCreateWindow((int)WindowParams::Width, (int)WindowParams::Height, "", nullptr, nullptr);
-	if (mainWindow == nullptr)
-	{
-		printf("Failed to create the GLFW window!");
-		return false;
-	}
-
-	// Make the created window with OpenGL context current for this thread
-	glfwMakeContextCurrent(mainWindow);
-
-	// Check that GLAD .dll loader and symbol imported is ready
-	if (!gladLoadGL()) {
-		printf("GLAD failed!\n");
-		return false;
-	}
-
-	// Enable vsync
-	if (vsync)
-		glfwSwapInterval(1);
-	else
-		glfwSwapInterval(0);
-
-	// Enable backface culling
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	// Enable depth test
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LEQUAL);
-
-	// Register a window resize callback
-	glfwSetFramebufferSizeCallback(mainWindow, resizeCallback);
-
-	// Register keyboard callback
-	glfwSetKeyCallback(mainWindow, keyCallback);
-
-	// Register mouse movement callback
-	glfwSetCursorPosCallback(mainWindow, mouseMoveCallback);
-
-	// Set the OpenGL viewport and camera projection
-	resizeCallback(mainWindow, (int)WindowParams::Width, (int)WindowParams::Height);
-
-	// Set the initial camera position and orientation
-	camera.SetTransformation(glm::vec3(0.0f, 1.0f, -4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-	return true;
-}
-
-// Helper method for graceful shutdown
-void shutDown()
-{
-	scene.ReleaseResources();
-
-	// Release the shader programs
-	glDeleteProgram(shaderProgram[ShaderProgram::Geometry]);
-	glDeleteProgram(shaderProgram[ShaderProgram::LightPosition]);
-
-	// Relase the window
-	glfwDestroyWindow(mainWindow);
-
-	// Close the GLFW library
-	glfwTerminate();
-}
-
-void createGeometry()
-{
-	scene.CreateGeometry();
-	scene.LoadTextures();
-
-	// Position the first cube half a meter above origin
-	cubePositions.reserve(numCubes);
-	cubePositions.push_back(glm::vec3(0.0f, 0.5f, 0.0f));
-
-	// Generate random positions for the rest of the cubes
-	for (int i = 1; i < numCubes; ++i)
-	{
-		float x = getRandom(-5.0f, 5.0f);
-		float y = getRandom(1.0f, 5.0f);
-		float z = getRandom(-5.0f, 5.0f);
-
-		cubePositions.push_back(glm::vec3(x, y, z));
-	}
-}
-
-// Helper method for handling input events
-void processInput(float dt)
-{
-	// Camera movement
-	int direction = (int)MovementDirections::None;
-	if (glfwGetKey(mainWindow, GLFW_KEY_W) == GLFW_PRESS)
-		direction |= (int)MovementDirections::Forward;
-
-	if (glfwGetKey(mainWindow, GLFW_KEY_S) == GLFW_PRESS)
-		direction |= (int)MovementDirections::Backward;
-
-	if (glfwGetKey(mainWindow, GLFW_KEY_A) == GLFW_PRESS)
-		direction |= (int)MovementDirections::Left;
-
-	if (glfwGetKey(mainWindow, GLFW_KEY_D) == GLFW_PRESS)
-		direction |= (int)MovementDirections::Right;
-
-	if (glfwGetKey(mainWindow, GLFW_KEY_R) == GLFW_PRESS)
-		direction |= (int)MovementDirections::Up;
-
-	if (glfwGetKey(mainWindow, GLFW_KEY_F) == GLFW_PRESS)
-		direction |= (int)MovementDirections::Down;
-
-	glm::vec2 mouseMove(0.0f, 0.0f);
-	if (glfwGetMouseButton(mainWindow, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
-	{
-		mouseMove.x = (float)(mouseStatus.x - mouseStatus.prevX);
-		mouseMove.y = (float)(mouseStatus.y - mouseStatus.prevY);
-	}
-
-	camera.Move((MovementDirections)direction, mouseMove, dt);
-
-	if (glfwGetKey(mainWindow, GLFW_KEY_SPACE) == GLFW_PRESS)
-		camera.SetTransformation(glm::vec3(0.0f, 1.0f, -4.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-}
-
-void bindTextures(const GLuint& diffuse, const GLuint& normal, const GLuint& specular, const GLuint& occlusion)
-{
-	// We want to bind textures and appropriate samplers
-	glActiveTexture(GL_TEXTURE0 + 0);
-	glBindTexture(GL_TEXTURE_2D, diffuse);
-	glBindSampler(0, scene.GetSampler(Scene::Anisotropic));
-
-	glActiveTexture(GL_TEXTURE0 + 1);
-	glBindTexture(GL_TEXTURE_2D, normal);
-	glBindSampler(1, scene.GetSampler(Scene::Anisotropic));
-
-	glActiveTexture(GL_TEXTURE0 + 2);
-	glBindTexture(GL_TEXTURE_2D, specular);
-	glBindSampler(2, scene.GetSampler(Scene::Anisotropic));
-
-	glActiveTexture(GL_TEXTURE0 + 3);
-	glBindTexture(GL_TEXTURE_2D, occlusion);
-	glBindSampler(3, scene.GetSampler(Scene::Anisotropic));
-}
-
-void updateInstanceData(void* data, GLsizei size)
-{
-	// Update the buffer data using map/unmap buffer
-	void* ptr = glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_WRITE_ONLY);
-	memcpy(ptr, data, size);
-	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
-}
-
-void renderLightObject(const glm::vec3& lightPosition)
-{
-	glUseProgram(shaderProgram[ShaderProgram::LightPosition]);
-
-	// Update the transformation & projection matrices
-	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(camera.GetTransformation()));
-	glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
-
-	// Update the light position
-	glUniform3f(2, lightPosition.x, lightPosition.y, lightPosition.z);
-
-	// Draw the light object
-	glPointSize(10.0f);
-	glDrawArrays(GL_POINTS, 0, 1);
-
-	glUseProgram(0);
-}
-
-void renderScene()
-{
-	// Clear the color buffer
-	glClearColor(0.1f, 0.2f, 0.4f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	// Tell OpenGL we'd like to use the previously compiled shader program
-	glUseProgram(shaderProgram[ShaderProgram::Geometry]);
-
-	// Update the transformation & projection matrices
-	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(camera.GetTransformation()));
-	glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
-
-	// Update the light position
-	static glm::vec3 light(-3.0f, 3.0f, 0.0f);
-	GLint lightLoc = glGetUniformLocation(shaderProgram[ShaderProgram::Geometry], "light");
-	glUniform3f(lightLoc, light.x, light.y, light.z);
-
-	// -------------------------------------------------------------------------
-
-	// Update instance data - in this example they are static but instances could move, rotate, etc.
-
-	// Scene floor
-	single.model = glm::scale(glm::vec3(30.0f, 0.0f, 30.0f));
-	single.model *= glm::rotate(PI_HALF, glm::vec3(1.0f, 0.0f, 0.0f));
-	single.texRepeat = glm::vec4(30.0f, 0.0f, 0.0f, 0.0f);
-
-	float angle = 20.0f;
-	for (int i = 0; i < numCubes; ++i)
-	{
-		// Create unit matrix
-		glm::mat4x4 model(glm::vec4(1.0f, 0.0f, 0.0f, 0.0f), glm::vec4(0.0f, 1.0f, 0.0f, 0.0f), glm::vec4(0.0f, 0.0f, 1.0f, 0.0f), glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-		model *= glm::translate(cubePositions[i]);
-		model *= glm::rotate(glm::radians(i * angle), glm::vec3(1.0f, 1.0f, 1.0f));
-		instanceData[i].model = model;
-		instanceData[i].texRepeat = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-	}
-
-	// -------------------------------------------------------------------------
-
-	// Draw scene floor
-	bindTextures(scene.GetTexture(Scene::CheckerBoard), scene.GetTexture(Scene::Blue), scene.GetTexture(Scene::Grey), scene.GetTexture(Scene::White));
-	updateInstanceData(&single, sizeof(InstanceData));
-	glBindVertexArray(scene.GetVAO(Scene::Quad));
-	glDrawElementsInstanced(GL_TRIANGLES, scene.GetNumIndices(Scene::Quad), GL_UNSIGNED_INT, reinterpret_cast<void*>(0), 1);
-
-	// Draw cubes
-	bindTextures(scene.GetTexture(Scene::Diffuse), scene.GetTexture(Scene::Normal), scene.GetTexture(Scene::Specular), scene.GetTexture(Scene::Occlusion));
-	updateInstanceData(&*instanceData.begin(), (GLsizei)instanceData.size() * sizeof(InstanceData));
-	glBindVertexArray(scene.GetVAO(Scene::Cube));
-	glDrawElementsInstanced(GL_TRIANGLES, scene.GetNumIndices(Scene::Cube), GL_UNSIGNED_INT, reinterpret_cast<void*>(0), numCubes);
-
-	// Draw the light object (cheating a little bit by using previously used VAO)
-	renderLightObject(light);
-
-	// -------------------------------------------------------------------------
-
-	// Unbind the shader program and other resources
-	glBindVertexArray(0);
-	glUseProgram(0);
-}
-
-// Helper method for implementing the application main loop
-void mainLoop()
-{
-	static double prevTime = 0.0;
-	while (!glfwWindowShouldClose(mainWindow))
-	{
-		// Calculate delta time
-		double time = glfwGetTime();
-		float dt = (float)(time - prevTime);
-		prevTime = time;
-
-		static char title[MAX_BUFFER_LENGTH];
-		snprintf(title, MAX_BUFFER_LENGTH, "dt = %.2fms, FPS = %.1f", dt * 1000.0f, 1.0f / dt);
-		glfwSetWindowTitle(mainWindow, title);
-
-		// Poll the events like keyboard, mouse, etc.
-		glfwPollEvents();
-
-		// Process keyboard input
-		processInput(dt);
-
-		// Render the scene
-		renderScene();
-
-		// Swap actual buffers on the GPU
-		glfwSwapBuffers(mainWindow);
-	}
-}
+#include "filesystem.h"
+#include "shader.h"
+#include "camera.h"
+#include "model.h"
+
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void processInput(GLFWwindow* window);
+unsigned int loadTexture(const char* path);
+void renderScene(const Shader& shader);
+void renderCube();
+void renderQuad();
+
+// settings
+const unsigned int SCR_WIDTH = 1600;
+const unsigned int SCR_HEIGHT = 900;
+
+// camera
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = (float)SCR_WIDTH / 2.0;
+float lastY = (float)SCR_HEIGHT / 2.0;
+bool firstMouse = true;
+
+// timing
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+// meshes
+unsigned int planeVAO;
 
 int main()
 {
-	// Initialize the OpenGL context and create a window
-	if (!initOpenGL())
+	// glfw: initialize and configure
+	// ------------------------------
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+#ifdef __APPLE__
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
+#endif
+
+	// glfw window creation
+	// --------------------
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	if (window == NULL)
 	{
-		printf("Failed to initialize OpenGL!\n");
-		shutDown();
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+
+	// tell GLFW to capture our mouse
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	// glad: load all OpenGL function pointers
+	// ---------------------------------------
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize GLAD" << std::endl;
 		return -1;
 	}
 
-	// Compile shaders needed to run
-	if (!compileShaders())
+	// configure global opengl state
+	// -----------------------------
+	glEnable(GL_DEPTH_TEST);
+
+	// build and compile shaders
+	// -------------------------
+	Shader shader("../shadow_mapping.vs", "../shadow_mapping.fs");
+	Shader simpleDepthShader("../shadow_mapping_depth.vs", "../shadow_mapping_depth.fs");
+	Shader debugDepthQuad("../debug_quad.vs", "../debug_quad.fs");
+
+	// set up vertex data (and buffer(s)) and configure vertex attributes
+	// ------------------------------------------------------------------
+	float planeVertices[] = {
+		// positions            // normals         // texcoords
+		 25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
+		-25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
+		-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
+
+		 25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
+		-25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
+		 25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,  25.0f, 25.0f
+	};
+	// plane VAO
+	unsigned int planeVBO;
+	glGenVertexArrays(1, &planeVAO);
+	glGenBuffers(1, &planeVBO);
+	glBindVertexArray(planeVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glBindVertexArray(0);
+
+	// load textures
+	// -------------
+	unsigned int woodTexture = loadTexture(std::string("../textures/wood.jpg").c_str());
+
+	// configure depth map FBO
+	// -----------------------
+	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+	unsigned int depthMapFBO;
+	glGenFramebuffers(1, &depthMapFBO);
+	// create depth texture
+	unsigned int depthMap;
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+	// attach depth texture as FBO's depth buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	// shader configuration
+	// --------------------
+	shader.use();
+	shader.setInt("diffuseTexture", 0);
+	shader.setInt("shadowMap", 1);
+	debugDepthQuad.use();
+	debugDepthQuad.setInt("depthMap", 0);
+
+	// lighting info
+	// -------------
+	glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
+
+	// render loop
+	// -----------
+	while (!glfwWindowShouldClose(window))
 	{
-		printf("Failed to compile shaders!\n");
-		shutDown();
-		return -1;
+		// per-frame time logic
+		// --------------------
+		float currentFrame = (float)glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		// input
+		// -----
+		processInput(window);
+
+		// change light position over time
+		//lightPos.x = sin(glfwGetTime()) * 3.0f;
+		//lightPos.z = cos(glfwGetTime()) * 2.0f;
+		//lightPos.y = 5.0 + cos(glfwGetTime()) * 1.0f;
+
+		// render
+		// ------
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// 1. render depth of scene to texture (from light's perspective)
+		// --------------------------------------------------------------
+		glm::mat4 lightProjection, lightView;
+		glm::mat4 lightSpaceMatrix;
+		float near_plane = 1.0f, far_plane = 7.5f;
+		//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+		lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+		lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+		lightSpaceMatrix = lightProjection * lightView;
+		// render scene from light's point of view
+		simpleDepthShader.use();
+		simpleDepthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+		glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, woodTexture);
+		renderScene(simpleDepthShader);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		// reset viewport
+		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		// 2. render scene as normal using the generated depth/shadow map  
+		// --------------------------------------------------------------
+		glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		shader.use();
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 view = camera.GetViewMatrix();
+		shader.setMat4("projection", projection);
+		shader.setMat4("view", view);
+		// set light uniforms
+		shader.setVec3("viewPos", camera.Position);
+		shader.setVec3("lightPos", lightPos);
+		shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, woodTexture);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+		renderScene(shader);
+
+		// render Depth map to quad for visual debugging
+		// ---------------------------------------------
+		debugDepthQuad.use();
+		debugDepthQuad.setFloat("near_plane", near_plane);
+		debugDepthQuad.setFloat("far_plane", far_plane);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, depthMap);
+		//renderQuad();
+
+		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		// -------------------------------------------------------------------------------
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
-	// Create the scene geometry and load textures
-	createGeometry();
+	// optional: de-allocate all resources once they've outlived their purpose:
+	// ------------------------------------------------------------------------
+	glDeleteVertexArrays(1, &planeVAO);
+	glDeleteBuffers(1, &planeVBO);
 
-	// Enter the application main loop
-	mainLoop();
-
-	// Release used resources and exit
-	shutDown();
+	glfwTerminate();
 	return 0;
+}
+
+// renders the 3D scene
+// --------------------
+void renderScene(const Shader& shader)
+{
+	// floor
+	glm::mat4 model = glm::mat4(1.0f);
+	shader.setMat4("model", model);
+	glBindVertexArray(planeVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	// cubes
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
+	model = glm::scale(model, glm::vec3(0.5f));
+	shader.setMat4("model", model);
+	renderCube();
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
+	model = glm::scale(model, glm::vec3(0.5f));
+	shader.setMat4("model", model);
+	renderCube();
+	model = glm::mat4(1.0f);
+	model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
+	model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
+	model = glm::scale(model, glm::vec3(0.25));
+	shader.setMat4("model", model);
+	renderCube();
+}
+
+
+// renderCube() renders a 1x1 3D cube in NDC.
+// -------------------------------------------------
+unsigned int cubeVAO = 0;
+unsigned int cubeVBO = 0;
+void renderCube()
+{
+	// initialize (if necessary)
+	if (cubeVAO == 0)
+	{
+		float vertices[] = {
+			// back face
+			-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+			 1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+			 1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
+			 1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+			-1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+			-1.0f,  1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
+			// front face
+			-1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+			 1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+			 1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+			 1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+			-1.0f,  1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
+			-1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+			// left face
+			-1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+			-1.0f,  1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-left
+			-1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+			-1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+			-1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+			-1.0f,  1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+			// right face
+			 1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+			 1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+			 1.0f,  1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
+			 1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+			 1.0f,  1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+			 1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left     
+			// bottom face
+			-1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+			 1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
+			 1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+			 1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+			-1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+			-1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+			// top face
+			-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+			 1.0f,  1.0f , 1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+			 1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
+			 1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+			-1.0f,  1.0f, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+			-1.0f,  1.0f,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left        
+		};
+		glGenVertexArrays(1, &cubeVAO);
+		glGenBuffers(1, &cubeVBO);
+		// fill buffer
+		glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		// link vertex attributes
+		glBindVertexArray(cubeVAO);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+	// render Cube
+	glBindVertexArray(cubeVAO);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glBindVertexArray(0);
+}
+
+// renderQuad() renders a 1x1 XY quad in NDC
+// -----------------------------------------
+unsigned int quadVAO = 0;
+unsigned int quadVBO;
+void renderQuad()
+{
+	if (quadVAO == 0)
+	{
+		float quadVertices[] = {
+			// positions        // texture Coords
+			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+			-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+			 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+			 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		};
+		// setup plane VAO
+		glGenVertexArrays(1, &quadVAO);
+		glGenBuffers(1, &quadVBO);
+		glBindVertexArray(quadVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	}
+	glBindVertexArray(quadVAO);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
+}
+
+// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
+// ---------------------------------------------------------------------------------------------------------
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		camera.ProcessKeyboard(FORWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		camera.ProcessKeyboard(BACKWARD, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		camera.ProcessKeyboard(LEFT, deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		camera.ProcessKeyboard(RIGHT, deltaTime);
+}
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	// make sure the viewport matches the new window dimensions; note that width and 
+	// height will be significantly larger than specified on retina displays.
+	glViewport(0, 0, width, height);
+}
+
+// glfw: whenever the mouse moves, this callback is called
+// -------------------------------------------------------
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse)
+	{
+		lastX = (float)xpos;
+		lastY = (float)ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = (float)xpos - lastX;
+	float yoffset = lastY - (float)ypos; // reversed since y-coordinates go from bottom to top
+
+	lastX = (float)xpos;
+	lastY = (float)ypos;
+
+	camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// ----------------------------------------------------------------------
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll((float)yoffset);
+}
+
+// utility function for loading a 2D texture from file
+// ---------------------------------------------------
+unsigned int loadTexture(char const* path)
+{
+	unsigned int textureID;
+	glGenTextures(1, &textureID);
+
+	int width, height, nrComponents;
+	unsigned char* data = stbi_load(path, &width, &height, &nrComponents, 0);
+	if (data)
+	{
+		GLenum format;
+		if (nrComponents == 1)
+			format = GL_RED;
+		else if (nrComponents == 3)
+			format = GL_RGB;
+		else if (nrComponents == 4)
+			format = GL_RGBA;
+
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT); // for this tutorial: use GL_CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout << "Texture failed to load at path: " << path << std::endl;
+		stbi_image_free(data);
+	}
+
+	return textureID;
 }

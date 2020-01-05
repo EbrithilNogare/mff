@@ -15,45 +15,30 @@ class lloydsGame{
 		this.GenerateNewGameState();
 	}
 	
-	GenerateNewGameState(){		
-		this.gameState = [				// init
-			0, 1,  2,  3,
-			4, 5,  6,  7,
-			8, 9, 10, 11,
-			12,13, 14, 15,
-		];
-		for(let i=0; i<500; i++){ 		// mix
-			const move = Math.floor(Math.random() * 4);
-			let index;
-			switch(move){
-				case 0: 
-					index = this.gameState.indexOf(this.gameState[15]+1);
-					if((this.gameState[15])%4==3 || index == -1) continue;
-					[this.gameState[index], this.gameState[15]] = [this.gameState[15], this.gameState[index]];
-				break;
-				
-				case 1: 
-					index = this.gameState.indexOf(this.gameState[15]-1);
-					if((this.gameState[15])%4==0 || index == -1) continue;
-					[this.gameState[index], this.gameState[15]] = [this.gameState[15], this.gameState[index]];
-				break;
-				
-				case 2: 
-					index = this.gameState.indexOf(this.gameState[15]+4);
-					if((Math.floor(this.gameState[15])/4)==3 || index == -1) continue;
-					[this.gameState[index], this.gameState[15]] = [this.gameState[15], this.gameState[index]];
-				break;
-				
-				case 3: 
-					index = this.gameState.indexOf(this.gameState[15]-4);
-					if((Math.floor(this.gameState[15])/4)==0 || index == -1) continue;
-					[this.gameState[index], this.gameState[15]] = [this.gameState[15], this.gameState[index]];
-				break;
-			}
+	GenerateNewGameState(){
+		this.gameState = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; // init
+		
+		for(let i in this.gameState){ 				//mix
+			const rnd = Math.floor(Math.random() * 16); 
+			[this.gameState[i], this.gameState[rnd]] = [this.gameState[rnd], this.gameState[i]];
 		}
 		
-		for(let i=0;i<15;i++) 			// draw
+		if(!this.isSolvable(this.gameState)) 		// check solvability
+			[this.gameState[0], this.gameState[1]] = [this.gameState[1], this.gameState[0]];
+		
+		for(let i = 0; i < 15; i++) 				// draw
 			this.setTilePosition(i);
+	}
+
+	isSolvable(puzzle){
+		let parity = 0;
+
+		for (let ii = 0; ii < puzzle.length; ii++)
+			for (let jj = ii + 1; jj < puzzle.length; jj++)
+				if (puzzle.indexOf(ii) > puzzle.indexOf(jj) && puzzle.indexOf(ii) != 15)
+					parity++
+
+		return !!(Math.floor(puzzle[15]/4) & 1 ^ parity & 1)
 	}
 
 	tileClicked(index){
@@ -64,7 +49,6 @@ class lloydsGame{
 			(this.gameState[index] == this.gameState[15]-4 && Math.floor(this.gameState[15] / 4) != 0)
 		)
 			this.swapTiles(index);
-		
 	}
 
 	setTilePosition(index){
