@@ -78,12 +78,12 @@ namespace _087fireworks
             if (rnd.RandomDouble(0.0, 300000.0) < frequency)
             {
                 Vector3 rocketColor = new Vector3(rnd.RandomFloat(0, 1), rnd.RandomFloat(0, 1), rnd.RandomFloat(0, 1));
-                Vector3d newPos = new Vector3d(position.X + rnd.RandomDouble(-2.0, 2.0), position.Y + 5.0, position.Z + rnd.RandomDouble(-2.0, 2.0));
+                Vector3d newPos = new Vector3d(position.X + rnd.RandomDouble(-2.0, 2.0), position.Y + 10.0, position.Z + rnd.RandomDouble(-2.0, 2.0));
                 for (int i = 0; i < 500; i++)
                 {
                     Vector3d rndDir = new Vector3d(rnd.RandomDouble(-1.0, 1.0), rnd.RandomDouble(-1.0, 1.0), rnd.RandomDouble(-1.0, 1.0));
-                    Vector3d dir = Geometry.RandomDirectionNormal(rnd, rndDir, fw.variance) * rnd.RandomDouble(0.9, 1.0);
-                    Particle p = new Particle(newPos, dir, up, rocketColor, rnd.RandomDouble(0.2, 4.0), time, rnd.RandomDouble(1.5, 2.5));
+                    Vector3d dir = Geometry.RandomDirectionNormal(rnd, rndDir, fw.variance) * rnd.RandomDouble(15.0, 16.0);
+                    Particle p = new Particle(newPos, dir, up, rocketColor, rnd.RandomDouble(0.2, 4.0), time, rnd.RandomDouble(1, 1.5));
                     fw.AddParticle(p);
                 }
             }                
@@ -272,12 +272,14 @@ namespace _087fireworks
             Vector3d force = new Vector3d(0,0,0);
 
             // gravity (G konstanta = 9,806 m*s^-2)
-            force += new Vector3d(0, -9.806 * (timeDelta * timeDelta), 0);
+            force += new Vector3d(0, -9.806/1f, 0);
 
             // air resistance (6 * PI * viskozita * polomer(m) * rychlost)
-            force -= 6 * Math.PI * 18.5*Math.Pow(10, -6) * (size * .001 * .5) * velocity;
+            force -= 6 * Math.PI * 18.5 * (size * .001 * .5 * 10.0) * velocity;
 
-            velocity += force;
+            // (m * g - k1 * f[1] - k2 * f[1] * f[1]) / m
+
+            velocity += force * timeDelta;
             position += timeDelta * velocity;
 
             size = Math.Min(maxAge-time+1.0, 5.0);
