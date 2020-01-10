@@ -75,15 +75,21 @@ namespace _087fireworks
             if (time <= simTime)
                 return true;
 
-            if (rnd.RandomDouble(0.0, 300000.0) < frequency)
+            if (rnd.RandomDouble(0.0, 100000.0) < frequency)
             {
-                Vector3 rocketColor = new Vector3(rnd.RandomFloat(0, 1), rnd.RandomFloat(0, 1), rnd.RandomFloat(0, 1));
-                Vector3d newPos = new Vector3d(position.X + rnd.RandomDouble(-2.0, 2.0), position.Y + 10.0, position.Z + rnd.RandomDouble(-2.0, 2.0));
-                for (int i = 0; i < 500; i++)
+                Vector3 rocketColor;
+                do { // only bright colors
+                    rocketColor = new Vector3(rnd.RandomFloat(0, 1), rnd.RandomFloat(0, 1), rnd.RandomFloat(0, 1));
+                } while (rocketColor.X < .8 && rocketColor.Y < .8 && rocketColor.Z < .8);
+                
+                int explosionSize = (int)Math.Pow(rnd.RandomInteger(10, 40), 2);
+                
+                Vector3d newPos = new Vector3d(position.X + rnd.RandomDouble(-3.0, 3.0), position.Y + 9.0 + explosionSize/500, position.Z + rnd.RandomDouble(-2.0, 2.0));
+                for (int i = 0; i < explosionSize; i++)
                 {
                     Vector3d rndDir = new Vector3d(rnd.RandomDouble(-1.0, 1.0), rnd.RandomDouble(-1.0, 1.0), rnd.RandomDouble(-1.0, 1.0));
-                    Vector3d dir = Geometry.RandomDirectionNormal(rnd, rndDir, fw.variance) * rnd.RandomDouble(15.0, 16.0);
-                    Particle p = new Particle(newPos, dir, up, rocketColor, rnd.RandomDouble(0.2, 4.0), time, rnd.RandomDouble(1, 1.5));
+                    Vector3d dir = Geometry.RandomDirectionNormal(rnd, rndDir, fw.variance) * rnd.RandomDouble(3.0, explosionSize / 100);
+                    Particle p = new Particle(newPos, dir, up, rocketColor, 1.0, time, rnd.RandomDouble(0.6, 1.5));
                     fw.AddParticle(p);
                 }
             }                
@@ -271,18 +277,19 @@ namespace _087fireworks
             double timeDelta = time - simTime;
             Vector3d force = new Vector3d(0,0,0);
 
+            // vzorecek pro pouziti derivaci: (m * g - k1 * f[1] - k2 * f[1] * f[1]) / m
+
             // gravity (G konstanta = 9,806 m*s^-2)
-            force += new Vector3d(0, -9.806/1f, 0);
+            force += new Vector3d(0, -9.806, 0);
 
             // air resistance (6 * PI * viskozita * polomer(m) * rychlost)
             force -= 6 * Math.PI * 18.5 * (size * .001 * .5 * 10.0) * velocity;
-
-            // (m * g - k1 * f[1] - k2 * f[1] * f[1]) / m
 
             velocity += force * timeDelta;
             position += timeDelta * velocity;
 
             size = Math.Min(maxAge-time+1.0, 5.0);
+            color /= (float)(1+timeDelta);  
 
             simTime = time;
 
@@ -786,8 +793,8 @@ namespace _087fireworks
             param = "freq=4000.0,max=60000,slow=0.25,dynamic=1,variance=0.1,ticks=0";
             tooltip = "freq,max,slow,dynamic,variance,ticks,screencast";
             trackballButton = MouseButtons.Left;
-            center = new Vector3(0.0f, 1.0f, 0.0f);
-            diameter = 5.0f;
+            center = new Vector3(0.0f, 7.0f, 0.0f);
+            diameter = 10.0f;
             useTexture = false;
             globalColor = false;
             useNormals = false;
@@ -885,7 +892,7 @@ namespace _087fireworks
 
             // general OpenGL:
             glControl1.VSync = true;
-            GL.ClearColor(Color.FromArgb(14, 20, 40));    // darker "navy blue"
+            GL.ClearColor(Color.FromArgb(5,5,20));    // darker "navy blue"
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.VertexProgramPointSize);
             GL.ShadeModel(ShadingModel.Flat);
@@ -1186,6 +1193,7 @@ namespace _087fireworks
             GL.Disable(EnableCap.CullFace);
 
             tb.GLsetCamera();
+            
             RenderScene();
 
             if (snapshot &&
@@ -1418,47 +1426,6 @@ namespace _087fireworks
                 }
             }
 
-            // default: draw trivial cube..
-
-            GL.Begin(PrimitiveType.Quads);
-
-            GL.Color3(0.0f, 1.0f, 0.0f);          // Set The Color To Green
-            GL.Vertex3(1.0f, 1.0f, -1.0f);        // Top Right Of The Quad (Top)
-            GL.Vertex3(-1.0f, 1.0f, -1.0f);       // Top Left Of The Quad (Top)
-            GL.Vertex3(-1.0f, 1.0f, 1.0f);        // Bottom Left Of The Quad (Top)
-            GL.Vertex3(1.0f, 1.0f, 1.0f);         // Bottom Right Of The Quad (Top)
-
-            GL.Color3(1.0f, 0.5f, 0.0f);          // Set The Color To Orange
-            GL.Vertex3(1.0f, -1.0f, 1.0f);        // Top Right Of The Quad (Bottom)
-            GL.Vertex3(-1.0f, -1.0f, 1.0f);       // Top Left Of The Quad (Bottom)
-            GL.Vertex3(-1.0f, -1.0f, -1.0f);      // Bottom Left Of The Quad (Bottom)
-            GL.Vertex3(1.0f, -1.0f, -1.0f);       // Bottom Right Of The Quad (Bottom)
-
-            GL.Color3(1.0f, 0.0f, 0.0f);          // Set The Color To Red
-            GL.Vertex3(1.0f, 1.0f, 1.0f);         // Top Right Of The Quad (Front)
-            GL.Vertex3(-1.0f, 1.0f, 1.0f);        // Top Left Of The Quad (Front)
-            GL.Vertex3(-1.0f, -1.0f, 1.0f);       // Bottom Left Of The Quad (Front)
-            GL.Vertex3(1.0f, -1.0f, 1.0f);        // Bottom Right Of The Quad (Front)
-
-            GL.Color3(1.0f, 1.0f, 0.0f);          // Set The Color To Yellow
-            GL.Vertex3(1.0f, -1.0f, -1.0f);       // Bottom Left Of The Quad (Back)
-            GL.Vertex3(-1.0f, -1.0f, -1.0f);      // Bottom Right Of The Quad (Back)
-            GL.Vertex3(-1.0f, 1.0f, -1.0f);       // Top Right Of The Quad (Back)
-            GL.Vertex3(1.0f, 1.0f, -1.0f);        // Top Left Of The Quad (Back)
-
-            GL.Color3(0.0f, 0.0f, 1.0f);          // Set The Color To Blue
-            GL.Vertex3(-1.0f, 1.0f, 1.0f);        // Top Right Of The Quad (Left)
-            GL.Vertex3(-1.0f, 1.0f, -1.0f);       // Top Left Of The Quad (Left)
-            GL.Vertex3(-1.0f, -1.0f, -1.0f);      // Bottom Left Of The Quad (Left)
-            GL.Vertex3(-1.0f, -1.0f, 1.0f);       // Bottom Right Of The Quad (Left)
-
-            GL.Color3(1.0f, 0.0f, 1.0f);          // Set The Color To Violet
-            GL.Vertex3(1.0f, 1.0f, -1.0f);        // Top Right Of The Quad (Right)
-            GL.Vertex3(1.0f, 1.0f, 1.0f);         // Top Left Of The Quad (Right)
-            GL.Vertex3(1.0f, -1.0f, 1.0f);        // Bottom Left Of The Quad (Right)
-            GL.Vertex3(1.0f, -1.0f, -1.0f);       // Bottom Right Of The Quad (Right)
-
-            GL.End();
 
             primitiveCounter += 12;
         }
