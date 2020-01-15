@@ -1,4 +1,4 @@
-otazky dnesni grafiky, zatim je nedam na forum, aby je nezmenil :)
+ZÁKLADY POČÍTAČOVÉ GRAFIKY I. (NPGR003) Pelikan 15.01.2020
 
 1) datova struktura pro hranu v polygonu vhodna pro algoritmus vyplneni mnohouhelniku
 2) co je anti-aliasign a nejake prikady, na jakem principu funguji
