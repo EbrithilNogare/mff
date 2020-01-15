@@ -1,0 +1,42 @@
+otazky dnesni grafiky, zatim je nedam na forum, aby je nezmenil :)
+
+1) datova struktura pro hranu v polygonu vhodna pro algoritmus vyplneni mnohouhelniku
+2) co je anti-aliasign a nejake prikady, na jakem principu funguji
+3) ortograficka projekce: jakymy daty ji definujeme, navrh konstrukce projekcni matice
+4) na vyber z a-e 
+a) princip rozptylovani (chyby), (Fjord . Steinberg)
+b) jak se konstruuje barevna paleta 3-3-2
+c) algoritmus pro kresleni kruznic se s tredem v pocatku pocitani v celych cislech, lze to v celych cislech bez ztraty presnosti
+d) agoritmus zaplavoveho vyplnovani, proc je lepsi FIFO nez Zasobnik
+e) algoritmus parametrickeho orezavani usecky, jaky tvar muze mit okno? 
+
+odpovedi za ktere jsem dostal celkove 96%
+1] 
+struct edge{
+  vec2 beginVertex;
+  int numberOfRows; // horizontalni delka v pixelech
+  float horizontalDiff; // o kolik se posune vlevo / vpravo pri posunu o pixel nize
+}
+
+2]
+zamezuje kostrbatym hranam pri vykreslovani.
+implementace:
+-rozdeleni pixelu na napr 4x4 subpixely a vysledek zprumerovat
+-ziskat informaci o pokryti z vertex shaderu // to je slozitejsi, nevim jestli jsme to brali
+
+3]
+na popis kamery potrebujeme: pozici (3D), rotaci (2D nebo 3D), velikost promitaci plochy (2D)
+projekce matici nepotrebuje staci vystup z nasobku matice objektu a matice kamery.
+neboli posuneme vsechno tak aby byla kamera uprostred a pak cely svet otocime aby kamera koukala "rovne"
+pak x a y jsou spravne vuci platnu a z souradnice se puzije v z-bufferu
+
+4] c]
+Mejme frontu bodu, ktera ma na zacatku pouze vstupni bod a mejme ulozenou puvodni barvu.
+Pak ji cyklem prochazime a pro kazdy bod udelame:
+-koukni zda mas v okoli (4 nebo 8 pixelu) bod puvodni barvy
+-pokud ano:
+--obarvy ho na novou barvu a pridej ho do fronty
+-odeber aktualni bod z fronty a bez na dalsi ve fronte
+
+Zasobnik je pomalejsi a muze pretect, ale predevsim bude obsahovat vsechny body (napr 4000*4000=16M bodu),
+zatimco FIFO uchova maximalne 4*4000 bodu (ty po obvodu)(ano je tu edgecase ve forme fraktalu nebo bludiste, ale ten ignorujme)
