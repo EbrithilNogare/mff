@@ -22,7 +22,7 @@ unsigned int SCR_WIDTH = 1600;
 unsigned int SCR_HEIGHT = 900;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 1.0f, -5.0f));
 float lastX = (float)SCR_WIDTH / 2.0;
 float lastY = (float)SCR_HEIGHT / 2.0;
 bool firstMouse = true;
@@ -30,6 +30,9 @@ bool firstMouse = true;
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
+
+double lastTime = glfwGetTime();
+unsigned int nbFrames = 0;
 
 void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthShader, unsigned int depthMapFBO, unsigned int woodTexture, Shader& shader, unsigned int depthMap, Shader& debugDepthQuad);
 
@@ -146,4 +149,20 @@ unsigned int loadTexture(char const* path)
 
 std::string getLocalPath(std::string source) {
 	return "../resources/" + source;
+}
+
+void showFPS(GLFWwindow* pWindow)
+{
+	double currentTime = glfwGetTime();
+	double delta = currentTime - lastTime;
+	nbFrames++;
+	if (delta >= 1.0) {
+		double fps = double(nbFrames) / delta;
+		std::stringstream ss;
+		ss << "unusual shaow maping" << " [" << fps << " fps]";
+		glfwSetWindowTitle(pWindow, ss.str().c_str());
+
+		nbFrames = 0;
+		lastTime = currentTime;
+	}
 }

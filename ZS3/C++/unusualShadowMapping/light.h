@@ -25,7 +25,7 @@ public:
 	Light(glm::vec3 position) {
 		sphere.setPosition(position);
 	}
-	void Render(Shader shader) {
+	void RenderHelper(Shader shader) {
 		if (visible) {
 			sphere.Draw(shader);
 		}
