@@ -1,0 +1,280 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newcommand{\asubsection}[3]{
+	\setcounter{section}{#1}
+	\setcounter{subsection}{#2}
+	\addtocounter{subsection}{-1}
+	\subsection{#3}~
+}
+
+\graphicspath{ {/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section*{Definice}
+
+\asubsection{2}{2}{Matice}
+Rálná matice typu $m \times n$ je obdélníkové schema (tabulka)
+
+
+\asubsection{2}{3}{Vektor}
+Reálný n-rozměrný aritmetický sloupcový vektor je matice typu  $m \times 1$
+
+
+\asubsection{2}{4}{* notace}
+i-tý řádek matice $A$ se značí: $A_{i*} = (a_{i1}, a_{i2}, . . . , a_{in})$
+
+
+\asubsection{2}{5}{Soustava lineárních rovnic}
+
+
+\asubsection{2}{6}{Matice soustavy}
+
+
+\asubsection{2}{8}{Elementární řádkové úpravy}
+
+
+\asubsection{2}{12}{Odstupňovaný tvar matice}
+
+
+\asubsection{2}{13}{Hodnost matice}
+
+
+\asubsection{2}{18}{Redukovaný odstupňovaný tvar matice}
+
+
+\asubsection{3}{1}{Rovnost}
+
+
+\asubsection{3}{2}{Součet}
+
+
+\asubsection{3}{3}{Násobek}
+
+
+\asubsection{3}{7}{Součin}
+
+
+\asubsection{3}{11}{Transpozice}
+
+
+\asubsection{3}{14}{Symetrická matice}
+
+
+\asubsection{3}{23}{Regulární matice}
+
+
+\asubsection{3}{30}{Inverzní matice}
+
+
+\asubsection{4}{1}{Grupa}
+
+
+\asubsection{4}{5}{Podgrupa}
+
+
+\asubsection{4}{8}{Permutace}
+
+
+\asubsection{4}{9}{Inverzní permutace}
+
+
+\asubsection{4}{1}{Skládání permutací}
+
+
+\asubsection{4}{13}{Znaménko permutace}
+
+
+\asubsection{4}{22}{Těleso}
+
+
+\asubsection{4}{35}{Charakteristika tělesa}
+
+
+\asubsection{5}{1}{Vektorový prostor}
+
+
+\asubsection{5}{4}{Podprostor}
+
+
+\asubsection{5}{8}{Lineární obal}
+
+
+\asubsection{5}{11}{Lineární kombinace}
+
+
+\asubsection{5}{21}{Lineární nezávislost}
+
+
+\asubsection{5}{22}{Lineární nezávislost nekonečné množiny}
+
+
+\asubsection{5}{29}{Báze}
+
+
+\asubsection{5}{32}{Souřadnice}
+
+
+\asubsection{5}{42}{Dimenze}
+
+
+\asubsection{5}{49}{Spojení podprostorů}
+
+
+\asubsection{5}{55}{Maticové prostory}
+
+
+\asubsection{6}{1}{Lineární zobrazení}
+
+
+\asubsection{6}{6}{Obraz a jádro}
+
+
+\asubsection{6}{14}{Matice lineárního zobrazení}
+
+
+\asubsection{6}{20}{Matice přechodu}
+
+
+\asubsection{6}{29}{Isomorfismus}
+
+
+\asubsection{6}{41}{Prostor lineárních zobrazení}
+
+
+\asubsection{7}{1}{Afinní podprostor}
+
+
+\asubsection{7}{7}{Dimenze afinního podprostoru}
+
+
+\asubsection{7}{10}{Afinní nezávislost}
+
+
+
+\newpage
+\section*{Věty}
+
+\asubsection{1}{1}{Základní věta algebry}
+
+
+\asubsection{3}{28}{o regularni matici}
+
+
+\asubsection{3}{31}{O existenci inverzní matice}
+
+
+\asubsection{3}{33}{Jedna rovnost stačí}
+
+
+\asubsection{3}{34}{Výpočet inverzní matice}
+
+
+\asubsection{3}{37}{Soustava rovnic a inverzní matice}
+
+
+\asubsection{3}{41}{Shermanova–Morrisonova formule}
+
+
+\asubsection{3}{43}{Jednoznačnost RREF}
+
+
+\asubsection{4}{15}{O znaménku složení permutace a transpozice}
+
+
+\asubsection{4}{16}{Každou permutaci lze rozložit na složení transpozic}
+
+
+\asubsection{4}{27}{$Z_n$ je těleso právě tehdy, když n je prvočíslo}
+
+
+\asubsection{4}{33}{O velikosti konečných těle}
+
+
+\asubsection{4}{38}{Malá Fermatova věta}
+
+
+\asubsection{5}{15}{o vektorovem prostoru a obalu}
+
+
+\asubsection{5}{26}{vektor nad T ...}
+
+
+\asubsection{5}{31}{o bazi}
+
+
+\asubsection{5}{38}{O existenci báze}
+
+
+\asubsection{5}{40}{Steinitzova věta o výměně}
+
+
+\asubsection{5}{44}{Vztah počtu prvků systému k dimenzi}
+
+
+\asubsection{5}{45}{Rozšíření lineárně nezávislého systému na bázi}
+
+
+\asubsection{5}{46}{Dimenze podprostoru}
+
+
+\asubsection{5}{50}{Spojení podprostorů}
+
+
+\asubsection{5}{52}{Dimenze spojení a průniku}
+
+
+\asubsection{5}{62}{Maticové prostory a RREF}
+
+
+\asubsection{5}{63}{Pro každou matici $A \in T m\times n$ platí rank(A) = rank($A^T$)}
+
+
+\asubsection{5}{66}{O dimenzi jádra a hodnosti matice}
+
+
+\asubsection{6}{10}{Prosté lineární zobrazení}
+
+
+\asubsection{6}{12}{Lineární zobrazení a jednoznačnost vzhledem k obrazům báze}
+
+
+\asubsection{6}{16}{Maticová reprezentace lineárního zobrazení}
+
+
+\asubsection{6}{18}{Jednoznačnost matice lineárního zobrazení}
+
+
+\asubsection{6}{24}{Matice složeného lineárního zobrazeni}
+
+
+\asubsection{6}{35}{Isomorfismus n-dimenzionálních prosto}
+
+
+\asubsection{6}{37}{O dimenzi jádra a obrazu}
+
+
+\asubsection{7}{4}{Charakterizace afinního podprostoru}
+
+
+\asubsection{7}{5}{o Množina řešení soustavy rovni}
+
+
+
+\end{document}
