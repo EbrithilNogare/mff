@@ -276,72 +276,144 @@ Existují konečná tělesa právě o velikostech $p^n$, kde $p$ je prvočíslo 
 \asubsection{4}{38}{Malá Fermatova věta}
 Buď $p$ prvočíslo a buď $0 \neq a \in Z_p$. Pak $a^{p-1} = 1$ v tělese $Z_p$
 
+
 \asubsection{5}{15}{o vektorovem prostoru a obalu}
 Buď $V$ vektorový prostor nad $T$, a mějme $v1, . . . , vn \in V$.\\
 Pak $span\{v_1, . . . , v_n\} = \{ \sum^n_{i=1} a_iv_i; a_1, . . . , a_n \in T\}$
 
-\asubsection{5}{26}{vektor nad T ...}
+
+\asubsection{5}{26}{o vektorove zavislosti}
+Buď $V$ vektorový prostor nad $T$, a mějme $v1, . . . , vn \in V$.
+Pak vektory $v_1, . . . , v_n$ jsou lineárně závislé právě tehdy,
+když existuje $k \in {1, . . . , n}$ takové,
+že $v_k = P i \neq k a_iv_i$ pro nějaké $a_1, . . . , a_n \in T$,
+to jest $vk \in span\{v_1, . . . , vk-1, v_{k+1}, . . . , vn\}$
 
 
 \asubsection{5}{31}{o bazi}
-
+Nechť $v_1, . . . , v_n$ je báze prostoru $V$.
+Pak pro každý vektor $u \in V$ existují jednoznačně určené
+koeficienty $a_1, . . . , a_n \in T$ takové, že $u = \sum^n_{i=1} a_iv_i$
 
 \asubsection{5}{38}{O existenci báze}
+Každý vektorový prostor má bázi
+\dukaz
+Buď $v_1, . . . , v_n$ systém generátorů $V$.
+Jsou-li lineárně nezávislé, tak už tvoří bázi.
+Jinak podle důsledku 5.27 existuje index $k$ tak,že
+$$
+span\{v_1, . . . , v_n\} = span\{v_1, . . . , v_{k-1}, v_{k+1}, . . . , v_n\}
+$$
 
 
 \asubsection{5}{40}{Steinitzova věta o výměně}
+Buď $V$ vektorový prostor, buď $x_1, . . . , x_m$ lineárně nezávislý
+systém ve $V$, a nechť $y_1, . . . , y_n$ je systém generátorů $V$.
+Pak platí:\\
+1. $m \leq n$ \\
+2. existují navzájem různé indexy $k_1, . . . , k_{n-m}$ takové,
+že $x_1, . . . , x_m, y_{k_1} , . . . , y_{k_{n-m}}$ tvoří systém generátorů $V$
+\dukaz
+indukci od $m=0$ predpoklad pro $m-1$ => plati i pro $m$
 
 
 \asubsection{5}{44}{Vztah počtu prvků systému k dimenzi}
+Pro vektorový prostor $V$ platí: \\
+1. Nechť $x_1, . . . , x_m$ jsou lineárně nezávislé.
+Pak $m \leq dim V$. Pokud $m = dim V$, potom $x_1, . . . , x_m$ je báze. \\
+2. Nechť $y_1, . . . , y_n$ jsou generátory $V$ . Pak $n \geq dim V$.
+Pokud $n = dim V$, potom $y_1, . . . , y_n$ je báze
 
 
 \asubsection{5}{45}{Rozšíření lineárně nezávislého systému na bázi}
+Každý lineárně nezávislý systém vektorového prostoru $V$ lze rozšířit na bázi $V$
 
 
 \asubsection{5}{46}{Dimenze podprostoru}
+Je-li $W \subseteq V$, pak $dim W \leq dim V$. Pokud navíc $dim W = dim V$, tak $W = V$
 
 
 \asubsection{5}{50}{Spojení podprostorů}
+Buďte $U, V$ podprostory vektorového prostoru $W$. Pak $U + V = span(U \cup V)$
 
 
 \asubsection{5}{52}{Dimenze spojení a průniku}
+Buďte $U, V$ podprostory vektorového prostoru $W$.
+Pak platí $dim(U + V ) + dim(U \cap V ) = dim U + dim V$
 
 
 \asubsection{5}{62}{Maticové prostory a RREF}
+Buď $A \in T^{m\times n}$ a buď $A^R$ její $RREF$ tvar
+s pivoty na pozicích $(1, p_1), . . . ,(r, p_r)$, kde $r = rank(A)$. Pak: \\
+1. nenulové řádky $A^R$, tedy vektory $A^R_{1\star} , . . . , A^R_{r\star}$,
+	tvoří bázi $R(A)$ \\
+2. sloupce $A_{ \star p_1} , . . . , A_{ \star p_r}$ tvoří bázi $S(A)$ \\
+3. $dim R(A) = dim S(A) = r$
 
 
-\asubsection{5}{63}{Pro každou matici $A \in T m\times n$ platí rank(A) = rank($A^T$)}
+\asubsection{5}{63}{Pro každou matici $A \in T^{m\times n}$ platí rank(A) = rank($A^T$)}
 
 
 \asubsection{5}{66}{O dimenzi jádra a hodnosti matice}
+Pro každou matici $A \in T^{m\times n}$ platí dim Ker$(A)+$rank$(A) = n$
 
 
 \asubsection{6}{10}{Prosté lineární zobrazení}
+Buď $f : U \rightarrow V$ lineární zobrazení. Pak následující jsou ekvivalentní: \\
+1. $f$ je prosté \\
+2. Ker$(f) = \{o\}$ \\
+3. obraz libovolné lineárně nezávislé množiny je lineárně nezávislá množina
 
 
 \asubsection{6}{12}{Lineární zobrazení a jednoznačnost vzhledem k obrazům báze}
+Buďte $U, V$ prostory nad $T$ a $x_1, . . . , x_n$ báze $U$.
+Pak pro libovolné vektory $y_1, . . . , y_n \in V$ existuje
+právě jedno lineární zobrazení takové,
+že $f(x_i) = y_i, i = 1, . . . , n$
 
 
 \asubsection{6}{16}{Maticová reprezentace lineárního zobrazení}
+Buď $f : U \rightarrow V$ lineární zobrazení,
+$B1 = \{x_1, . . . , x_n\}$ báze prostoru $U$, a
+$B2 = \{y_1, . . . , y_m\}$ báze prostoru $V$. \\
+Pak pro každé $x \in U$ je $[f(x)]_{B2} = {}_{B2}[f]_{B1} \cdot [x]_{B1}$
 
 
 \asubsection{6}{18}{Jednoznačnost matice lineárního zobrazení}
+Buď $f : U \rightarrow V$ lineární zobrazení,
+$B_1$ báze prostoru $U$, a $B_2$ báze prostoru $V$. \\
+Pak jediná matice $A$ splňující (6.16) je $A = {}_{B_2}[f]_{B_1}$
 
 
 \asubsection{6}{24}{Matice složeného lineárního zobrazeni}
+Buďte $f : U \rightarrow V$ a $g : V \rightarrow W$ lineární zobrazení,
+buď $B_1$ báze $U$, $B_2$ báze $V$ a $B_3$ báze $W$. \\
+Pak $ {}_{B_3}[g \circ f]_{B_1} = {}_{B_3}[g]_{B_2} \cdot {}_{B_2}[f]_{B_1}$
 
 
-\asubsection{6}{35}{Isomorfismus n-dimenzionálních prosto}
+\asubsection{6}{35}{Isomorfismus $n$-dimenzionálních prostorů}
+Všechny $n$-dimenzionální vektorové prostory nad tělesem T jsou navzájem isomorfní
 
 
 \asubsection{6}{37}{O dimenzi jádra a obrazu}
+Buď $f : U \rightarrow V$ lineární zobrazení,
+$U, V$ prostory nad $T$, $B_1$ báze prostoru $U a B_2$ báze prostoru $V$. \\
+Označme $A = {}_{B_2}[f]_{B_1}$.
+Pak: \\
+1. dim Ker$(f) = $ dim Ker$(A)$ \\
+2. dim $f(U) = $ dim $S(A) = $ rank$(A)$.
 
 
 \asubsection{7}{4}{Charakterizace afinního podprostoru}
+Buď $V$ vektorový prostor nad tělesem $T$ charakteristiky různé od 2,
+a buď $\emptyset \neq M \subseteq V$.
+Pak $M$ je afinní, tj. je tvaru $M = U + a$ právě tehdy, když pro každé
+$x, y \in M$ a $a \in T$ platí $ax + (1 - a)y \in M$
 
-
-\asubsection{7}{5}{o Množina řešení soustavy rovni}
-
+\asubsection{7}{5}{Množina řešení soustavy rovnic}
+Množina řešení soustavy rovnic $A_x = b$ je prázdná nebo afinní.
+Je-li neprázdná, můžeme tuto množinu řešení vyjádřit ve
+tvaru Ker$(A) + x_0$, kde $x_0$ je jedno libovolné řešení soustav
 
 
 \end{document}
