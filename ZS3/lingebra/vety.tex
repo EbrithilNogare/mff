@@ -21,6 +21,10 @@
 	\subsection{#3}~
 }
 
+\newcommand{\dukaz}{
+	\subsubsection*{dukaz}~
+}
+
 \graphicspath{ {/} }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,46 +176,109 @@ i-tý řádek matice $A$ se značí: $A_{i*} = (a_{i1}, a_{i2}, . . . , a_{in})$
 \section*{Věty}
 
 \asubsection{1}{1}{Základní věta algebry}
+Každý polynom s komplexními koeficienty má alespoň jeden komplexní kořen.
+\dukaz
+pres kruznici a jeji zmensovani v rovine komplexnich cisel.
+Snizujeme stupen polynomu az na nulu delenim kerenem.
+
+
+\asubsection{2}{22}{Frobeniova věta}
+Soustava $(A | b)$ má (aspoň jedno) řešení právě tehdy, když rank$(A) =$ rank$(A | b)$
 
 
 \asubsection{3}{28}{o regularni matici}
+Buď $A \in R^{m\times n}$.
+Pak $RREF(A) = QA$ pro nějakou regulární matici $Q \in R m\times m$
+\dukaz
+$RREF(A)$ získáme aplikací konečně mnoha elementárních řádkových úprav.
+Nechť jdou reprezentovat maticemi $E1, E2, . . . , Ek$.
+Pak $RREF(A) = Ek . . . E2E1A = QA$, kde $Q = Ek . . . E2E1$.
+Protože matice $E1, E2, . . . , Ek$ jsou regulární, i jejich součin $Q$ je regulární
 
 
 \asubsection{3}{31}{O existenci inverzní matice}
+Buď $A \in R^{n\times n}$.
+Je-li $A$ regulární, pak k ní existuje inverzní matice, a je určená jednoznačně.
+Naopak, existuje-li k $A$ inverzní, pak $A$ musí být regulární
+\dukaz
+Existence -  Vytvořme matici $A^{-1}$ tak, aby její sloupce byly vektory $x1, . . . , xn$,
+	to jest, $A^{-1} = (x1|x2| . . . |xn)$ \\
+Druha rovnost - $A(A^{-1} A - I) = A A^{-1} A - A = IA - A = 0$ \\
+Jednoznacnost - $B = BI = B(AA^{-1}) = (BA)A^{-1} = IA^{-1} = A^{-1}$
 
 
 \asubsection{3}{33}{Jedna rovnost stačí}
+Buďte $A, B \in R n\times n$. Je-li $BA = I$,
+pak obě matice $A, B$ jsou regulární a navzájem k sobě inverzní,
+to jest $B = A^{-1}$ a $A = B^{-1}$
+\dukaz
+vime ze $I$ je regularni, $B = BI = B(AA^{-1} ) = (BA)A^{-1} = IA^{-1} = A^{-1}$ a obracene
 
 
 \asubsection{3}{34}{Výpočet inverzní matice}
+Buď $A, B \in R^{n\times n}$.
+Nechť matice $(A | I_n)$ typu $n\times 2n$ má RREF tvar $(I_n | B)$.
+Pak $B = A^{-1}$.
+Netvoří-li první část RREF tvaru jednotkovou matici, pak $A$ je singulární
+\dukaz
+Je-li RREF$(A | I_n) = (I_n | B)$, potom existuje regulární matice $Q$ taková,
+že $(I_n | B) = Q(A | I_n)$, neboli po roztržení na dvě části $I_n = QA$ a $B = QI_n$.
+První rovnost říká $Q = A^{-1}$ a druhá $B = Q = A^{-1}$.
+\\
+Netvoří-li první část RREF tvaru jednotkovou matici,
+pak RREF$(A) \neq I_n$ a tudíž $A$ není regulární.
 
 
 \asubsection{3}{37}{Soustava rovnic a inverzní matice}
+Buď $A \in R^{n\times n}$ regulární.
+Pak řešení soustavy $Ax = b$ je dáno vzorcem $x = A^{-1} b$.
+\dukaz
+Protože $A$ je regulární, má soustava jediné řešení $x$.
+Platí $x = Ix = (A^{-1}A)x = A^{-1} (Ax) = A^{-1} b$
 
 
 \asubsection{3}{41}{Shermanova–Morrisonova formule}
+Buď $A \in R^{n\times n}$ regulární a $b, c \in R^n$.
+Pokud $c^T A^{-1} b = -1$, tak $A + bc^T$ je singulární, jinak
+$$
+(A + bc^T)^{-1} = A^{-1} -\frac{1}{1 + c^TA^{-1}b} A^{-1} bc^TA^{-1}
+$$
+\dukaz
+V případě $c^TA^{-1}b = -1$ máme
+$(A + bc^T)A^{-1}b = AA^{-1}b + bc^TA^{-1}b = b(1 + c^TA^{-1}b) = 0$.
+Protože $b \neq 0$ a vzhledem k regularitě $A$ je $A^{-1}b \neq 0$,
+musí matice $(A + bc^T)$ být singulární
 
 
 \asubsection{3}{43}{Jednoznačnost RREF}
+RREF tvar matice je jednoznačně určen
+\dukaz
+$A = Q^{-1}_1 A_1 = Q^{-1}_2 A_2$, a tedy $A_1 = Q_1Q^{-1}_2 A_2$ => $A_1 = A_2$
 
 
 \asubsection{4}{15}{O znaménku složení permutace a transpozice}
-
+Buď $p \in S_n$ a buď $t = (i, j)$ transpozice.
+Pak $sgn(p) = - sgn(t \circ p) = - sgn(p \circ t)$
 
 \asubsection{4}{16}{Každou permutaci lze rozložit na složení transpozic}
 
 
-\asubsection{4}{27}{$Z_n$ je těleso právě tehdy, když n je prvočíslo}
+\asubsection{4}{27}{$Z_n$ je těleso právě tehdy, když $n$ je prvočíslo}
+\dukaz
+Je-li $n$ složené, pak $n = pq$, kde $1 < p, q < n$. Kdyby $Z_n$ bylo těleso,
+pak $pq = 0$ implikuje podle tvrzení 4.25 buď $p = 0$ nebo $q = 0$, ale ani jedno neplatí
 
 
-\asubsection{4}{33}{O velikosti konečných těle}
+\asubsection{4}{33}{O velikosti konečných těles}
+Existují konečná tělesa právě o velikostech $p^n$, kde $p$ je prvočíslo a $n \geq 1$ 
 
 
 \asubsection{4}{38}{Malá Fermatova věta}
-
+Buď $p$ prvočíslo a buď $0 \neq a \in Z_p$. Pak $a^{p-1} = 1$ v tělese $Z_p$
 
 \asubsection{5}{15}{o vektorovem prostoru a obalu}
-
+Buď $V$ vektorový prostor nad $T$, a mějme $v1, . . . , vn \in V$.\\
+Pak $span\{v_1, . . . , v_n\} = \{ \sum^n_{i=1} a_iv_i; a_1, . . . , a_n \in T\}$
 
 \asubsection{5}{26}{vektor nad T ...}
 
