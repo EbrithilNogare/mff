@@ -88,7 +88,11 @@ i-tý řádek matice $A$ se značí: $A_{i*} = (a_{i1}, a_{i2}, . . . , a_{in})$
 
 
 \asubsection{4}{1}{Grupa}
-
+Buď $\circ : G^2 \rightarrow G$ binární operace na množině G.
+Pak grupa je dvojice $(G, \circ)$ splňující: \\
+1. $\forall a, b, \in G : a \circ (b \circ c) = (a \circ b) \circ c$ (asociativita) \\
+2. $\exists e \in G \forall a \in G : e \circ a = a \circ e = a$ (existence neutrálního prvku) \\
+3. $\forall a \in G \exists b \in G : a \circ b = b \circ a = e$ (existence inverzního prvku)
 
 \asubsection{4}{5}{Podgrupa}
 
@@ -106,12 +110,26 @@ i-tý řádek matice $A$ se značí: $A_{i*} = (a_{i1}, a_{i2}, . . . , a_{in})$
 
 
 \asubsection{4}{22}{Těleso}
+Těleso je množina T spolu se dvěma komutativními binárními operacemi + a · splňující: \\
+1. $(T, +)$ je Abelova grupa, neutrální prvek značíme $0$ a inverzní k $a$ pak $-a$ \\
+2. $(T \backslash \{0\}, \cdot)$ je Abelova grupa, neutrální prvek značíme $1$ a inverzní k $a$ pak $a - 1$ \\
+3. $\forall a, b, c \in T: a(b + c) = ab + ac$ (distributivita)
 
 
 \asubsection{4}{35}{Charakteristika tělesa}
 
 
 \asubsection{5}{1}{Vektorový prostor}
+Buď $T$ těleso s neutrálními prvky $0$ pro sčítání a $1$ pro násobení.
+Vektorovým prostorem nad tělesem $T$ rozumíme množinu $V$ s
+operacemi sčítání vektorů $+: V^2 \rightarrow V$, a
+násobení vektoru skalárem $\cdot : T \times V \rightarrow V$ splňující pro každé
+$a, b \in T$ a $u, v \in V$: \\
+1. $(V, +)$ je Abelova grupa, neutrální prvek značíme $o$ a inverzní k $v$ pak $-v$ \\
+2. $a(bv) = (ab)v$ (asociativita) \\
+3. $1v = v$ \\
+4. $(a + b)v = av + bv$ (distributivita) \\
+5. $a(u + v) = au + av$ (distributivita)
 
 
 \asubsection{5}{4}{Podprostor}
@@ -191,9 +209,9 @@ Buď $A \in R^{m\times n}$.
 Pak $RREF(A) = QA$ pro nějakou regulární matici $Q \in R m\times m$
 \dukaz
 $RREF(A)$ získáme aplikací konečně mnoha elementárních řádkových úprav.
-Nechť jdou reprezentovat maticemi $E1, E2, . . . , Ek$.
-Pak $RREF(A) = Ek . . . E2E1A = QA$, kde $Q = Ek . . . E2E1$.
-Protože matice $E1, E2, . . . , Ek$ jsou regulární, i jejich součin $Q$ je regulární
+Nechť jdou reprezentovat maticemi $E_1, E_2, . . . , E_k$.
+Pak $RREF(A) = E_k . . . E_2E_1A = QA$, kde $Q = E_k . . . E_2E_1$.
+Protože matice $E_1, E_2, . . . , E_k$ jsou regulární, i jejich součin $Q$ je regulární
 
 
 \asubsection{3}{31}{O existenci inverzní matice}
