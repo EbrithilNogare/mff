@@ -1,0 +1,4 @@
+vituscze@gmail.com [NPRG]
+https://github.com/vituscze/neproc
+alespon 60% bodu (50 jak z prologu tak i haskellu)
+udelat zapoctovy program
