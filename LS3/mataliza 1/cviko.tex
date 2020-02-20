@@ -1,0 +1,94 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
+
+\newcommand{\definice}[3]{
+	\setcounter{section}{#1}
+	\setcounter{subsection}{#2}
+	\addtocounter{subsection}{-1}
+	\subsection{#3}~
+}
+
+\newcommand{\veta}[3]{
+	\setcounter{section}{#1}
+	\setcounter{subsection}{#2}
+	\addtocounter{subsection}{-1}
+	\subsection{#3}~
+}
+
+\newcommand{\dukaz}{
+	\subsubsection*{dukaz}~
+}
+
+\graphicspath{ {/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\textbf{ciselne obory}\\
+$\mathbb{N}, \mathbb{N}_0, \mathbb{Z}, \mathbb{Q}, \mathbb{R}$
+\\
+\textbf{castecne usporadana mnozina}\\
+\begin{itemize}
+    \item reflexe
+    \item antisymetre
+    \item tranzitivita
+\end{itemize}
+
+\textbf{priklad 1}
+
+$x, y \subseteq \mathbb{R}: $
+\begin{itemize}
+    \item $\forall x \in X \forall y \in Y x \leq y$ ($x<0<y$)
+    \item $\exists x \in X \exists y \in Y x \leq y$ (x=y=0)
+    \item $\exists x \in X \forall y \in Y x \leq y$ ($min(x) \leq min(y)$) 
+    \item $\forall x \in X \exists y \in Y x \leq y$ ($max(x) \leq max(y)$)
+    \item $\forall y \in Y \exists x \in X x \leq y$ ($min(x) \leq min(y)$)
+    \item $\exists y \in Y \forall x \in X x \leq y$ ($max(x) \leq max(y)$)
+\end{itemize}
+
+\textbf{omezenost}\\
+$X\subseteq \mathbb{R}$
+je omezena <=>
+$\exists y \in \mathbb{R}^{+} \forall x \in X: -y \leq x \leq y$
+\\\\
+\textbf{jednoznacnost}\\
+$f \subseteq XxY$ \\
+$\forall x \in X \exists!y\in Y:f(x)=y$
+\\\\
+\textbf{omezenost funkce}\\
+maximum $\neq$ shora omezena (napr otevreny interval)
+\\\\
+\textbf{priklad 2}\\
+$X \subseteq \mathbb{R}:$
+$\exists a,b,c \in \mathbb{R} \forall x,y \in \mathbb{X}, \in \mathbb{R} (x\neq y)
+=> (a < x \& y<b \& |x-y|<c)$\\
+omezena zdola, zhora, c=a+b
+\\\\
+\textbf{HW}\\
+$X \subseteq \mathbb{R}:$ nekonecna t. ze\\
+$\exists a,b,c \in \mathbb{R}: c>0 \& \forall x,y \in \mathbb{X}, \in \mathbb{R} (x\neq y)
+=> (a < x \& y<b \& |x-y|>c)$\\
+... interval to nebude
+
+
+
+
+
+
+
+
+\end{document}
