@@ -119,9 +119,9 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 
 	// change light position over time
 	glm::vec3 newLightPosition = glm::vec3(
-		sin(glfwGetTime()/2) * 5.0f,
+		5,//sin(glfwGetTime()/2) * 5.0f,
 		1.0f,
-		cos(glfwGetTime()/2) * 5.0f);
+		0);// cos(glfwGetTime() / 2) * 5.0f);
 	light.setPosition(newLightPosition);
 
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -150,7 +150,9 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, woodTexture);
 
+	glCullFace(GL_FRONT);
 	scene.Render(simpleDepthShader);
+	glCullFace(GL_BACK);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// reset viewport
@@ -182,7 +184,7 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 	debugDepthQuad.setFloat("far_plane", far_plane);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
-	//renderQuad();
+	renderQuad();
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
