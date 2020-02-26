@@ -1,0 +1,54 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Mataliza 1}\\
+\textbf{Ukol: 1.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}
+
+\section*{zadani}
+$X \subseteq \mathbb{R}:$ nekonecna t. ze\\
+$\exists a,b,c \in \mathbb{R}: c>0 ~\&~ \forall x,y \in X,
+(x\neq y) => (a < x ~\&~ y<b ~\&~ |x-y|>c)$\\
+hint: interval to nebude
+
+\section*{reseni}
+$X$ muze byt napr.\\
+posloupnost definovana jako $a_n = \frac{1}{2^n}, n\in\mathbb{N}$\\
+\\
+overme podminky:\\
+\begin{itemize}
+	\item $\exists a \in \mathbb{R}~\forall x \in X: a<x$\\
+	posloupnost X ma infimum rovno 0, tudiz plati pro $a=0$
+	\item $\exists b \in \mathbb{R}~\forall y \in X: y<b$\\
+	posloupnost X ma supremum rovno 1, tudiz plati pro $b=1$
+	\item $\forall x,y \in X:|x-y|>0$ (BUNO vynechame $c$)\\
+	jelikoz je posloupnost definovana funkci
+	$f(n) = \frac{1}{2^n}$\\
+	tak je prosta a tudiz neexistuji ruzne $n_1$ a
+	$n_2$ takove, ze $f(n_1) = f(n_2)$\\
+	tudiz bude jejich rozdil vzdy nenulovy.
+\end{itemize}
+
+
+
+
+
+\end{document}
