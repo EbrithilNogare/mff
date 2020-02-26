@@ -18,15 +18,23 @@
 	\setcounter{section}{#1}
 	\setcounter{subsection}{#2}
 	\addtocounter{subsection}{-1}
-	\subsection{#3}~
+	\subsection{definice: #3}~
 }
 
 \newcommand{\veta}[3]{
 	\setcounter{section}{#1}
 	\setcounter{subsection}{#2}
 	\addtocounter{subsection}{-1}
-	\subsection{#3}~
+	\subsection{veta: #3}~
 }
+
+\newcommand{\pozorovani}[3]{
+	\setcounter{section}{#1}
+	\setcounter{subsection}{#2}
+	\addtocounter{subsection}{-1}
+	\subsection{pozorovani: #3}~
+}
+
 
 \newcommand{\dukaz}{
 	\subsubsection*{dukaz}~
@@ -38,6 +46,8 @@
 
 \begin{document}
 
+
+%%%%% 19.02.2020
 
 \definice{8}{2}{skalarni soucin nad $\mathbb{R}$}
 Bud $V$ vektorovy prostor nad $\mathbb{R}$.\\
@@ -70,7 +80,7 @@ vektory $x,y \in V$ jsou kolme pokud $\langle x, y \rangle = 0$
 Pokud $x,y \in V$ jsou kolme, tak $||x+y||^2 = ||x||^2+||y||^2$
 
 \dukaz
-$||x+y||^2=\langle x+y, x+y\rangle=\langle x,x\rangle+\langle x,y\rangle+\langle y,z\rangle+\langle y,y\rangle=$\\
+$||x+y||^2=\langle x+y, x+y\rangle=\langle x,x\rangle+\langle x,y\rangle+\langle y,x\rangle+\langle y,y\rangle=$\\
 dle definice 8.2 item 2.\\
 $\langle x+y, x+y\rangle=\langle x,x+y\rangle+\langle y,x+y\rangle$\\
 dle predpokladu kolmosti $\langle x,y\rangle = \langle y,x\rangle = 0$\\
@@ -88,11 +98,33 @@ splnujici $\forall x, y \in V a \forall \alpha \in \mathbb{R}$\\
 \begin{itemize}
     \item $||x|| \geq 0$ a rovnost nastane pouze pro $x=0$
     \item $||\alpha x || = |\alpha|\cdot ||x||$
-    \item $||x+y|| \leq |||x|| + ||y||$
+    \item $||x+y|| \leq ||x|| + ||y||$
 \end{itemize}
 
+%%%%% 26.02.2020
 
+\textbf{Priklady norem v $x\in \mathbb{R}^n$:}
+\begin{itemize}
+	\item $p\geq 1$ p-norma
+	\item $p=2$ eukleidovska
+	\item $p=1$ soucotva
+	\item $p=\infty$ maximova (cebysevova)
+\end{itemize}
 
+\pozorovani{8}{20}{rovnobeznikove pravidlo}\\
+$||x-y||^2 + ||x+y||^2 = 2||x||^2 + 2||y||^2$
+
+\definice{8}{21}{metrika}\\
+$\forall x,y,z \in M$:\\
+\begin{itemize}
+	\item $d(x,y) \geq 0$ a $=$ nastane pouze pro $x=y$
+	\item $d(x,y) = d(x,y)$
+	\item $d(x,z) \leq d(x,y) + d(y,z)$
+\end{itemize}
+
+\veta{8}{27}{Fourierovy koeficienty}
+\textbf{Gramova–Schmidtova ortogonalizace}\\
+\veta{8}{38}{Ortogonalni doplnek}
 
 
 
