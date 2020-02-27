@@ -49,38 +49,49 @@
 % R = [0, 0, 0, 0, 1].
 
 toNat(N, R) :-
-    integer(N),
-    toNat_(N, R).
+	integer(N),
+	toNat_(N, R).
   
   toNat_(N, R) :- N > 0 ->
-    (N2 is N - 1, toNat_(N2, R2), R = s(R2));
-    R = 0.
+	(N2 is N - 1, toNat_(N2, R2), R = s(R2));
+	R = 0.
   
-  fromNat(0, 0).
-  fromNat(s(N), R) :-
-    fromNat(N, R2),
-    R is R2 + 1.
+fromNat(0, 0).
+fromNat(s(N), R) :-
+	fromNat(N, R2),
+	R is R2 + 1.
   
-  nat(0).
+nat(0).
   nat(s(X)) :- nat(X).
   
-  add(0, Y, Y) :- nat(Y).
-  add(s(X), Y, s(Z)) :-
-    add(X, Y, Z).
+add(0, Y, Y) :- nat(Y).
+add(s(X), Y, s(Z)) :-
+	add(X, Y, Z).
   
-  less(0, s(Y)) :- nat(Y).
-  less(s(X), s(Y)) :- less(X, Y).
+less(0, s(Y)) :- nat(Y).
+less(s(X), s(Y)) :- less(X, Y).
 
 %%% reseni
 
+%% logaritmus
+
 half(N, V) :-
-    add(V, V, N).
+	add(V, V, N).
 
-halfWithCounter(N, Vysledek, Counter):-
-    
-
-logtwo(N, Vysledek) :-
+half(N, V) :-
+	add(s(V), s(V), s(N)).
 
 
-    
+logtwo(s(0), 0).
+logtwo(s(N), s(K)) :-
+	half(s(N),M),
+	logtwo(M,K).    
+
+%% fibonaci
+
+generalizedFib(3, 4, 5, R) :-
+	
+
+%fib(N, Vysledek) :-
+
 
