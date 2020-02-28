@@ -76,22 +76,38 @@ less(s(X), s(Y)) :- less(X, Y).
 %% logaritmus
 
 half(N, V) :-
-	add(V, V, N).
-
-half(N, V) :-
+	add(V, V, N);
 	add(s(V), s(V), s(N)).
-
 
 logtwo(s(0), 0).
 logtwo(s(N), s(K)) :-
 	half(s(N),M),
 	logtwo(M,K).    
 
+
 %% fibonaci
 
-generalizedFib(3, 4, 5, R) :-
+generalizedFib(0, A, _, A).
+generalizedFib(s(0), _, B, B).
+generalizedFib(s(s(0)), A, B, R) :-
+	add(A,B,R).
+generalizedFib(s(I), A, B, R) :-
+	add(A,B,AB),
+	generalizedFib(I,B,AB,R).
+
+fib(N, Fib) :-
+	toNat(N,I),
+	generalizedFib(I,0,s(0),R),
+	fromNat(R,Fib).
+
+
+%% addBin
+
+addBin(b(0,e),b(0,e),b(0,e)).
+addBin(b(0,e),b(1,e),b(1,e)).
+addBin(b(1,e),b(0,e),b(1,e)).
+addBin(b(1,e),b(1,e),b(0, b(1,e))).
+addBin(X,Y,R) :-
+	addBin(X,Y,R).
 	
-
-%fib(N, Vysledek) :-
-
 
