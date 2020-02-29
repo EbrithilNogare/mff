@@ -99,15 +99,3 @@ fib(N, Fib) :-
 	toNat(N,I),
 	generalizedFib(I,0,s(0),R),
 	fromNat(R,Fib).
-
-
-%% addBin
-
-addBin(b(0,e),b(0,e),b(0,e)).
-addBin(b(0,e),b(1,e),b(1,e)).
-addBin(b(1,e),b(0,e),b(1,e)).
-addBin(b(1,e),b(1,e),b(0, b(1,e))).
-addBin(X,Y,R) :-
-	addBin(X,Y,R).
-	
-
