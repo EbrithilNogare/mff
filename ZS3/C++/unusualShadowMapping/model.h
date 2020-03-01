@@ -53,16 +53,16 @@ private:
 					for (int i = 1; i <= 3; i++) {
 						auto facesSplited = SplitString(splited[i], '/');
 
-						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1][0]);
-						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1][1]);
-						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1][2]);
+						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1.0][0]);
+						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1.0][1]);
+						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1.0][2]);
 
-						bufferData.push_back(textureCoords[std::stoi(facesSplited[1])-1][0]);
-						bufferData.push_back(textureCoords[std::stoi(facesSplited[1])-1][1]);
+						bufferData.push_back(textureCoords[std::stoi(facesSplited[1])-1.0][0]);
+						bufferData.push_back(textureCoords[std::stoi(facesSplited[1])-1.0][1]);
 
-						bufferData.push_back(normals[std::stoi(facesSplited[2])-1][0]);
-						bufferData.push_back(normals[std::stoi(facesSplited[2])-1][1]);
-						bufferData.push_back(normals[std::stoi(facesSplited[2])-1][2]);
+						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][0]);
+						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][1]);
+						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][2]);
 					}
 				}
 				else {
