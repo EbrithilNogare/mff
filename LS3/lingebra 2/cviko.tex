@@ -78,6 +78,47 @@ $z_4 = (\frac{1}{3}, 0, \frac{2}{3}, \frac{-2}{3})$\\
 
 
 
+\section*{6.3.}
+test na ortogonalni vektory v $R^3$\\
+\\
+$x_1 = (1,2,3,4)^T$ \dots $||x_1|| = \sqrt{30}$\\
+$x_2 = (2,4,2,1)^T$ \dots $||x_2|| = \sqrt{25} = 5$\\
+$x_3 = (-1,-2,-2,-1)^T$ \dots $||x_3|| = \sqrt{10}$\\
+\\
+Gram–Schmidt:\\
+$proj_u(v) = \frac{\langle v,u \rangle}{\langle u,u \rangle} u$\\
+\\
+$u_1 = x_1 = (1,2,3,4)^T$\\
+$u_2 = x_2 - proj_{u_1}(v_2)$\\
+$u_3 = x_3 - proj_{u_1}(v_3) - proj_{u_2}(v_3)$\\
+\\
+normalizace:\\
+$z_i=\frac{y_i}{||y_i||}$\\
+\\
+$A = \left(
+	\begin{matrix} 
+		1 & 1 & 1 & 1 \\
+		4 & 1 & 4 & 1 \\
+		1 & 2 & 3 & 4  \end{matrix}
+	\right) $\\
+$x=(2,2,1,5)^T$\\
+Urcete projekci $x$ do $R(A)$\\
+\\
+Fourierovy koeficienty:\\
+$x = \sum^{n}_{i=1}{\langle x, z_i \rangle }z_i$\\
+\\
+
+\section*{6.3.}
+Spoctete vzdalenost bodu $A=(5,5,3,3)^T$\\
+od roviny prochazejici body:\\
+\begin{itemize}
+	\item $B = (8,-1,1,-2)^T$
+	\item $C = (4,-2,2,-1)^T$
+	\item $D = (0,0,0,0)^T$
+\end{itemize}
+
+
+
 
 
 
