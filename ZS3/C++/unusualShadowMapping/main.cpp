@@ -62,9 +62,7 @@ int main() {
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glBindVertexArray(0);
-
-	unsigned int woodTexture = loadTexture(std::string(getLocalPath("textures/wood.jpg")).c_str());
-
+	
 	const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 	unsigned int depthMapFBO;
 	glGenFramebuffers(1, &depthMapFBO);
@@ -99,7 +97,7 @@ int main() {
 	while (!glfwWindowShouldClose(window))
 	{
 		showFPS(window);
-		render(window, scene, light, simpleDepthShader, depthMapFBO, woodTexture, shader, depthMap, debugDepthQuad);
+		render(window, scene, light, simpleDepthShader, depthMapFBO, shader, depthMap, debugDepthQuad);
 	}
 
 	glDeleteVertexArrays(1, &planeVAO);
@@ -109,7 +107,7 @@ int main() {
 	return 0;
 }
 
-void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthShader, unsigned int depthMapFBO, unsigned int woodTexture, Shader& shader, unsigned int depthMap, Shader& debugDepthQuad)
+void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthShader, unsigned int depthMapFBO, Shader& shader, unsigned int depthMap, Shader& debugDepthQuad)
 {
 	float currentFrame = (float)glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
@@ -147,8 +145,6 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 	glViewport(0, 0, light.mapWidth, light.mapHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, woodTexture);
 
 	glCullFace(GL_FRONT);
 	scene.Render(simpleDepthShader);
@@ -172,8 +168,6 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 	shader.setVec3("viewPos", camera.Position);
 	shader.setVec3("lightPos", newLightPosition);
 	shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, woodTexture);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	scene.Render(shader);

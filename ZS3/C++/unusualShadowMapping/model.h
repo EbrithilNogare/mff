@@ -21,6 +21,7 @@ class Model
 private:
 	unsigned int VAO = 0;
 	unsigned int VBO = 0;
+	unsigned int texture = 0;
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
@@ -73,7 +74,7 @@ private:
 		}		
 	}
 public:
-	Model(std::string pathToModel, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale) {
+	Model(std::string pathToModel, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, unsigned int texture = 0) {
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VAO);
 		// fill buffer
@@ -84,16 +85,17 @@ public:
 		glBindVertexArray(VAO);
 		glEnableVertexAttribArray(0); // vertex
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1); // normal
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-		glEnableVertexAttribArray(2); // texture coor
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+		glEnableVertexAttribArray(1); // texture coor
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+		glEnableVertexAttribArray(2); // normal
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 
 		this->position = position;
 		this->rotation = rotation;
 		this->scale = scale;
+		this->texture = texture;
 	}
 	void Draw(Shader shader) {	
 		glm::mat4 model = glm::mat4(1.0f);
@@ -101,6 +103,10 @@ public:
 		//model = glm::rotate(model, rotation);
 		model = glm::scale(model, scale);
 		shader.setMat4("model", model);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		
 		// render
 		glBindVertexArray(VAO);
 		glDrawArrays(GL_TRIANGLES, 0, bufferData.size());

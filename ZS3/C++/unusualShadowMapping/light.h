@@ -17,8 +17,8 @@
 class Light
 {
 private:
-	bool visible = true; // todo to false
-	Model sphere = Model("../resources/models/ball.obj", glm::vec3(0, 0, 0), glm::vec3(1.0f), glm::vec3(.2f));
+	bool visible = false; // todo to false
+	Model sphere = Model("../resources/models/sphere.obj", glm::vec3(0, 0, 0), glm::vec3(1.0f), glm::vec3(.2f));
 public:
 	unsigned int mapWidth = 1024;
 	unsigned int mapHeight = 1024;
