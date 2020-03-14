@@ -48,18 +48,16 @@ push([L | M], R, [L | MR]) :- push( M, R, MR).
 % transp([[a],[b,c],[d]], R).
 % false.
 
-transp([[] | _], []).
+transp([], []).
+transp([[] | Tail], []):-
+	transp(Tail, _).
 transp(Matrix, [Row | Rows]) :-
 	getColumn(Matrix, Row, RestMatrix),
 	transp(RestMatrix, Rows).
 
 getColumn([], [], []).
-getColumn([[H | T] | Rows], [H | Hs], [T | Ts]) :-
-	getColumn(Rows, Hs, Ts).
-
-
-
-
+getColumn([[Head | Tail] | Rows], [Head | HeadRest], [Tail | TailRest]) :-
+	getColumn(Rows, HeadRest, TailRest).
 
 
 % c) (BONUSOVÁ ÚLOHA) Implementuje vkládání prvku pro AVL stromy.
