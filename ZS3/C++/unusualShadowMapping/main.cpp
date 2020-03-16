@@ -75,7 +75,7 @@ int main() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	float borderColor[] = { 1.0, 1.0, 1.0, 1.0 };
+	float borderColor[] = { 0.0, 0.0, 0.0, 1.0 };
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
@@ -117,7 +117,7 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 
 	// change light position over time
 	glm::vec3 newLightPosition = glm::vec3(
-		5,//sin(glfwGetTime()/2) * 5.0f,
+		10,//sin(glfwGetTime()/2) * 5.0f,
 		1.0f,
 		0);// cos(glfwGetTime() / 2) * 5.0f);
 	light.setPosition(newLightPosition);
@@ -132,8 +132,7 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 	// --------------------------------------------------------------
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;
-	float near_plane = 1.0f, far_plane = 10.0f;
-	//lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	float near_plane = 5.0f, far_plane = 20.0f;
 	lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)light.mapWidth / (GLfloat)light.mapHeight, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
 																																	//lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
 	lightView = glm::lookAt(newLightPosition, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
@@ -147,7 +146,8 @@ void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthSha
 	glClear(GL_DEPTH_BUFFER_BIT);
 
 	glCullFace(GL_FRONT);
-	scene.Render(simpleDepthShader);
+	scene.RenderSolid(simpleDepthShader);
+	//scene.RenderTransparent(colorDepthShader); // todo
 	glCullFace(GL_BACK);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
