@@ -34,14 +34,17 @@ int main() {
 	std::map<std::string, Shader> shaders;
 	shaders.insert(std::pair<std::string, Shader>("shader", Shader(getLocalPath("shaders/shadow_mapping.vs"), getLocalPath("shaders/shadow_mapping.fs"))));
 	shaders.insert(std::pair<std::string, Shader>("simpleDepthShader", Shader(getLocalPath("shaders/shadow_mapping_depth.vs"), getLocalPath("shaders/shadow_mapping_depth.fs"))));
-	shaders.insert(std::pair<std::string, Shader>("debugDepthQuad", Shader(getLocalPath("shaders/debug_quad.vs"), getLocalPath("shaders/debug_quad.fs"))));
-	
+	shaders.insert(std::pair<std::string, Shader>("debugDepthQuad", Shader(getLocalPath("shaders/debugDepthQuad.vs"), getLocalPath("shaders/debugDepthQuad.fs"))));
+	shaders.insert(std::pair<std::string, Shader>("debugColorQuad", Shader(getLocalPath("shaders/debugColorQuad.vs"), getLocalPath("shaders/debugColorQuad.fs"))));
+
 	
 	shaders.at("shader").use();
 	shaders.at("shader").setInt("diffuseTexture", 0);
 	shaders.at("shader").setInt("shadowMap", 1);
 	shaders.at("debugDepthQuad").use();
 	shaders.at("debugDepthQuad").setInt("depthMap", 0);
+	shaders.at("debugColorQuad").use();
+	shaders.at("debugColorQuad").setInt("colorMap", 0);
 
 
 	Scene scene;
@@ -118,7 +121,7 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	shaders.at("debugDepthQuad").setFloat("far_plane", light.far_plane);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, light.depthMap);
-	renderQuad();
+	renderQuad(glm::vec2(0,.75), glm::vec2(1/4.0));
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();

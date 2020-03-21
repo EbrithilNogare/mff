@@ -39,29 +39,36 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 
 unsigned int quadVAO = 0;
 unsigned int quadVBO;
-void renderQuad()
+void renderQuad(glm::vec2 position, glm::vec2 size)
 {
+	float quadVertices[] = {
+		// positions																			// texture Coords
+		position.x * 2.0 - 1.0,					position.y * 2.0 - 1.0 + size.y * 2.0,	0.0f,	0.0f, 1.0f,
+		position.x * 2.0 - 1.0,					position.y * 2.0 - 1.0,					0.0f,	0.0f, 0.0f,
+		position.x * 2.0 - 1.0 + size.x * 2.0,	position.y * 2.0 - 1.0 + size.y * 2.0,	0.0f,	1.0f, 1.0f,
+		position.x * 2.0 - 1.0 + size.x * 2.0,	position.y * 2.0 - 1.0,					0.0f,	1.0f, 0.0f,
+	};
+
 	if (quadVAO == 0)
 	{
-		float quadVertices[] = {
-			// positions        // texture Coords
-			-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-			-1.0f,  0.5f, 0.0f, 0.0f, 0.0f,
-			-0.5f,  1.0f, 0.0f, 1.0f, 1.0f,
-			-0.5f,  0.5f, 0.0f, 1.0f, 0.0f,
-		};
 		// setup plane VAO
 		glGenVertexArrays(1, &quadVAO);
 		glGenBuffers(1, &quadVBO);
 		glBindVertexArray(quadVAO);
+
 		glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	}
 	glBindVertexArray(quadVAO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glBindVertexArray(0);
 }

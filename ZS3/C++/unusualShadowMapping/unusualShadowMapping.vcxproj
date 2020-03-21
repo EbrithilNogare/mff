@@ -152,8 +152,10 @@
     <ClInclude Include="shader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\debug_quad.fs" />
-    <None Include="resources\shaders\debug_quad.vs" />
+    <None Include="resources\shaders\debugColorQuad.fs" />
+    <None Include="resources\shaders\debugColorQuad.vs" />
+    <None Include="resources\shaders\debugDepthQuad.fs" />
+    <None Include="resources\shaders\debugDepthQuad.vs" />
     <None Include="resources\shaders\shadow_mapping.fs" />
     <None Include="resources\shaders\shadow_mapping.vs" />
     <None Include="resources\shaders\shadow_mapping_depth.fs" />
