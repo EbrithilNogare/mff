@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -34,7 +35,7 @@ float lastFrame = 0.0f;
 double lastTime = glfwGetTime();
 unsigned int nbFrames = 0;
 
-void render(GLFWwindow* window, Scene scene, Light light, Shader& simpleDepthShader, unsigned int depthMapFBO, Shader& shader, unsigned int depthMap, Shader& debugDepthQuad);
+void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, Shader> shaders);
 
 unsigned int quadVAO = 0;
 unsigned int quadVBO;
@@ -122,7 +123,7 @@ void showFPS(GLFWwindow* pWindow)
 	if (delta >= 1.0) {
 		double fps = double(nbFrames) / delta;
 		std::stringstream ss;
-		ss << "unusual shaow maping" << " [" << fps << " fps]";
+		ss << "unusual shadow mapping" << " [" << fps << " fps]";
 		glfwSetWindowTitle(pWindow, ss.str().c_str());
 
 		nbFrames = 0;
