@@ -61,12 +61,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\debug_quad.fs">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\debug_quad.vs">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
     <None Include="resources\shaders\shadow_mapping.fs">
       <Filter>Resource Files\shaders</Filter>
     </None>
@@ -77,6 +71,18 @@
       <Filter>Resource Files\shaders</Filter>
     </None>
     <None Include="resources\shaders\shadow_mapping_depth.vs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\debugDepthQuad.fs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\debugDepthQuad.vs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\debugColorQuad.fs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\debugColorQuad.vs">
       <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>
