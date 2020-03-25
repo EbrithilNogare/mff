@@ -1,0 +1,74 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Mataliza 1}\\
+\textbf{Ukol: 5.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+\section*{zadani}
+$lim_{x \rightarrow 1} \frac{x^3-x^2-x+1}{x^3+x^2-x-1}$
+
+\section*{reseni}
+$lim_{x \rightarrow 1} \frac{(x-1)(x^2-1)}{(x+1)(x^2-1)}$\\
+$lim_{x \rightarrow 1} \frac{x-1}{x+1}$\\
+$\frac{1-1}{1+1} = \frac{0}{2} = 0$\\
+\doubleunderline{$lim_{x \rightarrow 1} \frac{x^3-x^2-x+1}{x^3+x^2-x-1} = 0$}
+
+
+\section*{zadani}
+$lim_{x \rightarrow 1} \frac{x^3+x^2-x-1}{x^3+2x^2-x-2}$
+
+\section*{reseni}
+$lim_{x \rightarrow 1} \frac{(x^2-1)(x+1)}{(x^2-1)(x+2)}$\\
+$lim_{x \rightarrow 1} \frac{(x+1)}{(x+2)}$\\
+$\frac{(1+1)}{(1+2)} = \frac{2}{3}$\\
+\doubleunderline{$lim_{x \rightarrow 1} \frac{x^3+x^2-x-1}{x^3+2x^2-x-2} = \frac{2}{3}$}
+
+
+\section*{zadani}
+$lim_{x \rightarrow -1} \frac{x^3-x^2-x+1}{x^3+x^2-x-1}$
+
+\section*{reseni}
+$lim_{x \rightarrow -1} \frac{(x-1)(x^2-1)}{(x+1)(x^2-1)}$\\
+$lim_{x \rightarrow -1} \frac{(x-1)}{(x+1)}$\\
+$\frac{-1-1}{(-1 \pm \epsilon) + 1} = \frac{-2}{0 \pm \epsilon} = \pm\infty$\\
+\doubleunderline{$lim_{x \rightarrow (-1)^-} \frac{(x-1)}{(x+1)} = \infty$}\\
+\doubleunderline{$lim_{x \rightarrow (-1)^+} \frac{(x-1)}{(x+1)} = - \infty$}\\
+
+
+\section*{zadani}
+$lim_{x \rightarrow -1} \frac{x^3+x^2-x-1}{x^3+2x^2-x-2}$
+
+\section*{reseni}
+$lim_{x \rightarrow -1} \frac{(x^2-1)(x+1)}{(x^2-1)(x+2)}$\\
+$lim_{x \rightarrow -1} \frac{(x+1)}{(x+2)}$\\
+$\frac{(-1+1)}{(-1+2)} = \frac{0}{1}$\\
+\doubleunderline{$lim_{x \rightarrow -1} \frac{x^3+x^2-x-1}{x^3+2x^2-x-2} = 0$}
+
+
+
+
+
+
+\end{document}
