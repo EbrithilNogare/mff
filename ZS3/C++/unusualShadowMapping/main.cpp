@@ -34,6 +34,7 @@ int main() {
 	std::map<std::string, Shader> shaders;
 	shaders.insert(std::pair<std::string, Shader>("shader", Shader(getLocalPath("shaders/shadow_mapping.vs"), getLocalPath("shaders/shadow_mapping.fs"))));
 	shaders.insert(std::pair<std::string, Shader>("simpleDepthShader", Shader(getLocalPath("shaders/shadow_mapping_depth.vs"), getLocalPath("shaders/shadow_mapping_depth.fs"))));
+	shaders.insert(std::pair<std::string, Shader>("simpleColorShader", Shader(getLocalPath("shaders/shadow_mapping_color.vs"), getLocalPath("shaders/shadow_mapping_color.fs"))));
 	shaders.insert(std::pair<std::string, Shader>("debugDepthQuad", Shader(getLocalPath("shaders/debugDepthQuad.vs"), getLocalPath("shaders/debugDepthQuad.fs"))));
 	shaders.insert(std::pair<std::string, Shader>("debugColorQuad", Shader(getLocalPath("shaders/debugColorQuad.vs"), getLocalPath("shaders/debugColorQuad.fs"))));
 
@@ -41,6 +42,8 @@ int main() {
 	shaders.at("shader").use();
 	shaders.at("shader").setInt("diffuseTexture", 0);
 	shaders.at("shader").setInt("shadowMap", 1);
+	shaders.at("simpleColorShader").use();
+	shaders.at("simpleColorShader").setInt("diffuseTexture", 0);
 	shaders.at("debugDepthQuad").use();
 	shaders.at("debugDepthQuad").setInt("depthMap", 0);
 	shaders.at("debugColorQuad").use();
@@ -55,6 +58,7 @@ int main() {
 		processInput(window);
 
 		light.setPosition(glm::vec3(10 /*sin(glfwGetTime()/2) * 5.0f*/, 1, 0)); // todo
+		//light.setPosition(glm::vec3(0,0,0)); // todo
 
 		showFPS(window);
 		render(window, scene, light, shaders);
@@ -74,29 +78,34 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glCullFace(GL_FRONT);
 
+	
 
-
-
+	
 	// 1. render depth of scene to texture (from light's perspective)
 	// --------------------------------------------------------------
 	// render scene from light's point of view
+	
 	shaders.at("simpleDepthShader").use();
 	shaders.at("simpleDepthShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
-
 	glViewport(0, 0, light.mapWidth, light.mapHeight);
-	glBindFramebuffer(GL_FRAMEBUFFER, light.depthMapFBO);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, light.depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
-
-	glCullFace(GL_FRONT);
 	scene.RenderSolid(shaders.at("simpleDepthShader"));
-	//scene.RenderTransparent(colorDepthShader); // todo
-	glCullFace(GL_BACK);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	
+	shaders.at("simpleColorShader").use();
+	shaders.at("simpleColorShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
+	glViewport(0, 0, light.mapWidth, light.mapHeight);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, light.colorMapFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	scene.RenderSolid(shaders.at("simpleColorShader"));
+	//scene.RenderTransparent(shaders.at("simpleColorShader"));
 
-	// reset viewport
-	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+
+
 
 	// 2. render scene as normal using the generated depth/shadow map  
 	// --------------------------------------------------------------
@@ -114,15 +123,20 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, light.depthMap);
 	scene.Render(shaders.at("shader"));
-	light.RenderHelper(shaders.at("shader"));
+	//light.RenderHelper(shaders.at("shader"));
 
 	shaders.at("debugDepthQuad").use();
 	shaders.at("debugDepthQuad").setFloat("near_plane", light.near_plane);
 	shaders.at("debugDepthQuad").setFloat("far_plane", light.far_plane);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, light.depthMap);
-	renderQuad(glm::vec2(0,.75), glm::vec2(1/4.0));
+	glBindTexture(GL_TEXTURE_2D, light.colorMap); // todo to depthMap
+	renderQuad(glm::vec2(0, .75), glm::vec2(1 / 4.0));
 
+	shaders.at("debugColorQuad").use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, light.colorMap);
+	renderQuad(glm::vec2(0, .5), glm::vec2(1 / 4.0));
+	
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }

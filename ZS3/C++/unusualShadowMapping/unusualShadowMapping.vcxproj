@@ -158,6 +158,8 @@
     <None Include="resources\shaders\debugDepthQuad.vs" />
     <None Include="resources\shaders\shadow_mapping.fs" />
     <None Include="resources\shaders\shadow_mapping.vs" />
+    <None Include="resources\shaders\shadow_mapping_color.fs" />
+    <None Include="resources\shaders\shadow_mapping_color.vs" />
     <None Include="resources\shaders\shadow_mapping_depth.fs" />
     <None Include="resources\shaders\shadow_mapping_depth.vs" />
   </ItemGroup>

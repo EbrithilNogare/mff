@@ -17,9 +17,9 @@ float LinearizeDepth(float depth)
 void main()
 {             
     vec4 shadowMap = texture(depthMap, TexCoords);
-	// <= switch    
-	FragColor = vec4(LinearizeDepth(shadowMap.r));
+	/*/ <= switch 
+	FragColor = vec4(1.0 - vec3(LinearizeDepth(shadowMap.r)), 1.0);
     /*/
-	FragColor = vec4(shadowMap.r);
+	FragColor = shadowMap;
 	/**/
 }
