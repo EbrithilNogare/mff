@@ -85,5 +85,11 @@
     <None Include="resources\shaders\debugColorQuad.vs">
       <Filter>Resource Files\shaders</Filter>
     </None>
+    <None Include="resources\shaders\shadow_mapping_color.fs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\shadow_mapping_color.vs">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

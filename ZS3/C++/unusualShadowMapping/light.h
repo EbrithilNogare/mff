@@ -27,10 +27,13 @@ public:
 	float far_plane = 20.0f;
 	unsigned int depthMapFBO;
 	unsigned int depthMap;
+	unsigned int colorMapFBO;
 	unsigned int colorMap;
 	glm::mat4 lightSpaceMatrix = glm::mat4(0);
 	Light(glm::vec3 initPosition) {
 		position = initPosition;
+
+		float borderColor[] = { 0.0, 0.0, 0.0, 1.0 };
 
 		glGenTextures(1, &depthMap);
 		glBindTexture(GL_TEXTURE_2D, depthMap);
@@ -39,14 +42,27 @@ public:
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		float borderColor[] = { 0.0, 0.0, 0.0, 1.0 };
 		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
-
 		glGenFramebuffers(1, &depthMapFBO);
-
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+
+
+		glGenTextures(1, &colorMap);
+		glBindTexture(GL_TEXTURE_2D, colorMap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mapWidth, mapHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
+		glGenFramebuffers(1, &colorMapFBO);
+		glBindFramebuffer(GL_FRAMEBUFFER, colorMapFBO);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorMap, 0);
+
+
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
