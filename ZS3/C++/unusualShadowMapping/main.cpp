@@ -30,6 +30,7 @@ int main() {
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	glCullFace(GL_FRONT);
 
 	std::map<std::string, Shader> shaders;
 	shaders.insert(std::pair<std::string, Shader>("shader", Shader(getLocalPath("shaders/shadow_mapping.vs"), getLocalPath("shaders/shadow_mapping.fs"))));
@@ -57,7 +58,7 @@ int main() {
 	{
 		processInput(window);
 
-		light.setPosition(glm::vec3(10 /*sin(glfwGetTime()/2) * 5.0f*/, 1, 0)); // todo
+		light.setPosition(glm::vec3(cos(sin(glfwGetTime())*5)*10, 1, sin(sin(glfwGetTime())*5)*10)); // todo
 		//light.setPosition(glm::vec3(0,0,0)); // todo
 
 		showFPS(window);
@@ -76,12 +77,6 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	lastFrame = currentFrame;
 
 
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glCullFace(GL_FRONT);
-
-	
-
 	
 	// 1. render depth of scene to texture (from light's perspective)
 	// --------------------------------------------------------------
@@ -90,26 +85,29 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	shaders.at("simpleDepthShader").use();
 	shaders.at("simpleDepthShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
 	glViewport(0, 0, light.mapWidth, light.mapHeight);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, light.depthMapFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, light.depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene.RenderSolid(shaders.at("simpleDepthShader"));
 	
 	shaders.at("simpleColorShader").use();
 	shaders.at("simpleColorShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
 	glViewport(0, 0, light.mapWidth, light.mapHeight);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, light.colorMapFBO);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glBindFramebuffer(GL_FRAMEBUFFER, light.colorMapFBO);
+	glClearColor(1,1,1,1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene.RenderSolid(shaders.at("simpleColorShader"));
-	//scene.RenderTransparent(shaders.at("simpleColorShader"));
+	glClear(GL_COLOR_BUFFER_BIT); // todo not working z-buffer
+	scene.RenderTransparent(shaders.at("simpleColorShader"));
 
 
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
 
 	// 2. render scene as normal using the generated depth/shadow map  
 	// --------------------------------------------------------------
 	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shaders.at("shader").use();
 	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -129,7 +127,7 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	shaders.at("debugDepthQuad").setFloat("near_plane", light.near_plane);
 	shaders.at("debugDepthQuad").setFloat("far_plane", light.far_plane);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, light.colorMap); // todo to depthMap
+	glBindTexture(GL_TEXTURE_2D, light.depthMap);
 	renderQuad(glm::vec2(0, .75), glm::vec2(1 / 4.0));
 
 	shaders.at("debugColorQuad").use();
