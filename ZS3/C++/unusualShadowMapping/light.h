@@ -25,46 +25,52 @@ public:
 	unsigned int mapHeight = 1024;
 	float near_plane = 5.0f;
 	float far_plane = 20.0f;
-	unsigned int depthMapFBO;
-	unsigned int depthMap;
-	unsigned int colorMapFBO;
-	unsigned int colorMap;
+	GLuint depthMapFBO;
+	GLuint depthMap;
+	GLuint colorMapFBO;
+	GLuint colorMap;
 	glm::mat4 lightSpaceMatrix = glm::mat4(0);
 	Light(glm::vec3 initPosition) {
 		position = initPosition;
 
-		float borderColor[] = { 0.0, 0.0, 0.0, 1.0 };
-
 		glGenTextures(1, &depthMap);
+		glGenTextures(1, &colorMap);
+		glGenFramebuffers(1, &depthMapFBO);
+		glGenFramebuffers(1, &colorMapFBO);
+
 		glBindTexture(GL_TEXTURE_2D, depthMap);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, mapWidth, mapHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		GLfloat borderColor[] = { 0.0, 0.0, 0.0, 1.0 };
 		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
-		glGenFramebuffers(1, &depthMapFBO);
-		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
-
-
-		glGenTextures(1, &colorMap);
 		glBindTexture(GL_TEXTURE_2D, colorMap);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mapWidth, mapHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+		
 
-		glGenFramebuffers(1, &colorMapFBO);
-		glBindFramebuffer(GL_FRAMEBUFFER, colorMapFBO);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorMap, 0);
-
-
+		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
 		glDrawBuffer(GL_NONE);
 		glReadBuffer(GL_NONE);
+
+		GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (status != GL_FRAMEBUFFER_COMPLETE) {
+			std::cout << "error while setting up framebuffer for light" << std::endl;
+		}
+
+		glBindFramebuffer(GL_FRAMEBUFFER, colorMapFBO);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorMap, 0);
+			   
+		status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+		if (status != GL_FRAMEBUFFER_COMPLETE) {
+			std::cout << "error while setting up framebuffer for light" << std::endl;
+		}
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 	void RenderHelper(Shader shader) {
