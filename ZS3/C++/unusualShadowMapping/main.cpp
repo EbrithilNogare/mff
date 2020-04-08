@@ -43,6 +43,7 @@ int main() {
 	shaders.at("shader").use();
 	shaders.at("shader").setInt("diffuseTexture", 0);
 	shaders.at("shader").setInt("shadowMap", 1);
+	shaders.at("shader").setInt("colorMap", 2);
 	shaders.at("simpleColorShader").use();
 	shaders.at("simpleColorShader").setInt("diffuseTexture", 0);
 	shaders.at("debugDepthQuad").use();
@@ -58,7 +59,7 @@ int main() {
 	{
 		processInput(window);
 
-		light.setPosition(glm::vec3(cos(sin(glfwGetTime())*5)*10, 1, sin(sin(glfwGetTime())*5)*10)); // todo
+		light.setPosition(glm::vec3(cos(sin(glfwGetTime())/5)*10, 1, sin(sin(glfwGetTime())/5)*10)); // todo
 		//light.setPosition(glm::vec3(0,0,0)); // todo
 
 		showFPS(window);
@@ -93,10 +94,10 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	shaders.at("simpleColorShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
 	glViewport(0, 0, light.mapWidth, light.mapHeight);
 	glBindFramebuffer(GL_FRAMEBUFFER, light.colorMapFBO);
-	glClearColor(1,1,1,1);
+	glClearColor(1,1,1,0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene.RenderSolid(shaders.at("simpleColorShader"));
-	glClear(GL_COLOR_BUFFER_BIT); // todo not working z-buffer
+	glClear(GL_COLOR_BUFFER_BIT);
 	scene.RenderTransparent(shaders.at("simpleColorShader"));
 
 
@@ -120,6 +121,8 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	shaders.at("shader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, light.depthMap);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, light.colorMap);
 	scene.Render(shaders.at("shader"));
 	//light.RenderHelper(shaders.at("shader"));
 
@@ -128,12 +131,14 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	shaders.at("debugDepthQuad").setFloat("far_plane", light.far_plane);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, light.depthMap);
+	glClear(GL_DEPTH_BUFFER_BIT);
 	renderQuad(glm::vec2(0, .75), glm::vec2(1 / 4.0));
 
 	shaders.at("debugColorQuad").use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, light.colorMap);
-	renderQuad(glm::vec2(0, .5), glm::vec2(1 / 4.0));
+	glClear(GL_DEPTH_BUFFER_BIT);
+	renderQuad(glm::vec2(0, .75), glm::vec2(1 / 4.0));
 	
 	glfwSwapBuffers(window);
 	glfwPollEvents();
