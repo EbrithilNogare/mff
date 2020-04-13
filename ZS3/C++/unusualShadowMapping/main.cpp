@@ -53,13 +53,16 @@ int main() {
 
 
 	Scene scene;
-	Light light = Light(glm::vec3(-2.0f, 4.0f, -1.0f));
+	Light light = Light(glm::vec3(.0f));
 
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
+		processLightDebugInput(window, &light);
 
-		light.setPosition(glm::vec3(cos(sin(glfwGetTime())/5)*10, 1, sin(sin(glfwGetTime())/5)*10)); // todo
+
+
+		light.setPosition(glm::vec3(cos(glfwGetTime()/5)*5, 1, sin(glfwGetTime()/5)*5)); // todo
 		//light.setPosition(glm::vec3(0,0,0)); // todo
 
 		showFPS(window);
@@ -124,7 +127,7 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, light.colorMap);
 	scene.Render(shaders.at("shader"));
-	//light.RenderHelper(shaders.at("shader"));
+	light.RenderHelper(shaders.at("shader"));
 
 	shaders.at("debugDepthQuad").use();
 	shaders.at("debugDepthQuad").setFloat("near_plane", light.near_plane);
