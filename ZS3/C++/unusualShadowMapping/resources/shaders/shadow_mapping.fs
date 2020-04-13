@@ -28,7 +28,7 @@ vec3 ShadowCalculation(vec4 fragPosLightSpace)
 	// calculate bias (based on depth map resolution and slope)
 	vec3 normal = normalize(fs_in.Normal);
 	vec3 lightDir = normalize(lightPos - fs_in.FragPos);
-	float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);
+	float bias = max(0.005 * (1.0 - dot(normal, lightDir)), 0.005);
 	// check whether current frag pos is in shadow
 	// float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
 	// PCF
@@ -38,7 +38,12 @@ vec3 ShadowCalculation(vec4 fragPosLightSpace)
 	
 	// keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
 	if(projCoords.z > 1.0)
-		shadow = 0.0;
+		return vec3(0);
+		
+	float angleLightNormal = acos(dot(lightDir,normal));
+	
+	if(angleLightNormal > 3.1415 / 2.0)
+		return vec3(0);
 		
 	vec3 lightColor = texture(colorMap, projCoords.xy).rgb;
 
@@ -51,7 +56,7 @@ void main()
 	vec3 normal = normalize(fs_in.Normal);
 	vec3 lightIntensite = vec3(.3);
 	// ambient
-	vec3 ambient = 0.3 * color.rgb;
+	vec3 ambient = 0.5 * color.rgb;
 	// diffuse
 	vec3 lightDir = normalize(lightPos - fs_in.FragPos);
 	float diff = max(dot(lightDir, normal), 0.0);

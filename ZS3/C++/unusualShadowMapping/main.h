@@ -86,7 +86,32 @@ void processInput(GLFWwindow* window)
 		camera.ProcessKeyboard(LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
+
+
 }
+
+void processLightDebugInput(GLFWwindow* window, Light* light) {
+	bool changed = false;
+	if (glfwGetKey(window, GLFW_KEY_KP_ADD) == GLFW_PRESS) {
+		light->far_plane += .1;
+		changed = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS) {
+		light->far_plane -= .1;
+		changed = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_KP_MULTIPLY) == GLFW_PRESS) {
+		light->near_plane += .1;
+		changed = true;
+	}
+	if (glfwGetKey(window, GLFW_KEY_KP_DIVIDE) == GLFW_PRESS) {
+		light->near_plane -= .1;
+		changed = true;
+	}
+	if(changed)
+		std::cout << "lights focus changed to:\nnear_plane:" << light->near_plane << "\nfar_plane: " << light->far_plane << std::endl;
+}
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {

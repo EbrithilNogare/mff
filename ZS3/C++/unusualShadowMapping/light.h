@@ -17,14 +17,15 @@
 class Light
 {
 private:
-	bool visible = false; // todo to false
-	Model sphere = Model("../resources/models/sphere.obj", glm::vec3(0, 0, 0), glm::vec3(1.0f), glm::vec3(.2f));
+	bool visible = true; // todo to false
+	unsigned int glow = loadTexture(std::string("../resources/textures/sun.jpg").c_str());
+	Model sphere = Model("../resources/models/sun.obj", glm::vec3(0, 0, 0), glm::vec3(0.0f), glm::vec3(.1f), glow);
 public:
 	glm::vec3 position;
-	unsigned int mapWidth = 1024;
-	unsigned int mapHeight = 1024;
-	float near_plane = 5.0f;
-	float far_plane = 20.0f;
+	unsigned int mapWidth = 2048;
+	unsigned int mapHeight = 2048;
+	float near_plane = 1.0f;
+	float far_plane = 8.0f;
 	GLuint depthMapFBO;
 	GLuint depthMap;
 	GLuint colorMapFBO;

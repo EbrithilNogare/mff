@@ -58,19 +58,14 @@ private:
 	std::vector<Model> transparentModels;
 public:
 	Scene() {
-		unsigned int wall = loadTexture(std::string("../resources/textures/wall.png").c_str());
-		unsigned int ColorGrid = loadTexture(std::string("../resources/textures/ColorGrid.png").c_str());
-		unsigned int wood = loadTexture(std::string("../resources/textures/wood.jpg").c_str());
+		unsigned int cathedralAO = loadTexture(std::string("../resources/textures/cathedralAO.png").c_str());
+		unsigned int grass = loadTexture(std::string("../resources/textures/grass.jpg").c_str());
 		unsigned int mosaic = loadTexture(std::string("../resources/textures/mosaic.png").c_str());
 		
-		//models.push_back(Model("../resources/models/fill.obj", glm::vec3(0, 0, 0), glm::vec3(1.0f), glm::vec3(1.0f), ColorGrid));
+		models.push_back(Model("../resources/models/cathedralS.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), cathedralAO));
+		models.push_back(Model("../resources/models/grass.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), grass));
 		
-		models.push_back(Model("../resources/models/floor.obj", glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1.0f), wood));
-		models.push_back(Model("../resources/models/room.obj", glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1.0f), wall));
-		models.push_back(Model("../resources/models/sphere.obj", glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1.0f), ColorGrid));
-		models.push_back(Model("../resources/models/suzanne.obj", glm::vec3(0, 0, 0), glm::vec3(0), glm::vec3(1.0f), ColorGrid));
-
-		transparentModels.push_back(Model("../resources/models/plane.obj", glm::vec3(0, -2, -1), glm::vec3(glm::half_pi<float>(), 0, glm::half_pi<float>()), glm::vec3(2.0f), mosaic));
+		transparentModels.push_back(Model("../resources/models/cathedralT.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), mosaic));
 	}
 	void Render(Shader shader) {
 		RenderSolid(shader);
