@@ -59,11 +59,9 @@ int main() {
 	{
 		processInput(window);
 		processLightDebugInput(window, &light);
-
-
-
-		light.setPosition(glm::vec3(cos(glfwGetTime()/5)*5, 1, sin(glfwGetTime()/5)*5)); // todo
-		//light.setPosition(glm::vec3(0,0,0)); // todo
+		
+		light.addTick();
+		light.setPosition(glm::vec3(cos(light.lightTime)*5, 1, sin(light.lightTime)*5));
 
 		showFPS(window);
 		render(window, scene, light, shaders);
@@ -84,7 +82,6 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	
 	// 1. render depth of scene to texture (from light's perspective)
 	// --------------------------------------------------------------
-	// render scene from light's point of view
 	
 	shaders.at("simpleDepthShader").use();
 	shaders.at("simpleDepthShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
@@ -110,15 +107,16 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 
 	// 2. render scene as normal using the generated depth/shadow map  
 	// --------------------------------------------------------------
+
 	glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	shaders.at("shader").use();
-	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.01f, 20.0f);
 	glm::mat4 view = camera.GetViewMatrix();
 	shaders.at("shader").setMat4("projection", projection);
 	shaders.at("shader").setMat4("view", view);
-	// set light uniforms
+
 	shaders.at("shader").setVec3("viewPos", camera.Position);
 	shaders.at("shader").setVec3("lightPos", light.position);
 	shaders.at("shader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
