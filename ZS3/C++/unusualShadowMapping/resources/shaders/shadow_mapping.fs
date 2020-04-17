@@ -15,7 +15,7 @@ uniform sampler2D colorMap;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
-vec3 ShadowCalculation(vec4 fragPosLightSpace)
+vec3 ShadowCalculation(vec4 fragPosLightSpace, vec3 viewDir)
 {
 	// perform perspective divide
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -28,21 +28,33 @@ vec3 ShadowCalculation(vec4 fragPosLightSpace)
 	// calculate bias (based on depth map resolution and slope)
 	vec3 normal = normalize(fs_in.Normal);
 	vec3 lightDir = normalize(lightPos - fs_in.FragPos);
-	float bias = max(0.005 * (1.0 - dot(normal, lightDir)), 0.005);
+	float bias = max(0.001 * (1.0 - dot(normal, lightDir)), 0.001);
 	// check whether current frag pos is in shadow
 	// float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
 	// PCF
 
 	float pcfDepth = texture(shadowMap, projCoords.xy).r; 
-	float shadow = currentDepth - bias > pcfDepth  ? 1.0 : 0.0;	
 	
+	float shadow = 0.0;
+	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+	for(int x = -1; x <= 1; ++x)
+	{
+		for(int y = -1; y <= 1; ++y)
+		{
+			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
+		}    
+	}
+	shadow /= 9.0;
+
 	// keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
 	if(projCoords.z > 1.0)
 		return vec3(0);
 		
-	float angleLightNormal = acos(dot(lightDir,normal));
+	bool angleLightNormal = acos(dot(lightDir,normal)) > 3.1415 / 2.0;
+	bool angleNormalCam = acos(dot(normal,viewDir)) > 3.1415 / 2.0;
 	
-	if(angleLightNormal > 3.1415 / 2.0)
+	if((!angleNormalCam && angleLightNormal)||(angleNormalCam && !angleLightNormal))
 		return vec3(0);
 		
 	vec3 lightColor = texture(colorMap, projCoords.xy).rgb;
@@ -69,9 +81,10 @@ void main()
 	spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
 	vec3 specular = spec * lightIntensite;	
 	// calculate shadow
-	vec3 shadow = ShadowCalculation(fs_in.FragPosLightSpace);					  
+	vec3 shadow = ShadowCalculation(fs_in.FragPosLightSpace, viewDir);					  
 	//vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;		
 	vec3 lighting = (ambient + shadow);	
 	
 	FragColor = vec4(lighting, 1.0) * color;
+	FragColor.rgb = mix(FragColor.rgb, vec3(.1,.1,.1), max(min(distance(viewPos, fs_in.FragPos)/2-3,1.0),0));
 }

@@ -17,11 +17,12 @@
 class Light
 {
 private:
-	bool visible = true; // todo to false
+	bool visible = true;
 	unsigned int glow = loadTexture(std::string("../resources/textures/sun.jpg").c_str());
 	Model sphere = Model("../resources/models/sun.obj", glm::vec3(0, 0, 0), glm::vec3(0.0f), glm::vec3(.1f), glow);
 public:
 	glm::vec3 position;
+	float lightTime = 0;
 	unsigned int mapWidth = 2048;
 	unsigned int mapHeight = 2048;
 	float near_plane = 1.0f;
@@ -99,5 +100,8 @@ public:
 
 		lightView = glm::lookAt(position, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 		lightSpaceMatrix = lightProjection * lightView;
+	}
+	void addTick() {
+		lightTime += .003;
 	}
 };
