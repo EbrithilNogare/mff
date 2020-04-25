@@ -1,32 +1,28 @@
-import qualified Data.Map.Lazy as M
-
 -- https://bigonotetaking.wordpress.com/2015/11/06/a-trie-in-haskell/
+-- http://mchaver.com/posts/2018-12-27-tries-in-haskell.html
+-- https://blog.jle.im/entry/tries-with-recursion-schemes.html
 
 -- 5. úloha
 --
 -- 1) Definujte datový typ 'Trie k v' reprezentující trii, kde klíče (řetězce)
 -- jsou typu '[k]' a hodnoty typu 'v'.
 
-data Trie k v = Trie { key :: Maybe [k], value :: M.Map v (Trie k v) } deriving (Show)
-
--- Implementujte následující:
+data NodeType = Top|Word|NonWord deriving (Show,Eq)
+data Trie k v = Trie { nodeType :: NodeType, key :: Maybe [k], value :: Maybe v, childs :: [(Trie k v)] } deriving (Show)
 
 empty :: Trie k v
-empty = Trie Nothing M.empty
+empty = Trie Top Nothing Nothing []
 
--- 'empty' je jednoduše konstanta, reprezentující prádznou trii.
---
--- > empty == fromList []
---
+singleton :: [k] -> v -> Trie k v
+singleton k v = Trie { nodeType = Top, key = Nothing, value = Nothing, childs = [child] }
+  where
+    child = Trie { nodeType = Word, key = Just(k), value = Just(v), childs = [] } 
 
---singleton :: [k] -> v -> Trie k v
---singleton k v = Trie { key = Just(ks), value = Just(v)}
 
--- 'singleton ks v' je trie, která obsahuje právě jednen klíč 'ks'
--- s hodnotou 'v'.
---
--- > singleton ks v == fromList [(ks, v)]
---
+
+insertWith :: (Ord k) => (v -> v -> v) -> [k] -> v -> Trie k v -> Trie k v
+insertWith f [] v (Trie _ v)     = Trie Word m v []
+insertWith (x:xs) v (Trie k v) = Trie { nodeType = Word, key = Just(k), value = Just(v), childs = [] }
 
 --insertWith :: (Ord k) => (v -> v -> v) -> [k] -> v -> Trie k v -> Trie k v
 --insertWith f k v t
@@ -42,9 +38,9 @@ empty = Trie Nothing M.empty
 -- > insertWith (++) "a" "x" (fromList [("a","y")]) == fromList [("a","xy")]
 --
 
-insert :: (Ord k) => [k] -> v -> Trie k v -> Trie k v
-insert [] (Trie _ m)     = Trie True m
-insert (x:xs) (Trie e m) = Trie e (M.alter (Just . insert xs . fromMaybe empty) x m)
+--insert :: (Ord k) => [k] -> v -> Trie k v -> Trie k v
+--insert [] v (Trie _ v)     = Trie Word m v []
+--insert (x:xs) v (Trie k v) = Trie { nodeType = Word, key = Just(k), value = Just(v), childs = [] }
 
 
 -- 'insert ks new t' vloží klíč 'ks' s hodnotou 'new' do trie 't'. Pokud trie
