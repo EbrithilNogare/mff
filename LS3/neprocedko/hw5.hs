@@ -2,27 +2,39 @@
 -- http://mchaver.com/posts/2018-12-27-tries-in-haskell.html
 -- https://blog.jle.im/entry/tries-with-recursion-schemes.html
 
+import qualified Data.Map as M
+
 -- 5. úloha
 --
 -- 1) Definujte datový typ 'Trie k v' reprezentující trii, kde klíče (řetězce)
 -- jsou typu '[k]' a hodnoty typu 'v'.
 
-data NodeType = Top|Word|NonWord deriving (Show,Eq)
-data Trie k v = Trie { nodeType :: NodeType, key :: Maybe [k], value :: Maybe v, childs :: [(Trie k v)] } deriving (Show)
+data Trie k v = Trie { key :: [(k, Trie k v)], value :: Maybe v } deriving (Show)
 
 empty :: Trie k v
-empty = Trie Top Nothing Nothing []
+empty = Trie { key = [], value = Nothing }
 
-singleton :: [k] -> v -> Trie k v
-singleton k v = Trie { nodeType = Top, key = Nothing, value = Nothing, childs = [child] }
-  where
-    child = Trie { nodeType = Word, key = Just(k), value = Just(v), childs = [] } 
+--singleton :: [k] -> v -> Trie k v
+--singleton k v = Trie { key = [(k, child)], value = Nothing }
+--  where
+--    child = Trie { key = [], value = (Just v) }
 
+
+search :: (Eq a) => a -> [(a,b)] -> Maybe b
+search _ [] = Nothing
+search x ((a,b):xs) = if x == a then Just b else search x xs
 
 
 insertWith :: (Ord k) => (v -> v -> v) -> [k] -> v -> Trie k v -> Trie k v
-insertWith f [] v (Trie _ v)     = Trie Word m v []
-insertWith (x:xs) v (Trie k v) = Trie { nodeType = Word, key = Just(k), value = Just(v), childs = [] }
+insertWith f []     v (Trie tk tv) = Trie { key = tk, value = tv }
+insertWith f (x:[]) v (Trie tk tv) = insertWith f [] v (search x tk)
+
+{-insertWith f (x:xs) v (Trie tk tv) = 
+  if xs == [] then
+  Trie { key = tk, value = (Just (f tv v)) }
+  else
+  insertWith f xs v (Trie tk tv)
+-}
 
 --insertWith :: (Ord k) => (v -> v -> v) -> [k] -> v -> Trie k v -> Trie k v
 --insertWith f k v t
