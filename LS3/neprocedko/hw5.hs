@@ -1,15 +1,11 @@
--- https://bigonotetaking.wordpress.com/2015/11/06/a-trie-in-haskell/
--- http://mchaver.com/posts/2018-12-27-tries-in-haskell.html
--- https://blog.jle.im/entry/tries-with-recursion-schemes.html
-
 import qualified Data.Map as Map
-import Data.Maybe (fromMaybe, isNothing)
+import Data.Maybe (fromMaybe, fromJust, isNothing)
 
 
-data Trie k v = Trie (Map.Map k (Trie k v)) (Maybe v) deriving (Eq, Read, Show, Ord)
+data Trie k v = Trie (Map.Map k (Trie k v)) (Maybe v) deriving (Eq, Read, Show)
 
 
-empty :: Trie k v
+empty :: Ord k => Trie k v
 empty = Trie Map.empty Nothing
 
 
@@ -18,7 +14,8 @@ singleton k v = insert k v empty
 
 
 insertWith :: Ord k => (v -> v -> v) -> [k] -> v -> Trie k v -> Trie k v
-insertWith f []     v (Trie nodes val) = Trie nodes (Just v)
+insertWith f []     v (Trie nodes Nothing) = Trie nodes (Just v)
+insertWith f []     v (Trie nodes val) = Trie nodes (Just (f v (fromJust val)))
 insertWith f (x:xs) v (Trie nodes val) = Trie (Map.alter (Just . insertWith f xs v . fromMaybe empty) x nodes) val
 
 
@@ -27,7 +24,7 @@ insert []     v (Trie nodes val) = Trie nodes (Just v)
 insert (x:xs) v (Trie nodes val) = Trie (Map.alter (Just . insert xs v . fromMaybe empty) x nodes) val
 
 
-find :: (Ord k) => [k] -> Trie k v -> Maybe v
+find :: Ord k => [k] -> Trie k v -> Maybe v
 find []     (Trie _ v)     = v
 find (x:xs) (Trie nodes v) = fromMaybe v (find xs <$> Map.lookup x nodes)
 
@@ -43,16 +40,6 @@ fromList as = fromList' as empty
   where
     fromList' []          trie = trie
     fromList' ((k, v):xs) trie = fromList' xs $ insert k v trie
-
-
-delete :: (Ord k) => [k] -> Trie k v -> Trie k v
-delete = undefined
-
--- 'delete ks t' smaže klíč 'ks' (a odpovídající hodnotu) z trie 't', pokud
--- klíč 'ks' není v trii obsažený, 'delete' vrátí původní trii.
---
--- > delete "a" (fromList [("b","y")]) == fromList [("b","y")]
--- > delete "a" (fromList [("a","x")]) == fromList []
 
 
 main = do
