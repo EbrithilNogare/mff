@@ -1,0 +1,220 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage{ mathdots }
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin={1cm, 2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Linearni algebra 2}\\
+\textbf{Ukol: 2.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+\section*{1. zadani}
+Urcete charakteristicky polynom, spocitejte vlastni cisla a odpovidajici vlastni vektory
+
+\section*{reseni A}
+$(4-\lambda)*(1-\lambda)-(-3 * (-6))$\\
+$4-5\lambda+\lambda^2-18$\\
+charakteristicky polynom: \doubleunderline{$\lambda^2-5\lambda-14$}\\
+\\
+vlastni cisla:\\
+$\lambda^2-5\lambda-14=0$\\
+\doubleunderline{$\lambda_1 = 7$} ; 
+\doubleunderline{$\lambda_2 = -2$}\\
+\\
+vlastni vektory:\\
+$
+\left[\begin{matrix}
+	4-\lambda & -3\\
+	-6 & 1-\lambda
+	\end{matrix}\right]
+$\\
+pro $\lambda_1: \left[\begin{matrix}
+	1 & 1\\
+	0 & 0
+	\end{matrix}\right]$
+vlastni vektor pro $\lambda_1 = \doubleunderline{[-1,1]}$\\
+pro $\lambda_2: \left[\begin{matrix}
+	2 & -1\\
+	0 & 0
+	\end{matrix}\right]$
+vlastni vektor pro $\lambda_2 = \doubleunderline{[1,2]}$\\
+
+
+
+
+\section*{reseni B}
+$(2-\lambda)^2+1$\\
+charakteristicky polynom: \doubleunderline{$\lambda^2-4\lambda+5$}\\
+\\
+vlastni cisla:\\
+$\lambda^2-4\lambda+5=0$\\
+\doubleunderline{$\lambda_1 = 2+i$} ; 
+\doubleunderline{$\lambda_2 = 2-i$}\\
+\\
+vlastni vektory:\\
+$
+\left[\begin{matrix}
+	2-\lambda & -1\\
+	1 & 2-\lambda
+	\end{matrix}\right]
+$\\
+pro $\lambda_1: \left[\begin{matrix}
+	-i & -1\\
+	1 & -i
+	\end{matrix}\right]$
+vlastni vektor pro $\lambda_1 = \doubleunderline{[i,1]}$\\
+pro $\lambda_2: \left[\begin{matrix}
+	i & -1\\
+	1 & i
+	\end{matrix}\right]$
+vlastni vektor pro $\lambda_2 = \doubleunderline{[-i,1]}$\\
+
+
+
+
+
+
+\section*{reseni C}
+$(1-\lambda)^3-1+3\lambda$\\
+charakteristicky polynom: \doubleunderline{$-\lambda^3+3\lambda^2$}\\
+\\
+vlastni cisla:\\
+$rank~C = 1$, $rank~ker~C = 2$\\
+$\lambda_1 = \lambda_2 = 0$\\
+$\lambda^2-4\lambda+5=0$\\
+\doubleunderline{$\lambda_1 = 2+i$} ; 
+\doubleunderline{$\lambda_2 = 2-i$}\\
+\\
+vlastni vektory:\\
+$
+\left[\begin{matrix}
+	2-\lambda & -1\\
+	1 & 2-\lambda
+	\end{matrix}\right]
+$\\
+pro $\lambda_1: \left[\begin{matrix}
+	-i & -1\\
+	1 & -i
+	\end{matrix}\right]$
+vlastni vektor pro $\lambda_1 = \doubleunderline{[i,1]}$\\
+pro $\lambda_2: \left[\begin{matrix}
+	i & -1\\
+	1 & i
+	\end{matrix}\right]$
+vlastni vektor pro $\lambda_2 = \doubleunderline{[-i,1]}$\\
+
+
+
+
+
+
+
+
+
+
+\section*{2. zadani}
+Najdete $\alpha \in \mathbb{R}$ tak, aby $\lambda = 3$
+bylo jedno z vlastnich cisel matice M\\
+
+
+\section*{reseni}
+$3+\lambda_2+\lambda_3=track~M=9$\\
+$3*\lambda_2*\lambda_3=det~M=\frac{8\alpha}{3}-8$\\
+zvolime nahodne jedno vlastni cislo, druhe dopocitame, treti mame zadane\\
+$\lambda_2=2$, $\lambda_3=4$\\
+po dosazeni do rovnice tri vlastnich cisel dopocitame pres determinant $\alpha$\\
+$3*2*4=\frac{8\alpha}{3}-8$\\
+$\doubleunderline{\alpha=6}$\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{3. zadani}
+Najdete nejmensi cislo $\alpha \in \mathbb{R}$ takove, ze matice 
+$A+\beta I_n$ je regularni pro vsechna $\beta > \alpha$\\
+(pozn. predpokladam za matici A se mysli matice z prikladu 1)
+
+\section*{reseni}
+nejdrive najdeme pro ktera $\beta$ je matice A singularni\\
+$\left[\begin{matrix}
+	4+\beta & -3\\
+	-6 & 1+\beta
+\end{matrix}\right]$\\
+$\beta^2+5\beta-14=0$\\
+$\beta_1 = -7$ ; $\beta_2 = 2$\\
+aby byla matice regularni musi platit
+$\beta > max(\beta_1, \beta_2) = $ \doubleunderline{$\alpha = 2$}\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{4. zadani}
+Matice $A\in\mathbb{R}^{3\times3}$ ma vlastni cisla
+$\lambda_1=-1$, $\lambda_2=2$ a $\lambda_3=5$\\
+Urcete stopu a determinant matice $(-A^2+5I_3)^{-1}$ 
+
+\section*{reseni}
+$A=\left[\begin{matrix}
+	-1 & 0 & 0\\
+	0 & 2 & 0\\
+	0 & 0 & 5\\
+\end{matrix}\right]$\\
+$A^2=\left[\begin{matrix}
+	1 & 0 & 0\\
+	0 & 4 & 0\\
+	0 & 0 & 25\\
+\end{matrix}\right]$\\
+$(-A^2+5I_3)^{-1}=
+\left[\begin{matrix}
+	4 & 0 & 0\\
+	0 & 1 & 0\\
+	0 & 0 & -20\\
+\end{matrix}\right]$\\
+$track~A = 4+1-20\doubleunderline{=-15}$\\
+$determinant~A = 4*1*(-20)\doubleunderline{=-80}$\\
+
+
+
+
+
+
+
+
+\end{document}
