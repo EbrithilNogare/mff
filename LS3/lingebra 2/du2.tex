@@ -79,12 +79,12 @@ $
 $\\
 pro $\lambda_1: \left[\begin{matrix}
 	-i & -1\\
-	1 & -i
+	0& 0
 	\end{matrix}\right]$
 vlastni vektor pro $\lambda_1 = \doubleunderline{[i,1]}$\\
 pro $\lambda_2: \left[\begin{matrix}
 	i & -1\\
-	1 & i
+	0 & 0
 	\end{matrix}\right]$
 vlastni vektor pro $\lambda_2 = \doubleunderline{[-i,1]}$\\
 
@@ -94,34 +94,41 @@ vlastni vektor pro $\lambda_2 = \doubleunderline{[-i,1]}$\\
 
 
 \section*{reseni C}
-$(1-\lambda)^3-1+3\lambda$\\
-charakteristicky polynom: \doubleunderline{$-\lambda^3+3\lambda^2$}\\
+$-\lambda(1-\lambda)^{2}+\lambda$\\
+charakteristicky polynom: \doubleunderline{$2\lambda^2-\lambda^3$}\\
 \\
 vlastni cisla:\\
 $rank~C = 1$, $rank~ker~C = 2$\\
-$\lambda_1 = \lambda_2 = 0$\\
-$\lambda^2-4\lambda+5=0$\\
-\doubleunderline{$\lambda_1 = 2+i$} ; 
-\doubleunderline{$\lambda_2 = 2-i$}\\
+\doubleunderline{$\lambda_1 = \lambda_2 = 0$}\\
+$\lambda_1 + \lambda_2 + \lambda_3 = 2$\\
+\doubleunderline{$\lambda_3 = 2$}\\
 \\
 vlastni vektory:\\
 $
 \left[\begin{matrix}
-	2-\lambda & -1\\
-	1 & 2-\lambda
+	1-\lambda & 1 & 0\\
+	1 & 1-\lambda & 0\\
+	0 & 0 & 0
 	\end{matrix}\right]
 $\\
 pro $\lambda_1: \left[\begin{matrix}
-	-i & -1\\
-	1 & -i
+	1 & 1 & 0\\
+	0 & 0 & 0\\
+	0 & 0 & 0
 	\end{matrix}\right]$
-vlastni vektor pro $\lambda_1 = \doubleunderline{[i,1]}$\\
+vlastni vektor pro $\lambda_1 = \doubleunderline{[-1,1,0]}$\\
 pro $\lambda_2: \left[\begin{matrix}
-	i & -1\\
-	1 & i
+	1 & 1 & 0\\
+	0 & 0 & 0\\
+	0 & 0 & 0
 	\end{matrix}\right]$
-vlastni vektor pro $\lambda_2 = \doubleunderline{[-i,1]}$\\
-
+vlastni vektor pro $\lambda_2 = \doubleunderline{[0,0,1]}$\\
+pro $\lambda_3: \left[\begin{matrix}
+	-1 & 1 & 0\\
+	0 & 0 & 0\\
+	0 & 0 & 0
+	\end{matrix}\right]$
+vlastni vektor pro $\lambda_3 = \doubleunderline{[1,1,0]}$\\
 
 
 
@@ -137,7 +144,7 @@ bylo jedno z vlastnich cisel matice M\\
 
 
 \section*{reseni}
-$3+\lambda_2+\lambda_3=track~M=9$\\
+$3+\lambda_2+\lambda_3=trace~M=9$\\
 $3*\lambda_2*\lambda_3=det~M=\frac{8\alpha}{3}-8$\\
 zvolime nahodne jedno vlastni cislo, druhe dopocitame, treti mame zadane\\
 $\lambda_2=2$, $\lambda_3=4$\\
@@ -160,9 +167,12 @@ $\doubleunderline{\alpha=6}$\\
 \section*{3. zadani}
 Najdete nejmensi cislo $\alpha \in \mathbb{R}$ takove, ze matice 
 $A+\beta I_n$ je regularni pro vsechna $\beta > \alpha$\\
-(pozn. predpokladam za matici A se mysli matice z prikladu 1)
 
 \section*{reseni}
+(pozn. predpokladam ze matici A se mysli matice z prikladu 1,\\
+nebot pro obecnou matici, takove $\alpha$ najit nelze,\\
+nebot muzeme zvolit ze $A = cI_n; c=-(\alpha+1)$)
+\\\\
 nejdrive najdeme pro ktera $\beta$ je matice A singularni\\
 $\left[\begin{matrix}
 	4+\beta & -3\\
@@ -191,24 +201,20 @@ $\lambda_1=-1$, $\lambda_2=2$ a $\lambda_3=5$\\
 Urcete stopu a determinant matice $(-A^2+5I_3)^{-1}$ 
 
 \section*{reseni}
+vypocitame pres umele vytvorenou matici:\\
 $A=\left[\begin{matrix}
 	-1 & 0 & 0\\
 	0 & 2 & 0\\
 	0 & 0 & 5\\
 \end{matrix}\right]$\\
-$A^2=\left[\begin{matrix}
-	1 & 0 & 0\\
-	0 & 4 & 0\\
-	0 & 0 & 25\\
-\end{matrix}\right]$\\
 $(-A^2+5I_3)^{-1}=
 \left[\begin{matrix}
-	4 & 0 & 0\\
+	\frac{1}{4} & 0 & 0\\
 	0 & 1 & 0\\
-	0 & 0 & -20\\
+	0 & 0 & \frac{-1}{20}\\
 \end{matrix}\right]$\\
-$track~A = 4+1-20\doubleunderline{=-15}$\\
-$determinant~A = 4*1*(-20)\doubleunderline{=-80}$\\
+$trace~A = \frac{1}{4}+1-\frac{1}{20} = \doubleunderline{\frac{6}{5}}$\\
+$det~A = \frac{1}{4}*1*\frac{-1}{20} = \doubleunderline{-\frac{1}{80}}$\\
 
 
 
