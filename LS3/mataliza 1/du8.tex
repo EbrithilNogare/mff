@@ -1,0 +1,117 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Mataliza 1}\\
+\textbf{Ukol: 8.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+
+\section*{zadani}
+$\int \cot x~dx$
+
+\section*{reseni}
+$\int \frac{\cos x}{\sin x}~dx=$\\
+\indent $u = \sin x$\\
+\indent $du = \cos x~dx$\\
+$\int \frac{du}{u}=$\\
+$\ln |u| + c=$\\
+$\doubleunderline{\ln |\sin x| + c}$\\
+
+
+
+
+
+
+\section*{zadani}
+$\int sin^3 x~dx$
+
+\section*{reseni}
+$\int (\sin^2 x)(\sin x)~dx=$\\
+$\int (1 - \cos^2 x)(sin x)~dx$
+\\\\
+$u = cos x$\\
+$du = - \sin x~dx$\\
+$dx = \frac{du}{-sin x}$
+\\\\
+$\int (1- u^2) \sin x \frac{du}{- \sin x}=$\\
+$-\int (1- u^2) du=$\\
+$-(u-\frac{u^3}{3}) +c =$\\
+$\doubleunderline{-(\cos x-\frac{\cos^3 x}{3}) + c}$
+
+
+
+
+
+
+
+\section*{zadani}
+$\int x^2 e^{-x}~dx$
+
+\section*{reseni}
+$\int fg' = fg - \int gf'$\\
+\indent $f=x^2$ ; $f' = 2x$\\
+\indent $g'=e^{-x}$ ; $g=-e^{-x}$\\
+$x^2(-e^{-x})-\int gf'=$\\
+$x^2(-e^{-x})-(\int -e^{-x} (2x)'~dx)=$\\
+$x^2(-e^{-x})-(2x e^{-x} - \int (-e^{-x}*2~dx))=$\\
+$x^2(-e^{-x})-(2x e^{-x} -2 (-e^{-x}))=$\\
+$\doubleunderline{-e^{-x}(x^2+2x+2) + c}$\\
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int \sin^2 x \cos^2 x~dx$
+
+\section*{reseni}
+$\frac{1}{4} \int 4 \sin^2 x \cos^2 x~dx=$\\
+$\frac{1}{4} \int \sin^2 2x~dx=$\\
+$\frac{1}{4} \int \frac{1-\cos 4x}{2}~dx=$\\
+$\frac{1}{4} \int \frac{1}{2} - \frac{1}{4} \int \frac{cos4x}{2}~dx=$\\
+$\doubleunderline{\frac{x}{8} - \frac{\sin 4x}{32}}$\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
