@@ -13,6 +13,7 @@
 #include "model.h"
 #include "shader.h"
 
+# define M_PI           3.14159265358979323846  /* pi */
 
 unsigned int loadTexture(char const* path)
 {
@@ -62,10 +63,18 @@ public:
 		unsigned int grass = loadTexture(std::string("../resources/textures/grass.jpg").c_str());
 		unsigned int mosaic = loadTexture(std::string("../resources/textures/mosaic.png").c_str());
 		
-		models.push_back(Model("../resources/models/cathedralS.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), cathedralAO));
-		models.push_back(Model("../resources/models/grass.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), grass));
+		unsigned int room = loadTexture(std::string("../resources/textures/room diffuse+ao.png").c_str());
+		models.push_back(Model("../resources/models/room.obj", glm::vec3(0), glm::vec3(0, M_PI, 0), glm::vec3(1.0f), room));
+		unsigned int droneTexture = loadTexture(std::string("../resources/textures/marble.png").c_str());
+		models.push_back(Model("../resources/models/drone.obj", glm::vec3(0,1,0), glm::vec3(0, M_PI, 0), glm::vec3(1.0f), droneTexture));
+
+		unsigned int projection = loadTexture(std::string("../resources/textures/mosaic.png").c_str());
+		transparentModels.push_back(Model("../resources/models/projectionPlane.obj", glm::vec3(0), glm::vec3(0, M_PI, 0), glm::vec3(1.0f), projection));
+
+		//models.push_back(Model("../resources/models/cathedralS.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), cathedralAO));
+		//models.push_back(Model("../resources/models/grass.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), grass));
 		
-		transparentModels.push_back(Model("../resources/models/cathedralT.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), mosaic));
+		//transparentModels.push_back(Model("../resources/models/cathedralT.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), mosaic));
 	}
 	void Render(Shader shader) {
 		RenderSolid(shader);

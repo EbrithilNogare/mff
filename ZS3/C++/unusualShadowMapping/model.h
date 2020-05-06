@@ -59,7 +59,7 @@ private:
 						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1.0][2]);
 
 						bufferData.push_back(textureCoords[std::stoi(facesSplited[1])-1.0][0]);
-						bufferData.push_back(textureCoords[std::stoi(facesSplited[1])-1.0][1]);
+						bufferData.push_back(1-textureCoords[std::stoi(facesSplited[1])-1.0][1]);
 
 						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][0]);
 						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][1]);
