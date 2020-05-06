@@ -60,8 +60,9 @@ int main() {
 		processInput(window);
 		processLightDebugInput(window, &light);
 		
-		light.addTick();
-		light.setPosition(glm::vec3(cos(light.lightTime)*5, 1, sin(light.lightTime)*5));
+		//light.addTick();
+		//light.setPosition(glm::vec3(cos(light.lightTime)*5, 1, sin(light.lightTime)*5));
+		light.setPosition(glm::vec3(-0.108664, 1.23244, -1.91998));
 
 		showFPS(window);
 		render(window, scene, light, shaders);

@@ -23,7 +23,7 @@ unsigned int SCR_WIDTH = 1600;
 unsigned int SCR_HEIGHT = 900;
 
 // camera
-Camera camera(glm::vec3(0.0f, 1.0f, -5.0f));
+Camera camera(glm::vec3(0.0f, 2.0f, -4.0f));
 float lastX = (float)SCR_WIDTH / 2.0;
 float lastY = (float)SCR_HEIGHT / 2.0;
 bool firstMouse = true;
@@ -87,7 +87,7 @@ void processInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
 
-
+	//std::cout << "x: " << camera.Position.x << ", y: " << camera.Position.y << ", z: " << camera.Position.z << std::endl;
 }
 
 void processLightDebugInput(GLFWwindow* window, Light* light) {
