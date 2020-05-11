@@ -42,8 +42,10 @@ int main() {
 	
 	shaders.at("shader").use();
 	shaders.at("shader").setInt("diffuseTexture", 0);
-	shaders.at("shader").setInt("shadowMap", 1);
-	shaders.at("shader").setInt("colorMap", 2);
+	shaders.at("shader").setInt("shadowMap1", 1);
+	shaders.at("shader").setInt("colorMap1", 2);
+	shaders.at("shader").setInt("shadowMap2", 3);
+	shaders.at("shader").setInt("colorMap2", 4);
 	shaders.at("simpleColorShader").use();
 	shaders.at("simpleColorShader").setInt("diffuseTexture", 0);
 	shaders.at("debugDepthQuad").use();
@@ -53,19 +55,31 @@ int main() {
 
 
 	Scene scene;
-	Light light = Light(glm::vec3(.0f));
+
+	std::map<std::string, Light> lights;
+	lights.insert(std::pair<std::string, Light>("sun", Light(glm::vec3(.0f))));
+	lights.at("sun").lookAt = glm::vec3(0,.5,0);
+	lights.insert(std::pair<std::string, Light>("projection", Light(glm::vec3(.0f))));
+	lights.at("projection").near_plane = .1f;
+	lights.at("projection").far_plane = 4.0f;
+	lights.at("projection").lookAt = glm::vec3(-0.115622, 1.23301, 1.74584);
+	lights.at("projection").fov = glm::radians(18.0f);
+	lights.at("projection").setPosition(glm::vec3(-0.108664, 1.23244, -2.01998));
+
 
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
-		processLightDebugInput(window, &light);
+		processLightDebugInput(window, &lights.at("sun"));
 		
-		//light.addTick();
-		//light.setPosition(glm::vec3(cos(light.lightTime)*5, 1, sin(light.lightTime)*5));
-		light.setPosition(glm::vec3(-0.108664, 1.23244, -1.91998));
+		lights.at("sun").addTick();
+		lights.at("sun").setPosition(glm::vec3(cos(sin(lights.at("sun").lightTime*1.7)/2)*5, 2, sin(sin(lights.at("sun").lightTime*1.7) / 2)*5));
+
+		scene.tick((float)glfwGetTime());
+		
 
 		showFPS(window);
-		render(window, scene, light, shaders);
+		render(window, scene, lights, shaders);
 	}
 
 
@@ -73,7 +87,7 @@ int main() {
 	return 0;
 }
 
-void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, Shader> shaders)
+void render(GLFWwindow* window, Scene scene, std::map < std::string, Light> lights, std::map<std::string, Shader> shaders)
 {
 	float currentFrame = (float)glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
@@ -83,24 +97,49 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	
 	// 1. render depth of scene to texture (from light's perspective)
 	// --------------------------------------------------------------
-	
+
+
+	// sun light
+	// ---------
 	shaders.at("simpleDepthShader").use();
-	shaders.at("simpleDepthShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
-	glViewport(0, 0, light.mapWidth, light.mapHeight);
-	glBindFramebuffer(GL_FRAMEBUFFER, light.depthMapFBO);
+	shaders.at("simpleDepthShader").setMat4("lightSpaceMatrix", lights.at("sun").lightSpaceMatrix);
+	glViewport(0, 0, lights.at("sun").mapWidth, lights.at("sun").mapHeight);
+	glBindFramebuffer(GL_FRAMEBUFFER, lights.at("sun").depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	scene.RenderSolid(shaders.at("simpleDepthShader"));
-	
+
 	shaders.at("simpleColorShader").use();
-	shaders.at("simpleColorShader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
-	glViewport(0, 0, light.mapWidth, light.mapHeight);
-	glBindFramebuffer(GL_FRAMEBUFFER, light.colorMapFBO);
-	glClearColor(1,1,1,0);
+	shaders.at("simpleColorShader").setMat4("lightSpaceMatrix", lights.at("sun").lightSpaceMatrix);
+	glViewport(0, 0, lights.at("sun").mapWidth, lights.at("sun").mapHeight);
+	glBindFramebuffer(GL_FRAMEBUFFER, lights.at("sun").colorMapFBO);
+	glClearColor(1, 1, 1, 0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	scene.RenderSolid(shaders.at("simpleColorShader"));
 	glClear(GL_COLOR_BUFFER_BIT);
 	scene.RenderTransparent(shaders.at("simpleColorShader"));
 
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// projection light
+	// ----------------
+	shaders.at("simpleDepthShader").use();
+	shaders.at("simpleDepthShader").setMat4("lightSpaceMatrix", lights.at("projection").lightSpaceMatrix);
+	glViewport(0, 0, lights.at("projection").mapWidth, lights.at("projection").mapHeight);
+	glBindFramebuffer(GL_FRAMEBUFFER, lights.at("projection").depthMapFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	scene.RenderSolid(shaders.at("simpleDepthShader"));
+
+	shaders.at("simpleColorShader").use();
+	shaders.at("simpleColorShader").setMat4("lightSpaceMatrix", lights.at("projection").lightSpaceMatrix);
+	glViewport(0, 0, lights.at("projection").mapWidth, lights.at("projection").mapHeight);
+	glBindFramebuffer(GL_FRAMEBUFFER, lights.at("projection").colorMapFBO);
+	glClearColor(1, 1, 1, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	scene.RenderSolid(shaders.at("simpleColorShader"));
+	glClear(GL_COLOR_BUFFER_BIT);
+	scene.RenderTransparent(shaders.at("simpleColorShader"));
+	
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -117,31 +156,60 @@ void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, 
 	glm::mat4 view = camera.GetViewMatrix();
 	shaders.at("shader").setMat4("projection", projection);
 	shaders.at("shader").setMat4("view", view);
-
 	shaders.at("shader").setVec3("viewPos", camera.Position);
-	shaders.at("shader").setVec3("lightPos", light.position);
-	shaders.at("shader").setMat4("lightSpaceMatrix", light.lightSpaceMatrix);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, light.depthMap);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, light.colorMap);
-	scene.Render(shaders.at("shader"));
-	light.RenderHelper(shaders.at("shader"));
 
+	shaders.at("shader").setVec3("light1Pos", lights.at("sun").position);
+	shaders.at("shader").setMat4("light1SpaceMatrix", lights.at("sun").lightSpaceMatrix);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, lights.at("sun").depthMap);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, lights.at("sun").colorMap);
+
+	shaders.at("shader").setVec3("light2Pos", lights.at("projection").position);
+	shaders.at("shader").setMat4("light2SpaceMatrix", lights.at("projection").lightSpaceMatrix);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, lights.at("projection").depthMap);
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, lights.at("projection").colorMap);
+
+	scene.Render(shaders.at("shader"));
+	lights.at("projection").RenderHelper(shaders.at("shader"));
+	lights.at("sun").RenderHelper(shaders.at("shader"));
+
+
+	// 3. render debug of framebuffers
+	// -------------------------------
+	
 	shaders.at("debugDepthQuad").use();
-	shaders.at("debugDepthQuad").setFloat("near_plane", light.near_plane);
-	shaders.at("debugDepthQuad").setFloat("far_plane", light.far_plane);
+	shaders.at("debugDepthQuad").setFloat("near_plane", lights.at("sun").near_plane);
+	shaders.at("debugDepthQuad").setFloat("far_plane", lights.at("sun").far_plane);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, light.depthMap);
+	glBindTexture(GL_TEXTURE_2D, lights.at("sun").depthMap);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	renderQuad(glm::vec2(0, .75), glm::vec2(1 / 4.0));
 
 	shaders.at("debugColorQuad").use();
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, light.colorMap);
+	glBindTexture(GL_TEXTURE_2D, lights.at("sun").colorMap);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	renderQuad(glm::vec2(0, .75), glm::vec2(1 / 4.0));
-	
+
+
+	shaders.at("debugDepthQuad").use();
+	shaders.at("debugDepthQuad").setFloat("near_plane", lights.at("projection").near_plane);
+	shaders.at("debugDepthQuad").setFloat("far_plane", lights.at("projection").far_plane);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, lights.at("projection").depthMap);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	renderQuad(glm::vec2(0, .5), glm::vec2(1 / 4.0));
+
+	shaders.at("debugColorQuad").use();
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, lights.at("projection").colorMap);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	renderQuad(glm::vec2(0, .5), glm::vec2(1 / 4.0));
+
+
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }

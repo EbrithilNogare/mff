@@ -68,8 +68,10 @@ public:
 		unsigned int droneTexture = loadTexture(std::string("../resources/textures/marble.png").c_str());
 		models.push_back(Model("../resources/models/drone.obj", glm::vec3(0,1,0), glm::vec3(0, M_PI, 0), glm::vec3(1.0f), droneTexture));
 
-		unsigned int projection = loadTexture(std::string("../resources/textures/mosaic.png").c_str());
+		unsigned int projection = loadTexture(std::string("../resources/textures/screen.png").c_str());
 		transparentModels.push_back(Model("../resources/models/projectionPlane.obj", glm::vec3(0), glm::vec3(0, M_PI, 0), glm::vec3(1.0f), projection));
+		unsigned int glass = loadTexture(std::string("../resources/textures/glass.png").c_str());
+		transparentModels.push_back(Model("../resources/models/glasses.obj", glm::vec3(0), glm::vec3(0, M_PI, 0), glm::vec3(1.0f), glass));
 
 		//models.push_back(Model("../resources/models/cathedralS.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), cathedralAO));
 		//models.push_back(Model("../resources/models/grass.obj", glm::vec3(0), glm::vec3(0), glm::vec3(.1f), grass));
@@ -92,5 +94,8 @@ public:
 		for (Model model : transparentModels) {
 			model.Draw(shader);
 		}
+	}
+	void tick(float time) {
+		models[1].setPosition(glm::vec3(0,glm::sin(time)/2+1,0));
 	}
 };

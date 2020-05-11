@@ -1,5 +1,8 @@
 #pragma once
 
+// main.h
+// author: Davud Napravnik
+
 #include <map>
 #include <iostream>
 #include <glad/glad.h>
@@ -35,7 +38,7 @@ float lastFrame = 0.0f;
 double lastTime = glfwGetTime();
 unsigned int nbFrames = 0;
 
-void render(GLFWwindow* window, Scene scene, Light light, std::map<std::string, Shader> shaders);
+void render(GLFWwindow* window, Scene scene, std::map < std::string, Light> lights, std::map<std::string, Shader> shaders);
 
 unsigned int quadVAO = 0;
 unsigned int quadVBO;
