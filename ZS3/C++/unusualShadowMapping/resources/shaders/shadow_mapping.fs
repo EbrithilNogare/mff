@@ -5,17 +5,21 @@ in VS_OUT {
 	vec3 FragPos;
 	vec3 Normal;
 	vec2 TexCoords;
-	vec4 FragPosLightSpace;
+    vec4 FragPosLight1Space;
+    vec4 FragPosLight2Space;
 } fs_in;
 
 uniform sampler2D diffuseTexture;
-uniform sampler2D shadowMap;
-uniform sampler2D colorMap;
+uniform sampler2D shadowMap1;
+uniform sampler2D colorMap1;
+uniform sampler2D shadowMap2;
+uniform sampler2D colorMap2;
 
-uniform vec3 lightPos;
+uniform vec3 light1Pos;
+uniform vec3 light2Pos;
 uniform vec3 viewPos;
 
-vec3 ShadowCalculation(vec4 fragPosLightSpace, vec3 viewDir)
+vec3 ShadowCalculation(vec4 fragPosLightSpace, vec3 lightPos, sampler2D shadowMap, sampler2D colorMap, vec3 viewDir)
 {
 	// perform perspective divide
 	vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
@@ -31,10 +35,13 @@ vec3 ShadowCalculation(vec4 fragPosLightSpace, vec3 viewDir)
 	float bias = max(0.005 * (1.0 - dot(normal, lightDir)), 0.005);
 	// check whether current frag pos is in shadow
 	// float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-	// PCF
 
-	float pcfDepth = texture(shadowMap, projCoords.xy).r; 
 	
+	mat3 fresnelTableClose = mat3(0.0,0.0,0.0,0.0,9.0,0.0,0.0,0.0,0.0); 
+	mat3 fresnelTableNormal = mat3(0.5,0.5,0.5,0.5,5.0,0.5,0.5,0.5,0.5); 
+	mat3 fresnelTableFar = mat3(1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0); 
+
+
 	float shadow = 0.0;
 	vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
 	for(int x = -1; x <= 1; ++x)
@@ -42,10 +49,18 @@ vec3 ShadowCalculation(vec4 fragPosLightSpace, vec3 viewDir)
 		for(int y = -1; y <= 1; ++y)
 		{
 			float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
-			shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
+			float shadowValue = currentDepth - bias > pcfDepth ? 1.0 : 0.0;        
+			
+			if(currentDepth - pcfDepth < .02)
+				shadow += shadowValue * fresnelTableClose[x+1][y+1];	
+			else if(currentDepth - pcfDepth < 0.7)
+				shadow += shadowValue * fresnelTableNormal[x+1][y+1];	
+			else
+				shadow += shadowValue * fresnelTableFar[x+1][y+1];
 		}    
 	}
 	shadow /= 9.0;
+
 
 	// keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
 	if(projCoords.z > 1.0)
@@ -69,22 +84,16 @@ void main()
 	vec3 lightIntensite = vec3(.3);
 	// ambient
 	vec3 ambient = 0.5 * color.rgb;
-	// diffuse
-	vec3 lightDir = normalize(lightPos - fs_in.FragPos);
-	float diff = max(dot(lightDir, normal), 0.0);
-	vec3 diffuse = diff * lightIntensite;
-	// specular
+	
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos);
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = 0.0;
-	vec3 halfwayDir = normalize(lightDir + viewDir);  
-	spec = pow(max(dot(normal, halfwayDir), 0.0), 64.0);
-	vec3 specular = spec * lightIntensite;	
-	// calculate shadow
-	vec3 shadow = ShadowCalculation(fs_in.FragPosLightSpace, viewDir);					  
-	//vec3 lighting = (ambient + (1.0 - shadow) * (diffuse + specular)) * color;		
-	vec3 lighting = (ambient + shadow);	
+	// calculate lighting by shadow
+	vec3 lighting = ambient;	
+	lighting += ShadowCalculation(fs_in.FragPosLight1Space, light1Pos, shadowMap1, colorMap1, viewDir);	
+	lighting += ShadowCalculation(fs_in.FragPosLight2Space, light2Pos, shadowMap2, colorMap2, viewDir);		
 	
 	FragColor = vec4(lighting, 1.0) * color;
-	FragColor.rgb = mix(FragColor.rgb, vec3(.1,.1,.1), max(min(distance(viewPos, fs_in.FragPos)/2-3,1.0),0));
+	//FragColor = vec4(shadow, 1.0);
+
+	//make fake far-plane from fog
+	FragColor.rgb = mix(FragColor.rgb, vec3(.1,.1,.1), max(min(distance(viewPos, fs_in.FragPos)/2-4,1.0),0));
 }

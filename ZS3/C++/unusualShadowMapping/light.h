@@ -25,24 +25,19 @@ public:
 	float lightTime = 0;
 	unsigned int mapWidth = 2048;
 	unsigned int mapHeight = 2048;
-	//float near_plane = 1.0f;
-	//float far_plane = 8.0f;
-	//glm::vec3 lookAt = glm::vec3(0, 0, 0);
-	//float fov = glm::radians(45.0f);
+	float near_plane = 1.0f;
+	float far_plane = 8.0f;
+	glm::vec3 lookAt = glm::vec3(0, 0, 0);
+	float fov = glm::radians(45.0f);
 	GLuint depthMapFBO;
 	GLuint depthMap;
 	GLuint colorMapFBO;
 	GLuint colorMap;
 	GLuint depthMap2;
-	
-	float near_plane = .1f;
-	float far_plane = 4.0f;
-	glm::vec3 lookAt = glm::vec3(-0.115622, 1.23301, 1.74584);
-	float fov = glm::radians(18.0f);
 
 	glm::mat4 lightSpaceMatrix = glm::mat4(0);
 	Light(glm::vec3 initPosition) {
-		position = initPosition;
+		setPosition(initPosition);
 
 		glGenTextures(1, &depthMap);
 		glGenTextures(1, &depthMap2);
@@ -107,9 +102,6 @@ public:
 		lightProjection = glm::perspective(fov, (GLfloat)mapWidth / (GLfloat)mapHeight, near_plane, far_plane);
 		lightView = glm::lookAt(position, lookAt, glm::vec3(0.0, 1.0, 0.0));
 
-		//lightProjection = glm::perspective(fov, (GLfloat)mapWidth / (GLfloat)mapHeight, near_plane, far_plane);
-
-		//lightView = glm::lookAt(position, lookAt, glm::vec3(0.0, 1.0, 0.0));
 		lightSpaceMatrix = lightProjection * lightView;
 	}
 	void addTick() {
