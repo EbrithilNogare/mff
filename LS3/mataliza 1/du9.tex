@@ -1,0 +1,129 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Mataliza 1}\\
+\textbf{Ukol: 9.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+
+\section*{zadani}
+$\int \frac{2x}{1-x^2} dx$
+
+\section*{reseni}
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int \frac{x+1}{x^2+5x+6} dx$
+
+\section*{reseni}
+$\int \frac{x+2}{(x+3)(x+2)} - \frac{1}{(x+3)(x+2)}~dx$\\
+$\int \frac{1}{(x+3)} - \frac{1}{(x+3)(x+2)}~dx$\\
+$\int \frac{1}{(x+3)}~dx - \int \frac{1}{(x+3)(x+2)}~dx$\\
+\\
+odbocka k parcialnim zlomkum:\\
+$\frac{1}{(x+3)(x+2)}=\frac{A}{x+3}+\frac{B}{x+2}$\\
+$1=A(x+2)+B(x+3)$\\
+$A=-1;~B=1$\\
+\\
+$\int \frac{1}{(x+3)}~dx - \int\left( \frac{1}{x+2}-\frac{1}{x+3}\right)~dx$\\
+$\log(x+3) - (\log(x+2)-\log(x+3)) + c$\\
+\doubleunderline{$2*\log(x+3) - \log(x+2) + c$}\\
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int \frac{x^2-2x-2}{x^2+x-2} dx$
+
+\section*{reseni}
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int \frac{3x+5}{x^2+2x+1} dx$
+
+\section*{reseni}
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int x^2 \cos x~dx$
+
+\section*{reseni}
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int \frac{1}{(x+1)\sqrt{x}} dx$
+
+\section*{reseni}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
