@@ -17,7 +17,12 @@ newtype Parser a = Parser { runParser :: String -> Maybe (a, String) }
 -- Definujte:
 
 satisfy :: (Char -> Bool) -> Parser Char
-satisfy f = Parser $ \(s:xs) -> if f s then Just(s,xs) else Nothing
+satisfy f = Parser $ \s -> satisfyBody f s
+
+satisfyBody :: (Char -> Bool) -> String -> Maybe (Char, String)
+satisfyBody f (s:xs) = if f s then Just(s,xs) else Nothing
+satisfyBody f ""     = Nothing
+
 
 
 -- 'satisfy p' je základní parser. Funguje takto: podívá se na vstupní text,
@@ -143,10 +148,27 @@ string prefix = Parser $ \s ->
 -- Nothing
 
 many :: Parser a -> Parser [a]
-many = undefined
+many p = Parser $ \s ->
+  let val = runParser p s in
+  if isNothing val then
+    Just([], s)
+  else
+    let (valA, valB) = fromJust(val) in
+    let (recValA, recValB) = fromJust(runParser (many p) valB) in
+    Just(concat [[valA], recValA], recValB)
+
+
 
 some :: Parser a -> Parser [a]
-some = undefined
+some p = Parser $ \s ->
+  let val = runParser p s in
+  if isNothing val then
+    Nothing
+  else
+    let (valA, valB) = fromJust(val) in
+    let (recValA, recValB) = fromJust(runParser (many p) valB) in
+    Just(concat [[valA], recValA], recValB)
+
 
 -- Funkce 'many' a 'some' dostanou jako vstup parser 'p' a aplikují jej,
 -- dokud 'p' neselže. Výsledky všech použití parseru 'p' se nashromáždí
@@ -172,7 +194,21 @@ some = undefined
 -- nepoužívejte 'Parser' explicitně.
 
 whitespace :: Parser ()
-whitespace = undefined
+whitespace = Parser $ \s -> 
+  let spaceParser = string " " in
+  let newLineParser = string "\n" in
+  let comment = string "//" >>= \s -> many (satisfy (/= '\n')) >>= \s -> string "\n" in
+  let multiLineComment = string "/*" >>= \s -> many (many (satisfy (/= '*')) >>= \s -> satisfy (/= '/')) >>= \s -> string "/" in
+  let myParser = orElse (orElse (orElse comment multiLineComment) newLineParser) spaceParser  in
+  let val = runParser myParser s in
+  if val == Nothing then
+    Just((), s)
+  else
+    let (_, valB) = fromJust(val) in
+    let (_, rest) = fromJust(runParser whitespace valB) in
+    Just((), rest)
+
+
 
 -- Pokud chcete parsovat nějaký zdrojový kód, velice často potřebujete přeskakovat
 -- bílé znaky (mezery, tabulátory, konce řádků). Normálně by tohle šlo vyřešit
@@ -208,4 +244,13 @@ whitespace = undefined
 
 
 main = do
-  print("ready")
+  print("tests pass:")
+  print correct
+  print $ runParser (string "hello") "hello there" == Just ("hello"," there")
+  print $ runParser (string "hello") "hell" == Nothing
+  print $ runParser (some $ string "ab") "aabab" == Nothing
+  print $ runParser (some $ string "ab") "ababababbb" == Just (["ab","ab","ab","ab"],"bb")
+  print $ runParser (many $ string "ab") "aaaaaaa" == Just ([],"aaaaaaa")
+  print $ runParser whitespace " x += 2;" == Just ((),"x += 2;")
+  print $ runParser whitespace "  // This adds 2 to x\n  x += 2;" == Just ((),"x += 2;")
+  print $ runParser whitespace "/*\n  This doesn't work:\n  x *= 2;\n*/\n  x += 2;" == Just ((),"x += 2;")
