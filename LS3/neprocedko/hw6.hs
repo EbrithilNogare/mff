@@ -1,5 +1,7 @@
 import qualified Control.Monad as M
 import           Data.Char
+import           Data.Maybe
+import           Data.List
 
 -- 6. úloha
 --
@@ -15,7 +17,7 @@ newtype Parser a = Parser { runParser :: String -> Maybe (a, String) }
 -- Definujte:
 
 satisfy :: (Char -> Bool) -> Parser Char
-satisfy f = Parser $ \a -> \s -> Just(a,s)
+satisfy f = Parser $ \(s:xs) -> if f s then Just(s,xs) else Nothing
 
 
 -- 'satisfy p' je základní parser. Funguje takto: podívá se na vstupní text,
@@ -33,7 +35,7 @@ satisfy f = Parser $ \a -> \s -> Just(a,s)
 -- Just ('x',"abc")
 
 failure :: Parser a
-failure = Parser $ \a -> Nothing
+failure = Parser $ \s -> Nothing
 
 -- 'failure' je parser, který vždy selže.
 --
@@ -41,7 +43,13 @@ failure = Parser $ \a -> Nothing
 -- Nothing
 
 orElse :: Parser a -> Parser a -> Parser a
-orElse = undefined
+orElse p1 p2 = Parser $ \s -> 
+  if isJust(runParser p1 s) then
+    runParser p1 s 
+  else
+    runParser p2 s
+  
+  
 
 -- 'orElse p1 p2' (doporučuji používat jako 'p1 `orElse` p2') je parser, který
 -- nejprve zkusí provést 'p1'. Pokud 'p1' uspěje s hodnotou 'a', vrátí zpátky
@@ -61,15 +69,23 @@ orElse = undefined
 -- spojování parserů.
 
 parserReturn :: a -> Parser a
-parserReturn = undefined
+parserReturn a = Parser $ \s -> Just (a, s)
 
 -- 'parserReturn a' je parser, který vždy uspěje a vrátí hodnotu 'a'. Vstupní
 -- text ponechá beze změny.
 --
 -- runParser (parserReturn 1) "abc" == Just (1,"abc")
 
+
 parserBind :: Parser a -> (a -> Parser b) -> Parser b
-parserBind = undefined
+parserBind p f = Parser $ \s ->
+  let val = runParser p s in
+  if isNothing(val) then
+    Nothing
+  else
+    let (valA, valB) = fromJust(val) in
+    runParser (f valA) valB
+  
 
 -- 'parserBind m f' nejprve spustí parser m. Pokud tenhle parser uspěje s hodnotou
 -- 'a', tak pustí parser 'f a'.
@@ -109,7 +125,13 @@ correct = and
 -- sestavte pomocí dříve definovaných funkcí.
 
 string :: String -> Parser String
-string = undefined
+string prefix = Parser $ \s ->
+  let val = (stripPrefix prefix s) in
+  if isNothing val then
+    Nothing
+  else
+    Just(prefix, fromJust val)
+
 
 -- 'string s' je parser, který parsuje přesně řetězec 's'. Parser vrací
 -- naparsovaný řetězec.
@@ -186,4 +208,4 @@ whitespace = undefined
 
 
 main = do
-  print("compiled")
+  print("ready")
