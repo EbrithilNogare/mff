@@ -1,0 +1,133 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Mataliza 1}\\
+\textbf{Ukol: 10.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+
+\section*{zadani}
+$\int_{-2}^{-1} \frac{1}{x^2}~dx$
+
+\section*{reseni}
+$\int \frac{1}{x^2}~dx = -\frac{1}{x} + C$\\
+horni mez: $ x=-1 => -\frac{1}{-1} = 1$\\
+spodni mez: $x=-2 => -\frac{1}{-2} = \frac{1}{2}$\\
+\doubleunderline{$\int_{-2}^{-1} \frac{1}{x^2}~dx = 1-\frac{1}{2} = \frac{1}{2}$}
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int_{0}^{\pi / 2} \sin x \cos x~dx$
+
+\section*{reseni}
+$\int \sin x \cos x~dx$\\
+$\left(
+	\begin{matrix}
+		f=\sin x~dx & df=\cos x\\
+		dg=\cos x & g=\sin x~dx
+	\end{matrix}
+\right)$\\
+$\sin^2 x - \int \sin x \cos x ~dx$\\
+$\int \sin x \cos x~dx = \frac{\sin^2 x}{2} + C$\\
+horni mez: $x=\pi / 2 => \frac{\sin^2 \pi / 2}{2} = \frac{1}{2}$\\
+spodni mez: $ x=0 => \frac{\sin^2 0}{2} = 0$\\
+\doubleunderline{$\int_{0}^{\pi / 2} \sin x \cos x~dx = \frac{1}{2}$}
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int_{1}^{e} x^3 \ln x ~dx$
+
+\section*{reseni}
+$\int x^3 \ln x ~dx$\\
+$\left(
+	\begin{matrix}
+		f=x^3 & df=3x^2\\
+		dg=\ln x & g=\frac{1}{x}
+	\end{matrix}
+\right)$\\
+$\ln x \frac{x^4}{4}-\int\frac{x^3}{4}$\\
+$\ln x \frac{x^4}{4}-\frac{1}{4}\frac{x^4}{4}+C$\\
+$\int x^3 \ln x ~dx = \ln x \frac{x^4}{4}-\frac{x^4}{16}+C$\\
+horni mez: $x=e => \ln e \frac{e^4}{4}-\frac{e^4}{16} = \frac{e^4}{4}-\frac{e^4}{16} = \frac{3e^4}{16}$\\
+spodni mez: $ x=1 => \ln 1 \frac{1^4}{4}-\frac{1^4}{16} = -\frac{1}{16}$\\
+\doubleunderline{$\int_{1}^{e} x^3 \ln x ~dx = \frac{3e^4}{16} + \frac{1}{16}$}
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+$\int_{0}^{1} 3^x ~dx$
+
+\section*{reseni}
+$\int 3^x = \frac{3^x}{\ln 3}$\\
+horni mez: $ x=1 => \frac{3^1}{\ln 3} = \frac{3}{\ln 3} $\\
+spodni mez: $x=0 => \frac{3^0}{\ln 3} = \frac{1}{\ln 3}$\\
+\doubleunderline{$\int_{0}^{1} 3^x ~dx = \frac{2}{\ln 3}$}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
