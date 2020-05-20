@@ -1,0 +1,273 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage{ mathdots }
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin={1cm, 2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Linearni algebra 2}\\
+\textbf{Ukol: 4.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+\section*{zadani}
+Urcete 55. mocninu matice A
+
+\section*{reseni}
+spocteme vlastni cisla:\\
+$\begin{bmatrix}
+	2-\lambda & 1 & 0\\
+	1 & 2-\lambda & -1\\
+	1 & 1 & 1-\lambda\\
+\end{bmatrix}$\\
+$(2-\lambda)^2(1-\lambda)-1-1+\lambda+2-\lambda$\\
+$4-4\lambda+\lambda^2-4\lambda+4\lambda^2-\lambda^3$\\
+$-\lambda^3+5\lambda^2-8\lambda+4$\\
+$(\lambda-2)(-\lambda^2+3\lambda-2)$\\
+$-(\lambda-2)^2(\lambda-1)$\\
+$\lambda_1 = 1$\\
+$\lambda_2 = 2$\\
+dopocteme vlastni vektory:\\
+pro $\lambda_1 
+\begin{bmatrix}
+	2-1 & 1 & 0\\
+	1 & 2-1 & -1\\
+	1 & 1 & 1-1\\
+\end{bmatrix}
+= [1,-1,0]^T
+$\\
+pro $\lambda_2 
+\begin{bmatrix}
+	2-2 & 1 & 0\\
+	1 & 2-2 & -1\\
+	1 & 1 & 1-2\\
+\end{bmatrix}
+= [1,0,1]^T
+$\\
+dopocteme posledni vektor z druheho:\\
+$
+\begin{bmatrix}
+	0 & 1 & 0\\
+	1 & 0 & -1\\
+	1 & 1 & -1\\
+\end{bmatrix}
+*v_3=[1,0,1]^T
+=> v_3= [0,1,0]^T
+$\\
+$ R =
+\begin{bmatrix}
+	1 & 1 & 0\\
+	-1 & 0 & 1\\
+	0 & 1 & 0\\
+\end{bmatrix}
+$\\
+$ R^{-1} =
+\begin{bmatrix}
+	1 & 0 & -1\\
+	0 & 0 & 1\\
+	1 & 1 & -1\\
+\end{bmatrix}
+$\\
+$A^{55} = RJ^{55}R^{-1}$\\
+$ J =
+\begin{bmatrix}
+	1 & 0 & 0\\
+	0 & 2 & 1\\
+	0 & 0 & 2\\
+\end{bmatrix}
+$\\
+$ J^x =
+\begin{bmatrix}
+	1^x & 0 & 0\\
+	0 & 2^x & 2^{x-1}x\\
+	0 & 0 & 2^x\\
+\end{bmatrix}
+$\\
+$ J^{55} =
+\begin{bmatrix}
+	1 & 0 & 0\\
+	0 & 2^{55} & 55*2^{54}\\
+	0 & 0 & 2^{55}\\
+\end{bmatrix}
+$\\
+\\
+$
+\begin{bmatrix}
+	1 & 1 & 0\\
+	-1 & 0 & 1\\
+	0 & 1 & 0\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & 0 & 0\\
+	0 & 2^{55} & 55*2^{54}\\
+	0 & 0 & 2^{55}\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & 0 & -1\\
+	0 & 0 & 1\\
+	1 & 1 & -1\\
+\end{bmatrix}=\\
+\doubleunderline{
+	\begin{bmatrix}
+		2^{54}*55+1 & 2^{54}*55  & -2^{54}*55+2^{55}-1\\
+		2^{55}-1    & 2^{55}     & 1-2^{55} \\
+		2^{54}*55   & 2^{54}*55  & 2^{55}-2^{54}*55 \\
+	\end{bmatrix}
+}
+$
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Ukazte, ze rozklad $B = QAQ^T$, kde $A$ je diagonalni a
+$Q$ ortogonalni, existuje pouze pro symetricke matice
+
+\section*{reseni}
+z definice ortogonality: $Q\in\mathbb{R}^{n\times n}; Q^T = Q^{-1}$\\
+$B=QAQ^T$
+\\\\
+transponovanim B se transponuje i jeji rozklad\\
+$B^T=(QAQ^T)^T=Q^TA^T(Q^T)^T=Q^TA^TQ=Q^TAQ$
+\\\\
+$Q^TA^TQ=Q^TAQ$ | nebot $A$ je diagonalni, neboli $A=A^T$ \\
+$Q^TAQ = QAQ^T \Rightarrow B = B^T$ | matice $B$ musi byt nutne symetricka, pro matice, ktere nejsou symetricke to zrejme neplati $\fbox{$\phantom{5}$}$\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Najdete matici 3. radu, ktera ma jediny vlastni vektor $v=[1,2,3]^T$
+
+\section*{reseni}
+Abychom meli jen jeden vektor, pouzijeme libovolnou Jordanovu matici,
+ktera je tvorena jen jednou Jordanovou bunkou:\\
+$J=
+\begin{bmatrix}
+	1 & 1 & 0\\
+	0 & 1 & 1\\
+	0 & 0 & 1\\
+\end{bmatrix}\\
+$\\
+pak sestavime matici $S$, aby obsahovala vektor $[1,2,3]^T$ a
+byla regularni:\\
+$S=
+\begin{bmatrix}
+	1 & 0 & 0\\
+	2 & 1 & 0\\
+	3 & 0 & 1\\
+\end{bmatrix}\\
+$\\
+vyslednou matici $M$ pak ziskame pomoci rovnosti $M=SJS^{-1}$,
+$S^{-1}$ existuje, nebot je $S$ regularni\\
+$
+\begin{bmatrix}
+	1 & 0 & 0\\
+	2 & 1 & 0\\
+	3 & 0 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & 1 & 0\\
+	0 & 1 & 1\\
+	0 & 0 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & 0 & 0\\
+	2 & 1 & 0\\
+	3 & 0 & 1\\
+\end{bmatrix}^{-1}
+= \doubleunderline{ M =
+\begin{bmatrix}
+	-1 & 1 & 0\\
+	-7 & 3 & 1\\
+	-6 & 3 & 1\\
+\end{bmatrix}
+}
+$
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Dokazte: Vlastni cisla antisymticka matice jsou ryze imaginarni
+
+\section*{reseni}
+necht A je antisymetricka matice a predpokladejme ze $\lambda \in \mathbb{C}$
+je vlastni cislo s komplexnim vlastnim vektorem $v$\\
+$Ax=\lambda x$\\
+$\overline{x}^TAx=\lambda\overline{x}^Tx=\lambda||x||^2$ |  \\
+$\overline{x}^TAx=(Ax)^T\overline{x}=x^TA^T\overline{x}$\\
+$x^TA^T\overline{x}=-x^TA\overline{x}$\\
+$A\overline{x}=\overline{\lambda}\overline{x}$\\
+$-\overline{\lambda}||x^2||=\lambda||x^2||$\\
+$||x||\neq0$\\
+$-\overline{\lambda}=\lambda$\\
+$-\overline{\lambda}=-a +ib = a+ib=\lambda$\\
+coz znamena ze $\lambda$ je ryze imaginarni (nebo nula)
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Dokazte: Pokud je matice $D$ antisymetricka, pak $I+D$ je regularni (kde $I$ je jednotkova matice)
+
+\section*{reseni}
+Z predchozi ulohy vime, ze vlastni cisla antisymetricke matice jsou ryze imaginarni (nebo nulove)\\
+tudiz pro kazde z nich plati: $\lambda_x + 1 \neq 0$\\
+a matice radu $n$ je regularni prave kdyz ma $n$ vlastnich cisel a zadne z nich neni nulove 
+
+
+
+
+
+
+
+
+
+
+\end{document}
