@@ -1,0 +1,261 @@
+\documentclass[a4paper]{article}
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage[margin={1cm, 2cm}]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{mathdots}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{wrapfig}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Linearni algebra 2}\\
+\textbf{Ukol: 5.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+\section*{zadani}
+Jaka je pravdepodobnost, ze pozitri bude slunecno, pokud dnes bylo destivo?
+
+\section*{reseni}
+matice pocasi: $
+S=
+\begin{bmatrix}
+	.8 & .2\\
+	.6 & .4\\
+\end{bmatrix}
+$\\
+dnesek $=S^0$\\
+zitrek $=S^1$\\
+pozitri $=S^2$\\
+$
+\begin{bmatrix}
+	.8 & .2\\
+	.6 & .4\\
+\end{bmatrix}^2
+=
+\begin{bmatrix}
+	.76 & .24\\
+	.72 & .28\\
+\end{bmatrix}
+$\\
+dnes bylo destivo, tudiz nas zajima druhy radek\\
+pravdepodobnosti odpovida vektoru $[.72, .28]$\\
+\doubleunderline{Pozitri bude na $72\%$ slunecno}
+
+
+
+
+
+
+\section*{zadani}
+Jake je limitni rozlozeni pravdepodobnosti za delsi casovy horizont?
+
+\section*{reseni}
+matice pocasi: $
+S=
+\begin{bmatrix}
+	.8 & .2\\
+	.6 & .4\\
+\end{bmatrix}
+$\\
+rozklad matice: $M=SJS^{-1}$\\
+$
+S=
+\begin{bmatrix}
+	-\frac{1}{3} & 1\\
+	1 & 1\\
+\end{bmatrix}\\
+S^{-1}=
+\begin{bmatrix}
+	-.75 & .75\\
+	.75 & .25\\
+\end{bmatrix}\\
+J=
+\begin{bmatrix}
+	.2 & 0\\
+	0 & 1\\
+\end{bmatrix}\\
+\lim_{n\rightarrow\infty}J^n=
+\begin{bmatrix}
+	0 & 0\\
+	0 & 1\\
+\end{bmatrix}\\
+$\\
+\\
+$ \lim_{n\rightarrow\infty}M^n=SJ^nS^{-1}$\\
+$ \lim_{n\rightarrow\infty}M^n=
+\begin{bmatrix}
+	-\frac{1}{3} & 1\\
+	1 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+	0 & 0\\
+	0 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+	-.75 & .75\\
+	.75 & .25\\
+\end{bmatrix}
+$\\
+$ \lim_{n\rightarrow\infty}M^n=
+\begin{bmatrix}
+	.75 & .25\\
+	.75 & .25\\
+\end{bmatrix}
+$\\
+\doubleunderline{Limitni rozlozeni odpovida vektoru $M^{\infty}x_0 = [.75,.25]$}
+(75\% slunecno, 25\% destivo)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Charakterizujte (vcetne konstrukce matice prechodu)
+populaci brouku v 1., 2., 3. a 6. roce za predpokladu,
+ze vychozi populace obsahovala 3000 brouku (vsichni brouci
+jsou stejne stari a prave se narodili)
+
+\section*{reseni}
+matice prechodu: $
+P=
+\begin{bmatrix}
+	0 & \frac{1}{2} & 0\\
+	0 & 0 & \frac{1}{3}\\
+	6 & 0 & 0 \\
+\end{bmatrix}
+$\\
+pocatecni stav: $B=[3000, 0, 0]$\\
+stav po $n$ letech: $BP^{n\%3}$ | kazte tri roky se cyklus opakuje\\
+\\
+po 1 roce:  $BP^{1} = [0,1500,0]$\\
+po 2 roce:  $BP^{2} = [0,0,500]$\\
+po 3 roce:  $BP^{0} = [3000,0,0]$\\
+po 6 roce:  $BP^{0} = [3000,0,0]$\\
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Jak se populace vyviji v case jdoucim do nekonecna?
+Zavisi tento vyvoj na velikosti vychozi populace?
+
+\section*{reseni}
+jak bylo zmineno v predchozi uloze,
+pocty brouku se cykli po 3 letech.\\
+V nekonecnu, tedy brouci \textbf{nevyhynou, ani se nepremnozi}
+(bude jich konstantne mnoho).\\
+Na velikosti populace \textbf{nezalezi}
+(dokud jich v kazce fazi cycklu bude $>1$)
+\\\\
+pozn. musim pochvalit ulohu, velmi se mi libila
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Urcete Gerschgorinovy disky pro matici $A$
+a rozhodnete, zda ma matice $A$
+aspon jedno realne zaporne vlastni cislo.\\
+$A=
+\begin{bmatrix}
+	4 & 0 & 2\\
+	-2 & 8 & 2\\
+	0 & 2 & -4 \\
+\end{bmatrix}
+$
+
+
+\section*{reseni}
+
+\begin{wrapfigure}{r}{0.5\linewidth}
+\begin{tikzpicture}
+    \begin{axis}[		
+		axis y line=middle,
+		axis x line=middle,
+        xmin=-7, xmax=13, ymin=-5, ymax=5,
+        axis equal,
+        ]
+        \draw[fill=lightgray] (axis cs: 8, 0) circle [radius=40];
+        \draw[fill=lightgray] (axis cs: 4, 0) circle [radius=20];
+        \draw[fill=lightgray] (axis cs: -4, 0) circle [radius=20];
+	\end{axis}
+    \begin{axis}[		
+		axis y line=middle,
+		axis x line=middle,
+        xmin=-7, xmax=13, ymin=-5, ymax=5,
+        axis equal,
+        ]
+    \end{axis}
+\end{tikzpicture}
+\end{wrapfigure}
+
+stredy:\\
+\indent$c_1=a_{11}=4$\\
+\indent$c_2=a_{22}=8$\\
+\indent$c_3=a_{33}=-4$\\
+polomery:\\
+\indent$r_1=|a_{12}|+|a_{13}|=|0|+|2|=2$\\
+\indent$r_2=|a_{21}|+|a_{23}|=|-2|+|2|=4$\\
+\indent$r_3=|a_{31}|+|a_{32}|=|0|+|2|=2$\\
+Matice $A$ \textbf{ma prave jedno vlastni zaporne cislo} $\lambda_1\in\mathbb{C}$,
+o tom zda je realne, ale pomoci Gerschgorinovych disku zjistit nelze
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
