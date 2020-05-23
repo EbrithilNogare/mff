@@ -1,0 +1,216 @@
+\documentclass[a4paper]{article}
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage[margin={1cm,2cm}]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{wrapfig}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Mataliza 1}\\
+\textbf{Ukol: 11.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+
+\section*{zadani}
+plocha utvaru ohraniceneho parabolou $y^2=x$ a primkou $y=x-2$
+
+\section*{reseni}
+\begin{wrapfigure}{r}{0.5\linewidth}
+	\begin{tikzpicture}[scale=0.50]
+		\begin{axis}[
+			axis lines = left,
+			xlabel = $x$,
+			ylabel = {$y$},
+			ymajorgrids=true,
+			xmin=-2, xmax=10,
+			ymin=-5, ymax=5,
+		]	
+	
+		\addplot [
+			domain=-2:10, 
+			samples=100, 
+			color=red,
+		]
+		{x-2};	
+		\addlegendentry{$y=x-2$}
+			
+		\addplot [
+			domain=0:10, 
+			samples=100, 
+			color=blue,
+		]
+		{sqrt(x)};	
+		\addplot [
+			domain=0:10, 
+			samples=100, 
+			color=blue,
+		]
+		{-sqrt(x)};	
+		\addlegendentry{$y^2=x$}
+				
+		\end{axis}
+	\end{tikzpicture}
+	\begin{tikzpicture}[scale=0.50]
+		\begin{axis}[
+			axis lines = left,
+			xlabel = $x$,
+			ylabel = {$y$},
+			ymajorgrids=true,
+			ymin=-2, ymax=10,
+			xmin=-5, xmax=5,
+		]	
+	
+		\addplot [
+			domain=-5:7, 
+			samples=100, 
+			color=red,
+		]
+		{x+2};	
+		\addlegendentry{$y=x+2$}
+			
+		\addplot [
+			domain=-4:4, 
+			samples=100, 
+			color=blue,
+		]
+		{x^2};	
+		\addlegendentry{$y=x^2$}
+				
+		\end{axis}
+	\end{tikzpicture}
+\end{wrapfigure}
+nejdrive si problem obratime prohozenim $x$ a $y$\\
+funkce se protinaji v $x=-1$ a $x=2$\\
+$\int x+2 ~dx= \frac{x^2}{2} + 2x + C$\\
+$\int_{-1}^{2} x+2 ~dx= \frac{15}{2}$\\
+$\int x^2 ~dx= \frac{x^3}{3} + C$\\
+$\int_{-1}^{2} x^2 ~dx= 3$\\
+\\
+ohranicena plocha je velka $\frac{15}{2}-3=\doubleunderline{\frac{9}{2}}$
+
+
+
+
+
+
+
+\section*{zadani}
+\begin{wrapfigure}{r}{0.5\linewidth}
+	\begin{tikzpicture}[scale=0.50]
+		\begin{axis}[
+			axis lines = left,
+			xlabel = $x$,
+			ylabel = {$y$},
+			ymajorgrids=true,
+			xmin=.5, xmax=3,
+			ymin=-1, ymax=2,
+		]		
+		\addplot [
+			domain=1:2.7182, 
+			samples=100, 
+			color=red,
+		]
+		{ln(x)};	
+		\addlegendentry{$\ln x$}
+	\end{axis}
+	\end{tikzpicture}
+\end{wrapfigure}
+plocha utvaru ohraniceneho krivkou funkce $\ln x$,
+osou $x$ a primkou $x=e$
+
+\section*{reseni}
+$\int \ln x ~dx = x(\ln x -1)+C$\\
+$\int_1^e \ln x ~dx = 1$\\
+
+
+
+
+
+
+
+
+\section*{zadani}
+objem telesa vznikleho z utvaru b) rotaci kolem osy x
+
+\section*{reseni}
+$\int \pi(\ln(x))^2 dx = \pi (2x - 2x \log(x) + x \log^2(x))$\\ 
+$\int_0^e \pi(\ln(x))^2 dx = \pi e$\\ 
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+objem komoleho rotacniho kuzele s vyskou $v$ a polomery podstav
+$r$ a $R$
+
+\section*{reseni}
+plocha 2D telesa:\\
+$vr+\frac{(R-r)*v}{2} = \frac{v(r+R)}{2}$\\
+obtocime kolem osy $y$\\
+$\pi v(\frac{(r+R)}{2})^2$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
