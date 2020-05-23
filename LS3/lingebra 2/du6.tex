@@ -1,0 +1,277 @@
+\documentclass[a4paper]{article}
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage[margin={1cm, 2cm}]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{mathdots}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{wrapfig}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Linearni algebra 2}\\
+\textbf{Ukol: 6.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+\section*{zadani}
+U nasledujicich matic urcete minimalne 2 zpusoby, zda jsou positivne
+semi/definitni\\
+$A=
+\begin{bmatrix}
+	 4 & 1 & -1\\
+	 1 & 2 &  1\\
+	-1 & 1 &  2\\
+\end{bmatrix}
+$
+
+\section*{reseni}
+\textbf{Pres rekurentni vzorec}\\
+$\tilde{A}-\frac{1}{\alpha}aa^T=$\\
+$
+\begin{bmatrix}
+	2 &  1\\
+	1 &  2\\
+\end{bmatrix}
+-\frac{1}{4}[1,-1][1,-1]^T
+=
+\begin{bmatrix}
+	7 &  5\\
+	5 &  7\\
+\end{bmatrix}
+$\\
+$
+\begin{bmatrix}
+	7 &  5\\
+	5 &  7\\
+\end{bmatrix}
+-\frac{1}{7}[5][5]^T
+=
+\frac{17}{7}
+$\\
+jelikoz $\frac{17}{7}$ jse kladne tak \doubleunderline{$A$ je positivne definitni}\\
+\\
+\textbf{Pres Sylvestrovo pravidlo}\\
+$\det A = 6$\\
+$\det 
+\begin{bmatrix}
+	4 &  1\\
+	1 &  2\\
+\end{bmatrix}
+= 6$\\
+$\det [4] = 4$\\
+jelikoz jsou vsechny determinanty kladne je matice $A$ positivne definitni\\
+
+
+
+
+
+
+\section*{zadani}
+U nasledujicich matic urcete minimalne 2 zpusoby, zda jsou positivne
+semi/definitni\\
+$B=
+\begin{bmatrix}
+	1 & 2 & 3\\
+	2 & 2 & 4\\
+	3 & 4 & 2\\
+\end{bmatrix}
+$\\
+\\
+Vime, ze jedna z nich positivne definitni neni. Zmente jeden jeji prvek tak, aby positivne
+definitni byla
+ 
+\section*{reseni}
+\textbf{Pres rekurentni vzorec}\\
+$\tilde{A}-\frac{1}{\alpha}aa^T=$\\
+$
+\begin{bmatrix}
+	2 &  4\\
+	4 &  2\\
+\end{bmatrix}
+-\frac{1}{1}[2,3][2,3]^T
+=
+\begin{bmatrix}
+	-2 & -2 \\
+	-2 & -7 \\
+\end{bmatrix}
+$\\
+$
+[-7]-\frac{1}{-2}[-2][-2]^T
+=
+-5
+$\\
+$-5$ neni positivne definitni tudiz \doubleunderline{$B$ neni positivne definitni}\\
+\\
+\textbf{Pres Sylvestrovo pravidlo}\\
+$\det B = 10$\\
+$\det 
+\begin{bmatrix}
+	1 &  2\\
+	2 &  2\\
+\end{bmatrix}
+= -2$\\
+$\det [1] = 1$\\
+jelikoz nejsou vsechny determinanty kladne, neni matice $B$ positivne definitni\\
+\\
+\textbf{Predelani matice aby byla positivne definitni}\\
+matici nelze upravit na positivne definitni zmenou pouze jednoho prvku\\
+Dukaz:\\
+Puvodni matice neprosla pres Sylvestrovo pravidlo na velikosti $2\times2$\\
+tudiz chceme najit v tomto useku prvek a zmenit jej
+aby determinanty vsech hlavnich vedoucich podmatic matic
+byly kladne\\
+prvky muzeme menit pouze na diagonale, abychom neporusily symetrii\\
+tudiz muzeme zmenit prvky $b_{11}$ a $b_{22}$\\
+\\
+prvek $b_{11}$ by musel splnovat:\\
+$b_{11}<\frac{11}{6} ~\&~ b_{11}>2 ~\&~ b_{11}>0$, coz nelze, tudiz to neni hledany prvek\\
+\\
+prvek $b_{22}$ by musel splnovat:\\
+$b_{22}<\frac{24}{7} ~\&~ b_{22}>4$, coz nelze, tudiz to neni hledany prvek\\
+\\
+zadny dalsi prvek nemuzeme zmenit, tudiz z teto matice
+positivne definitni vyrobit nelze
+ 
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Urcete minimalne 2 zpusoby, zda je nasledujici matice radu n
+positivne definitni
+
+\section*{reseni}
+pro \textbf{Sylvestrovo pravidlo} zjistime determinanty:\\
+$\det C_n = n+1$ , kde $n$ je rad matice\\
+tudiz pro kazdy rad matice $C$ je determinant kladny,\\
+tudiz matice $C$ je positivne definitni\\
+\\
+Jako druhy zpusob pouzijeme \textbf{rekurentni vzorec}:\\
+posledni cast rekurentniho vzorce bude:\\
+$2-\frac{n+1}{n}$, kde $n$ je rad matice.\\
+A jelikoz $2-\frac{n+1}{n}$ je vzdy kladne, tak cela matice $C$ je positivne definitni.
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Urcete vsechny matice $D \in R^{n\times	n}$,
+takove, ze $D$ i $-D$ jsou positivne semidefinitni
+
+\section*{reseni}
+Mejme vetu 11.8 (Charakterizace positivni semidefinitnosti),
+ta nam rika ze nasledujici podminky jsou ekvivalentni:\\
+\begin{itemize}
+	\item $A$ je positivne semidefinitni
+	\item vlastni cisla $A$ jsou nezaporna
+\end{itemize}
+dale mejme tvrzeni: $\lambda_{Dx} = -\lambda_{-Dx}$ | $\lambda_{-Dx}$ mysleno jako $x$te vlastni cislo matice $-D$\\
+tudiz matice \doubleunderline{$D$ musi byt nulova}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Bud $E$ positivne semidefinitni a $e_{ii} = 0$ pro jiste $i$.
+Ukazte, ze $i$-ty radek a $i$-ty sloupec matice $E$ jsou nulove.
+
+\section*{reseni}
+krasne je to videt jiz na male matici $2\times2$\\
+$A=
+\begin{bmatrix}
+	1 & 1 \\
+	1 & 0 \\
+\end{bmatrix}
+$\\
+$[a,b] 
+\begin{bmatrix}
+	1 & 1 \\
+	1 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+	a \\
+	b \\
+\end{bmatrix}
+=
+a^2+2ab
+$\\
+tim ze mame na diagonale nulu, nikde se nam neobjevi $b^2$,
+ale zaroven mame ve sloupcich a radcich nenulove hodnoty,
+tudiz se nam tam objevi $b$.\\
+A za $b$ pak lze dosadit cislo podle $a$ takove,
+ze vysledek bude zaporny. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
