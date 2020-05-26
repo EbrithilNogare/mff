@@ -1,6 +1,6 @@
 \documentclass[a4paper]{article}
 \usepackage[czech]{babel} %jazyk dokumentu
-\usepackage[margin={1cm,2cm}]{geometry}
+\usepackage[top=1cm, right=1cm, bottom=2cm, left=1cm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}   % pro unicode UTF-8
 \usepackage{amsmath}
@@ -19,6 +19,17 @@
 
 \def\doubleunderline#1{\underline{\underline{#1}}}
 
+\pgfplotsset{
+    integral segments/.code={\pgfmathsetmacro\integralsegments{#1}},
+    integral segments=100,
+    integral/.style args={#1:#2}{
+        ybar interval,
+        domain=#1+((#2-#1)/\integralsegments)/2:#2+((#2-#1)/\integralsegments)/2,
+        samples=\integralsegments+1,
+        x filter/.code=\pgfmathparse{\pgfmathresult-((#2-#1)/\integralsegments)/2}
+    }
+}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -26,7 +37,7 @@
 \noindent
 \textbf{Predmet: Mataliza 1}\\
 \textbf{Ukol: 11.}\\
-\textbf{Verze: 1.}\\
+\textbf{Verze: 2.}\\
 \textbf{Autor: David Napravnik}\\
 \textbf{Prezdivka: DN}
 
@@ -70,7 +81,8 @@ plocha utvaru ohraniceneho parabolou $y^2=x$ a primkou $y=x-2$
 				
 		\end{axis}
 	\end{tikzpicture}
-	\begin{tikzpicture}[scale=0.50]
+	\begin{tikzpicture}
+		[scale=0.50, /pgf/declare function={f=x^2;}]
 		\begin{axis}[
 			axis lines = left,
 			xlabel = $x$,
@@ -94,7 +106,14 @@ plocha utvaru ohraniceneho parabolou $y^2=x$ a primkou $y=x-2$
 			color=blue,
 		]
 		{x^2};	
+
 		\addlegendentry{$y=x^2$}
+
+		\addplot [
+			green,
+			integral=-1:2
+		] {f};
+		\addlegendentry{$\int^{-1}_2 x^2$}
 				
 		\end{axis}
 	\end{tikzpicture}
@@ -113,10 +132,9 @@ ohranicena plocha je velka $\frac{15}{2}-3=\doubleunderline{\frac{9}{2}}$
 
 
 
-
 \section*{zadani}
 \begin{wrapfigure}{r}{0.5\linewidth}
-	\begin{tikzpicture}[scale=0.50]
+	\begin{tikzpicture}[scale=0.50, /pgf/declare function={f=ln(x);}]
 		\begin{axis}[
 			axis lines = left,
 			xlabel = $x$,
@@ -126,20 +144,29 @@ ohranicena plocha je velka $\frac{15}{2}-3=\doubleunderline{\frac{9}{2}}$
 			ymin=-1, ymax=2,
 		]		
 		\addplot [
-			domain=1:2.7182, 
+			domain=0:3, 
 			samples=100, 
 			color=red,
-		]
-		{ln(x)};	
+			]
+			{ln(x)};	
+			\addlegendentry{$\int^{-1}_2 x^2$}
+			\addplot [
+				green,
+				integral=1:2.7
+		] {f};
 		\addlegendentry{$\ln x$}
+		\addplot +[mark=none] coordinates {(2.7, -1) (2.7, 2)};
+		\addplot +[mark=none] coordinates {(-1, 0) (3, 0)};
 	\end{axis}
-	\end{tikzpicture}
+\end{tikzpicture}
 \end{wrapfigure}
 plocha utvaru ohraniceneho krivkou funkce $\ln x$,
 osou $x$ a primkou $x=e$
 
 \section*{reseni}
 $\int \ln x ~dx = x(\ln x -1)+C$\\
+$\int_1^e \ln x ~dx = e(\ln e -1) - 1(\ln 1 -1)$\\
+$\int_1^e \ln x ~dx = e(1 -1) - (0 -1)$\\
 $\int_1^e \ln x ~dx = 1$\\
 
 
@@ -172,11 +199,9 @@ $r$ a $R$
 \section*{reseni}
 plocha 2D telesa:\\
 $vr+\frac{(R-r)*v}{2} = \frac{v(r+R)}{2}$\\
-obtocime kolem osy $y$\\
-$\pi v(\frac{(r+R)}{2})^2$
-
-
-
+obtocime kolem osy $y$ podle vzorecku $S=\pi r^2$\\
+$\pi (\frac{(r+R)}{2})^2$ | mame prumerny obsah vodorovne plosky\\
+$\pi (\frac{(r+R)}{2})^2 * v$ | prinasobime velikost telesa (ta se obtocenim kolem osy nemeni)\\
 
 
 
