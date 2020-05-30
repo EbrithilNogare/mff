@@ -1,0 +1,260 @@
+\documentclass[a4paper]{article}
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage[margin={1cm, 2cm}]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{mathdots}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{wrapfig}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Linearni algebra 2}\\
+\textbf{Ukol: 7.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}\\
+\textbf{Prezdivka: DN}
+
+
+\section*{zadani}
+Spoctete Choleskeho rozklad matice A a
+pouzijte ho k reseni soustavy $Ax = b$
+pro vektor $b=(8,-10,30)^T$\\
+
+\section*{reseni}
+$A=
+\begin{bmatrix}
+	1 & -1 & 4\\
+	-1 & 5 & 2\\
+	4 & 2 & 26\\
+\end{bmatrix}
+= U^TU
+$\\
+$=
+\begin{bmatrix}
+	\cdot & 0 & 0\\
+	\cdot & \cdot & 0\\
+	\cdot & \cdot & \cdot\\
+\end{bmatrix}
+\begin{bmatrix}
+	\cdot & \cdot & \cdot\\
+	0 & \cdot & \cdot\\
+	0 & 0 & \cdot\\
+\end{bmatrix}
+$\\
+$
+=
+\begin{bmatrix}
+	1 & 0 & 0\\
+	-1 & \cdot & 0\\
+	4 & \cdot & \cdot\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & -1 & 4\\
+	0 & \cdot & \cdot\\
+	0 & 0 & \cdot\\
+\end{bmatrix}
+$\\
+$
+=
+\begin{bmatrix}
+	1 & 0 & 0\\
+	-1 & 2 & 0\\
+	4 & \cdot & \cdot\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & -1 & 4\\
+	0 & 2 & \cdot\\
+	0 & 0 & \cdot\\
+\end{bmatrix}
+$\\
+$
+=
+\begin{bmatrix}
+	1 & 0 & 0\\
+	-1 & 2 & 0\\
+	4 & 3 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & -1 & 4\\
+	0 & 2 & 3\\
+	0 & 0 & 1\\
+\end{bmatrix}
+$\\
+$U^Ty=b$\\
+$y=[8,-1,1]^T$\\
+$Ux=y$\\
+$\doubleunderline{x=[2,-2,1]^T}$\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Pomoci Choleskeho rozkladu invertujte matici
+
+
+\section*{reseni}
+$ B =
+\begin{bmatrix}
+	1 & 2 & -4\\
+	2 & 13 & -8\\
+	-4 & -8 & 20\\
+\end{bmatrix}
+= U^TU
+$\\
+$=
+\begin{bmatrix}
+	1 & 0 & 0\\
+	2 & 3 & 0\\
+	-4 & 0 & 2\\
+\end{bmatrix}
+\begin{bmatrix}
+	1 & 2 & -4\\
+	0 & 3 & 0\\
+	0 & 0 & 2\\
+\end{bmatrix}
+$\\
+$B^{-1} = U^{-1}U^{-T}$\\
+$
+U^{-1}=
+\begin{bmatrix}
+	1 & -\frac{2}{3} & 2\\
+	0 & \frac{1}{3} & 0\\
+	0 & 0 & \frac{1}{2}\\
+\end{bmatrix}
+$\\
+$
+U^{-T}=
+\begin{bmatrix}
+	1 & 0 & 0\\
+	-\frac{2}{3} & \frac{1}{3} & 0\\
+	2 & 0 & \frac{1}{2}\\
+\end{bmatrix}
+$\\
+$B^{-1} = 
+\begin{bmatrix}
+	\frac{49}{9} & \frac{-2}{9} & 1\\
+	\frac{-2}{9} & \frac{1}{9} & 0\\
+	1 & 0 & \frac{1}{4}\\
+\end{bmatrix}
+$\\
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Mejme $A \in \mathbb{R}^{n\times n}$ pozitivne semidefinitni
+a $B\in\mathbb{R}^{n\times n}$ symetrickou.
+Ukazte, ze $AB$ je diagonalizovatelna. 
+
+\section*{reseni}
+$A=LL^T$\\
+$B=B^T$\\
+$ABB^TA^T=LL^TBB^TL^TL$\\
+$ABB^TA^T=LL^TBBL^TL$\\
+$ABBA=LL^TBBL^TL$\\
+$ABAB=LL^TBBL^TL$\\
+$ABAB=PBBP^{-1}$\\
+$(AB)^2=PBBP^{-1}$\\
+$(AB)^2=PS^2P^{-1}$\\
+$AB=PSP^{-1}$\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section*{zadani}
+Bud $V$ realny vektorovy prostor se skalnim soucinem a $w_1, ..., w_n \in V$.
+Gramova matice $G\in\mathbb{R}^{n\times n}$ je definovana jako $G_{ij}=\langle w_i, w_j\rangle$.
+Ukazte:\\
+1. Pokud jsou vektory $w_1, ..., w_n$ linearne nezavisle, pak $G$ je pozitivne definitni\\
+2. $rank(G) = dim(span(w_1, ..., w_n))$
+
+\section*{reseni}
+1.)
+Dane vektory jsou linearne nezavisle prave kdyz je determinant
+Gramovy matice nenulovy. Nenulovy determinant znaci,
+ze matice ma $n$ nenulovych vlastnich cisel (kde $n$ je rad matice).
+Coz znaci, ze matice G je pozitivne definitni.\\
+\\
+2.)
+Pokud jsou vektory linearne nezavisle, je matice regularni.\\
+Pokud jeden vektor udelame linearne zavisly na jinem,
+Dimenze se nam musi snizit o jedna, nebot dimenze kernelu
+o jedna stoupla prave tim, ze je jeden vektor nahraditelny.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
