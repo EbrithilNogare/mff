@@ -1,0 +1,184 @@
+\documentclass[a4paper]{article}
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage[margin={1cm,2cm}]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{listingsutf8}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{wrapfig}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+\def\cotan{\qopname\relax o{cotan}}
+\def\arccotan{\qopname\relax o{arccotan}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\section*{Vety}
+\subsection*{Cauchy-Schwarzova nerovnost}
+Pro kazde $x,y \in V$ plati $|\langle x,y \rangle| \leq ||x|| \cdot ||y||$
+\\
+\textbf{Dukaz}\\
+Pro $y=0$ trivialne, pro $y\neq0$:\\
+Uvazme realnou funkci $f(t)=\langle x+ty,x+ty \rangle \geq 0$ promene $t\in\mathbb{R}$\\
+$f(t)=\langle x,x \rangle + t\langle x,y \rangle + t\langle y,x \rangle + t^2\langle y,y \rangle=
+\langle x,x \rangle + 2t \langle x,y \rangle + t^2 \langle y,y \rangle$\\
+Ma kladny diskriminant\\
+$4\langle x,y \rangle^2 - 4\langle x,x \rangle\langle y,y \rangle \leq 0$\\
+z toho dostavame
+$\langle x,y \rangle^2\leq\langle x,x \rangle\langle y,y \rangle$
+
+
+\subsection*{Gram-Schmidtova ortogonalizace (alg. + důkaz správnost)}
+Bud $x_1, ..., x_n \in V$ nezavisle\\
+\begin{enumerate}
+	\item for $k=1$ to $n$ do
+	\item $y_k = x_k - \sum_{j=1}^{k-1}\langle x_k,z_j \rangle z_j$ // kolmice
+	\item $z_k = \frac{y_k}{||y_k\\}$ // normalizace
+	\item end for
+\end{enumerate}
+Vystup: $z_1, ...,z_n$ ortonormalni baze prostoru $span\{x_1, ...., x_n\}$\\
+\textbf{Dukaz}\\
+Matematickou indukci podle n\\
+Pro $n=1$ je $y_1=x_1\neq 0$ a $z_1 = \frac{x_1}{||x_1||}$ je 
+dobre zadefinovane a $span\{x_1\} = span\{z_1\}$\\
+indukcni krok $n \gets n-1$\\
+...
+
+
+\subsection*{Ortogonální projekce}
+Bud $V$ vektorovy prostor a $U$ jeho podprostor.
+Pak projekci vektoru $x \in V$ rozumime takovy vektor $x_U \in U$,
+který splnuje\\
+$||x - x_U|| = min_{y\in U} ||x - y||$
+
+
+\subsection*{Řádková linearita determinantu}
+Bud $A \in T^{n \times n}$ a $b \in T^n$\\
+Pak pro libovolne $i = 1, ..., n$ plati:\\
+$det(A + e_ib^T) = det(A) + det(A + e_i(b^T - A_{i*}))$
+
+
+\subsection*{Determinant součinu matic / Multiplikativnost determinantu}
+Pro kazde $A, B \in T^{n\times n}$ plati $det(AB) = det(A) det(B)$
+
+
+\subsection*{Laplaceův rozvoj podle řádku/sloupce}
+Bud $A \in T^{n\times n}$, $n \geq 2$\\
+Pak pro každé $i = 1, ... , n$ platí\\
+$det(A) = \sum^n_{j=1}(-1)^{i+j} a_{ij} det(A^{ij})$\\
+kde $A^{ij}$ je matice vzniklá z $A$ vyskrtnutim i-teho radku a j-teho sloupce
+
+
+\subsection*{Vlastnosti vlastních čísel}
+Necht $A \in C^{n\times n}$ má vlastní čísla $\lambda_1, ... , \lambda_n$
+a jim odpovidajici vlastni vektory $x_1, ... , x_n$. Pak:
+\begin{enumerate}
+	\item $A$ je regularni prave tehdy, kdyz 0 neni jeji vlastni cislo
+	\item je-li $A$ regularni, pak $A^{-1}$ ma vlastni cisla $\lambda_1^{-1},...,\lambda_n^{-1}$ a vlastni vektory $x_1,...,x_n$
+	\item $A^2$ ma vlastni cisla $\lambda_1^2,...,\lambda_n^2$ a vlastni vektory $x_1,...,x_n$
+	\item $\alpha A$ ma vlastni cislo $\alpha\lambda_1,...,\alpha\lambda_n$ a vlastni vektory $x_1,...,x_n$
+	\item $A+\alpha I_n$ ma vlastni cisla $\lambda_1+\alpha,...,\lambda_n+\alpha$ a vlastni vektory $x_1,...,x_n$
+	\item $A^T$ ma vlastni cisla $\lambda_1,...,\lambda_n$, ale vlastni vektory obecne jine
+\end{enumerate}
+
+\subsection*{Vlastní čísla podobných matic}
+Podobne matice maji stejna vlastníi cisla
+
+
+\subsection*{Diagonalizovatelnost a báze vlastních vektorů}
+Matice $A \in \mathbb{C}^{n\times n}$
+je diagonalizovatelna prave tehdy,
+kdyz ma $n$ linearne nezavislych vlastnich vektoru
+
+
+\subsection*{Vlastní čísla symetrických (Hermitovských) matic}
+Vlastni cisla realnych symetrickych (resp. obecneji komplexnich hermitovskych)jsou realna
+
+
+\subsection*{Spektrální rozklad symetrických matic}
+Pro kazdou symetrickou matici $A \in \mathbb{R}^{n\times n}$
+existuje ortogonální $Q \in \mathbb{R}^{n\times n}$ a diagonální
+$V \in \mathbb{R}^{n\times n}$
+tak, že $A = QVQ^T$
+
+
+\subsection*{Ekvivalentní charakteristiky positivně (semi-)definitních matic}
+Bud $A \in R^{n\times n}$ symetricka.\\
+Pak nasledujici podminky jsou ekvivalentni:
+\begin{enumerate}
+	\item $A$ je positivne (semi)definitni
+	\item vlastni cisla $A$ jsou kladna(nezaporna)
+	\item existuje matice $U \in R^{m\times n}$ hodnosti $n$ taková, ze $A = U^TU$
+\end{enumerate}
+
+
+\subsection*{Rekuretní test positivní definitnosti}
+
+
+
+\subsection*{Choleského rozklad}
+
+
+
+\subsection*{Sylvestrovo kritérium pos. definitnosti}
+
+
+
+\subsection*{Skalární součin a pos. definitnost}
+
+
+
+\subsection*{Sylvestrův zákon setrvačnosti}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
