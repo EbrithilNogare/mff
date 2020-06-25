@@ -40,7 +40,7 @@ z toho dostavame
 $\langle x,y \rangle^2\leq\langle x,x \rangle\langle y,y \rangle$
 
 
-\subsection*{Gram-Schmidtova ortogonalizace (alg. + důkaz správnost)}
+\subsection*{Gram-Schmidtova ortogonalizace (alg. + důkaz spravnost)}
 Bud $x_1, ..., x_n \in V$ nezavisle\\
 \begin{enumerate}
 	\item for $k=1$ to $n$ do
@@ -57,32 +57,32 @@ indukcni krok $n \gets n-1$\\
 ...
 
 
-\subsection*{Ortogonální projekce}
+\subsection*{Ortogonalni projekce}
 Bud $V$ vektorovy prostor a $U$ jeho podprostor.
 Pak projekci vektoru $x \in V$ rozumime takovy vektor $x_U \in U$,
 který splnuje\\
 $||x - x_U|| = min_{y\in U} ||x - y||$
 
 
-\subsection*{Řádková linearita determinantu}
+\subsection*{radkova linearita determinantu}
 Bud $A \in T^{n \times n}$ a $b \in T^n$\\
 Pak pro libovolne $i = 1, ..., n$ plati:\\
 $det(A + e_ib^T) = det(A) + det(A + e_i(b^T - A_{i*}))$
 
 
-\subsection*{Determinant součinu matic / Multiplikativnost determinantu}
+\subsection*{Determinant soucinu matic / Multiplikativnost determinantu}
 Pro kazde $A, B \in T^{n\times n}$ plati $det(AB) = det(A) det(B)$
 
 
-\subsection*{Laplaceův rozvoj podle řádku/sloupce}
+\subsection*{Laplaceův rozvoj podle radku/sloupce}
 Bud $A \in T^{n\times n}$, $n \geq 2$\\
-Pak pro každé $i = 1, ... , n$ platí\\
+Pak pro kazde $i = 1, ... , n$ plati\\
 $det(A) = \sum^n_{j=1}(-1)^{i+j} a_{ij} det(A^{ij})$\\
-kde $A^{ij}$ je matice vzniklá z $A$ vyskrtnutim i-teho radku a j-teho sloupce
+kde $A^{ij}$ je matice vznikla z $A$ vyskrtnutim i-teho radku a j-teho sloupce
 
 
-\subsection*{Vlastnosti vlastních čísel}
-Necht $A \in C^{n\times n}$ má vlastní čísla $\lambda_1, ... , \lambda_n$
+\subsection*{Vlastnosti vlastnich cisel}
+Necht $A \in C^{n\times n}$ ma vlastni cisla $\lambda_1, ... , \lambda_n$
 a jim odpovidajici vlastni vektory $x_1, ... , x_n$. Pak:
 \begin{enumerate}
 	\item $A$ je regularni prave tehdy, kdyz 0 neni jeji vlastni cislo
@@ -93,66 +93,77 @@ a jim odpovidajici vlastni vektory $x_1, ... , x_n$. Pak:
 	\item $A^T$ ma vlastni cisla $\lambda_1,...,\lambda_n$, ale vlastni vektory obecne jine
 \end{enumerate}
 
-\subsection*{Vlastní čísla podobných matic}
-Podobne matice maji stejna vlastníi cisla
+\subsection*{Vlastni cisla podobných matic}
+Podobne matice maji stejna vlastnii cisla
 
 
-\subsection*{Diagonalizovatelnost a báze vlastních vektorů}
+\subsection*{Diagonalizovatelnost a baze vlastnich vektorů}
 Matice $A \in \mathbb{C}^{n\times n}$
 je diagonalizovatelna prave tehdy,
 kdyz ma $n$ linearne nezavislych vlastnich vektoru
 
 
-\subsection*{Vlastní čísla symetrických (Hermitovských) matic}
+\subsection*{Vlastni cisla symetrických (Hermitovských) matic}
 Vlastni cisla realnych symetrickych (resp. obecneji komplexnich hermitovskych)jsou realna
 
 
-\subsection*{Spektrální rozklad symetrických matic}
+\subsection*{Spektralni rozklad symetrických matic}
 Pro kazdou symetrickou matici $A \in \mathbb{R}^{n\times n}$
-existuje ortogonální $Q \in \mathbb{R}^{n\times n}$ a diagonální
+existuje ortogonalni $Q \in \mathbb{R}^{n\times n}$ a diagonalni
 $V \in \mathbb{R}^{n\times n}$
-tak, že $A = QVQ^T$
+tak, ze $A = QVQ^T$
 
 
-\subsection*{Ekvivalentní charakteristiky positivně (semi-)definitních matic}
+\subsection*{Ekvivalentni charakteristiky positivne (semi-)definitnich matic}
 Bud $A \in R^{n\times n}$ symetricka.\\
 Pak nasledujici podminky jsou ekvivalentni:
 \begin{enumerate}
 	\item $A$ je positivne (semi)definitni
 	\item vlastni cisla $A$ jsou kladna(nezaporna)
-	\item existuje matice $U \in R^{m\times n}$ hodnosti $n$ taková, ze $A = U^TU$
+	\item existuje matice $U \in R^{m\times n}$ hodnosti $n$ takova, ze $A = U^TU$
 \end{enumerate}
 
 
-\subsection*{Rekuretní test positivní definitnosti}
+\subsection*{Rekuretni test positivni definitnosti}
+Symetricka matice 
+$A = 
+\begin{pmatrix} 
+	\alpha     & a^T\\ 
+	a & \tilde{A}
+\end{pmatrix}
+$, kde
+$\alpha \in \mathbb{R}, a \in \mathbb{R}^{n-1}$,
+$\tilde{A} \in \mathbb{R}^{(n-1)\times(n-1)}$,
+je positivne definitni prave tehdy, kdyz
+$\alpha > 0$ a $\tilde{A} - \frac{1}{\alpha}aa^T$
+je positivne definitni.
 
 
-
-\subsection*{Choleského rozklad}
-
-
-
-\subsection*{Sylvestrovo kritérium pos. definitnosti}
+\subsection*{Choleskeho rozklad}
+Pro kazdou positivne definitni matici $A \in \mathbb{R}^{n\times n}$
+existuje jedina dolni trojuhelnikova matice $L \in \mathbb{R}^{n\times n}$
+s kladnou diagonalou takova, ze $A = LL^T$
 
 
-
-\subsection*{Skalární součin a pos. definitnost}
-
-
-
-\subsection*{Sylvestrův zákon setrvačnosti}
-
-
+\subsection*{Sylvestrovo kriterium pos. definitnosti}
+Symetricka matice $A \in \mathbb{R}^{n\times n}$
+je positivne definitni prave tehdy,
+kdyz ji Gaussova eliminace prevede do odstupňovaneho tvaru s kladnou diagonalou
+za pouziti pouze elementarni upravy pricteni nasobku radku
+s pivotem k jinemu radku pod nim.
 
 
+\subsection*{Skalarni soucin a pos. definitnost}
+Operace $\langle x, y\rangle$ je skalarnim soucinem v
+$\mathbb{R}^{n}$ prave tehdy, kdyz ma tvar
+$\langle x, y\rangle = x^TAy$ pro nějakou positivne definitni matici
+$A \in \mathbb{R}^{n\times n}$
 
 
-
-
-
-
-
-
+\subsection*{Sylvestrův zakon setrvacnosti}
+Bud $f(x) = x^TAx$ kvadraticka forma.
+Pak existuje baze, vuci niz ma $f$ diagonalni matici s prvky
+$1, -1, 0$. Navic, tato matice je az na poradi prvku jednoznacna
 
 
 
