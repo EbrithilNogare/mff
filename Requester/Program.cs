@@ -1,68 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net.Http;
+using Newtonsoft.Json;
+using Requester;
 
 namespace Requester
 {
     class Program
     {
-        private static readonly HttpClient client = new HttpClient();
-        static void Main(string[] args)
-        {
-            string url = "https://request.urih.com/";
-            string type = "POST";
-            string header = "";
+		static async Task Main(string[] args)
+		{
+			params
+			if (Array.IndexOf(args, "-c") > -1)
+				if()
+			using (StreamReader file = File.OpenText(@"c:\movie.json"))
+			{
+				JsonSerializer serializer = new JsonSerializer();
+				requestTemplate = (RequestTemplate)serializer.Deserialize(file, typeof(RequestTemplate));
+			}
 
-            Comunicator cm = new Requester.Comunicator();
 
-            cm.Send(url, type, header);
 
-            
-            Console.ReadKey();
-        }
 
-        
-    }
 
-    public class Comunicator
-    {
-        private static readonly HttpClient client = new HttpClient();
 
-        public Comunicator()
-        {
 
-        }
+			string method = "post";
+			string url = "https://jsonplaceholder.typicode.com/todos";
+			Dictionary<string, string> header = new Dictionary<string, string>();
+			header.Add("content-type", "application/json");
+			string body = @"{""a"":""b""}";
 
-        public async Task<string> Send(string url, string type, string header)
-        {
-            if (!(url.Contains("http://") || url.Contains("https://")))
-                url = "https://" + url;
-            var values = new Dictionary<string, string> //TODO remove it
-                {
-                   { "thing1", "hello" },
-                   { "thing2", "world" }
-                };
+			Requester cm = new Requester();
 
-            var content = new FormUrlEncodedContent(values);
-            //Console.WriteLine(await content.ReadAsStringAsync());
-            HttpResponseMessage response = null;
-            switch (type)
-            {
-                case "GET":
-                    response = await client.GetAsync(url);
-                    break;
-                case "POST":
-                    response = await client.PostAsync(url,content);
-                    break;
-            }
+			RequestResponse response = await cm.Send(method, url, body, header);
 
-            string responseString = await response.Content.ReadAsStringAsync();
-            return responseString;
-        }
+			Console.WriteLine("header\n" + response.header + "\n\n");
+			Console.WriteLine("content\n" + response.content+ "\n\n");
+			Console.WriteLine("statusCode\n" + response.statusCode.Key + " (" + response.statusCode.Value + ")" + "\n\n");
+			Console.WriteLine("timing\n" + response.timing + "\n\n");
 
-    }
-   
+
+
+			Console.ReadKey();
+		}
+    }   
+
+	public class RequestTemplate
+	{
+		public string method;
+		public string url;
+		public Dictionary<string,string> header;
+		public string content;
+
+	}
 }

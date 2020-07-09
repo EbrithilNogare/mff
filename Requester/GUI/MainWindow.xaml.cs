@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using Requester;
 
 namespace GUI
@@ -27,20 +28,21 @@ namespace GUI
         }
 
         private async void SendButton_Click(object sender, RoutedEventArgs e)
-        {
-            string url = urlTextBox.Text;
-            string type = typeComboBox.Text;
-            string header = "";// headerTextBlock.Text; //TODO
+		{
+			/*
+			  string url = urlTextBox.Text;
+			  string type = typeComboBox.Text;
+			  string header = "";// headerTextBlock.Text; //TODO
 
-            Comunicator cm = new Requester.Comunicator();
-                            
-            string response = await cm.Send(url, type, header);
+			  Requester.Requester cm = new Requester.Requester();             
+			  string response = await cm.Send(url, type, header);
 
-            previewHTML.NavigateToString(response);
-            var output = formatedRichTextBox;
-            Beautifier beautifier = new Beautifier();
-            beautifier.BeatyRichTextBox(response, output);
-            rawTextBlock.Text = response;
-        }
-    }
+			  previewHTML.NavigateToString(response);
+			  var output = formatedRichTextBox;
+			  Beautifier beautifier = new Beautifier();
+			  beautifier.BeatyRichTextBox(response, output);
+			  rawTextBlock.Text = response;
+			*/
+		}
+	}
 }
