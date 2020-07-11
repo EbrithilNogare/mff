@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="719" Width="1280"
+        Title="Requester" Height="719" Width="1280"
         
          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -15,6 +15,47 @@
          TextOptions.TextRenderingMode="Auto"
          Background="{DynamicResource MaterialDesignPaper}"
          FontFamily="{DynamicResource MaterialDesignFont}">
+	<Window.Resources>
+		<SolidColorBrush x:Key="ViolentBrush" Color="#FF673AB7"/>
+		<SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+		<SolidColorBrush x:Key="DarkViolentBrush" Color="#FF311B92" />
+		<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
+		<SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
+		<SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+
+		<Style TargetType="{x:Type TabItem}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type TabItem}">
+						<Grid>
+							<Border 
+                                Name="Border"
+                                Background="{StaticResource ViolentBrush}"
+                                BorderBrush="{StaticResource  SolidBorderBrush}" 
+                                >
+								<ContentPresenter x:Name="ContentSite"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    ContentSource="Header"
+                                    Margin="16,8,16,8"
+                                    RecognizesAccessKey="True"/>
+							</Border>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsSelected" Value="True">
+								<Setter Property="Panel.ZIndex" Value="100" />
+								<Setter TargetName="Border" Property="Background" Value="{StaticResource DarkViolentBrush}" />
+							</Trigger>
+							<Trigger Property="IsEnabled" Value="False">
+								<Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+								<Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</Window.Resources>
 	<Grid Background="Black">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -34,7 +75,7 @@
 		<Grid Background="#FF2C2C2C" Margin="0" Grid.ColumnSpan="3" Grid.Row="1">
 			<Label x:Name="label" Content="URL" HorizontalAlignment="Left" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="24"/>
 			<TextBox x:Name="urlTextBox" HorizontalAlignment="Left" Height="50" TextWrapping="Wrap" Text="http://ip.jsontest.com/" Width="1032" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" Padding="10,0,0,0" Margin="123,2,0,-2" FontSize="24" SelectionBrush="#FF0078D7" CaretBrush="{x:Null}"/>
-			<ComboBox x:Name="typeComboBox" HorizontalAlignment="Right" Height="50" Margin="0,2,1155.333,-2" VerticalAlignment="Stretch" Width="118" Background="#FF673AB7" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="{x:Null}" FontSize="16" FontWeight="Bold">
+			<ComboBox x:Name="methodComboBox" HorizontalAlignment="Right" Height="50" Margin="0,2,1155.333,-2" VerticalAlignment="Stretch" Width="118" Background="#FF673AB7" Foreground="#DDFFFFFF" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="{x:Null}" FontSize="16" FontWeight="Bold">
 				<ComboBoxItem IsSelected="True">GET</ComboBoxItem>
 				<ComboBoxItem>POST</ComboBoxItem>
 				<ComboBoxItem>PUT</ComboBoxItem>
@@ -49,7 +90,7 @@
 			<TabControl Background="#FF3A3A3A" BorderBrush="{x:Null}" Padding="0">
 				<TabItem Header="Header" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
 					<StackPanel>
-						<Grid Height="40">
+						<Grid Height="40" x:Name="HeaderGrid">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto"/>
 								<ColumnDefinition Width="1*"/>
@@ -63,6 +104,14 @@
 						</Grid>
 
 						<local:paramsControl></local:paramsControl>
+						<DataGrid x:Name="dataGridHeader" Foreground="#DDFFFFFF" BorderBrush="#00000000" Background="#FF3A3A3A" Panel.ZIndex="-2">
+							<DataGrid.Columns>
+								<DataGridCheckBoxColumn Header="" Binding="{Binding active}" Width="40"/>
+								<DataGridTextColumn Header="Key" Binding="{Binding key}" Width="1*"/>
+								<DataGridTextColumn Header="Value" Binding="{Binding value}" Width="2*"/>
+							</DataGrid.Columns>
+
+						</DataGrid>
 					</StackPanel>
 				</TabItem>
 				<TabItem Header="Body" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
@@ -136,10 +185,10 @@
 						<WebBrowser x:Name="previewHTML"/>
 					</Grid>
 				</TabItem>
-				<TabItem Header="Preview" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
+				<TabItem Header="Full" Background="#FF673AB7" Foreground="White" Margin="0" Padding="20,10" FontSize="14">
 					<Grid >
 						<ScrollViewer Background="#FF3A3A3A">
-							<TextBox x:Name="TimelineTextBlock" TextWrapping="Wrap" FontFamily="Roboto Mono" IsReadOnly="True" IsUndoEnabled="False"/>
+							<TextBox x:Name="FullTextBlock" TextWrapping="Wrap" FontFamily="Roboto Mono" IsReadOnly="True" IsUndoEnabled="False"/>
 						</ScrollViewer>
 					</Grid>
 				</TabItem>

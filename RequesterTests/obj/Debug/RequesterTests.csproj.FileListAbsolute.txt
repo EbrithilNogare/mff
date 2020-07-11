@@ -14,3 +14,5 @@ F:\git\mff\RequesterTests\obj\Debug\RequesterTests.csprojAssemblyReference.cache
 F:\git\mff\RequesterTests\obj\Debug\RequesterTests.csproj.CopyComplete
 F:\git\mff\RequesterTests\obj\Debug\RequesterTests.dll
 F:\git\mff\RequesterTests\obj\Debug\RequesterTests.pdb
+F:\git\mff\RequesterTests\bin\Debug\Newtonsoft.Json.dll
+F:\git\mff\RequesterTests\bin\Debug\Newtonsoft.Json.xml

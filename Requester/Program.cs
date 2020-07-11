@@ -13,47 +13,105 @@ namespace Requester
     {
 		static async Task Main(string[] args)
 		{
-			params
-			if (Array.IndexOf(args, "-c") > -1)
-				if()
-			using (StreamReader file = File.OpenText(@"c:\movie.json"))
+			if(args.Length == 0)
 			{
-				JsonSerializer serializer = new JsonSerializer();
-				requestTemplate = (RequestTemplate)serializer.Deserialize(file, typeof(RequestTemplate));
+				Console.WriteLine(@"Usage:
+  -o	output file
+  -t	template
+  -m	method
+  -u	url
+  -c	content
+  -h	header
+");
+				return;
 			}
 
-
-
-
-
-
-
-			string method = "post";
-			string url = "https://jsonplaceholder.typicode.com/todos";
+			var argsD = new Dictionary<string, string>() {
+				{"-o",argsParseByTag(args, "-o")}, // output file
+				{"-t",argsParseByTag(args, "-t")}, // template
+				{"-m",argsParseByTag(args, "-m")}, // method
+				{"-u",argsParseByTag(args, "-u")}, // url
+				{"-c",argsParseByTag(args, "-c")}, // content
+				{"-h",argsParseByTag(args, "-h")}, // header
+			};
+			
+			string method = "get", url="", content="";
 			Dictionary<string, string> header = new Dictionary<string, string>();
-			header.Add("content-type", "application/json");
-			string body = @"{""a"":""b""}";
 
+			// load template file
+			if (argsD["-t"] != null)
+			{
+				RequestTemplate requestTemplate;
+				using (StreamReader file = File.OpenText(argsD["-t"]))
+				{
+					JsonSerializer serializer = new JsonSerializer();
+					requestTemplate = (RequestTemplate)serializer.Deserialize(file, typeof(RequestTemplate));
+				}
+				method = requestTemplate.method;
+				url = requestTemplate.url;
+				content = requestTemplate.content;
+				foreach(var headerTemplate in requestTemplate.header)
+					header.Add(headerTemplate.Key, headerTemplate.Value);
+			}
+
+			// check if args contains information for request
+			if (argsD["-m"] != null) method = argsD["-m"];
+			if (argsD["-u"] != null) url = argsD["-u"];
+			if (argsD["-c"] != null) content = argsD["-c"];
+			if (argsD["-h"] != null)
+			{
+				var headerList = argsD["-h"].Split(';');
+				foreach (var headerConcatedPair in headerList)
+				{
+					var headerPair = headerConcatedPair.Split(':');
+					if (headerPair.Length != 2)
+						throw new Exception("Header must be in format \"Key1:Value1;Key2:Value2...\"");
+
+					header.Add(headerPair[0], headerPair[1]);
+				}
+			}
+			
+			// send request
 			Requester cm = new Requester();
+			RequestResponse response = await cm.Send(method, url, content, header);
 
-			RequestResponse response = await cm.Send(method, url, body, header);
-
-			Console.WriteLine("header\n" + response.header + "\n\n");
-			Console.WriteLine("content\n" + response.content+ "\n\n");
-			Console.WriteLine("statusCode\n" + response.statusCode.Key + " (" + response.statusCode.Value + ")" + "\n\n");
-			Console.WriteLine("timing\n" + response.timing + "\n\n");
-
-
+			if(argsD["-o"] != null)
+			{
+				using (StreamWriter sw = new StreamWriter(argsD["-o"]))
+				{
+					sw.WriteLine(response.content);
+				}
+			}
+			else
+			{
+				Console.WriteLine(response.statusCode.Key + " (" + response.statusCode.Value + ")\n");
+				Console.WriteLine(response.header);
+				Console.WriteLine(response.timing + "ms\n");
+				Console.WriteLine("------------------Response------------------");
+				Console.WriteLine(response.content);
+			}
 
 			Console.ReadKey();
 		}
-    }   
+
+		private static string argsParseByTag(string[] args, string v)
+		{
+			int index = Array.IndexOf(args, v);
+			if (index < 0)
+				return null;
+
+			if (index + 1 >= args.Length || args[index+1][0] == '-')
+				throw new Exception("Invalid args");
+
+			return args[index+1];
+		}
+	}   
 
 	public class RequestTemplate
 	{
 		public string method;
 		public string url;
-		public Dictionary<string,string> header;
+		public KeyValuePair<string,string>[] header;
 		public string content;
 
 	}

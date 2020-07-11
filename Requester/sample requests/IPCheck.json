@@ -2,7 +2,5 @@
 	"method": "get",
 	"url": "https://api.ipify.org",
 	"header": [],
-	"content": {
-		"format":"json"
-	}
+	"content": "{\"format\":\"json\"}"
 }

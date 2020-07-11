@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Diagnostics;
 
 namespace Requester
 {
@@ -22,11 +23,7 @@ namespace Requester
 			// URL
 			if (!ValidateURL(url))
 				throw new Exception("Invalid URL");
-
-
-			// Authorization
-			// todo
-
+			
 			// Content
 			StringContent requestBody = new StringContent(body);
 
@@ -36,6 +33,7 @@ namespace Requester
 
 			// Send request
 			HttpResponseMessage response;
+			var stopWatch = Stopwatch.StartNew();
 			switch (method.ToUpper())
 			{
 				case "POST":
@@ -47,24 +45,16 @@ namespace Requester
 				default:
 					throw new Exception("Invalid Method");
 			}
-			
+
 			// Parse response
 			RequestResponse output = new RequestResponse();
 			output.content = await response.Content.ReadAsStringAsync();
+			var timeSpan = stopWatch.Elapsed;
 			output.header = response.Headers.ToString();
 			output.statusCode = new KeyValuePair<int, string>((int)response.StatusCode, response.StatusCode.ToString());
-			output.timing = "0";
+			output.timing = (int)timeSpan.TotalMilliseconds;
 
 			return output;
-		}
-
-		private void Post(string body)
-		{
-
-		}
-		private void Get(string body)
-		{
-
 		}
 
 		private void SetHeaders(Dictionary<string, string> headerParams, StringContent content)
@@ -97,6 +87,6 @@ namespace Requester
 		public KeyValuePair<int, string> statusCode;
 		public string header;
 		public string content;
-		public string timing;
+		public int timing;
 	}
 }

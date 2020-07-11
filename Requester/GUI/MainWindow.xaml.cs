@@ -25,24 +25,48 @@ namespace GUI
         public MainWindow()
         {
             InitializeComponent();
-        }
+
+			// todo remo this testing data
+			var testingData = new HeaderDataGridValue();
+			testingData.active = true;
+			testingData.key = "some key";
+			testingData.value = "some value";
+
+			dataGridHeader.Items.Add(testingData);
+
+		}
 
         private async void SendButton_Click(object sender, RoutedEventArgs e)
 		{
-			/*
-			  string url = urlTextBox.Text;
-			  string type = typeComboBox.Text;
-			  string header = "";// headerTextBlock.Text; //TODO
 
-			  Requester.Requester cm = new Requester.Requester();             
-			  string response = await cm.Send(url, type, header);
+			string url = urlTextBox.Text;
+			string method = methodComboBox.Text;
+			string header = "";// headerTextBlock.Text; //TODO
 
-			  previewHTML.NavigateToString(response);
-			  var output = formatedRichTextBox;
-			  Beautifier beautifier = new Beautifier();
-			  beautifier.BeatyRichTextBox(response, output);
-			  rawTextBlock.Text = response;
-			*/
+			Requester.Requester cm = new Requester.Requester();
+			RequestResponse response = await cm.Send(method, url, header);
+
+			previewHTML.NavigateToString(response.content);
+			var output = formatedRichTextBox;
+			output.Document.Blocks.Clear();
+			Beautifier beautifier = new Beautifier();
+			beautifier.BeatyRichTextBox(response.content, output);
+			rawTextBlock.Text = response.content;
+
+			FullTextBlock.Text =
+				response.statusCode.Key + " (" + response.statusCode.Value + ")\n\n" +
+				response.header + "\n" +
+				response.timing + "ms\n\n" +
+				"------------------Response------------------" + "\n" +
+				response.content;
+
 		}
+	}
+
+	class HeaderDataGridValue
+	{
+		public bool active { get; set; }
+		public string key { get; set; }
+		public string value { get; set; }
 	}
 }
