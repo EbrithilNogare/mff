@@ -6,13 +6,6 @@
 
 #include <vector>
 
-enum Camera_Movement {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT
-};
-
 const float YAW = 90.0f;
 const float PITCH = 0.0f;
 const float SPEED = 2.5f;
@@ -34,6 +27,13 @@ public:
 	float MovementSpeed;
 	float MouseSensitivity;
 	float Zoom;
+
+	enum class Camera_Movement {
+		FORWARD,
+		BACKWARD,
+		LEFT,
+		RIGHT
+	};
 
 	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 	{
@@ -59,13 +59,13 @@ public:
 	void ProcessKeyboard(Camera_Movement direction, float deltaTime)
 	{
 		float velocity = MovementSpeed * deltaTime;
-		if (direction == FORWARD)
+		if (direction == Camera_Movement::FORWARD)
 			Position += Front * velocity;
-		if (direction == BACKWARD)
+		if (direction == Camera_Movement::BACKWARD)
 			Position -= Front * velocity;
-		if (direction == LEFT)
+		if (direction == Camera_Movement::LEFT)
 			Position -= Right * velocity;
-		if (direction == RIGHT)
+		if (direction == Camera_Movement::RIGHT)
 			Position += Right * velocity;
 	}
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)

@@ -143,15 +143,16 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="filesystem.h" />
-    <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="loadTexture.h" />
     <ClInclude Include="main.h" />
-    <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="bin\configScene1.json" />
+    <None Include="bin\configScene2.json" />
     <None Include="resources\shaders\debugColorQuad.fs" />
     <None Include="resources\shaders\debugColorQuad.vs" />
     <None Include="resources\shaders\debugDepthQuad.fs" />

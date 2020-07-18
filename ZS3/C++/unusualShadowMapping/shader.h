@@ -36,7 +36,7 @@ public:
 		}
 		catch (std::ifstream::failure e)
 		{
-			std::cout << "error while reading file with shader" << std::endl;
+			std::cout << "error while reading file with shader:\n" << vertexPath << "\n" << fragmentPath << std::endl;
 		}
 		const char* vShaderCode = vertexCode.c_str();
 		const char* fShaderCode = fragmentCode.c_str();

@@ -16,6 +16,9 @@
     <Filter Include="Resource Files\shaders">
       <UniqueIdentifier>{5be69cc6-8bda-47dc-adb7-b6a93ab2b153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\scenes configs">
+      <UniqueIdentifier>{ebe86263-8135-46f6-a348-37381c45cbb4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -38,13 +41,7 @@
     <ClInclude Include="model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="filesystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="main.h">
@@ -57,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -90,6 +90,12 @@
     </None>
     <None Include="resources\shaders\shadow_mapping_color.vs">
       <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="bin\configScene1.json">
+      <Filter>Resource Files\scenes configs</Filter>
+    </None>
+    <None Include="bin\configScene2.json">
+      <Filter>Resource Files\scenes configs</Filter>
     </None>
   </ItemGroup>
 </Project>
