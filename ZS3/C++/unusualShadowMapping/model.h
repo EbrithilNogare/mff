@@ -13,9 +13,6 @@
 
 #include "common.h"
 
-
-unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma = false);
-
 class Model
 {
 private:
@@ -25,53 +22,59 @@ private:
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
-	//std::vector<float> bufferData;
 	std::vector<float> bufferData; // 3 vertices, 2 uvs, 3 normals
-	void LoadModelData(std::string pathToModel) {
+	void LoadModelData(std::string& pathToModel) {
 		std::vector<std::array<float, 3>> vertices;
 		std::vector<std::array<float, 2>> textureCoords;
 		std::vector<std::array<float, 3>> normals;
 		std::vector<std::array<int, 3>> faces;
 
 		std::ifstream file(pathToModel);
-		if (file.is_open()) {
-			std::string line;
-			while (getline(file, line)) {
-				std::vector<std::string> splited = SplitString(line, ' ');			
-				if (splited[0] == "v") {
-					vertices.push_back(std::array<float, 3>{std::stof(splited[1]), std::stof(splited[2]), std::stof(splited[3])});
-				}
-				else if (splited[0] == "vt") {
-					textureCoords.push_back(std::array<float, 2>{std::stof(splited[1]), std::stof(splited[2])});
-				}
-				else if (splited[0] == "vn") {
-					normals.push_back(std::array<float, 3>{std::stof(splited[1]), std::stof(splited[2]), std::stof(splited[3])});
-				}
-				else if (splited[0] == "f") {					
-					if (splited.size() != 4)
-						std::cerr << "ERROR: model must have triangle faces!\nin: " << line << "\nfrom: " << pathToModel << std::endl;
+		if (!file.is_open()) {
+			std::cout << "file with model not found: " << pathToModel << std::endl;
+			return;
+		}
+
+		std::string line;
+		while (getline(file, line)) {
+			std::vector<std::string> splited = SplitString(line, ' ');			
+			if (splited[0] == "v") {
+				vertices.push_back(std::array<float, 3>{std::stof(splited[1]), std::stof(splited[2]), std::stof(splited[3])});
+			}
+			else if (splited[0] == "vt") {
+				textureCoords.push_back(std::array<float, 2>{std::stof(splited[1]), std::stof(splited[2])});
+			}
+			else if (splited[0] == "vn") {
+				normals.push_back(std::array<float, 3>{std::stof(splited[1]), std::stof(splited[2]), std::stof(splited[3])});
+			}
+			else if (splited[0] == "f") {					
+				if (splited.size() != 4)
+					std::cerr << "ERROR: model must have triangle faces!\nin: " << line << "\nfrom: " << pathToModel << std::endl;
 					
-					for (int i = 1; i <= 3; i++) {
-						auto facesSplited = SplitString(splited[i], '/');
+				for (int i = 1; i <= 3; i++) {
+					auto facesSplited = SplitString(splited[i], '/');
 
-						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1.0][0]);
-						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1.0][1]);
-						bufferData.push_back(vertices[std::stoi(facesSplited[0])-1.0][2]);
+					int verticesIndex = std::stoi(facesSplited[0]) - 1;
+					bufferData.push_back(vertices[verticesIndex][0]);
+					bufferData.push_back(vertices[verticesIndex][1]);
+					bufferData.push_back(vertices[verticesIndex][2]);
 
-						bufferData.push_back(textureCoords[std::stoi(facesSplited[1])-1.0][0]);
-						bufferData.push_back(1-textureCoords[std::stoi(facesSplited[1])-1.0][1]);
+					int textureIndex = std::stoi(facesSplited[1]) - 1;
+					bufferData.push_back(textureCoords[textureIndex][0]);
+					bufferData.push_back(1-textureCoords[textureIndex][1]);
 
-						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][0]);
-						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][1]);
-						bufferData.push_back(normals[std::stoi(facesSplited[2])-1.0][2]);
-					}
-				}
-				else {
-					// skip it
+					int normalsIndex = std::stoi(facesSplited[2]) - 1;
+					bufferData.push_back(normals[normalsIndex][0]);
+					bufferData.push_back(normals[normalsIndex][1]);
+					bufferData.push_back(normals[normalsIndex][2]);
 				}
 			}
-			file.close();
-		}		
+			else {
+				// unsupported model description
+				// eg. material definition, comments
+			}
+		}
+		file.close();
 	}
 public:
 	Model(std::string pathToModel, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale, unsigned int texture = 0) {
@@ -97,7 +100,7 @@ public:
 		this->scale = scale;
 		this->texture = texture;
 	}
-	void Draw(Shader shader) {	
+	void Draw(Shader& shader) {	
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::rotate(model, rotation.x, glm::vec3(1, 0, 0)); // x
 		model = glm::rotate(model, rotation.y, glm::vec3(0, 1, 0)); // y
@@ -111,50 +114,10 @@ public:
 		
 		// render
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, bufferData.size());
+		glDrawArrays(GL_TRIANGLES, 0, (GLsizei)bufferData.size());
 		glBindVertexArray(0);
 	}	
 	void setPosition(glm::vec3 position) {
 		this->position = position;
 	}
 };
-
-unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma)
-{
-	std::string filename = std::string(path);
-	filename = directory + '/' + filename;
-
-	unsigned int textureID;
-	glGenTextures(1, &textureID);
-
-	int width, height, nrComponents;
-	unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		GLenum format;
-		if (nrComponents == 1)
-			format = GL_RED;
-		else if (nrComponents == 3)
-			format = GL_RGB;
-		else if (nrComponents == 4)
-			format = GL_RGBA;
-
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
-	}
-	else
-	{
-		std::cout << "Texture failed to load at path: " << path << std::endl;
-		stbi_image_free(data);
-	}
-
-	return textureID;
-}

@@ -10,18 +10,19 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include "filesystem.h"
 #include "model.h"
 #include "shader.h"
-
+#include "loadTexture.h"
 
 class Light
 {
 private:
 	bool visible = true;
-	unsigned int glow = loadTexture(std::string("../resources/textures/sun.jpg").c_str());
-	Model sphere = Model("../resources/models/sun.obj", glm::vec3(0, 0, 0), glm::vec3(0.0f), glm::vec3(.1f), glow);
+	unsigned int glow = loadTexture(std::string(FileSystem::getPath("resources/textures/sun.jpg")).c_str());
+	Model sphere = Model(FileSystem::getPath("resources/models/sun.obj"), glm::vec3(0, 0, 0), glm::vec3(0.0f), glm::vec3(.1f), glow);
 public:
-	glm::vec3 position;
+	glm::vec3 position = glm::vec3(0, 0, 0);
 	float lightTime = 0;
 	unsigned int mapWidth = 2048;
 	unsigned int mapHeight = 2048;
@@ -36,9 +37,7 @@ public:
 	GLuint depthMap2;
 
 	glm::mat4 lightSpaceMatrix = glm::mat4(0);
-	Light(glm::vec3 initPosition) {
-		setPosition(initPosition);
-
+	Light() {
 		glGenTextures(1, &depthMap);
 		glGenTextures(1, &depthMap2);
 		glGenTextures(1, &colorMap);
@@ -89,7 +88,7 @@ public:
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
-	void RenderHelper(Shader shader) {
+	void RenderHelper(Shader& shader) {
 		if (visible) {
 			sphere.setPosition(position);
 			sphere.Draw(shader);
@@ -105,6 +104,6 @@ public:
 		lightSpaceMatrix = lightProjection * lightView;
 	}
 	void addTick() {
-		lightTime += .003;
+		lightTime += .003f;
 	}
 };

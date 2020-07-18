@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> SplitString(std::string input, char delimiter) {
+std::vector<std::string> SplitString(std::string &input, char delimiter) {
 	std::vector<std::string> toReturn;
 	size_t oldPos = 0;
 	size_t pos = 0;

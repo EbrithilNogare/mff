@@ -1,7 +1,7 @@
 #pragma once
 
 // main.h
-// author: Davud Napravnik
+// author: David Napravnik
 
 #include <map>
 #include <iostream>
@@ -27,8 +27,8 @@ unsigned int SCR_HEIGHT = 900;
 
 // camera
 Camera camera(glm::vec3(0.0f, 2.0f, -4.0f));
-float lastX = (float)SCR_WIDTH / 2.0;
-float lastY = (float)SCR_HEIGHT / 2.0;
+float lastX = (float)SCR_WIDTH / 2.0f;
+float lastY = (float)SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
 
 // timing
@@ -38,18 +38,18 @@ float lastFrame = 0.0f;
 double lastTime = glfwGetTime();
 unsigned int nbFrames = 0;
 
-void render(GLFWwindow* window, Scene scene, std::map < std::string, Light> lights, std::map<std::string, Shader> shaders);
+void render(GLFWwindow* window, Scene& scene, std::map<std::string, Shader>& shaders);
 
 unsigned int quadVAO = 0;
 unsigned int quadVBO;
 void renderQuad(glm::vec2 position, glm::vec2 size)
 {
 	float quadVertices[] = {
-		// positions																			// texture Coords
-		position.x * 2.0 - 1.0,					position.y * 2.0 - 1.0 + size.y * 2.0,	0.0f,	0.0f, 1.0f,
-		position.x * 2.0 - 1.0,					position.y * 2.0 - 1.0,					0.0f,	0.0f, 0.0f,
-		position.x * 2.0 - 1.0 + size.x * 2.0,	position.y * 2.0 - 1.0 + size.y * 2.0,	0.0f,	1.0f, 1.0f,
-		position.x * 2.0 - 1.0 + size.x * 2.0,	position.y * 2.0 - 1.0,					0.0f,	1.0f, 0.0f,
+		// vertices coords																		// texture coords
+		position.x * 2.0f - 1.0f,					position.y * 2.0f - 1.0f + size.y * 2.0f,	0.0f,	0.0f, 1.0f,
+		position.x * 2.0f - 1.0f,					position.y * 2.0f - 1.0f,					0.0f,	0.0f, 0.0f,
+		position.x * 2.0f - 1.0f + size.x * 2.0f,	position.y * 2.0f - 1.0f + size.y * 2.0f,	0.0f,	1.0f, 1.0f,
+		position.x * 2.0f - 1.0f + size.x * 2.0f,	position.y * 2.0f - 1.0f,					0.0f,	1.0f, 0.0f,
 	};
 
 	if (quadVAO == 0)
@@ -82,13 +82,13 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(Camera::Camera_Movement::FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(Camera::Camera_Movement::BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(Camera::Camera_Movement::LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+		camera.ProcessKeyboard(Camera::Camera_Movement::RIGHT, deltaTime);
 
 	//std::cout << "x: " << camera.Position.x << ", y: " << camera.Position.y << ", z: " << camera.Position.z << std::endl;
 }
@@ -96,19 +96,19 @@ void processInput(GLFWwindow* window)
 void processLightDebugInput(GLFWwindow* window, Light* light) {
 	bool changed = false;
 	if (glfwGetKey(window, GLFW_KEY_KP_ADD) == GLFW_PRESS) {
-		light->far_plane += .1;
+		light->far_plane += .1f;
 		changed = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_KP_SUBTRACT) == GLFW_PRESS) {
-		light->far_plane -= .1;
+		light->far_plane -= .1f;
 		changed = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_KP_MULTIPLY) == GLFW_PRESS) {
-		light->near_plane += .1;
+		light->near_plane += .1f;
 		changed = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_KP_DIVIDE) == GLFW_PRESS) {
-		light->near_plane -= .1;
+		light->near_plane -= .1f;
 		changed = true;
 	}
 	if(changed)
@@ -144,10 +144,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	camera.ProcessMouseScroll((float)yoffset);
-}
-
-std::string getLocalPath(std::string source) {
-	return "../resources/" + source;
 }
 
 void showFPS(GLFWwindow* pWindow)
