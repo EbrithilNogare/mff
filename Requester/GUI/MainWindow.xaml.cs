@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,18 +23,13 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+
+		public MainWindow()
         {
             InitializeComponent();
 
-			// todo remo this testing data
-			var testingData = new HeaderDataGridValue();
-			testingData.active = true;
-			testingData.key = "some key";
-			testingData.value = "some value";
-
-			dataGridHeader.Items.Add(testingData);
-
+			var headerdata = new List<HeaderDataGridValue>();
+			dataGridHeader.ItemsSource = headerdata;
 		}
 
         private async void SendButton_Click(object sender, RoutedEventArgs e)
@@ -63,7 +59,7 @@ namespace GUI
 		}
 	}
 
-	class HeaderDataGridValue
+	class HeaderDataGridValue 
 	{
 		public bool active { get; set; }
 		public string key { get; set; }
