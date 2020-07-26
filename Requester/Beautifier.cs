@@ -11,11 +11,16 @@ namespace Requester
 {
     public class Beautifier
     {
-        public void BeautyRichTextBox(string input, RichTextBox output)
+		/// <summary>
+		/// Method gets text and parse it by its type (supported are JSON and XML, other formats will be interpreted as plain text)
+		/// and put it into output with colored keywords etc. and indent by depth of element in context
+		/// </summary>
+		/// <param name="input">JSON, XML or plain text</param>
+		/// <param name="output">RichTextBox which will be cleared and filled with new data</param>
+		public void BeautyRichTextBox(string input, RichTextBox output)
         {
             const int indentSize = 4;
             StringBuilder sb = new StringBuilder();
-            JSONobject status = new JSONobject(0);
 			int depth = 0;
 			string color = "#000000";
 
@@ -102,8 +107,13 @@ namespace Requester
 					break;
 			}
         }
-
-        public void AppendText(RichTextBox box, string text, string color = "#000000")
+		/// <summary>
+		/// Add text to end of RichTextBox and apply color to it
+		/// </summary>
+		/// <param name="box">RichTextBox</param>
+		/// <param name="text">data to be placed to RichTextBox </param>
+		/// <param name="color">color in format #xxxxxx where x is hexadecimal number 0-F</param>
+		public void AppendText(RichTextBox box, string text, string color = "#000000")
         {
             var converter = new System.Windows.Media.BrushConverter();
             TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
@@ -111,17 +121,23 @@ namespace Requester
             tr.ApplyPropertyValue(TextElement.ForegroundProperty, (Brush)converter.ConvertFromString(color));
         }
     }
+	/// <summary>
+	/// non-deterministic Automat for parsing XML data
+	/// </summary>
 	class XMLParser
 	{
+		/// <summary>
+		/// state of XML parsing automat
+		/// </summary>
 		public enum states
 		{
-			left,
-			tagName,
-			whitespace,
-			metadata,
-			right,
-			data,
-			slash
+			left,			// <
+			tagName,		// a-z
+			whitespace,		// ' '
+			metadata,		// a-z
+			right,			// >
+			data,			// a-z0-9
+			slash			// /
 		}
 		states state;
 		int depth;
@@ -132,7 +148,12 @@ namespace Requester
 			this.state = states.whitespace;
 			this.depth = 0;
 		}
-
+		/// <summary>
+		/// get symbol and get into new state of automat
+		/// </summary>
+		/// <param name="input">symbol to be parsed</param>
+		/// <param name="depthOut">return depth if needed or -1 if not</param>
+		/// <returns>returns state of XML parsing automat</returns>
 		public states Step(char input, out int depthOut)
 		{
 			depthOut = -1;
@@ -221,15 +242,18 @@ namespace Requester
 		bool afterColon;
 		public enum JSONType
 		{
-			objectBracket,
-			arrayBracket,
-			paramName,
-			JSONstring,
-			number,
-			logic,
-			specialChar,
-			whitespace
+			objectBracket,	// {}
+			arrayBracket,	// []
+			paramName,		// "a-z"
+			JSONstring,		// "a-z0-9"
+			number,			// 0-9.0-9E+-0-9
+			logic,			// true, false, null
+			specialChar,	// ,:
+			whitespace		// ' '
 		}
+		/// <summary>
+		/// type of value saved in object or array
+		/// </summary>
 		enum ValueFormat
 		{
 			none,
@@ -245,6 +269,12 @@ namespace Requester
 			this.afterColon = false;
 		}
 		char[] whitespaces = new char[] { ' ', '\t', '\n', '\r' };
+		/// <summary>
+		/// get symbol and get into new state of automat
+		/// </summary>
+		/// <param name="input">char to be parsed</param>
+		/// <param name="depth">depth of object</param>
+		/// <returns>returns of which type is that char</returns>
 		public JSONType Step(char input, ref int depth)
 		{
 			// skip whitespaces on input
@@ -326,7 +356,9 @@ namespace Requester
 			throw new NotSupportedException();
 		}
 	}
-
+	/// <summary>
+	/// Color structure for colors in Beautifier
+	/// </summary>
     public struct Color
     {
         public byte r { get; set; }
@@ -416,27 +448,9 @@ namespace Requester
         }
     }
 
-    struct JSONobject
-    {
-        public int depth;
-        public bool isEscaped;
-        public bool inMarks;
-        /// <summary>
-        /// left = true
-        /// </summary>
-        public bool leftRight;
-
-
-        public JSONobject(int depth)
-        {
-            this.depth = depth;
-            isEscaped = false;
-            inMarks = false;
-            leftRight = true;
-        }
-
-    }
-
+	/// <summary>
+	/// color pallete for keywords, same for XML and JSON
+	/// </summary>
 	static class colorPalete
     {
         public const string primary = "#DA70D6";

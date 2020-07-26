@@ -99,7 +99,12 @@ namespace Requester
 				Console.WriteLine(response.content);
 			}
 		}
-
+		/// <summary>
+		/// parse args by tag, can be only used on Tuple arguments
+		/// </summary>
+		/// <param name="args"></param>
+		/// <param name="v"></param>
+		/// <returns>key, value of param name and its value</returns>
 		private static string argsParseByTag(string[] args, string v)
 		{
 			int index = Array.IndexOf(args, v);
