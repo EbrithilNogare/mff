@@ -1,0 +1,13 @@
+{
+  "url": "https://reqbin.com/echo",
+  "method": "GET",
+  "parameters": [],
+  "header": [
+	{
+	  "active": true,
+	  "key": "Content-Type",
+	  "value": "application/json"
+	}
+  ],
+  "content": "\r\n"
+}

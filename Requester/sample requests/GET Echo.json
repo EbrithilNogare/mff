@@ -1,0 +1,23 @@
+{
+  "url": "https://postman-echo.com/get",
+  "method": "GET",
+  "parameters": [
+	{
+	  "active": true,
+	  "key": "param1",
+	  "value": "value1"
+	},
+	{
+	  "active": true,
+	  "key": "param2",
+	  "value": "value2"
+	},
+	{
+	  "active": false,
+	  "key": "param3",
+	  "value": "value3"
+	}
+  ],
+  "header": [],
+  "content": "\r\n"
+}

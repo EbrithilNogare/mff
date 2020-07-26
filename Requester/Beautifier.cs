@@ -145,11 +145,19 @@ namespace Requester
 				return state;
 			}
 
-			if (input == '/' && state != states.data)
+			if (input == '/' && state == states.left)
 			{
 				depth -= 2;
 				depthOut = depth = Math.Max(0, depth);
 				state = states.slash;
+				return state;
+			}
+
+			if (state == states.left && input == '>')
+			{
+				depth -= 1;
+				depthOut = depth = Math.Max(0, depth);
+				state = states.right;
 				return state;
 			}
 
