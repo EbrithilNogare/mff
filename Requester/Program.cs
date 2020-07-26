@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 using Requester;
 
@@ -41,17 +42,25 @@ namespace Requester
 			// load template file
 			if (argsD["-t"] != null)
 			{
-				RequestTemplate requestTemplate;
-				using (StreamReader file = File.OpenText(argsD["-t"]))
+				var tl = new TemplateLoader();
+				var template = tl.Load(argsD["-t"]);
+
+				method = template.method;
+
+				var uriBuilder = new UriBuilder(template.url);
+				var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+				foreach (var item in template.parameters)
 				{
-					JsonSerializer serializer = new JsonSerializer();
-					requestTemplate = (RequestTemplate)serializer.Deserialize(file, typeof(RequestTemplate));
+					if (item.active)
+						query[item.key] = item.value;
 				}
-				method = requestTemplate.method;
-				url = requestTemplate.url;
-				content = requestTemplate.content;
-				foreach(var headerTemplate in requestTemplate.header)
-					header.Add(headerTemplate.Key, headerTemplate.Value);
+				uriBuilder.Query = query.ToString();
+				url = uriBuilder.ToString();
+
+				content = template.content;
+				foreach(var headerTemplate in template.header)
+					if(headerTemplate.active)
+						header.Add(headerTemplate.key, headerTemplate.value);
 			}
 
 			// check if args contains information for request
@@ -79,7 +88,7 @@ namespace Requester
 			{
 				using (StreamWriter sw = new StreamWriter(argsD["-o"]))
 				{
-					sw.WriteLine(response.content);
+					sw.Write(response.content);
 				}
 			}
 			else
@@ -87,11 +96,8 @@ namespace Requester
 				Console.WriteLine(response.statusCode.Key + " (" + response.statusCode.Value + ")\n");
 				Console.WriteLine(response.header);
 				Console.WriteLine(response.timing + "ms\n");
-				Console.WriteLine("------------------Response------------------");
 				Console.WriteLine(response.content);
 			}
-
-			Console.ReadKey();
 		}
 
 		private static string argsParseByTag(string[] args, string v)
@@ -105,14 +111,5 @@ namespace Requester
 
 			return args[index+1];
 		}
-	}   
-
-	public class RequestTemplate
-	{
-		public string method;
-		public string url;
-		public KeyValuePair<string,string>[] header;
-		public string content;
-
 	}
 }

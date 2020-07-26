@@ -1,6 +1,14 @@
 {
-	"method": "get",
-	"url": "https://api.ipify.org",
-	"header": [],
-	"content": "{\"format\":\"json\"}"
+  "url": "https://api.ipify.org",
+  "method": "GET",
+  "parameters": [
+  ],
+  "header": [
+	{
+	  "active": true,
+	  "key": "Content-Type",
+	  "value": "application/json"
+	}
+  ],
+  "content": "\r\n"
 }
