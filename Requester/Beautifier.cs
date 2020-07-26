@@ -11,138 +11,99 @@ namespace Requester
 {
     public class Beautifier
     {
-        public string JSON(string input, Dictionary<string, Color> pallete)
-        {
-            string output;
-            int indent;
-            const int indentSize = 2;
-            for (int i = 0; i < input.Length; i++)
-            {
-                char v = input[i];
-
-
-
-            }
-
-
-            throw new NotImplementedException();
-        }
-
-
-        public void BeatyRichTextBox(string input, RichTextBox output)
+        public void BeautyRichTextBox(string input, RichTextBox output)
         {
             const int indentSize = 4;
             StringBuilder sb = new StringBuilder();
             JSONobject status = new JSONobject(0);
-            colorPalete palete = new colorPalete(false);
+			int depth = 0;
+			string color = "#000000";
 
+			if (input.Length == 0)
+				return;
 
-            foreach (char item in input)
-            {
-                if (status.isEscaped)
-                {
-                    status.isEscaped = false;
-                    sb.Append(item);
-                }
-                else
-                {
-                    switch (item)
-                    {
-                        case '{':
-                            status.depth++;
-                            status.leftRight = true;
-                            AppendText(output, item.ToString() + "\n" + new string(' ', status.depth * indentSize), palete.objectBracket);
-                            break;
-                        case '}':
-                            status.depth--;
-                            AppendText(output, "\n" + new string(' ', status.depth * indentSize) + item.ToString(), palete.objectBracket);
-                            break;
-                        case '"':
-                            sb.Append(item);
-                            if (status.leftRight)
-                            { //left
-                                if (status.inMarks)
-                                { // second
-                                    AppendText(output, sb.ToString(), palete.objectName);
-                                    sb.Clear();
-                                }
-                            }
-                            else
-                            { //right
-                                if (status.inMarks)
-                                { // second
-                                    AppendText(output, sb.ToString(), palete.text);
-                                    sb.Clear();
-                                }
-                            }
-                            status.inMarks = !status.inMarks;
-                            break;
-                        case '[':
-                            status.depth++;
-                            status.leftRight = true;
-                            AppendText(output, item.ToString() + "\n" + new string(' ', status.depth * indentSize), palete.arrayBracket);
-                            break;
-                        case ']':
-                            status.depth--;
-                            AppendText(output, "\n" + new string(' ', status.depth * indentSize) + item.ToString(), palete.arrayBracket);
-                            break;
-                        case ':': //colon
-                            if (status.inMarks)
-                            {
-                                sb.Append(item);
-                            }
-                            else
-                            {
-                                status.leftRight = false;
-                                AppendText(output, item.ToString(), palete.colon);
-                            }
-                            break;
-                        case ',':
-                            status.leftRight = true;
-                            sb.Append(item);
-                            sb.Append("\n" + new string(' ', status.depth * indentSize));
-                            break;
-                        case '\\':
-                            status.isEscaped = true;
-                            break;
-                        case '\n':
-                        case '\r':
-                        case ' ':
-                            if (status.inMarks)
-                                sb.Append(item);
-                            break;
-                        default:
-                            if (!status.inMarks && (
-                                item == '0' ||
-                                item == '1' ||
-                                item == '2' ||
-                                item == '3' ||
-                                item == '4' ||
-                                item == '5' ||
-                                item == '6' ||
-                                item == '7' ||
-                                item == '8' ||
-                                item == '9' ||
-                                item == '.'))
-                            {
-                                AppendText(output, item.ToString(), palete.number);
-                            }
-                            else
-                            {
-                                sb.Append(item);
-                                if (sb.ToString() == "true" || sb.ToString() == "false")
-                                {
-                                    AppendText(output, sb.ToString(), palete.boolean);
-                                    sb.Clear();
-                                }
-                            }
-                            break;
-                    }
-                }
-            }
+			// check if it is JSON, XML(HTML), or plain text
+			switch (input[0])
+			{
+				case '{': // json
+					JSONParser jp = new JSONParser();
+					foreach (char item in input)
+					{
+						int previousDepth = depth;
+						JSONParser.JSONType type = jp.Step(item, ref depth);
+						switch (type)
+						{
+							case JSONParser.JSONType.objectBracket: color = colorPalete.primary; break;
+							case JSONParser.JSONType.arrayBracket: color = colorPalete.secondary; break;
+							case JSONParser.JSONType.paramName: color = colorPalete.name; break;
+							case JSONParser.JSONType.JSONstring: color = colorPalete.value; break;
+							case JSONParser.JSONType.number: color = colorPalete.number; break;
+							case JSONParser.JSONType.logic: color = colorPalete.logic; break;
+							default: color = colorPalete.specialChar; break;
+						}
+						if (type == JSONParser.JSONType.whitespace)
+							continue;
+						
+						if (previousDepth != depth || item == ',')
+						{
+							if(previousDepth > depth)
+							{
+								AppendText(output, "\n");
+								AppendText(output, new String(' ', indentSize * depth), color);
+								AppendText(output, item.ToString(), color);
+							}
+							else
+							{
+								AppendText(output, item.ToString(), color);
+								AppendText(output, "\n");
+								AppendText(output, new String(' ', indentSize * depth), color);
+							}
+						}
+						else
+						{
+							AppendText(output, item.ToString(), color);
+						}
+					}
+					break;
+				case '<': // html / xml
+					XMLParser xp = new XMLParser();
+					int startEndWaiting = -1;
+					foreach (var item in input)
+					{
+						var StepResult = xp.Step(item, out depth);
+
+						switch (StepResult)
+						{
+							case XMLParser.states.left: color = colorPalete.primary; startEndWaiting = depth; continue;
+							case XMLParser.states.tagName: color = colorPalete.name; break;
+							case XMLParser.states.metadata: color = colorPalete.value; break;
+							case XMLParser.states.right: color = colorPalete.primary; break;
+							case XMLParser.states.slash: color = colorPalete.primary; break;
+							case XMLParser.states.data: color = colorPalete.logic; break;
+							default: color = colorPalete.specialChar; break;
+						}
+
+						if (depth > -1 || startEndWaiting > -1) // new line and indent
+						{
+							AppendText(output, "\n" + new String(' ', indentSize * (depth > -1 ? depth : startEndWaiting)), "#000000");
+						}
+
+						if (startEndWaiting > -1)
+						{
+							AppendText(output, "<", colorPalete.primary);
+							startEndWaiting = -1;
+						}
+
+						AppendText(output, item.ToString(), color);
+					}
+					break;
+				default: // txt
+					AppendText(output, input, "#ffffff");
+					break;
+			}
         }
 
-        public void AppendText(RichTextBox box, string text, string color)
+        public void AppendText(RichTextBox box, string text, string color = "#000000")
         {
             var converter = new System.Windows.Media.BrushConverter();
             TextRange tr = new TextRange(box.Document.ContentEnd, box.Document.ContentEnd);
@@ -150,6 +111,213 @@ namespace Requester
             tr.ApplyPropertyValue(TextElement.ForegroundProperty, (Brush)converter.ConvertFromString(color));
         }
     }
+	class XMLParser
+	{
+		public enum states
+		{
+			left,
+			tagName,
+			whitespace,
+			metadata,
+			right,
+			data,
+			slash
+		}
+		states state;
+		int depth;
+		char[] whitespaces = new char[] { ' ', '\t', '\n', '\r' };
+
+		public XMLParser()
+		{
+			this.state = states.whitespace;
+			this.depth = 0;
+		}
+
+		public states Step(char input, out int depthOut)
+		{
+			depthOut = -1;
+
+			if(input == '<')
+			{
+				depthOut = depth = Math.Max(0, depth);
+				state = states.left;
+				depth++;
+				return state;
+			}
+
+			if (input == '/' && state != states.data)
+			{
+				depth -= 2;
+				depthOut = depth = Math.Max(0, depth);
+				state = states.slash;
+				return state;
+			}
+
+			switch (state)
+			{
+				case states.left:
+					if (input == '?')
+						depth--;
+					state = states.tagName;
+					break;
+
+				case states.tagName:
+					if (whitespaces.Contains(input))
+						state = states.metadata;
+					if(input == '>')
+						state = states.right;
+					break;
+
+				case states.metadata:
+					if (input == '>')
+						state = states.right;
+					break;
+
+				case states.right:
+					state = states.data;
+					depthOut = depth = Math.Max(0, depth);
+					break;
+
+				case states.slash:
+					if (input == '>')
+					{
+						depth--;
+						state = states.right;
+					}
+					else
+						state = states.tagName;
+					break;
+			}
+			return state;
+		}
+
+
+
+	}
+	class JSONParser
+	{
+		/*
+			object bracket	{}
+			array bracket	[]
+			paramName		"string"
+			values	
+				string		"string"
+				number		42.0E+1
+				logic		true, false, null
+			specialChar		,:
+			whitespace		\n \r \t space
+		*/
+		List<bool> isObject;
+		bool backslashed;
+		ValueFormat valueFormat;
+		bool afterColon;
+		public enum JSONType
+		{
+			objectBracket,
+			arrayBracket,
+			paramName,
+			JSONstring,
+			number,
+			logic,
+			specialChar,
+			whitespace
+		}
+		enum ValueFormat
+		{
+			none,
+			text,
+			number,
+			logic
+		}
+		public JSONParser()
+		{
+			this.isObject = new List<bool>();
+			this.backslashed = false;
+			this.valueFormat = ValueFormat.none;
+			this.afterColon = false;
+		}
+		char[] whitespaces = new char[] { ' ', '\t', '\n', '\r' };
+		public JSONType Step(char input, ref int depth)
+		{
+			// skip whitespaces on input
+			if (whitespaces.Contains(input))
+				return JSONType.whitespace;
+
+			// parse as string has priority
+			if(valueFormat == ValueFormat.text) {
+				if (!backslashed && input == '"')
+				{
+					valueFormat = ValueFormat.none;
+				}
+
+				if (input == '\\')
+					backslashed = true;
+				else
+					backslashed = false;
+
+				if (afterColon)
+					return JSONType.JSONstring;
+				else
+					return JSONType.paramName;
+			}
+
+			switch (input)
+			{
+				case '{':
+					depth++;
+					afterColon = false;
+					isObject.Add(true);
+					return JSONType.objectBracket;
+				case '}':
+					depth--;
+					isObject.RemoveAt(isObject.Count() - 1);
+					return JSONType.objectBracket;
+				case '[':
+					depth++;
+					isObject.Add(false);
+					return JSONType.arrayBracket;
+				case ']':
+					depth--;
+					isObject.RemoveAt(isObject.Count() - 1);
+					return JSONType.arrayBracket;
+				case '"':
+					valueFormat = ValueFormat.text;
+					if (afterColon)
+						return JSONType.JSONstring;
+					else
+						return JSONType.paramName;
+				case ',':
+					afterColon = false;
+					valueFormat = ValueFormat.none;
+					return JSONType.specialChar;
+				case ':':
+					afterColon = true;
+					return JSONType.specialChar;
+			}
+
+			if(valueFormat == ValueFormat.none)
+			{
+				if (input == 't' || input == 'f' || input == 'n')
+				{
+					valueFormat = ValueFormat.logic;
+				}
+				else
+				{
+					valueFormat = ValueFormat.number;
+				}
+			}
+
+			if (valueFormat == ValueFormat.logic)
+				return JSONType.logic;
+
+			if (valueFormat == ValueFormat.number)
+				return JSONType.number;
+
+
+			// there should be no chance to get here
+			throw new NotSupportedException();
+		}
+	}
 
     public struct Color
     {
@@ -261,39 +429,14 @@ namespace Requester
 
     }
 
-    struct colorPalete
+	static class colorPalete
     {
-        public string objectBracket;
-        public string arrayBracket;
-        public string objectName;
-        public string text;
-        public string number;
-        public string boolean;
-        public string colon;
-        public colorPalete(bool light)
-        {
-            objectBracket = "#000000";
-            arrayBracket = "#000000";
-            objectName = "#000000";
-            text = "#000000";
-            number = "#000000";
-            boolean = "#000000";
-            colon = "#000000";
-
-            if (light)
-            {
-
-            }
-            else
-            {
-                objectBracket = "#ff2222";
-                arrayBracket = "#22ff22";
-                objectName = "#2222ff";
-                text = "#ffffff";
-                number = "#ffff22";
-                boolean = "#22ffff";
-                colon = "#666666";
-            }
-        }
-    }
+        public const string primary = "#DA70D6";
+        public const string secondary = "#F78C63";
+		public const string name = "#FFCB6B";
+        public const string value = "#C3E88D";
+        public const string number = "#89DDFF";
+        public const string logic = "#89DDFF";
+        public const string specialChar = "#666666";
+	}
 }
