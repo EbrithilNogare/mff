@@ -22,7 +22,14 @@ namespace Requester
 		{
 			client = new HttpClient();
 		}
-
+		/// <summary>
+		/// Sending requests with AJAX
+		/// </summary>
+		/// <param name="method">POST or GET</param>
+		/// <param name="url">with or without protocol, can include port and params</param>
+		/// <param name="body">text representation of body, even if it may be JSON</param>
+		/// <param name="headerParams">key, value of params to put into header</param>
+		/// <returns>returns response of request, even if error 404 happenes</returns>
 		public async Task<RequestResponse> Send(string method, string url, string body, Dictionary<string, string> headerParams = null)
 		{
 			// URL
@@ -60,7 +67,11 @@ namespace Requester
 
 			return output;
 		}
-
+		/// <summary>
+		/// Add custom headers into content
+		/// </summary>
+		/// <param name="headerParams">key, value of header param</param>
+		/// <param name="content">content with header which will be changed</param>
 		public void SetHeaders(Dictionary<string, string> headerParams, StringContent content)
 		{
 			foreach (var param in headerParams)
@@ -77,7 +88,12 @@ namespace Requester
 				}
 			}
 		}
-		
+		/// <summary>
+		/// concat params to the url, even if url has own params already
+		/// </summary>
+		/// <param name="url">valid url</param>
+		/// <param name="parameters">params to be aplied to url</param>
+		/// <returns></returns>
 		public string ApplyParamsToUrl(string url, Dictionary<string, string> parameters)
 		{
 			var uriBuilder = new UriBuilder(url);
@@ -90,7 +106,9 @@ namespace Requester
 			return uriBuilder.ToString();
 		}
 	}
-
+	/// <summary>
+	/// universal structure for return response of request
+	/// </summary>
 	public struct RequestResponse
 	{
 		public KeyValuePair<int, string> statusCode;
@@ -98,6 +116,9 @@ namespace Requester
 		public string content;
 		public int timing;
 	}
+	/// <summary>
+	/// universal format for saving and loading data to/from file
+	/// </summary>
 	public struct savedDataFormat
 	{
 		public string url { get; set; }
@@ -106,6 +127,9 @@ namespace Requester
 		public List<DataGridValue> header { get; set; }
 		public string content { get; set; }
 	}
+	/// <summary>
+	/// parser for JSON encoded templates and loading / saving them to / from file
+	/// </summary>
 	public class TemplateLoader
 	{
 		public void Save(string path, savedDataFormat data)
@@ -133,8 +157,13 @@ namespace Requester
 			return data;
 		}
 	}
+	/// <summary>
+	/// primary for dataGrid use purpose, but can be used everywhere
+	/// </summary>
 	public class DataGridValue
-	{
+	{	/// <summary>
+		/// active means, it is visible in GUI, but not send in request
+		/// </summary>
 		public bool active { get; set; }
 		public string key { get; set; }
 		public string value { get; set; }
