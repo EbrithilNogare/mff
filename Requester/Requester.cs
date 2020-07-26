@@ -49,11 +49,11 @@ namespace Requester
 				default:
 					throw new Exception("Invalid Method");
 			}
+			var timeSpan = stopWatch.Elapsed;
 
 			// Parse response
 			RequestResponse output = new RequestResponse();
 			output.content = await response.Content.ReadAsStringAsync();
-			var timeSpan = stopWatch.Elapsed;
 			output.header = response.Headers.ToString();
 			output.statusCode = new KeyValuePair<int, string>((int)response.StatusCode, response.StatusCode.ToString());
 			output.timing = (int)timeSpan.TotalMilliseconds;

@@ -1,0 +1,13 @@
+{
+  "url": "https://postman-echo.com/get?foo1=bar1&foo2=bar2",
+  "method": "GET",
+  "parameters": [],
+  "header": [
+	{
+	  "active": true,
+	  "key": "Content-Type",
+	  "value": "application/json"
+	}
+  ],
+  "content": "\r\n"
+}
