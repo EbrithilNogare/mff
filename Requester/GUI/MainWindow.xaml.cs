@@ -127,7 +127,6 @@ namespace GUI
 				url = cm.ApplyParamsToUrl(url, dataGridParamsInDictionary);
 
 
-				ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
 				RequestResponse response = await cm.Send(method, url, body, header);
 
 				if (response.content != null && response.content != "")
