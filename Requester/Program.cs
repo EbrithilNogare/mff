@@ -79,26 +79,40 @@ namespace Requester
 					header.Add(headerPair[0], headerPair[1]);
 				}
 			}
-			
-			// send request
-			Requester cm = new Requester();
-			RequestResponse response = await cm.Send(method, url, content, header);
 
-			if(argsD["-o"] != null)
-			{
-				using (StreamWriter sw = new StreamWriter(argsD["-o"]))
-				{
-					sw.Write(response.content);
-				}
-			}
-			else
-			{
-				Console.WriteLine(response.statusCode.Key + " (" + response.statusCode.Value + ")\n");
-				Console.WriteLine(response.header);
-				Console.WriteLine(response.timing + "ms\n");
-				Console.WriteLine(response.content);
-			}
-		}
+            // send request
+            try {
+			    Requester cm = new Requester();
+			    RequestResponse response = await cm.Send(method, url, content, header);
+
+			    if(argsD["-o"] != null)
+			    {
+				    using (StreamWriter sw = new StreamWriter(argsD["-o"]))
+				    {
+					    sw.Write(response.content);
+				    }
+			    }
+			    else
+			    {
+				    Console.WriteLine(response.statusCode.Key + " (" + response.statusCode.Value + ")\n");
+				    Console.WriteLine(response.header);
+				    Console.WriteLine(response.timing + "ms\n");
+				    Console.WriteLine(response.content);
+			    }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error:");
+                if (e.InnerException != null)
+                {
+                    Console.WriteLine(e.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
 		/// <summary>
 		/// parse args by tag, can be only used on Tuple arguments
 		/// </summary>

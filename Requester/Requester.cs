@@ -10,6 +10,7 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Runtime.CompilerServices;
 using System.Web;
+using System.Net;
 
 [assembly: InternalsVisibleTo("Requester.Tests")]
 namespace Requester
@@ -44,7 +45,8 @@ namespace Requester
 
 			// Send request
 			HttpResponseMessage response;
-			var stopWatch = Stopwatch.StartNew();
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            var stopWatch = Stopwatch.StartNew();
 			switch (method.ToUpper())
 			{
 				case "POST":
