@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -164,7 +165,16 @@ namespace GUI
 			}
 			catch (Exception e)
 			{
-				infoTextBlock.Text = e.Message;
+				if (e.InnerException != null)
+				{
+					StatusCodeTextBox.Text = "404 (Page Not Found)";
+					StatusCodeTextBox.Background = (SolidColorBrush)(new BrushConverter().ConvertFrom("#c62828"));
+					infoTextBlock.Text = e.InnerException.Message;
+				}
+				else
+				{
+					infoTextBlock.Text = e.Message;
+				}
 			}
 		}
 		private void ApplySavedData(Requester.savedDataFormat data)
