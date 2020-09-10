@@ -38,7 +38,7 @@ Rálná matice typu $m \times n$ je obdélníkové schema (tabulka)
 
 
 \asubsection{2}{3}{Vektor}
-Reálný n-rozměrný aritmetický sloupcový vektor je matice typu  $m \times 1$
+Reálný n-rozměrný aritmetický sloupcový vektor je matice typu  $n \times 1$
 
 
 \asubsection{2}{4}{* notace}
@@ -52,16 +52,37 @@ i-tý řádek matice $A$ se značí: $A_{i*} = (a_{i1}, a_{i2}, . . . , a_{in})$
 
 
 \asubsection{2}{8}{Elementární řádkové úpravy}
+\begin{itemize}
+	\item vynásobení i-tého řádku reálným číslem $\alpha \neq 0$
+	\item přičtení $\alpha$-násobku j-tého řádku k i-tému, přičemž $i \neq j$ a $\alpha \in \mathbb{R}$
+	\item výměna i-tého a j-tého řádku.
+\end{itemize}
 
 
 \asubsection{2}{12}{Odstupňovaný tvar matice}
-
+Matice $A \in \mathbb{R}^{m\times n}$
+je v řádkově odstupňovaném tvaru, pokud
+existuje $r$ takové, že platí
+\begin{itemize}
+	\item řádky $1,\dots, r$ jsou nenulové
+	\item řádky $r + 1,\dots , m$ jsou nulové 
+\end{itemize}
+a navíc označíme-li $p_i = min(j; a_{ij} \neq 0)$, tak platí
+\begin{itemize}
+	\item $p_1 < p_2 < \dots < p_r$
+\end{itemize}
 
 \asubsection{2}{13}{Hodnost matice}
+Hodností matice A rozumíme počet nenulových řádků po převodu do odstupňovaného
+tvaru a značíme rank(A).
 
 
 \asubsection{2}{18}{Redukovaný odstupňovaný tvar matice}
-
+je v REF a zaroven plati
+\begin{itemize}
+	\item $a_{1p_1} = a_{2p_2} = \dots = a_{rp_r} = 1$ (pivoty jsou jednicky)
+	\item pro kazde $i = 1, \dots, r$ je $a_{1p_i} = ... = 0$ (nad pivoty jsou nuly)
+\end{itemize}
 
 \asubsection{3}{1}{Rovnost}
 
@@ -206,7 +227,7 @@ Soustava $(A | b)$ má (aspoň jedno) řešení právě tehdy, když rank$(A) =$
 
 \asubsection{3}{28}{o regularni matici}
 Buď $A \in R^{m\times n}$.
-Pak $RREF(A) = QA$ pro nějakou regulární matici $Q \in R m\times m$
+Pak $RREF(A) = QA$ pro nějakou regulární matici $Q \in R^{m\times n}$
 \dukaz
 $RREF(A)$ získáme aplikací konečně mnoha elementárních řádkových úprav.
 Nechť jdou reprezentovat maticemi $E_1, E_2, . . . , E_k$.
@@ -219,14 +240,14 @@ Buď $A \in R^{n\times n}$.
 Je-li $A$ regulární, pak k ní existuje inverzní matice, a je určená jednoznačně.
 Naopak, existuje-li k $A$ inverzní, pak $A$ musí být regulární
 \dukaz
-Existence -  Vytvořme matici $A^{-1}$ tak, aby její sloupce byly vektory $x1, . . . , xn$,
+Existence - Vytvořme matici $A^{-1}$ tak, aby její sloupce byly vektory $x1, . . . , xn$,
 	to jest, $A^{-1} = (x1|x2| . . . |xn)$ \\
 Druha rovnost - $A(A^{-1} A - I) = A A^{-1} A - A = IA - A = 0$ \\
 Jednoznacnost - $B = BI = B(AA^{-1}) = (BA)A^{-1} = IA^{-1} = A^{-1}$
 
 
 \asubsection{3}{33}{Jedna rovnost stačí}
-Buďte $A, B \in R n\times n$. Je-li $BA = I$,
+Buďte $A, B \in R^{n\times n}$. Je-li $BA = I$,
 pak obě matice $A, B$ jsou regulární a navzájem k sobě inverzní,
 to jest $B = A^{-1}$ a $A = B^{-1}$
 \dukaz
