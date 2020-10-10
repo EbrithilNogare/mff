@@ -1,0 +1,96 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Pravděpodobnost a statistika 1}\\
+\textbf{Ukol: 1.}\\
+\textbf{Verze: 2.}\\
+\textbf{Autor: David Napravnik}
+
+\section*{P(SD)}
+podle tabulky vsech jevu vydime, ze nastane v $3$ ze $6^2$ pripadu.\\
+$
+\begin{matrix}
+	(1,1)&	(1,2)&	(1,3)&	(1,4)&	(1,5)&	(1,6)\\
+	(2,1)&	(2,2)&	(2,3)&	(2,4)&	(2,5)&	(2,6)\\
+	(3,1)&	(3,2)&	(3,3)&	(3,4)&	(3,5)&	(3,6)\\
+	(4,1)&	(4,2)&	(4,3)&	(4,4)&	(4,5)&	\textbf{(4,6)}\\
+	(5,1)&	(5,2)&	(5,3)&	(5,4)&	\textbf{(5,5)}&	(5,6)\\
+	(6,1)&	(6,2)&	(6,3)&	\textbf{(6,4)}&	(6,5)&	(6,6)
+\end{matrix}
+$\\
+$
+\doubleunderline{P(SD)=\frac{3}{36}}
+$
+
+
+\section*{P(PS)}
+je to jako hazet jen jednou kostkou, takze pravdepodobnost je 1 ze 6
+\\$
+\doubleunderline{P(PS)=\frac{1}{6}}
+$
+
+
+\section*{P(NS)}
+secteme obe pravdepodobnosti a pak odectene jejich prunik\\
+$P_1 + P_2 - (P_1 \cap P_2)$\\
+$\frac{1}{6} + \frac{1}{6} - (\frac{1}{36})$\\
+$
+\doubleunderline{P(NS)=\frac{11}{36}}
+$
+
+\begin{multicols}{2}
+\section*{P(SD|PS)}
+$P(SD|PS) = \frac{P(SD \cap PS)}{P(PS)}$\\
+$P(SD|PS) = \frac{\frac{1}{36}}{\frac{1}{6}}$\\
+$P(SD|PS) = \doubleunderline{\frac{1}{6}}$
+
+\section*{P(SD|NS)}
+$P(SD|NS) = \frac{P(SD \cap NS)}{P(NS)}$\\
+$P(SD|NS) = \frac{\frac{2}{36}}{\frac{11}{36}}$\\
+$P(SD|NS) = \doubleunderline{\frac{2}{11}}$
+
+\section*{P(PS|SD)}
+$P(PS|SD) = \frac{P(PS \cap SD)}{P(SD)}$\\
+$P(PS|SD) = \frac{\frac{1}{36}}{\frac{3}{36}}$\\
+$P(PS|SD) = \doubleunderline{\frac{1}{12}}$
+
+\section*{P(PS|NS)}
+$P(PS|NS) = \frac{P(PS \cap NS)}{P(NS)}$\\
+$P(PS|NS) = \frac{\frac{1}{6}}{\frac{11}{36}}$\\
+$P(PS|NS) = \doubleunderline{\frac{12}{22}}$
+
+\section*{P(NS|SD)}
+$P(NS|SD) = \frac{P(NS \cap SD)}{P(SD)}$\\
+$P(NS|SD) = \frac{\frac{2}{36}}{\frac{3}{36}}$\\
+$P(NS|SD) = \doubleunderline{\frac{2}{3}}$
+
+\section*{P(NS|PS)}
+$P(NS|PS) = \frac{P(NS \cap PS)}{P(PS)}$\\
+$P(NS|PS) = \frac{\frac{1}{6}}{\frac{1}{6}}$\\
+$P(NS|PS) = \doubleunderline{1}$
+
+\end{multicols}
+
+
+
+\end{document}
