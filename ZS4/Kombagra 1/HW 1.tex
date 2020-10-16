@@ -1,0 +1,115 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\setcounter{MaxMatrixCols}{40}
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Kombinatorika a grafy 1}\\
+\textbf{Ukol: 1.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}
+
+\section*{Prvni ukol}
+
+$(n!)^3$ \\ >
+po roznasobeni porovnavame jeden prvek z $(n!)^3$ s dvemi z $(2n)!$, takze dostaneme $n^3 > 2n*2n-1$ a to plati pro vsechny cleny vyjma $n=1$, ale to je pouze konstanta, tak ji muzeme zanedbat
+\\$(2n)!$ \\ >
+trivialne
+\\$n!$ \\ >
+$n! \geq (\frac{n}{e})^n > \log^n(n) \sim \frac{n}{e} > \log(n)$, pro $n>e$
+\\$\log^n(n)$ \\ >
+$\binom{2n}{n} < 2^{2n} = 4^n < \log^n(n)$
+\\$\binom{2n}{n}$ \\ >
+trivialne
+\\$\binom{2n}{n-1}$ \\ >
+podle $2^n < \frac{2^{2n}}{2n+1}\leq \binom{2n}{n}$
+\\$2^n$ \\ >
+rovnost nastane pro $n=4$ a $n=16$ a pro $n>16$ uz roste rychleji
+\\$n^{\sqrt{n}}$ \\ >
+$\sqrt{n} > \log(n)$
+\\$n^{\log(n)}$ \\ >
+$\log(n) > 15$ \dots pro hooodne velka $n$
+\\$n^{15}$ \\ >
+pocitejme rozklad a pouze nejvyssi mocniny (zbytek prohlasme za konstanty) a mame ($ \binom{2n}{10}\sim n^{10} < n^{15}$)
+\\$\binom{2n}{10}$ \\ >
+$\binom{2n}{10} > n > \log(n^n)$
+\\$\log(n^n)$ \\\\
+pouzite definice a vety:\\
+$
+e(\frac{n}{e})^n \leq n! \leq en(\frac{n}{e})^n  \\
+\frac{2^n}{n+1}\leq \binom{n}{\lfloor n/2 \rfloor} \leq 2^n
+$
+
+
+
+
+\section*{Druhy ukol}
+odpovida Katalanovu cislu, takze\\
+\# triangulaci konvexniho $(n+2)-$uhelniku je $C_n = \frac{1}{n+1}\binom{2n}{n}$
+
+
+
+\section*{Treti ukol}
+$\begin{matrix}
+	1&-1&2&-2&3&-3&4&-4& \dots & \sim \\
+	\hline
+	1&0&2&0&3&0&4&0& \dots & \frac{1}{(1-x^2)^2} \\
+	0&-1&0&-2&0&-3&0&-4& \dots & \frac{-x}{(1-x^2)^2}
+\end{matrix}$\\
+$\frac{1}{(1-x^2)^2} + \frac{-x}{(1-x^2)^2} = \doubleunderline{\frac{1-x}{(1-x^2)^2}}$
+\\\\
+nedokazu urcit posloupnost podle prvnich prvku, tak se budu ridit zadanym vzorem (stridani $i$ a $2^i$) viz prvni radek\\
+$\begin{matrix}
+	1&2^1&2&2^2&3&2^3&4&2^4& \dots~i ~ 2^i \\
+	1&2&2&4&3&8&4&16& \dots & \sim\\
+	\hline
+	1 & \cdot & 2 &\cdot & 3 &\cdot & 4 &\cdot & \dots & \frac{1}{(1-x^2)^2}\\
+	\cdot & 2 & \cdot & 4 & \cdot & 8 & \cdot & 16 & \dots & \frac{2x}{1-2x^2} 
+\end{matrix}$\\
+$\doubleunderline{\frac{1}{(1-x^2)^2}+\frac{2x}{1-2x^2}}$
+
+
+
+
+
+\section*{Ctvrty ukol}
+Mejme $a_k = k*2^k$ a $s_n = \sum_{k=0}^n{a_k}$\\
+Vytvorujici funkci ziskame z vytvorujici funkce posloupnosti (1,2...), kterou posuneme doprava dosazenim $2x$ a zdvojnasobenim hodnot vynasobenim cislem $2$\\
+$a(x) = \frac{2x}{(1-2x)^2}$\\
+$s(x)=\frac{2x}{(1-2x)^2(1-x)}$\\
+Abychom $s(x)$ dostali v lepsim tvaru pouzijeme rozklad na parcialni zlomky.\\
+$s(x)=
+\frac{2x}{(1-2x)^2(1-x)}=
+\frac{A}{x-1}+\frac{B}{2x-1}+\frac{C}{(2x-1)^2}=
+\frac{4}{2 x - 1} + \frac{2}{(2x-1)^2} - \frac{2}{x-1}
+$\\
+pak prevedeme na sumy\\
+$=4\sum^\infty_{n=0}(2x)^n + 2\sum^\infty_{n=0}\binom{n+1}{1}(2x)^n - 2\sum^\infty_{n=0}x^n$\\
+$=\sum^\infty_{n=0}((n-1)2^{n+1}+2)x^n$\\
+Soucet rady je $\doubleunderline{(n-1)2^{n+1}+2}$
+
+
+
+
+
+
+
+\end{document}
