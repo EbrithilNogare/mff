@@ -1,0 +1,629 @@
+3: ETYPE int
+3: identifier [fib]
+3: (
+3: ETYPE int
+3: identifier [p]
+3: )
+3: ;
+5: struct
+5: identifier [Str]
+5: {
+6: const
+6: ETYPE char
+6: *
+6: identifier [key]
+6: ;
+7: struct
+7: identifier [Str]
+7: *
+7: identifier [next]
+7: ;
+8: }
+8: ;
+10: struct
+10: identifier [Str]
+10: *
+10: identifier [root]
+10: ;
+12: struct
+12: identifier [Str]
+12: identifier [array]
+12: [
+12: integer literal 1000
+12: ]
+12: ;
+13: ETYPE int
+13: identifier [array_end]
+13: ;
+15: struct
+15: identifier [Str]
+15: *
+15: identifier [get_str]
+15: (
+15: void
+15: )
+16: {
+17: struct
+17: identifier [Str]
+17: *
+17: identifier [p]
+17: ;
+18: identifier [p]
+18: =
+18: &
+18: identifier [array]
+18: [
+18: identifier [array_end]
+18: ]
+18: ;
+19: identifier [array_end]
+19: =
+19: identifier [array_end]
+19: ADDOP +
+19: integer literal 1
+19: ;
+20: return
+20: identifier [p]
+20: ;
+21: }
+23: void
+23: identifier [push_front]
+23: (
+23: struct
+23: identifier [Str]
+23: *
+23: *
+23: identifier [rootp]
+23: ,
+23: const
+23: ETYPE char
+23: *
+23: identifier [key]
+23: )
+24: {
+25: struct
+25: identifier [Str]
+25: *
+25: identifier [p]
+25: ;
+26: identifier [p]
+26: =
+26: identifier [get_str]
+26: (
+26: )
+26: ;
+27: (
+27: *
+27: identifier [p]
+27: )
+27: .
+27: identifier [key]
+27: =
+27: identifier [key]
+27: ;
+28: (
+28: *
+28: identifier [p]
+28: )
+28: .
+28: identifier [next]
+28: =
+28: *
+28: identifier [rootp]
+28: ;
+29: *
+29: identifier [rootp]
+29: =
+29: identifier [p]
+29: ;
+30: }
+32: ETYPE _Bool
+32: identifier [empty]
+32: (
+32: struct
+32: identifier [Str]
+32: *
+32: *
+32: identifier [rootp]
+32: )
+33: {
+34: return
+34: !
+34: *
+34: identifier [rootp]
+34: ;
+35: }
+37: const
+37: ETYPE char
+37: *
+37: identifier [front]
+37: (
+37: struct
+37: identifier [Str]
+37: *
+37: *
+37: identifier [rootp]
+37: )
+38: {
+39: return
+39: (
+39: *
+39: *
+39: identifier [rootp]
+39: )
+39: .
+39: identifier [key]
+39: ;
+40: }
+42: void
+42: identifier [pop_front]
+42: (
+42: struct
+42: identifier [Str]
+42: *
+42: *
+42: identifier [rootp]
+42: )
+43: {
+44: *
+44: identifier [rootp]
+44: =
+44: (
+44: *
+44: *
+44: identifier [rootp]
+44: )
+44: .
+44: identifier [next]
+44: ;
+45: }
+47: ETYPE int
+47: identifier [fib]
+47: (
+47: ETYPE int
+47: identifier [x]
+47: )
+48: {
+49: ETYPE int
+49: identifier [s]
+49: ;
+50: if
+50: (
+50: identifier [x]
+50: CMPO <=
+50: integer literal 2
+50: )
+51: return
+51: integer literal 1
+51: ;
+52: else
+53: {
+54: identifier [s]
+54: =
+54: identifier [fib]
+54: (
+54: identifier [x]
+54: ADDOP -
+54: integer literal 1
+54: )
+54: ADDOP +
+54: identifier [fib]
+54: (
+54: identifier [x]
+54: ADDOP -
+54: integer literal 2
+54: )
+54: ;
+55: return
+55: identifier [s]
+55: ;
+56: }
+57: }
+59: void
+59: identifier [stringtest]
+59: (
+59: void
+59: )
+60: {
+61: ETYPE char
+61: identifier [arr]
+61: [
+61: integer literal 100
+61: ]
+61: ;
+62: ETYPE int
+62: identifier [i]
+62: ;
+63: ETYPE char
+63: identifier [t]
+63: [
+63: integer literal 40
+63: ]
+63: ;
+64: identifier [printf]
+64: (
+64: string literal "... stringtest ...\x0a"
+64: )
+64: ;
+65: identifier [sprintf]
+65: (
+65: identifier [arr]
+65: ,
+65: string literal "%d %s"
+65: ,
+65: integer literal 1
+65: ,
+65: string literal "text"
+65: )
+65: ;
+66: identifier [printf]
+66: (
+66: string literal "sprintf: %s\x0a"
+66: ,
+66: identifier [arr]
+66: )
+66: ;
+67: identifier [i]
+67: =
+67: ADDOP -
+67: integer literal 1
+67: ;
+68: identifier [t]
+68: [
+68: integer literal 0
+68: ]
+68: =
+68: integer literal 0
+68: ;
+69: identifier [sscanf]
+69: (
+69: identifier [arr]
+69: ,
+69: string literal "%d%s"
+69: ,
+69: &
+69: identifier [i]
+69: ,
+69: identifier [t]
+69: )
+69: ;
+70: identifier [printf]
+70: (
+70: string literal "sscanf: %d %s\x0a"
+70: ,
+70: identifier [i]
+70: ,
+70: identifier [t]
+70: )
+70: ;
+76: identifier [memset]
+76: (
+76: identifier [t]
+76: ,
+76: integer literal 88
+76: ,
+76: integer literal 39
+76: )
+76: ;
+77: identifier [t]
+77: [
+77: integer literal 39
+77: ]
+77: =
+77: integer literal 0
+77: ;
+78: identifier [printf]
+78: (
+78: string literal "%s\x0a"
+78: ,
+78: identifier [t]
+78: )
+78: ;
+79: }
+81: void
+81: identifier [pointerarithmeticstest]
+81: (
+81: void
+81: )
+82: {
+83: ETYPE char
+83: identifier [arr]
+83: [
+83: integer literal 27
+83: ]
+83: ;
+84: ETYPE char
+84: *
+84: identifier [p]
+84: ;
+85: ETYPE char
+85: *
+85: identifier [e]
+85: ;
+86: ETYPE char
+86: identifier [ch]
+86: ;
+87: identifier [printf]
+87: (
+87: string literal "... pointerarithmeticstest ...\x0a"
+87: )
+87: ;
+88: identifier [ch]
+88: =
+88: integer literal 65
+88: ;
+89: identifier [p]
+89: =
+89: identifier [arr]
+89: ;
+90: identifier [e]
+90: =
+90: identifier [arr]
+90: ADDOP +
+90: integer literal 26
+90: ;
+91: while
+91: (
+91: identifier [p]
+91: CMPE !=
+91: identifier [e]
+91: )
+92: {
+93: *
+93: identifier [p]
+93: =
+93: identifier [ch]
+93: ;
+94: identifier [ch]
+94: =
+94: identifier [ch]
+94: ADDOP +
+94: integer literal 1
+94: ;
+95: identifier [p]
+95: =
+95: identifier [p]
+95: ADDOP +
+95: integer literal 1
+95: ;
+96: }
+97: *
+97: identifier [p]
+97: =
+97: integer literal 0
+97: ;
+98: identifier [printf]
+98: (
+98: string literal "%s\x0a"
+98: ,
+98: identifier [arr]
+98: )
+98: ;
+99: }
+101: void
+101: identifier [argreverttest]
+101: (
+101: ETYPE int
+101: identifier [argc]
+101: ,
+101: ETYPE char
+101: *
+101: *
+101: identifier [argv]
+101: )
+102: {
+103: const
+103: ETYPE char
+103: *
+103: identifier [z]
+103: ;
+104: ETYPE int
+104: identifier [i]
+104: ;
+105: identifier [printf]
+105: (
+105: string literal "... argreverttest ...\x0a"
+105: )
+105: ;
+106: identifier [printf]
+106: (
+106: string literal "sizeof(struct Str) = %d\x0a"
+106: ,
+106: sizeof
+106: (
+106: struct
+106: identifier [Str]
+106: )
+106: )
+106: ;
+107: identifier [i]
+107: =
+107: integer literal 0
+107: ;
+108: while
+108: (
+108: identifier [i]
+108: CMPO <
+108: identifier [argc]
+108: )
+109: {
+110: identifier [z]
+110: =
+110: identifier [argv]
+110: [
+110: identifier [i]
+110: ]
+110: ;
+111: identifier [printf]
+111: (
+111: string literal "argv[%d] is \x22%s\x22\x0a"
+111: ,
+111: identifier [i]
+111: ,
+111: identifier [z]
+111: )
+111: ;
+112: identifier [push_front]
+112: (
+112: &
+112: identifier [root]
+112: ,
+112: identifier [z]
+112: )
+112: ;
+113: identifier [i]
+113: =
+113: identifier [i]
+113: ADDOP +
+113: integer literal 1
+113: ;
+114: }
+115: while
+115: (
+115: !
+115: identifier [empty]
+115: (
+115: &
+115: identifier [root]
+115: )
+115: )
+116: {
+117: identifier [z]
+117: =
+117: identifier [front]
+117: (
+117: &
+117: identifier [root]
+117: )
+117: ;
+118: identifier [pop_front]
+118: (
+118: &
+118: identifier [root]
+118: )
+118: ;
+119: identifier [printf]
+119: (
+119: string literal "popped \x22%s\x22\x0a"
+119: ,
+119: identifier [z]
+119: )
+119: ;
+120: }
+121: }
+123: void
+123: identifier [fibtest]
+123: (
+123: void
+123: )
+124: {
+125: ETYPE int
+125: identifier [n]
+125: ;
+126: ETYPE int
+126: identifier [s]
+126: ;
+127: identifier [printf]
+127: (
+127: string literal "... fibtest ...\x0a"
+127: )
+127: ;
+128: identifier [n]
+128: =
+128: integer literal 20
+128: ;
+129: identifier [s]
+129: =
+129: identifier [fib]
+129: (
+129: identifier [n]
+129: )
+129: ;
+130: identifier [printf]
+130: (
+130: string literal "fib(%d) returned %d\x0a"
+130: ,
+130: identifier [n]
+130: ,
+130: identifier [s]
+130: )
+130: ;
+131: }
+133: ETYPE _Bool
+133: identifier [status]
+133: ;
+135: ETYPE _Bool
+135: identifier [test]
+135: (
+135: void
+135: )
+136: {
+137: return
+137: identifier [status]
+137: ;
+138: }
+140: ETYPE int
+140: identifier [main]
+140: (
+140: ETYPE int
+140: identifier [argc]
+140: ,
+140: ETYPE char
+140: *
+140: *
+140: identifier [argv]
+140: )
+141: {
+142: identifier [status]
+142: =
+142: integer literal 0
+142: ;
+143: identifier [printf]
+143: (
+143: string literal "This is test1.c main()\x0a"
+143: )
+143: ;
+144: identifier [argreverttest]
+144: (
+144: identifier [argc]
+144: ,
+144: identifier [argv]
+144: )
+144: ;
+145: identifier [fibtest]
+145: (
+145: )
+145: ;
+146: identifier [stringtest]
+146: (
+146: )
+146: ;
+147: identifier [pointerarithmeticstest]
+147: (
+147: )
+147: ;
+148: if
+148: (
+148: identifier [test]
+148: (
+148: )
+148: )
+149: {
+150: identifier [printf]
+150: (
+150: string literal "Going to die\x0a"
+150: )
+150: ;
+151: identifier [printf]
+151: (
+151: string literal "DEATH=%s\x0a"
+151: ,
+151: integer literal 999999999
+151: )
+151: ;
+152: }
+153: return
+153: integer literal 0
+153: ;
+154: }
+========== cecko1 done ==========
