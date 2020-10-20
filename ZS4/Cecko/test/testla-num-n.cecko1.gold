@@ -1,0 +1,52 @@
+2: ETYPE int
+2: identifier [main]
+2: (
+2: ETYPE int
+2: identifier [argc]
+2: ,
+2: ETYPE char
+2: *
+2: *
+2: identifier [argv]
+2: )
+3: {
+4: ETYPE int
+4: identifier [a]
+4: =
+Error (line 4): Integer literal "12345678901234567890" out of range
+4: integer literal -350287150
+4: ;
+5: ETYPE int
+5: identifier [b]
+5: =
+Error (line 5): Integer literal "0x0123456789abcdef" out of range
+5: integer literal -1985229329
+5: ;
+7: ETYPE int
+7: identifier [c]
+7: =
+Error (line 7): Malformed integer literal "123abc"
+7: integer literal 123
+7: ;
+8: ETYPE int
+8: identifier [d]
+8: =
+Error (line 8): Malformed integer literal "0xabcdefghijkl"
+8: integer literal 11259375
+8: ;
+10: ETYPE int
+10: identifier [e]
+10: =
+Error (line 10): Malformed integer literal "12345678901234567890abc"
+Error (line 10): Integer literal "12345678901234567890abc" out of range
+10: integer literal -350287150
+10: ;
+11: ETYPE int
+11: identifier [f]
+11: =
+Error (line 11): Malformed integer literal "0x0123456789abcdefghijkl"
+Error (line 11): Integer literal "0x0123456789abcdefghijkl" out of range
+11: integer literal -1985229329
+11: ;
+12: }
+========== cecko1 done ==========
