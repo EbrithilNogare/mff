@@ -5,6 +5,9 @@
 
 #include INCLUDE_WRAP(BISON_HEADER)
 
+	int comment_depth = 0;
+	std::string string_buff;
+
 %}
 
 /* NEVER SET %option outfile INTERNALLY - SHALL BE SET BY CMAKE */
@@ -15,10 +18,39 @@
 
 /* AVOID backup perf-report - DO NOT CREATE UNMANAGEABLE BYPRODUCT FILES */
 
+%x STRING
+%x ML_COMMENT
+
 %%
 
 \n				ctx->incline();
 
+<ML_COMMENT><<EOF>>	{
+		ctx->message(cecko::errors::EOFINCMT, ctx->line());
+		return cecko::parser::make_EOF(ctx->line());
+	}
+
+\/\/.*$
+
+\/\* {	
+	comment_depth = 1;
+	BEGIN(ML_COMMENT);
+}
+
+<ML_COMMENT>\/\*	{ comment_depth++; }
+
+<ML_COMMENT>\*\/ {	
+	comment_depth--;
+	if(comment_depth==0)
+		BEGIN(INITIAL);
+}
+
+\*\/		ctx->message(cecko::errors::UNEXPENDCMT, ctx->line());
+
+<ML_COMMENT>\n		ctx->incline();
+<ML_COMMENT>.		
+
+[\n\r\t\f ]	
 
 "typedef"	return cecko::parser::make_TYPEDEF(ctx->line());		
 "void"		return cecko::parser::make_VOID(ctx->line());	
@@ -75,31 +107,46 @@
 "}"			return cecko::parser::make_RCUR(ctx->line());
 ":"			return cecko::parser::make_COLON(ctx->line());
 
-[\n\r\t\f ]	{
-		return cecko::parser::make_STRLIT(std::basic_string(yytext),ctx->line());
-	}
 
 [a-zA-Z_][a-zA-Z0-9_]*	{
 		return cecko::parser::make_IDF(std::basic_string(yytext),ctx->line());
 	}
 
-[\x22].*[\x22]	{
-		return cecko::parser::make_STRLIT(std::basic_string(yytext),ctx->line());
+\"	{ //"{
+	BEGIN(STRING);
+	string_buff = "";
+}
+
+<STRING>\"	{ //"{
+	BEGIN(INITIAL);
+	return cecko::parser::make_STRLIT(string_buff,ctx->line());
+}
+
+<STRING>\\n		{ string_buff.append("\x0a"); }
+<STRING>\\\"	{ string_buff.append("\x22"); /*"{*/ }
+
+
+<STRING>.	{
+		string_buff.append(yytext);
 	}
 
-[\x27].[\x27]	{
-		return cecko::parser::make_STRLIT(std::basic_string(yytext),ctx->line());
+'.+'	{
+		std::string tmp = std::basic_string(yytext);
+		return cecko::parser::make_INTLIT(tmp[1],ctx->line());
 	}
 
-[-]?[0-9]+	{
+
+[0-9]+	{
 		return cecko::parser::make_INTLIT(std::stod(yytext),ctx->line());
 	}
+
 [\\][x][0-9]{1,3}	{
 		return cecko::parser::make_TYPEIDF(std::basic_string(yytext),ctx->line());
 	}
 
 
-.				ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
+
+.		ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
 
 
 <<EOF>>			return cecko::parser::make_EOF(ctx->line());
