@@ -7,6 +7,7 @@
 
 	int comment_depth = 0;
 	std::string string_buff;
+	int char_buff = 0;
 
 %}
 
@@ -19,13 +20,14 @@
 /* AVOID backup perf-report - DO NOT CREATE UNMANAGEABLE BYPRODUCT FILES */
 
 %x STRING
-%x ML_COMMENT
+%x CeckoCHAR
+%x COMMENT
 
 %%
 
 \n				ctx->incline();
 
-<ML_COMMENT><<EOF>>	{
+<COMMENT><<EOF>>	{
 		ctx->message(cecko::errors::EOFINCMT, ctx->line());
 		return cecko::parser::make_EOF(ctx->line());
 	}
@@ -34,12 +36,12 @@
 
 \/\* {	
 	comment_depth = 1;
-	BEGIN(ML_COMMENT);
+	BEGIN(COMMENT);
 }
 
-<ML_COMMENT>\/\*	{ comment_depth++; }
+<COMMENT>\/\*	{ comment_depth++; }
 
-<ML_COMMENT>\*\/ {	
+<COMMENT>\*\/ {	
 	comment_depth--;
 	if(comment_depth==0)
 		BEGIN(INITIAL);
@@ -47,8 +49,8 @@
 
 \*\/		ctx->message(cecko::errors::UNEXPENDCMT, ctx->line());
 
-<ML_COMMENT>\n		ctx->incline();
-<ML_COMMENT>.		
+<COMMENT>\n		ctx->incline();
+<COMMENT>.		
 
 [\n\r\t\f ]	
 
@@ -122,28 +124,150 @@
 	return cecko::parser::make_STRLIT(string_buff,ctx->line());
 }
 
+<STRING><<EOF>>	{
+		ctx->message(cecko::errors::EOFINSTRCHR, ctx->line());
+		BEGIN(INITIAL);
+		return cecko::parser::make_STRLIT(string_buff,ctx->line());
+	}
+<STRING>\n		{
+		BEGIN(INITIAL);
+		ctx->message(cecko::errors::EOLINSTRCHR, ctx->line());
+		ctx->incline();
+		return cecko::parser::make_STRLIT(string_buff,ctx->line());
+	}
 <STRING>\\n		{ string_buff.append("\x0a"); }
 <STRING>\\\"	{ string_buff.append("\x22"); /*"{*/ }
-
-
+<STRING>(\'|\"|\?|\a|\b|\f|\r|\t|\v)		{ //'{
+		string_buff.append(yytext);
+	}
+<STRING>\\x[^\"\n]{4,}	{ //"{
+		std::string tmp = yytext; 
+		ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp.substr(2,4));
+		string_buff.append(tmp.substr(0,2));
+		string_buff.append(tmp.substr(4));
+	}
+<STRING>\\[^\"\n]*	{ //"{
+		std::string tmp = yytext; 
+		ctx->message(cecko::errors::BADESCAPE, ctx->line(),yytext);
+		string_buff.append(tmp.substr(1));
+	}
 <STRING>.	{
 		string_buff.append(yytext);
 	}
 
-'.+'	{
-		std::string tmp = std::basic_string(yytext);
-		return cecko::parser::make_INTLIT(tmp[1],ctx->line());
+''		{
+		ctx->message(cecko::errors::EMPTYCHAR, ctx->line());
+		return cecko::parser::make_INTLIT(0,ctx->line());
+	}
+'	{ //'{
+		BEGIN(CeckoCHAR);
+		char_buff = 0;
+	}
+<CeckoCHAR>'	{ //'{
+		BEGIN(INITIAL);
+		return cecko::parser::make_INTLIT(char_buff,ctx->line());
+	}
+<CeckoCHAR><<EOF>>	{
+		ctx->message(cecko::errors::EOFINSTRCHR, ctx->line());
+		BEGIN(INITIAL);
+		return cecko::parser::make_INTLIT(char_buff,ctx->line());
+	}
+<CeckoCHAR>\n		{
+		BEGIN(INITIAL);
+		ctx->message(cecko::errors::EOLINSTRCHR, ctx->line());
+		ctx->incline();
+		return cecko::parser::make_INTLIT(char_buff,ctx->line());
+	}
+<CeckoCHAR>(\'|\"|\?|\a|\b|\f|\r|\t|\v)		{ //'{
+		char_buff <<= 8;
+		char_buff |= yytext[0];
+	}
+<CeckoCHAR>\\x[^'\n]*		{ //']{
+		std::string tmp = yytext; 
+		if(tmp.length()>5){
+			ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp.substr(tmp.length()-4));
+			char_buff |= tmp[tmp.length()-1];
+		}
+		else if(tmp.length()<3)
+			ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp);
+		else{
+			char_buff <<= 8;
+			char_buff |= std::stoi(tmp.substr(2),nullptr,16);
+		}
+	}
+<CeckoCHAR>\\[^'\n]*	{ //'{
+		std::string tmp = yytext;
+		ctx->message(cecko::errors::BADESCAPE, ctx->line(),yytext);
+		char_buff <<= 8;
+		if(tmp.length()>1)
+			char_buff |= tmp[tmp.length()-1];
+	}
+<CeckoCHAR>[^'\n]		{ //'{
+		char_buff <<= 8;
+		char_buff |= yytext[0];
 	}
 
-
-[0-9]+	{
+[0-9]{1,9}	{
 		return cecko::parser::make_INTLIT(std::stod(yytext),ctx->line());
 	}
+0x[0-9a-zA-Z]+	{
+		std::string tmp = yytext;
+		unsigned long sum = 0;
+		long long time = 1;
+		const ulong INTMAX = 2147483648;
+		bool happyending = true;
+		tmp = tmp.substr(2);
+		for(auto& tesla : tmp) {
+			if((tesla <= '9' && tesla >= '0') || (tesla <= 'f' && tesla >= 'a') || (tesla <= 'F' && tesla >= 'A')) {
+				sum*=16;
+				if(sum >= INTMAX)
+					happyending = false;
+				sum%=INTMAX;
+				sum+=std::stoi(std::string(1,tesla),0,16);
+				if(sum >= INTMAX)
+					happyending = false;
+			} else{
+				ctx->message(cecko::errors::BADINT, ctx->line(),yytext);
+				break;
+			}
+			
+		}
+		if(!happyending)
+			ctx->message(cecko::errors::INTOUTRANGE, ctx->line(),yytext);
+		return cecko::parser::make_INTLIT(happyending?sum:INTMAX+sum,ctx->line());
+	}
+[0-9a-zA-Z]+	{
+		std::string tmp = yytext;
+		unsigned long sum = 0;
+		long long time = 1;
+		const ulong INTMAX = 2147483648;
+		bool happyending = true;
+		for(auto& tesla : tmp) {
+			if(tesla > '9' || tesla < '0') {
+				ctx->message(cecko::errors::BADINT, ctx->line(),yytext);
+				break;
+			} 
+			sum*=10;
+			if(sum >= INTMAX)
+				happyending = false;
+			sum%=INTMAX;
+			sum+=(tesla - '0');
+			if(sum >= INTMAX)
+				happyending = false;
+		}
+		if(!happyending)
+			ctx->message(cecko::errors::INTOUTRANGE, ctx->line(),yytext);
+		return cecko::parser::make_INTLIT(happyending?sum:INTMAX+sum,ctx->line());
+	}
 
-[\\][x][0-9]{1,3}	{
+[\\][x][0-9a-fA-F]{1,3}	{
+	
 		return cecko::parser::make_TYPEIDF(std::basic_string(yytext),ctx->line());
 	}
 
+\\x[0-9a-fA-F]*	{
+		ctx->message(cecko::errors::BADESCAPE, ctx->line(),yytext);
+	}
 
 
 .		ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);

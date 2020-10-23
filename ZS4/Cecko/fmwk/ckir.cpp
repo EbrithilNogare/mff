@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <cstdarg>
+#include <iostream>
 
 #if defined _WIN32 || defined __CYGWIN__
 #ifdef __GNUC__
@@ -17,15 +18,36 @@
 #endif
 #endif
 
+std::ostream* ckrt_out = &std::cout;
+
 extern "C" {
 	int DLL_PUBLIC ckrt_printf(const char* s, ...)
 	{
+		static std::vector<char> buffer;
 		va_list va;
 		va_start(va, s);
-		int rv = vprintf(s, va);
+		va_list va2;
+		va_copy(va2, va);
+		auto rv2 = std::vsnprintf(nullptr, 0, s, va2);
+		va_end(va2);
+		if (rv2 < 0)	// vsnprintf failed
+		{
+			std::vsnprintf(nullptr, 0, s, va);
+		}
+		else
+		{
+			auto rsize = rv2 + 1;	// ending zero
+			if (rsize >= buffer.size())
+				buffer.resize(rsize);
+			auto rv = std::vsnprintf(buffer.data(), buffer.size(), s, va);
+			if (rv == rv2)
+			{
+				ckrt_out->write(buffer.data(), rv);
+				ckrt_out->flush();
+			}
+		}
 		va_end(va);
-		fflush(stdout);
-		return rv;
+		return rv2;
 	}
 
 	int DLL_PUBLIC ckrt_scanf(const char* s, ...)
@@ -34,7 +56,6 @@ extern "C" {
 		va_start(va, s);
 		int rv = vscanf(s, va);
 		va_end(va);
-		fflush(stdout);
 		return rv;
 	}
 
@@ -44,7 +65,6 @@ extern "C" {
 		va_start(va, s);
 		int rv = vsprintf(b, s, va);
 		va_end(va);
-		fflush(stdout);
 		return rv;
 	}
 
@@ -54,7 +74,6 @@ extern "C" {
 		va_start(va, s);
 		int rv = vsscanf(b, s, va);
 		va_end(va);
-		fflush(stdout);
 		return rv;
 	}
 
@@ -128,10 +147,8 @@ namespace cecko {
 		return oec;
 	}
 
-	int CKIREnvironment::run_main(CKIRFunctionObs fnc, int argc, char** argv)
+	int CKIREnvironment::run_main(CKIRFunctionObs fnc, int argc, char** argv, std::ostream & os)
 	{
-		//auto&& os = llvm::outs();
-		auto&& os = std::cout;
 		int mainrv = -1;
 		{
 			// Now we going to create JIT
@@ -153,6 +170,7 @@ namespace cecko {
 
 			os << "========== starting main() ==========\n";
 			os.flush();	// flush before running unsafe code
+			ckrt_out = &os;
 
 			std::vector<llvm::GenericValue> Args(2);
 			Args[0].IntVal = llvm::APInt(32, argc);
@@ -160,6 +178,7 @@ namespace cecko {
 			auto GV = EE->runFunction(fnc, Args);
 			mainrv = GV.IntVal.getSExtValue();
 
+			ckrt_out = &std::cout;
 			// hopefully we destroy JIT here
 		}
 		os << "\n========== main() returned " << mainrv << " ==========\n";

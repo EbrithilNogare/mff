@@ -33,6 +33,14 @@ function(SET_TARGET_OPTIONS TARGET OPT_GCC OPT_MSVC)
 	endif()
 endfunction()
 
+function(SET_TARGET_LINK_OPTIONS TARGET OPT_GCC OPT_MSVC)
+	if(MSVC)
+		target_link_options(${TARGET} PUBLIC ${OPT_MSVC})
+	else()
+		target_link_options(${TARGET} PUBLIC ${OPT_GCC})
+	endif()
+endfunction()
+
 function(COMMON_OPTIONS TARGET)
 	set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 17)
 	if(NOT DEFINED LLVM_PACKAGE_VERSION)
@@ -50,10 +58,9 @@ function(COMMON_OPTIONS TARGET)
 	SET_TARGET_OPTIONS(${TARGET} "" "/wd4267")
 	SET_TARGET_OPTIONS(${TARGET} "" "/wd4624")
 
-	if(MSVC)
-	else()
-		target_link_options(${TARGET} PUBLIC "-rdynamic")	# for self-references to ckrt_printf etc
-	endif()
+	SET_TARGET_LINK_OPTIONS(${TARGET} "" "/IGNORE:4099")	# missing pdb
+
+	SET_TARGET_LINK_OPTIONS(${TARGET} "-rdynamic" "")	# for self-references to ckrt_printf etc
 
 endfunction()
 
@@ -73,15 +80,15 @@ endfunction()
 function(MAKE_TARGET TARGET_MACRO_SUFFIX TARGET)
 	set("TARGET_${TARGET_MACRO_SUFFIX}" ${TARGET} PARENT_SCOPE)
 	CREATE_TARGET(${TARGET})
-	add_dependencies(${TARGET} "solution")
-	target_link_libraries(${TARGET} PUBLIC "solution")
+	add_dependencies(${TARGET} "${SOL_PREFIX}solution")
+	target_link_libraries(${TARGET} PUBLIC "${SOL_PREFIX}solution")
 endfunction()
 
 function(MAKE_TARGET_DUMP TARGET_MACRO_SUFFIX TARGET)
 	set("TARGET_${TARGET_MACRO_SUFFIX}" ${TARGET} PARENT_SCOPE)
 	CREATE_TARGET(${TARGET})
-	add_dependencies(${TARGET} "solution_dump")
-	target_link_libraries(${TARGET} PUBLIC "solution_dump")
+	add_dependencies(${TARGET} "${SOL_PREFIX}solution_dump")
+	target_link_libraries(${TARGET} PUBLIC "${SOL_PREFIX}solution_dump")
 endfunction()
 
 function(DEFINE_FLEX_SOURCE TARGET LEXFNAME LEXCPP YHPP)

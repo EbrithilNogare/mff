@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	if (!rv5)
 		return 0;
 
-	std::cout << "========== cecko5 done ==========" << std::endl;
+	ms.out() << "========== cecko5 done ==========" << std::endl;
 
 	return 0;
 }

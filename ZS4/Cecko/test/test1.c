@@ -1,3 +1,5 @@
+// fibbonacci
+
 int fib(int p);
 
 struct Str {
@@ -151,6 +153,10 @@ int main(int argc, char** argv)
 	return 0;
 }
 
-int a = '\x27';
-int b = '\x27';
+// /* this should not start multi-line comment
 
+/*
+/* 
+testing nesting 
+*/
+*/

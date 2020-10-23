@@ -1,0 +1,53 @@
+2: ETYPE int
+2: identifier [main]
+2: (
+2: ETYPE int
+2: identifier [argc]
+2: ,
+2: ETYPE char
+2: *
+2: *
+2: identifier [argv]
+2: )
+3: {
+5: ETYPE char
+5: *
+5: identifier [a]
+5: =
+Error (line 5): End of line in string or character literal
+6: string literal "EOL in string"
+6: ETYPE char
+6: *
+6: identifier [b]
+6: =
+Error (line 6): Malformed escape sequence "abce"
+6: string literal "Too long hex \xcescape"
+6: ;
+7: ETYPE char
+7: *
+7: identifier [c]
+7: =
+7: string literal ""
+7: ;
+8: ETYPE char
+8: *
+8: identifier [d]
+8: =
+Error (line 8): Malformed escape sequence "\u"
+8: string literal "Bad escape u"
+8: ;
+11: ETYPE char
+11: *
+11: identifier [q]
+11: =
+Error (line 11): Malformed escape sequence "\"
+Error (line 11): End of line in string or character literal
+12: string literal ""
+13: }
+15: ETYPE char
+15: *
+15: identifier [z]
+15: =
+Error (line 15): End of file in string or character literal
+15: string literal "EOF in string"
+========== cecko1 done ==========

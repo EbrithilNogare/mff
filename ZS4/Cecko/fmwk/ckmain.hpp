@@ -5,6 +5,8 @@
 #include "ckbisonflex.hpp"
 
 #include <string>
+#include <ostream>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 
@@ -24,10 +26,12 @@ namespace cecko {
 	public:
 		std::string input_fname;
 
+		main_state_parser() : outp_(&std::cout) {}
+
 		template< class the_parser>
 		bool parse()
 		{
-			context ctx(&the_tables);
+			context ctx(&the_tables, &out());
 
 			FILE* iff = fopen(input_fname.c_str(), "r");
 			if (iff == nullptr)
@@ -47,6 +51,11 @@ namespace cecko {
 		}
 
 		bool dump_tables() const;
+
+		std::ostream& out() const { return *outp_; }
+	protected:
+		std::ostream* outp_;
+		std::unique_ptr< std::ofstream> outp_owner_;
 	};
 
 	class main_state_code : public main_state_parser {

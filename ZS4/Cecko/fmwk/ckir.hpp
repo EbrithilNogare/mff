@@ -23,7 +23,7 @@
 #include "llvm/Bitcode/BitcodeWriter.h"
 #include "llvm/Support/raw_os_ostream.h"
 
-#include <iostream>
+#include <ostream>
 #include <cstdio>
 
 namespace cecko {
@@ -154,7 +154,7 @@ namespace cecko {
 
 		std::error_code write_bitcode_module(const std::string& fname, CKIRModuleObs module) const;
 
-		int run_main(CKIRFunctionObs fnc, int argc, char** argv);
+		int run_main(CKIRFunctionObs fnc, int argc, char** argv, std::ostream& os);
 		
 		CKIRContextRef context()
 		{
