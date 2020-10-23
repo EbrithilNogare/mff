@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	if (!rv2)
 		return 0;
 
-	std::cout << "========== cecko2 done ==========" << std::endl;
+	ms.out() << "========== cecko2 done ==========" << std::endl;
 
 	return 0;
 }

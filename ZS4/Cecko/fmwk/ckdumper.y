@@ -109,28 +109,28 @@ tokens: tokens token
 token: token_n{ 
 		if (@1)
 		{
-			std::cout << @1 << ": ";
+			ctx->out() << @1 << ": ";
 		}
-		std::cout << $1 << std::endl; 
+		ctx->out() << $1 << std::endl; 
 	}
 	| token_s{
 		if (@1)
 		{
-			std::cout << @1 << ": ";
+			ctx->out() << @1 << ": ";
 		}
-		std::cout << $1.first;
+		ctx->out() << $1.first;
 		if (!$1.second.empty())
 		{
-			std::cout << " " << $1.second;
+			ctx->out() << " " << $1.second;
 		}
-		std::cout << std::endl;
+		ctx->out() << std::endl;
 	}
 	| token_i{
 		if (@1)
 		{
-			std::cout << @1 << ": ";
+			ctx->out() << @1 << ": ";
 		}
-		std::cout << $1.first << " " << $1.second << std::endl;
+		ctx->out() << $1.first << " " << $1.second << std::endl;
 	}
 	;
 

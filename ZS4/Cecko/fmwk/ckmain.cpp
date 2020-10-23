@@ -61,8 +61,8 @@ namespace cecko {
 
 	bool main_state_parser::dump_tables() const
 	{
-		std::cout << "========== tables ==========" << std::endl;
-		the_tables.dump_tables(std::cout);
+		out() << "========== tables ==========" << std::endl;
+		the_tables.dump_tables(out());
 		return true;
 	}
 
@@ -76,6 +76,20 @@ namespace cecko {
 					return false;
 				oname = get_val();
 				return true;
+			case 'z':
+				if (!!outp_owner_)
+					return false;
+				{
+					auto outname = get_val();
+					outp_owner_ = std::make_unique<std::ofstream>(outname);
+					if (!outp_owner_->good())
+					{
+						outp_owner_.reset();
+						return false;
+					}
+					outp_ = &*outp_owner_;
+				}
+				return true;
 			default:
 				return false;
 			}
@@ -86,7 +100,7 @@ namespace cecko {
 
 	bool main_state_code::dump_code() const
 	{
-		std::cout << "========== IR module ==========" << std::endl;
+		out() << "========== IR module ==========" << std::endl;
 		{
 			std::stringstream oss;
 			the_tables.dump_ir_module(oss);
@@ -96,7 +110,7 @@ namespace cecko {
 				auto rc = !!std::getline(oss, lbuf);
 				if (!rc)
 					break;
-				std::cout << "::: " << lbuf << std::endl;
+				out() << "::: " << lbuf << std::endl;
 			}
 		}
 
@@ -120,13 +134,13 @@ namespace cecko {
 		auto mainf = the_tables.globtable()->find_function("main");
 		if (!mainf)
 		{
-			std::cout << "Cannot find main function." << std::endl;
+			out() << "Cannot find main function." << std::endl;
 			return false;
 		}
 		else
 		{
 			auto fnc = mainf->get_function_ir();
-			irenv.run_main(fnc, app_argc, app_argv);
+			irenv.run_main(fnc, app_argc, app_argv, out());
 			return true;
 		}
 	}

@@ -1,0 +1,15 @@
+6: ETYPE int
+6: identifier [main]
+6: (
+6: ETYPE int
+6: identifier [argc]
+6: ,
+6: ETYPE char
+6: *
+6: *
+6: identifier [argv]
+6: )
+7: {
+10: }
+Error (line 12): End of comment outside comment
+========== cecko1 done ==========

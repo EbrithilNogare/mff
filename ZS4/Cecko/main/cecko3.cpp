@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 	if (!rv3)
 		return 0;
 
-	std::cout << "========== cecko3 done ==========" << std::endl;
+	ms.out() << "========== cecko3 done ==========" << std::endl;
 
 	return 0;
 }
