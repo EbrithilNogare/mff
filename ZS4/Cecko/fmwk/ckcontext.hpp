@@ -56,6 +56,7 @@ namespace cecko {
 
 		extern err_def_n INTERNAL;
 		extern err_def_n EMPTYCHAR;
+		extern err_def_n MULTICHAR_LONG;
 		extern err_def_n EOLINSTRCHR;
 		extern err_def_n EOFINSTRCHR;
 		extern err_def_n EOFINCMT;
@@ -69,9 +70,88 @@ namespace cecko {
 		extern err_def_n INCOMPATIBLE;
 	}
 
+	namespace coverage {
+
+		struct coverage_counter {
+		public:
+			coverage_counter()
+				: num(0)
+			{}
+
+			void inc()
+			{
+				++num;
+			}
+
+			int get() const
+			{
+				return num;
+			}
+		private:
+			int num;
+		};
+
+		using map_t = std::map<std::string, coverage_counter>;
+		using map_element_t = std::pair<const std::string, coverage_counter>;
+		using map_element_obs = const map_element_t*;
+
+		struct line_coverage_data {
+		public:
+			void push(map_element_obs p)
+			{
+				v_.push_back(p);
+			}
+
+			template< typename F>
+			void for_each(F && f) const
+			{
+				for (auto&& a : v_)
+				{
+					f(a->first);
+				}
+			}
+		private:
+			std::vector< map_element_obs> v_;
+		};
+
+		using line_map_t = std::map<loc_t, line_coverage_data>;
+
+		struct coverage_data {
+		public:
+			void inc(loc_t line, std::string n)
+			{
+				auto rv = map_.try_emplace(std::move(n));
+				rv.first->second.inc();
+				auto rvl = line_map_.try_emplace(line);
+				rvl.first->second.push(&*rv.first);
+			}
+
+			template< typename F>
+			void for_each(F&& f) const
+			{
+				for (auto&& a : map_)
+				{
+					f(a.first, a.second);
+				}
+			}
+
+			template< typename F>
+			void for_each_line(F&& f) const
+			{
+				for (auto&& a : line_map_)
+				{
+					f(a.first, a.second);
+				}
+			}
+		private:
+			map_t map_;
+			line_map_t line_map_;
+		};
+	}
+
 	class context : public CKContext {
 	public:
-		context(CKTablesObs tables, std::ostream* outp) : CKContext(tables), line_(1), outp_(outp) {}
+		context(CKTablesObs tables, std::ostream* outp, coverage::coverage_data * cd) : CKContext(tables), line_(1), outp_(outp), cd_(cd) {}
 
 		std::ostream& out() { return *outp_; }
 
@@ -82,10 +162,18 @@ namespace cecko {
 
 		loc_t line() const { return line_; }
 		loc_t incline() { return line_++; }		// returns line value before increment
+
+		void cov(std::string n)
+		{
+			cd_->inc(line(), std::move(n));
+		}
+
 	private:
 		loc_t	line_;
 
 		std::ostream * outp_;
+
+		coverage::coverage_data * cd_;
 	};
 
 	using context_obs = context*;

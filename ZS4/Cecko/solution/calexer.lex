@@ -7,7 +7,7 @@
 
 	int comment_depth = 0;
 	std::string string_buff;
-	int char_buff = 0;
+	long char_buff = 0;
 
 %}
 
@@ -133,7 +133,7 @@
 		BEGIN(INITIAL);
 		ctx->message(cecko::errors::EOLINSTRCHR, ctx->line());
 		ctx->incline();
-		return cecko::parser::make_STRLIT(string_buff,ctx->line());
+		return cecko::parser::make_STRLIT(string_buff,ctx->line()-1);
 	}
 <STRING>\\n		{ string_buff.append("\x0a"); }
 <STRING>\\\"	{ string_buff.append("\x22"); /*"{*/ }
@@ -142,7 +142,7 @@
 	}
 <STRING>\\x[^\"\n]{4,}	{ //"{
 		std::string tmp = yytext; 
-		ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp.substr(2,4));
+		ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp.substr(0,6));
 		string_buff.append(tmp.substr(0,2));
 		string_buff.append(tmp.substr(4));
 	}
@@ -165,18 +165,24 @@
 	}
 <CeckoCHAR>'	{ //'{
 		BEGIN(INITIAL);
+		if(char_buff >= 2147483648) // 2^32
+			ctx->message(cecko::errors::MULTICHAR_LONG, ctx->line());
 		return cecko::parser::make_INTLIT(char_buff,ctx->line());
 	}
 <CeckoCHAR><<EOF>>	{
 		ctx->message(cecko::errors::EOFINSTRCHR, ctx->line());
 		BEGIN(INITIAL);
+		if(char_buff >= 2147483648) // 2^32
+			ctx->message(cecko::errors::MULTICHAR_LONG, ctx->line());
 		return cecko::parser::make_INTLIT(char_buff,ctx->line());
 	}
 <CeckoCHAR>\n		{
 		BEGIN(INITIAL);
+		if(char_buff >= 2147483648) // 2^32
+			ctx->message(cecko::errors::MULTICHAR_LONG, ctx->line());
 		ctx->message(cecko::errors::EOLINSTRCHR, ctx->line());
 		ctx->incline();
-		return cecko::parser::make_INTLIT(char_buff,ctx->line());
+		return cecko::parser::make_INTLIT(char_buff,ctx->line()-1);
 	}
 <CeckoCHAR>(\'|\"|\?|\a|\b|\f|\r|\t|\v)		{ //'{
 		char_buff <<= 8;
@@ -185,12 +191,14 @@
 <CeckoCHAR>\\x[^'\n]*		{ //']{
 		std::string tmp = yytext; 
 		if(tmp.length()>5){
-			ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp.substr(tmp.length()-4));
+			ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp);
 			char_buff |= tmp[tmp.length()-1];
 		}
-		else if(tmp.length()<3)
+		else if(tmp.length()<3){
 			ctx->message(cecko::errors::BADESCAPE, ctx->line(),tmp);
-		else{
+			char_buff <<= 8;
+			char_buff += tmp.length() == 2 ? 'x' : 0;
+		} else {
 			char_buff <<= 8;
 			char_buff |= std::stoi(tmp.substr(2),nullptr,16);
 		}
@@ -261,16 +269,15 @@
 	}
 
 [\\][x][0-9a-fA-F]{1,3}	{
-	
 		return cecko::parser::make_TYPEIDF(std::basic_string(yytext),ctx->line());
 	}
 
 \\x[0-9a-fA-F]*	{
-		ctx->message(cecko::errors::BADESCAPE, ctx->line(),yytext);
+		return cecko::parser::make_TYPEIDF(std::basic_string(yytext),ctx->line());
 	}
 
 
-.		ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
+.				ctx->message(cecko::errors::UNCHAR, ctx->line(), yytext);
 
 
 <<EOF>>			return cecko::parser::make_EOF(ctx->line());

@@ -24,8 +24,9 @@ Error (line 8): Empty character
 9: ETYPE char
 9: identifier [c]
 9: =
+Error (line 9): Multi-character too long
 Error (line 9): End of line in string or character literal
-10: integer literal 1920102258
+9: integer literal 1920102258
 10: ETYPE char
 10: identifier [d]
 10: =
@@ -35,21 +36,21 @@ Error (line 10): Malformed escape sequence "\q"
 11: ETYPE char
 11: identifier [e]
 11: =
-Error (line 11): Malformed escape sequence "1234"
+Error (line 11): Malformed escape sequence "\x1234"
 11: integer literal 52
 11: ;
 12: ETYPE char
 12: identifier [f]
 12: =
 Error (line 12): Malformed escape sequence "\x"
-12: integer literal 0
+12: integer literal 120
 12: ;
 14: ETYPE char
 14: identifier [g]
 14: =
 Error (line 14): Malformed escape sequence "\"
 Error (line 14): End of line in string or character literal
-15: integer literal 0
+14: integer literal 0
 15: ETYPE char
 15: identifier [h]
 15: =

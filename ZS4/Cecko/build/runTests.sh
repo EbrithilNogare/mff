@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p ../test/output
+
 echo "MAKE"
 make cecko1
 

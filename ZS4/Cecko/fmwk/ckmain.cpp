@@ -1,5 +1,8 @@
 #include "ckmain.hpp"
 
+#include <iomanip>
+#include <iostream>
+
 namespace cecko {
 
 	template< typename AR>
@@ -63,6 +66,61 @@ namespace cecko {
 	{
 		out() << "========== tables ==========" << std::endl;
 		the_tables.dump_tables(out());
+
+		if (!covname.empty())
+		{
+			std::ofstream covf(covname);
+			cd_.for_each([&covf](auto&& name, auto&& cc) {
+				covf << std::setw(5) << cc.get() << "\t" << name << std::endl;
+				});
+		}
+		if (!covlinename.empty())
+		{
+			std::ofstream covf(covlinename);
+			std::ifstream inf(input_fname);
+			loc_t infline = 0;
+			cd_.for_each_line([&covf, &inf, &infline](auto&& line, auto&& lcd) {
+				for (;;)
+				{
+					std::string ins;
+					std::getline(inf, ins);
+					++infline;
+					//covf << std::setw(5) << infline << "\t";
+					covf << ins;
+					if (infline >= line)
+					{
+						std::string delim = "\t//# ";
+						lcd.for_each([&covf, &delim](auto&& name) {
+							covf << delim << name;
+							delim = " ";
+							});
+						covf << std::endl;
+						break;
+					}
+					covf << std::endl;
+				}
+				});
+			for (;;)
+			{
+				std::string ins;
+				std::getline(inf, ins);
+				if (inf.fail())
+					break;
+				++infline;
+				//covf << std::setw(5) << infline << "\t";
+				covf << ins;
+				covf << std::endl;
+			}
+		}
+		return true;
+	}
+
+	bool main_state_parser::dump_coverage() const
+	{
+		out() << "========== coverage ==========" << std::endl;
+		cd_.for_each([this](auto&& name, auto&& cc) {
+			out() << "#" << std::setw(5) << cc.get() << " " << name << std::endl;
+			});
 		return true;
 	}
 
@@ -71,6 +129,25 @@ namespace cecko {
 		auto arg_reader = [this](char opt, auto&& get_val) -> bool {
 			switch (opt)
 			{
+			case 'a':
+				if (!aname.empty())
+					return false;
+				aname = get_val();
+				a_to_out = false;
+				return true;
+			case 'c':
+				if (!covname.empty())
+					return false;
+				covname = get_val();
+				return true;
+			case 'd':
+				if (!covlinename.empty())
+					return false;
+				covlinename = get_val();
+				return true;
+			case 'n':
+				a_to_out = false;
+				return true;
 			case 'o':
 				if (!oname.empty())
 					return false;
@@ -88,6 +165,7 @@ namespace cecko {
 						return false;
 					}
 					outp_ = &*outp_owner_;
+					a_to_out = false;
 				}
 				return true;
 			default:
@@ -100,8 +178,9 @@ namespace cecko {
 
 	bool main_state_code::dump_code() const
 	{
-		out() << "========== IR module ==========" << std::endl;
+		if (a_to_out)
 		{
+			out() << "========== IR module ==========" << std::endl;
 			std::stringstream oss;
 			the_tables.dump_ir_module(oss);
 			for (;;)
@@ -111,6 +190,19 @@ namespace cecko {
 				if (!rc)
 					break;
 				out() << "::: " << lbuf << std::endl;
+			}
+		}
+
+		if (!aname.empty())
+		{
+			std::ofstream af(aname);
+			if (!af.good())
+			{
+				std::cout << "Cannot open output file \"" << aname << "\"" << std::endl;
+			}
+			else
+			{
+				the_tables.dump_ir_module(af);
 			}
 		}
 
