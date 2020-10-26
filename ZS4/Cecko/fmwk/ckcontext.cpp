@@ -25,6 +25,7 @@ namespace cecko {
 
 		err_def_n INTERNAL{ "INTERNAL ERROR" };
 		err_def_n EMPTYCHAR{ "Empty character" };
+		err_def_n MULTICHAR_LONG{ "Multi-character too long" };
 		err_def_n EOLINSTRCHR{ "End of line in string or character literal" };
 		err_def_n EOFINSTRCHR{ "End of file in string or character literal" };
 		err_def_n EOFINCMT{ "End of file in comment" };

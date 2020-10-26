@@ -1,5 +1,10 @@
 ========== tables ==========
 // --- ENUMS ---
+enum En{
+	ALPHA=0,
+	BETA=729,
+	GAMMA=730
+};
 // --- STRUCTS ---
 struct Str{
 	const char*key;
@@ -7,6 +12,8 @@ struct Str{
 };
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s FILE;
+typedef enum En ent;
+typedef struct Str*str_ptr;
 // --- FUNCTION DECLARATIONS ---
 void argreverttest(int,char**);
 _Bool empty(struct Str**);
@@ -25,9 +32,13 @@ int sprintf(char*,const char*,...);
 int sscanf(const char*,const char*,...);
 void stringtest();
 _Bool test();
+void test_enum();
+enum En test_enum_internal(enum En);
 // --- GLOBAL VARIABLES ---
 struct Str array[1000];
 int array_end;
+enum En my_var;
+struct _file_s*myout;
 struct Str*root;
 _Bool status;
 // --- FUNCTION DEFINITIONS ---
@@ -69,12 +80,20 @@ void stringtest(){
 }
 _Bool test(){
 }
+void test_enum(){
+	enum En x;
+}
+enum En test_enum_internal(enum En arg){
+	enum En tmp;
+}
 ========== starting main() ==========
 This is test1.c main()
 ... argreverttest ...
 sizeof(struct Str) = 16
-argv[0] is "test1.c"
-popped "test1.c"
+argv[0] is "test2typedef.c"
+popped "test2typedef.c"
+... test_enum ...
+x=0, my_var=729
 ... fibtest ...
 fib(20) returned 6765
 ... stringtest ...
@@ -85,4 +104,4 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 ABCDEFGHIJKLMNOPQRSTUVWXYZ
 
 ========== main() returned 0 ==========
-========== cecko4 done ==========
+========== cecko5 done ==========

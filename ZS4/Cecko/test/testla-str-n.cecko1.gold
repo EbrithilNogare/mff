@@ -15,12 +15,12 @@
 5: identifier [a]
 5: =
 Error (line 5): End of line in string or character literal
-6: string literal "EOL in string"
+5: string literal "EOL in string"
 6: ETYPE char
 6: *
 6: identifier [b]
 6: =
-Error (line 6): Malformed escape sequence "abce"
+Error (line 6): Malformed escape sequence "\xabce"
 6: string literal "Too long hex \xcescape"
 6: ;
 7: ETYPE char
@@ -42,7 +42,7 @@ Error (line 8): Malformed escape sequence "\u"
 11: =
 Error (line 11): Malformed escape sequence "\"
 Error (line 11): End of line in string or character literal
-12: string literal ""
+11: string literal ""
 13: }
 15: ETYPE char
 15: *
