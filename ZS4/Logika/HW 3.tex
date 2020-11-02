@@ -22,25 +22,35 @@
 \noindent
 \textbf{Predmet: Vyrokova a predikatorova logika}\\
 \textbf{Ukol: 3.}\\
-\textbf{Verze: 1.}\\
+\textbf{Verze: 2.}\\
 \textbf{Autor: David Napravnik}
 
-\section*{$S \subseteq T \Rightarrow \Theta(T) \subseteq \Theta(S)$}
+\section*{$S \subseteq T \Rightarrow \Theta^{\mathbb{P}}(T) \subseteq \Theta^{\mathbb{P}}(S)$}
 Neplati.\\
 Podle tvrzeni kde pro kazde dve teorie $T$ a $T'$ plati $T \subseteq T' \Rightarrow \Theta^{\mathbb{P}}(T) \subseteq \Theta^{\mathbb{P}}(T')$\\
-Spravna implikace by tedy mela byt: $S \subseteq T \Rightarrow \Theta(S) \subseteq \Theta(T)$
+Spravna implikace by tedy mela byt: $S \subseteq T \Rightarrow \Theta^{\mathbb{P}}(S) \subseteq \Theta^{\mathbb{P}}(T)$
 
 
-\section*{$\Theta(S \cup T) = \Theta(S) \cup \Theta(T)$}
-Plati, mnoziny jsou ekvivalentni, viz obrazek s mnozinami.
+\section*{$\Theta^{\mathbb{P}}(S \cup T) \Leftarrow \Theta^{\mathbb{P}}(S) \cup \Theta^{\mathbb{P}}(T)$}
+
+necht $\varphi \in \Theta^{\mathbb{P}} \cup \Theta^{\mathbb{T}}$ z toho plyne
+$\varphi \in \Theta^{\mathbb{T}}$ nebo $\varphi \in \Theta^{\mathbb{S}}$\\
+necht $\varphi \in \Theta^{\mathbb{S}}$ tzn. $S\models\varphi$ (neboli
+$\varphi$ je dokazatelne ze $S$, protoze $\Theta(S)$ je mnozina
+$\forall$ vyroku pravdivych v S) a kdyz $S\models\varphi$, tak musi
+platit i $T \cup S\models\varphi$ (protoze $\Theta(\Theta(S)) \cup \Theta(S\cup T)$ a tedy 
+$\varphi \in \Theta(S\cup T)$ pro $\varphi \in \Theta(T)$ obdobne)
 
 
-\section*{$\Theta(S \cap T) = \Theta(S) \cap \Theta(T)$}
-Plati, mnoziny jsou ekvivalentni, viz obrazek s mnozinami.
 
-
-\includegraphics[width=\textwidth]{hw3.png}
-
+\section*{$\Theta^{\mathbb{P}}(S \cap T)
+\Rightarrow \Theta^{\mathbb{P}}(S) \cap \Theta^{\mathbb{P}}(T)$}
+implikace zleva doprava trivialne. Pro tvrzeni, ktere je v pruniku teorii $S$ a $T$
+tak pro vsechny jeho modely, ktere jsou, jak modely toho $S$,
+tak i modely toho $T$, tak to tvrzeni plati, pak kdyz si vezmeme
+samostatne ty modely toho $S$ tak to tvrzeni tam plati a kdyz si vezmeme
+samostatne ty modely toho $T$, tak tam to taky plati,
+tudiz to bude platit i v jejich pruniku. 
 
 
 
