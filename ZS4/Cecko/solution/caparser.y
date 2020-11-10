@@ -102,6 +102,114 @@ translation_unit:
 	| 
 	;
 
+/////////////// Expressions
+
+primary-expression:
+	IDF
+	| INTLIT
+	| STRLIT
+	| LPAR expression RPAR
+	;
+
+postfix-expression:
+	| primary-expression
+	| postfix-expression LBRA expression RBRA
+//	| postfix-expression LPAR argument-expression-list_opt RPAR
+	| postfix-expression DOT IDF
+	| postfix-expression ARROW IDF
+	| postfix-expression INCDEC
+	| postfix-expression INCDEC
+	;
+
+argument-expression-list:
+	| assignment-expression
+	| argument-expression-list
+	| assignment-expression
+	;
+
+unary-expression:
+	| postfix-expression
+	| INCDEC unary-expression
+	| INCDEC unary-expression
+	| unary-operator cast-expression
+	| SIZEOF LPAR TYPEIDF RPAR
+	;
+
+unary-operator:
+	| AMP
+	| STAR
+	| ADDOP
+	| ADDOP
+	| EMPH
+	;
+
+cast-expression:
+	| unary-expression
+	;
+
+multiplicative-expression:
+	| cast-expression
+	| multiplicative-expression STAR cast-expression
+	| multiplicative-expression DIVOP cast-expression
+	| multiplicative-expression DIVOP cast-expression
+	;
+
+additive-expression:
+	| multiplicative-expression
+	| additive-expression ADDOP multiplicative-expression
+	| additive-expression ADDOP multiplicative-expression
+	;
+
+relational-expression:
+	| additive-expression
+	| relational-expression CMPO additive-expression
+	| relational-expression CMPO additive-expression
+	| relational-expression CMPO additive-expression
+	| relational-expression CMPO additive-expression
+	;
+
+equality-expression:
+	| relational-expression
+	| equality-expression CMPE relational-expression
+	| equality-expression CMPE relational-expression
+	;
+
+logical-AND-expression:
+	| equality-expression
+	| logical-AND-expression DAMP equality-expression
+	;
+
+logical-OR-expression:
+	| logical-AND-expression
+	| logical-OR-expression DVERT logical-AND-expression
+	;
+
+assignment-expression:
+	| logical-OR-expression
+	| unary-expression assignment-operator assignment-expression
+	;
+
+assignment-operator:
+	| ASGN 
+	| CASS 
+	| CASS 
+	| CASS 
+	| CASS 
+	| CASS 
+	;
+
+expression:
+	| assignment-expression
+	;
+
+constant-expression:
+	| logical-OR-expression
+	;
+
+
+
+
+
 /////////////////////////////////
 
 %%

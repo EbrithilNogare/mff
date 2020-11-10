@@ -3,6 +3,11 @@
 echo "MAKE"
 make cecko1
 
+
+
+
+
+
 echo -n "test1"
 ./stud-main/cecko1 ../test/test1.c | diff ../test/test1.cecko1.gold - > ../test/output/test1.cecko1.txt
 if [ -s ../test/output/test1.cecko1.txt ]
