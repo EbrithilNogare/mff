@@ -1,11 +1,9 @@
 ========== tables ==========
-// --- ENUMS ---
-// --- STRUCTS ---
+// --- GLOBAL TYPEDEFS ---
 struct Str{
 	const char*key;
 	struct Str*next;
 };
-// --- GLOBAL TYPEDEFS ---
 typedef struct _file_s FILE;
 // --- FUNCTION DECLARATIONS ---
 void argreverttest(int,char**);
@@ -34,39 +32,49 @@ _Bool status;
 void argreverttest(int argc,char**argv){
 	int i;
 	const char*z;
+	{
+	}
+	{
+	}
 }
 _Bool empty(struct Str**rootp){
 }
 int fib(int x){
 	int s;
+	{
+	}
 }
-void fibtest(){
+void fibtest(void){
 	int n;
 	int s;
 }
 const char*front(struct Str**rootp){
 }
-struct Str*get_str(){
+struct Str*get_str(void){
 	struct Str*p;
 }
 int main(int argc,char**argv){
+	{
+	}
 }
-void pointerarithmeticstest(){
+void pointerarithmeticstest(void){
 	char arr[27];
 	char ch;
 	char*e;
 	char*p;
+	{
+	}
 }
 void pop_front(struct Str**rootp){
 }
 void push_front(struct Str**rootp,const char*key){
 	struct Str*p;
 }
-void stringtest(){
+void stringtest(void){
 	char arr[100];
 	int i;
 	char t[40];
 }
-_Bool test(){
+_Bool test(void){
 }
 ========== cecko3 done ==========

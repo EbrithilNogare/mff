@@ -12,6 +12,7 @@
 
 namespace cecko {
 
+	/// @cond INTERNAL
 	class main_state_lexer {
 	public:
 		CKIREnvironment irenv;
@@ -82,6 +83,7 @@ namespace cecko {
 		
 		bool run_code();
 	};
+	/// @endcond
 }
 
 #endif

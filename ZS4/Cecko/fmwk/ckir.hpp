@@ -1,3 +1,11 @@
+/** @file
+
+ckir.hpp
+
+A wrapper over LLVM IR.
+
+*/
+
 #ifndef ckir_hpp_
 #define ckir_hpp_
 
@@ -28,37 +36,39 @@
 
 namespace cecko {
 	// numbers
-	using CKIRAPInt = llvm::APInt;
+	using CKIRAPInt = llvm::APInt;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1APInt.html">llvm::APInt</a>
 	// context
-	using CKIRContextRef = llvm::LLVMContext&;
+	using CKIRContextRef = llvm::LLVMContext&;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1LLVMContext.html">llvm::LLVMContext</a>
 	// types
-	using CKIRTypeObs = llvm::Type*;
-	using CKIRStructTypeObs = llvm::StructType*;
-	using CKIRFunctionTypeObs = llvm::FunctionType*;
-	using CKIRTypeObsArray = std::vector<llvm::Type*>;
-	using CKIRTypeObsArrayRef = llvm::ArrayRef<llvm::Type*>;
+	using CKIRTypeObs = llvm::Type*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
+	using CKIRStructTypeObs = llvm::StructType*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1StructType.html">llvm::StructType</a>
+	using CKIRFunctionTypeObs = llvm::FunctionType*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1FunctionType.html">llvm::FunctionType</a>
+	using CKIRTypeObsArray = std::vector<llvm::Type*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
+	using CKIRTypeObsArrayRef = llvm::ArrayRef<llvm::Type*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ArrayRef.html">llvm::ArrayRef</a> @sa <a href="http://llvm.org/doxygen/classllvm_1_1Type.html">llvm::Type</a>
 	// values
-	using CKIRValueObs = llvm::Value*;
-	using CKIRValueObsArray = std::vector<llvm::Value*>;
-	using CKIRValueObsArrayRef = llvm::ArrayRef<llvm::Value*>;
+	using CKIRValueObs = llvm::Value*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
+	using CKIRValueObsArray = std::vector<llvm::Value*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
+	using CKIRValueObsArrayRef = llvm::ArrayRef<llvm::Value*>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ArrayRef.html">llvm::ArrayRef</a> @sa <a href="http://llvm.org/doxygen/classllvm_1_1Value.html">llvm::Value</a>
 	// constant values
-	using CKIRConstantObs = llvm::Constant*;
-	using CKIRConstantIntObs = llvm::ConstantInt*;
+	using CKIRConstantObs = llvm::Constant*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Constant.html">llvm::Constant</a>
+	using CKIRConstantIntObs = llvm::ConstantInt*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1ConstantInt.html">llvm::ConstantInt</a>
 	// module
-	using CKIRModuleObs = llvm::Module*;
+	using CKIRModuleObs = llvm::Module*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Module.html">llvm::Module</a>
 	// function
-	using CKIRFunctionObs = llvm::Function*;
+	using CKIRFunctionObs = llvm::Function*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Function.html">llvm::Function</a>
 	// basic block
-	using CKIRBasicBlockObs = llvm::BasicBlock*;
+	using CKIRBasicBlockObs = llvm::BasicBlock*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1BasicBlock.html">llvm::BasicBlock</a>
 	// instructions
-	using CKIRAllocaInstObs = llvm::AllocaInst*;
+	using CKIRAllocaInstObs = llvm::AllocaInst*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1AllocaInst.html">llvm::AllocaInst</a>
 	// builder
-	using CKIRBuilder = llvm::IRBuilder<>;
-	using CKIRBuilderRef = CKIRBuilder&;
-	using CKIRBuilderObs = CKIRBuilder*;
+	using CKIRBuilder = llvm::IRBuilder<>;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
+	using CKIRBuilderRef = CKIRBuilder&;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
+	using CKIRBuilderObs = CKIRBuilder*;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1IRBuilder.html">llvm::IRBuilder</a>
 
 	// string
-	using CKIRName = llvm::Twine;
+	using CKIRName = llvm::Twine;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1Twine.html">llvm::Twine</a>
+
+	/// @cond INTERNAL
 
 	inline std::size_t CKHashValue(const CKIRAPInt& Arg)
 	{
@@ -108,7 +118,7 @@ namespace cecko {
 	{
 		return llvm::ConstantInt::get(llvm::Type::getInt1Ty(Context), V);
 	}
-
+		
 	inline CKIRConstantIntObs CKGetInt8Constant(CKIRContextRef Context, std::int_fast8_t V)
 	{
 		return llvm::ConstantInt::get(llvm::Type::getInt8Ty(Context), V);
@@ -123,17 +133,21 @@ namespace cecko {
 	{
 		return llvm::Function::Create(FT, llvm::Function::ExternalLinkage, name, M);
 	}
+	/// @endcond
 
+	/// Create a new basic block
 	inline CKIRBasicBlockObs CKCreateBasicBlock(const std::string& name, CKIRFunctionObs F)
 	{
 		return llvm::BasicBlock::Create(F->getContext(), name, F);
 	}
 
+	/// Get integral constant from a llvm::Value
 	inline CKIRConstantIntObs CKTryGetConstantInt(CKIRValueObs v)
 	{
 		return llvm::cast<llvm::ConstantInt>(v);
 	}
 
+	/// @cond INTERNAL
 	CKIRConstantObs CKCreateGlobalVariable(CKIRTypeObs irtp, const std::string& name, CKIRModuleObs M);
 
 	CKIRConstantObs CKCreateExternVariable(CKIRTypeObs irtp, const std::string& name, CKIRModuleObs M);
@@ -179,6 +193,7 @@ namespace cecko {
 	};
 
 	using CKIREnvironmentObs = CKIREnvironment*;
+	/// @endcond
 };
 
 #endif 
