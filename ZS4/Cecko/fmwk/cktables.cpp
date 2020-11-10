@@ -47,14 +47,14 @@ namespace cecko {
 		defined_ = true;
 	}
 
-	void CKStructType::dump(CIOStream& os) const
+	void CKStructType::dump(CIOStream& os, const std::string& indent) const
 	{
 		if (defined_)
 		{
-			os << "struct " << get_name() << "{" << CIEndl;
+			os << indent << "struct " << get_name() << "{" << CIEndl;
 			for (auto&& a : elements_ordered_)
-				os << "\t" << a->get_type_pack().type->declaration(a->get_type_pack().is_const, a->get_name()) << ";" << CIEndl;
-			os << "};" << CIEndl;
+				os << indent << "\t" << a->get_type_pack().type->declaration(a->get_type_pack().is_const, a->get_name()) << ";" << CIEndl;
+			os << indent << "};" << CIEndl;
 		}
 	}
 
@@ -67,22 +67,22 @@ namespace cecko {
 		defined_ = true;
 	}
 
-	void CKEnumType::dump(CIOStream& os) const
+	void CKEnumType::dump(CIOStream& os, const std::string& indent) const
 	{
 		if (defined_)
 		{
-			os << "enum " << get_name();
+			os << indent << "enum " << get_name();
 			std::string delim = "{";
 			for (auto&& a : elements_ordered_)
 			{
 				os << delim << CIEndl;
-				os << "\t" << a->declaration();
+				os << indent << "\t" << a->declaration();
 				delim = ",";
 			}
 			if ( delim == "{" )
 				os << delim;
 			else
-				os << CIEndl;
+				os << CIEndl << indent;
 			os << "};" << CIEndl;
 		}
 	}
@@ -149,14 +149,6 @@ namespace cecko {
 		arrts_.for_each(dlambda);
 		fncts_.for_each(dlambda);
 		*/
-		os << "// --- ENUMS ---" << std::endl;
-		enmts_.for_each([&os](auto&& a) {
-			a->dump(os);
-			});
-		os << "// --- STRUCTS ---" << std::endl;
-		strts_.for_each([&os](auto&& a) {
-			a->dump(os);
-			});
 	}
 
 	std::string CKConstant::declaration() const 
@@ -164,11 +156,16 @@ namespace cecko {
 		return get_name() + "=" + std::to_string(value_->getValue().getZExtValue());
 	}
 
-	CKTypedefConstObs CKGlobalTable::declare_typedef(const std::string& name, const CKTypeRefPack& type_pack)
+	CKLocalTableObs CKAbstractScope::get_local()
+	{
+		return nullptr;
+	}
+
+	CKTypedefConstObs CKUniversalTable::declare_typedef(const std::string& name, const CKTypeRefPack& type_pack)
 	{
 		return typedefs_.try_emplace(name, type_pack);
 	}
-	CKConstantConstObs CKGlobalTable::declare_constant(const std::string& name, CKTypeObs type, CKIRConstantIntObs value)
+	CKConstantConstObs CKUniversalTable::declare_constant(const std::string& name, CKTypeObs type, CKIRConstantIntObs value)
 	{
 		return constants_.try_emplace(name, type, value);
 	}
@@ -202,14 +199,21 @@ namespace cecko {
 		auto p = fncs_.find(n);
 		return p;
 	}
+	CKTypedefConstObs CKUniversalTable::find_typedef_here(const CIName& n) const
+	{
+		return typedefs_.find(n);
+	}
 	CKTypedefConstObs CKGlobalTable::find_typedef(const CIName& n) const
 	{
-		auto p = typedefs_.find(n);
-		return p;
+		return find_typedef_here(n);
+	}
+	CKNamedObs CKUniversalTable::find_constant_here(const CIName& n)
+	{
+		return constants_.find(n);
 	}
 	CKNamedObs CKGlobalTable::find(const CIName& n)
 	{
-		auto pc = constants_.find(n);
+		auto pc = find_constant_here(n);
 		if (pc)
 			return pc;
 		auto q = vars_.find(n);
@@ -222,10 +226,7 @@ namespace cecko {
 	void CKGlobalTable::dump(CIOStream& os) const
 	{
 		os << "// --- GLOBAL TYPEDEFS ---" << std::endl;
-		auto typedeflambda = [&os](auto&& a) {
-			os << "typedef " << a->get_type()->declaration(false, a->get_name()) << ";" << CIEndl;
-		};
-		typedefs_.for_each(typedeflambda);
+		dump_universal(os, "");
 		os << "// --- FUNCTION DECLARATIONS ---" << std::endl;
 		auto decllambda = [&os](auto&& a) {
 			os << a->get_type()->declaration(false, a->get_name()) << ";" << CIEndl;
@@ -248,7 +249,6 @@ namespace cecko {
 
 	void CKLocalTable::varsFromArgs(CKIRBuilderRef builder, CKFunctionObs f, const CKFunctionFormalPackArray& formal_packs)
 	{
-		function_ = f;
 		auto f_type = f->get_function_type();
 		auto f_ir = f->get_function_ir();
 		auto n = f_type->get_function_arg_count();
@@ -268,30 +268,51 @@ namespace cecko {
 		}
 	}
 
-	CKTypedefConstObs CKLocalTable::declare_typedef(const std::string& name, const CKTypeRefPack& type_pack)
-	{
-		return typedefs_.try_emplace(name, type_pack);
-	}
-	CKConstantConstObs CKLocalTable::declare_constant(const std::string& name, CKTypeObs type, CKIRConstantIntObs value)
-	{
-		return constants_.try_emplace(name, type, value);
-	}
 	CKLocalVarObs CKLocalTable::varDefine(CKIRBuilderRef builder, const std::string& name, const CKTypeRefPack& type_pack)
 	{
 		auto var = builder.CreateAlloca(type_pack.type->get_ir(), nullptr, name);
 		return vars_.try_emplace(name, type_pack, var, false);
 	}
 
+	CKStructTypeObs CKLocalTable::declare_struct_type(const CIName& n, CKIRContextRef Context)
+	{
+		auto p = find_struct_type(n);
+		if (p)
+			return p;
+		return declare_struct_type_here(n, Context);
+	}
+	CKStructTypeObs CKLocalTable::find_struct_type(const CIName& n) 
+	{ 
+		auto p = find_struct_type_here(n);
+		if (p)
+			return p;
+		return parent_scope_->find_struct_type(n);
+	}
+	CKEnumTypeObs CKLocalTable::declare_enum_type(const CIName& n, CKTypeObs base_type)
+	{
+		auto p = find_enum_type(n);
+		if (p)
+			return p;
+		return declare_enum_type_here(n, base_type);
+	}
+	CKEnumTypeObs CKLocalTable::find_enum_type(const CIName& n) 
+	{ 
+		auto p = find_enum_type_here(n); 
+		if (p)
+			return p;
+		return parent_scope_->find_enum_type(n);
+	}
+
 	CKTypedefConstObs CKLocalTable::find_typedef(const CIName& n) const
 	{
-		auto p = typedefs_.find(n);
+		auto p = find_typedef_here(n);
 		if (p)
 			return p;
 		return parent_scope_->find_typedef(n);
 	}
 	CKNamedObs CKLocalTable::find(const CIName& n)
 	{
-		auto pc = constants_.find(n);
+		auto pc = find_constant_here(n);
 		if (pc)
 			return pc;
 		auto pv = vars_.find(n);
@@ -299,19 +320,55 @@ namespace cecko {
 			return pv;
 		return parent_scope_->find(n);
 	}
-	void CKLocalTable::dump(CIOStream& os) const
+	CKLocalTableObs CKLocalTable::get_local()
 	{
-		auto typedeflambda = [&os](auto&& a) {
-			os << "typedef " << a->get_type()->declaration(false, a->get_name()) << ";" << CIEndl;
+		return this;
+	}
+	CKLocalTableObs CKLocalTable::create_block()
+	{
+		auto b = std::make_unique< CKLocalTable>( this);
+		auto bo = &*b;
+		block_scopes_.push_back(std::move(b));
+		return bo;
+	}
+	CKLocalTableObs CKLocalTable::parent_block() const
+	{
+		return parent_scope_->get_local();
+	}
+
+	void CKUniversalTable::dump_universal(CIOStream& os, const std::string& indent) const
+	{
+		//os << "// --- ENUMS ---" << std::endl;
+		enmts_.for_each([&os, &indent](auto&& a) {
+			a->dump(os, indent);
+			});
+		//os << "// --- STRUCTS ---" << std::endl;
+		strts_.for_each([&os, &indent](auto&& a) {
+			a->dump(os, indent);
+			});
+		auto typedeflambda = [&os, &indent](auto&& a) {
+			os << indent << "typedef " << a->get_type_pack().type->declaration(a->get_type_pack().is_const, a->get_name()) << ";" << CIEndl;
 		};
 		typedefs_.for_each(typedeflambda);
-		auto dlambda = [&os](auto&& a) {
+	}
+
+	void CKLocalTable::dump(CIOStream& os, const std::string& indent) const
+	{
+		dump_universal(os, indent);
+		auto dlambda = [&os, &indent](auto&& a) {
 			if (!a->is_arg())
 			{
-				a->dump(os);
+				a->dump(os, indent);
 			}
 		};
 		vars_.for_each(dlambda);
+		auto indent2 = indent + "\t";
+		for (auto&& a : block_scopes_)
+		{
+			os << indent << "{" << std::endl;
+			a->dump(os, indent2);
+			os << indent << "}" << std::endl;
+		}
 	}
 
 	CKLocalTableObs CKFunction::define(CKAbstractScopeObs parent, CKIRBuilderRef builder, CKFunctionFormalPackArray formal_packs)
@@ -337,10 +394,12 @@ namespace cecko {
 					args += ",";
 				args += arg_type->declaration(arg_pack.is_const, !!arg_pack.name ? *arg_pack.name : std::string{});
 			}
+			if (args.empty())
+				args += "void";
 		}
 		os << f_type->get_function_return_type()->declaration(false, get_name() + "(" + args + ")") << "{" << CIEndl;
 
-		loctab_->dump(os);
+		loctab_->dump(os, "\t");
 
 		os << "}" << CIEndl;
 	}
@@ -350,9 +409,9 @@ namespace cecko {
 		os << "\ttypedef " << get_type_pack().type->declaration(get_type_pack().is_const, get_name()) << ";" << CIEndl;
 	}
 
-	void CKVar::dump(CIOStream& os) const
+	void CKVar::dump(CIOStream& os, const std::string& indent) const
 	{
-		os << "\t" << get_type_pack().type->declaration(get_type_pack().is_const, get_name()) << ";" << CIEndl;
+		os << indent << get_type()->declaration(is_const(), get_name()) << ";" << CIEndl;
 	}
 
 	// CONTEXT
@@ -388,18 +447,22 @@ namespace cecko {
 		globtable_(tab->globtable()),
 		loctable_(nullptr),
 		module_(tab->module()),
+		alloca_builder_(tab->module()->getContext()),
 		builder_(tab->module()->getContext()),
+		start_bb_(nullptr),
 		data_layout_(tab->data_layout())
 	{
 	}
 
-	void CKContext::enter_function(CKFunctionObs f, CKFunctionFormalPackArray pack)
+	void CKContext::enter_function(CKFunctionObs f, CKFunctionFormalPackArray pack, loc_t loc)
 	{
 		assert(!loctable_);
 		// FUNCTION PROLOG
-		auto BB = CKCreateBasicBlock("prolog", f->get_function_ir());
-		builder_.SetInsertPoint(BB);
-		loctable_ = f->define(globtable_, builder_, std::move(pack));
+		auto BB0 = CKCreateBasicBlock("prolog", f->get_function_ir());
+		alloca_builder_.SetInsertPoint(BB0);
+		loctable_ = f->define(globtable_, alloca_builder_, std::move(pack));
+		start_bb_ = CKCreateBasicBlock("start", f->get_function_ir());
+		builder_.SetInsertPoint(start_bb_);
 	}
 
 	void CKContext::exit_function()
@@ -407,9 +470,79 @@ namespace cecko {
 		assert(loctable_);
 		loctable_ = nullptr;
 		builder_.ClearInsertionPoint();
+		alloca_builder_.CreateBr(start_bb_);
+		start_bb_ = nullptr;
+		alloca_builder_.ClearInsertionPoint();
 	}
 
-	CKTypedefConstObs CKContext::define_typedef(const std::string& name, const CKTypeRefPack& type_pack)
+	void CKContext::enter_block()
+	{
+		assert(loctable_);
+		loctable_ = loctable_->create_block();
+	}
+
+	void CKContext::exit_block()
+	{
+		assert(loctable_);
+		loctable_ = loctable_->parent_block();
+		assert(loctable_);
+	}
+
+	CKStructTypeObs CKContext::declare_struct_type(const CIName& n, loc_t loc)
+	{
+		if (!!loctable_)
+		{
+			return loctable_->declare_struct_type(n, module_->getContext());
+		}
+		else
+		{
+			return globtable_->declare_struct_type(n, module_->getContext());
+		}
+	}
+	CKStructTypeObs CKContext::define_struct_type_open(const CIName& n, loc_t loc)
+	{ 
+		if (!!loctable_)
+		{
+			return loctable_->declare_struct_type_here(n, module_->getContext());
+		}
+		else
+		{
+			return globtable_->declare_struct_type_here(n, module_->getContext());
+		}
+	}
+	void CKContext::define_struct_type_close(CKStructTypeObs type, const CKStructItemArray& items)
+	{
+		type->finalize(items);
+	}
+
+	CKEnumTypeObs CKContext::declare_enum_type(const CIName& n, loc_t loc)
+	{
+		if (!!loctable_)
+		{
+			return loctable_->declare_enum_type(n, get_int_type());
+		}
+		else
+		{
+			return globtable_->declare_enum_type(n, get_int_type());
+		}
+	}
+	CKEnumTypeObs CKContext::define_enum_type_open(const CIName& n, loc_t loc)
+	{ 
+		if (!!loctable_)
+		{
+			return loctable_->declare_enum_type_here(n, get_int_type());
+		}
+		else
+		{
+			return globtable_->declare_enum_type_here(n, get_int_type());
+		}
+	}
+	void CKContext::define_enum_type_close(CKEnumTypeObs type, CKConstantObsVector items)
+	{
+		type->finalize(std::move(items));
+	}
+
+	CKTypedefConstObs CKContext::define_typedef(const std::string& name, const CKTypeRefPack& type_pack, loc_t loc)
 	{
 		if (!!loctable_)
 		{
@@ -420,26 +553,26 @@ namespace cecko {
 			return globtable_->declare_typedef(name, type_pack);
 		}
 	}
-	CKConstantConstObs CKContext::define_constant(const std::string& name, CKTypeObs type, CKIRConstantIntObs value)
+	CKConstantConstObs CKContext::define_constant(const std::string& name, CKIRConstantIntObs value, loc_t loc)
 	{
 		if (!!loctable_)
 		{
-			return loctable_->declare_constant(name, type, value);
+			return loctable_->declare_constant(name, get_int_type(), value);
 		}
 		else
 		{
-			return globtable_->declare_constant(name, type, value);
+			return globtable_->declare_constant(name, get_int_type(), value);
 		}
 	}
-	CKVarObs CKContext::define_var(const std::string& name, const CKTypeRefPack& type_pack)
+	void CKContext::define_var(const std::string& name, const CKTypeRefPack& type_pack, loc_t loc)
 	{
 		if (!!loctable_)
 		{
-			return loctable_->varDefine(builder_, name, type_pack);
+			loctable_->varDefine(alloca_builder_, name, type_pack);
 		}
 		else
 		{
-			return globtable_->varDefine(module_, name, type_pack);
+			globtable_->varDefine(module_, name, type_pack);
 		}
 	}
 	CKNamedObs CKContext::find(const CIName& n)
@@ -488,7 +621,7 @@ namespace cecko {
 		auto t_ptr_char = typetable_.get_pointer_type({ t_char, false });
 		auto t_cptr_char = typetable_.get_pointer_type({ t_char, true });
 
-		auto t_file_s = typetable_.declare_struct_type("_file_s", module_->getContext());
+		auto t_file_s = globtable_.declare_struct_type("_file_s", module_->getContext());
 
 		globtable_.declare_typedef("FILE", { t_file_s, false });
 

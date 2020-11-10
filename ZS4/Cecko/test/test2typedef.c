@@ -120,8 +120,10 @@ void pointerarithmeticstest(void)
 	e = arr + 26;
 	while (p != e)
 	{
+		int locvar;
+		locvar = ch + 1;
 		*p = ch;
-		ch = ch + 1;
+		ch = locvar;
 		p = p + 1;
 	}
 	*p = 0;

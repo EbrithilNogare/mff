@@ -22,6 +22,19 @@ else()
 	llvm_map_components_to_libnames(LLVM_LIBS_USED core mcjit nativecodegen)	# executionengine interpreter mc support x86codegen
 endif()
 
+if(NOT DEFINED MAKE_DOXYGEN)
+	set(MAKE_DOXYGEN FALSE CACHE BOOL "Generate doxygen")
+	message("MAKE_DOXYGEN was not defined, defaulting to FALSE")
+endif()
+
+if(NOT DEFINED DOXYGEN_OUTPUT_DIRECTORY)
+	set(DOXYGEN_OUTPUT_DIRECTORY "." CACHE FILEPATH "Doxygen output directory (relative to <build>/fmwk)")
+endif()
+
+if(MAKE_DOXYGEN)
+	find_package(Doxygen REQUIRED dot)
+endif()
+
 set(THREADS_PREFER_PTHREAD_FLAG True)
 find_package(Threads REQUIRED)
 
@@ -115,7 +128,11 @@ function(FLEX_BISON_SOURCE TARGET LEXFNAME YFNAME LEXCPP YCPP YHPP)
 	get_filename_component(YFNAME_PATH "${YFNAME}" ABSOLUTE) 
 
 	FLEX_TARGET("${LEXCPP}" "${LEXFNAME_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/${LEXCPP}")
-	BISON_TARGET("${YCPP}" "${YFNAME_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/${YCPP}" DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/${YHPP}")
+	if("${BISON_VERSION}" VERSION_GREATER_EQUAL "3.7.0")
+		BISON_TARGET("${YCPP}" "${YFNAME_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/${YCPP}" COMPILE_FLAGS "-Wcounterexamples" DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/${YHPP}" VERBOSE REPORT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${YFNAME}.output")
+	else()
+		BISON_TARGET("${YCPP}" "${YFNAME_PATH}" "${CMAKE_CURRENT_BINARY_DIR}/${YCPP}" DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/${YHPP}" VERBOSE REPORT_FILE "${CMAKE_CURRENT_BINARY_DIR}/${YFNAME}.output")
+	endif()
 	ADD_FLEX_BISON_DEPENDENCY("${LEXCPP}" "${YCPP}")
 
 	DEFINE_FLEX_SOURCE("${TARGET}" "${LEXFNAME}" "${LEXCPP}" "${YHPP}")
@@ -157,4 +174,12 @@ function(SOLUTION_LIBRARY_DUMP TARGET FRAMEWORK FRAMEWORK_DUMP)
 
 	add_dependencies("${TARGET}" ${FRAMEWORK_DUMP})
 	target_link_libraries("${TARGET}" PUBLIC ${FRAMEWORK_DUMP})
+endfunction()
+
+function(DOXYGEN TARGET)
+	if(MAKE_DOXYGEN)
+		set(DOXYGEN_DOT_IMAGE_FORMAT svg)
+		#set(DOXYGEN_GENERATE_TAGFILE "fmwk.tag")
+		doxygen_add_docs("${TARGET}" ${ARGN} ALL)
+	endif()
 endfunction()

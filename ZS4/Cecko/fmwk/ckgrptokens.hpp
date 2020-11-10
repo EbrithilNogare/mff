@@ -1,8 +1,8 @@
-/*
+/** @file
 
 grptokens.hpp
 
-group tokens
+Group tokens.
 
 */
 
@@ -11,25 +11,25 @@ group tokens
 
 namespace cecko {
 
-	// INCDEC token
+	/// INCDEC token
 	enum class gt_incdec { INC, DEC };
 
-	// ADDOP token
+	/// ADDOP token
 	enum class gt_addop { ADD, SUB };
 
-	// DIVOP token
+	/// DIVOP token
 	enum class gt_divop { DIV, MOD };
 
-	// CMPO token
+	/// CMPO token
 	enum class gt_cmpo { LT, LE, GT, GE };
 
-	// CMPE token
+	/// CMPE token
 	enum class gt_cmpe { EQ, NE };
 
-	// CASS token
+	/// CASS token
 	enum class gt_cass { MULA, DIVA, MODA, ADDA, SUBA };
 	
-	// ETYPE token
+	/// ETYPE token
 	enum class gt_etype { BOOL, CHAR, INT };
 
 }

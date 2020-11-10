@@ -1,16 +1,14 @@
 ========== tables ==========
-// --- ENUMS ---
+// --- GLOBAL TYPEDEFS ---
 enum En{
 	ALPHA=0,
 	BETA=729,
 	GAMMA=730
 };
-// --- STRUCTS ---
 struct Str{
 	const char*key;
 	struct Str*next;
 };
-// --- GLOBAL TYPEDEFS ---
 typedef struct _file_s FILE;
 typedef enum En ent;
 typedef struct Str*str_ptr;
@@ -45,42 +43,53 @@ _Bool status;
 void argreverttest(int argc,char**argv){
 	int i;
 	const char*z;
+	{
+	}
+	{
+	}
 }
 _Bool empty(struct Str**rootp){
 }
 int fib(int x){
 	int s;
+	{
+	}
 }
-void fibtest(){
+void fibtest(void){
 	int n;
 	int s;
 }
 const char*front(struct Str**rootp){
 }
-struct Str*get_str(){
+struct Str*get_str(void){
 	struct Str*p;
 }
 int main(int argc,char**argv){
+	{
+	}
 }
-void pointerarithmeticstest(){
+void pointerarithmeticstest(void){
 	char arr[27];
 	char ch;
 	char*e;
 	char*p;
+	{
+		int locvar;
+	}
 }
 void pop_front(struct Str**rootp){
 }
 void push_front(struct Str**rootp,const char*key){
 	struct Str*p;
 }
-void stringtest(){
+void stringtest(void){
 	char arr[100];
 	int i;
 	char t[40];
 }
-_Bool test(){
+_Bool test(void){
 }
-void test_enum(){
+void test_enum(void){
 	enum En x;
 }
 enum En test_enum_internal(enum En arg){

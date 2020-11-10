@@ -147,7 +147,7 @@ primary-expression:
 postfix-expression:
 	primary-expression
 	postfix-expression [ expression ]
-	postfix-expression ( argument-expression-list_opt> )
+	postfix-expression ( argument-expression-list_opt )
 	postfix-expression . identifier
 	postfix-expression -> identifier
 	postfix-expression ++
@@ -254,7 +254,7 @@ type-specifier:
 	typedef-name
 
 struct-or-union-specifier:
-	struct-or-union identifier_opt { member-declaration-list }
+	struct-or-union identifier { member-declaration-list }
 	struct-or-union identifier
 
 struct-or-union:
@@ -283,8 +283,8 @@ member-declarator:
 	declarator
 
 enum-specifier:
-	enum identifier_opt { enumerator-list }
-	enum identifier_opt { enumerator-list , }
+	enum identifier { enumerator-list }
+	enum identifier { enumerator-list , }
 	enum identifier
 
 enumerator-list:
@@ -299,7 +299,7 @@ type-qualifier:
 	const
 
 declarator:
-	one-pointer_opt direct-declarator
+	pointer_opt direct-declarator
 
 direct-declarator:
 	identifier
@@ -313,8 +313,9 @@ array-declarator:
 function-declarator:
 	direct-declarator ( parameter-type-list )
 
-one-pointer:
+pointer:
 	* type-qualifier-list_opt
+	* type-qualifier-list_opt pointer
 
 type-qualifier-list:
 	type-qualifier
@@ -331,13 +332,12 @@ parameter-declaration:
 	declaration-specifiers declarator
 	declaration-specifiers abstract-declarator_opt
 
-identifier-list:
-	identifier
-	identifier-list , identifier
+type-name:
+	specifier-qualifier-list abstract-declarator_opt
 
 abstract-declarator:
-	one-pointer
-	one-pointer_opt direct-abstract-declarator
+	pointer
+	pointer_opt direct-abstract-declarator
 
 direct-abstract-declarator:
 	( abstract-declarator )
@@ -348,7 +348,7 @@ array-abstract-declarator:
 	direct-abstract-declarator_opt [ assignment-expression ]
 
 function-abstract-declarator:
-	direct-abstract-declarator_opt ( parameter-type-list_opt )
+	direct-abstract-declarator_opt ( parameter-type-list )
 
 typedef-name:
 	identifier
@@ -358,15 +358,11 @@ typedef-name:
 
 ```
 statement:
-	labeled-statement
 	expression-statement
 	compound-statement
 	selection-statement
 	iteration-statement
 	jump-statement
-
-labeled-statement:
-	identifier : statement
 
 compound-statement:
 	{ block-item-list_opt }
@@ -392,9 +388,6 @@ iteration-statement:
 	for ( expression_opt ; expression_opt ; expression_opt ) statement
 
 jump-statement:
-	goto identifier ;
-	continue ;
-	break ;
 	return expression_opt ;
 ```
 
