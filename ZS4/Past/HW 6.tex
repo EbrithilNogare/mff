@@ -1,0 +1,68 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Pravděpodobnost a statistika 1}\\
+\textbf{Ukol: 6.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}
+
+\section*{Zadani}
+Budte $X,Y,Z\sim Exp(\lambda)$ nezavisle nahodne veliciny
+
+\subsection*{Jake je rozdeleni $X+Y$?}
+pomoci konvolunce:\\
+$
+f_u(u) = \int_{-\infty}^\infty{f_x(x)f_y(u-x)dx} \\
+f_u(u) = \int{\lambda e^{-\lambda x}\cdot\lambda e^{-\lambda(u-x)}~dx} \\
+f_u(u) = \int{\lambda^2 e^{-\lambda(x-(u-x))}~dx} \\
+f_u(u) = \int{\lambda^2 e^{-\lambda u}} \\
+f_u(u) = \lambda^2 e^{-\lambda u} \int{1} \\
+f_u(u) = \doubleunderline{\lambda^2 e^{-\lambda u} x} \\
+$
+
+
+
+
+
+
+\subsection*{Jake je rozdeleni $X+Y+Z$?}
+prevedeme nezavisle Z+(X+Y)\\
+pomoci dvojite konvolunce:\\
+$
+f_v(v) = \int_{-\infty}^\infty{f_z(z)f_u(v-z)dz} \\
+f_v(v) = \int{\lambda e^{-\lambda z}\cdot\lambda^2 e^{-\lambda (v-z)} x~dz} \\
+f_v(v) = \lambda^3 \int{e^{-\lambda z} e^{-\lambda (v-z)} x~dz} \\
+f_v(v) = \lambda^3 \int{e^{-\lambda (z+v-z)}x~dz} \\
+f_v(v) = \lambda^3 \int{e^{-\lambda v}x~dz} \\
+f_v(v) = \lambda^3 e^{-\lambda v} x \int{1~dz} \\
+f_v(v) = \doubleunderline{\lambda^3 e^{-\lambda v} x z} \\
+$
+
+
+
+
+
+
+
+
+\end{document}
