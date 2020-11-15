@@ -65,7 +65,6 @@ using namespace casem;
 %token						SEMIC		";"
 %token						LCUR		"{"
 %token						RCUR		"}"
-%token						COLON		":"
 
 %token						TYPEDEF		"typedef"
 %token						VOID		"void"
@@ -78,9 +77,6 @@ using namespace casem;
 %token						DO			"do"
 %token						WHILE		"while"
 %token						FOR			"for"
-%token						GOTO		"goto"
-%token						CONTINUE	"continue"
-%token						BREAK		"break"
 %token						RETURN		"return"
 %token						SIZEOF		"sizeof"
 
@@ -95,102 +91,95 @@ using namespace casem;
 
 /////////////////////////////////
 
-translation_unit: 
-	%empty
-	| primary-expression translation_unit
-	| declaration translation_unit
-	| statement translation_unit
-	| translation-unit translation_unit
-	;
 
 /////////////// Expressions
 
-primary-expression:
+primary_expression:
 	IDF
 	| INTLIT
 	| STRLIT
 	| LPAR expression RPAR
 	;
 
-postfix-expression:
-	primary-expression
-	| postfix-expression LBRA expression RBRA
-	| postfix-expression LPAR argument-expression-list RPAR
-	| postfix-expression DOT IDF
-	| postfix-expression ARROW IDF
-	| postfix-expression INCDEC
+postfix_expression:
+	primary_expression
+	| postfix_expression LBRA expression RBRA
+	| postfix_expression LPAR argument_expression_list RPAR
+	| postfix_expression DOT IDF
+	| postfix_expression ARROW IDF
+	| postfix_expression INCDEC
 	;
 
-argument-expression-list:
-	assignment-expression
-	| argument-expression-list
+argument_expression_list:
+	assignment_expression
+	| argument_expression_list COMMA assignment_expression
 	;
 
-unary-expression:
-	postfix-expression
-	| INCDEC unary-expression
-	| unary-operator cast-expression
-	| SIZEOF LPAR TYPEIDF RPAR
+unary_expression:
+	postfix_expression
+	| INCDEC unary_expression
+	| unary_operator cast_expression
+	| SIZEOF LPAR type_name RPAR
 	;
 
-unary-operator:
+unary_operator:
 	AMP
 	| STAR
 	| ADDOP
 	| EMPH
 	;
 
-cast-expression:
-	unary-expression
+cast_expression:
+	unary_expression
 	;
 
-multiplicative-expression:
-	cast-expression
-	| multiplicative-expression STAR cast-expression
-	| multiplicative-expression DIVOP cast-expression
+multiplicative_expression:
+	cast_expression
+	| multiplicative_expression STAR cast_expression
+	| multiplicative_expression DIVOP cast_expression
 	;
 
-additive-expression:
-	multiplicative-expression
-	| additive-expression ADDOP multiplicative-expression
+additive_expression:
+	multiplicative_expression
+	| additive_expression ADDOP multiplicative_expression
 	;
 
-relational-expression:
-	additive-expression
-	| relational-expression CMPO additive-expression
+relational_expression:
+	additive_expression
+	| relational_expression CMPO additive_expression
 	;
 
-equality-expression:
-	relational-expression
-	| equality-expression CMPE relational-expression
+equality_expression:
+	relational_expression
+	| equality_expression CMPE relational_expression
 	;
 
-logical-AND-expression:
-	equality-expression
-	| logical-AND-expression DAMP equality-expression
+logical_AND_expression:
+	equality_expression
+	| logical_AND_expression DAMP equality_expression
 	;
 
-logical-OR-expression:
-	logical-AND-expression
-	| logical-OR-expression DVERT logical-AND-expression
+logical_OR_expression:
+	logical_AND_expression
+	| logical_OR_expression DVERT logical_AND_expression
 	;
 
-assignment-expression:
-	logical-OR-expression
-	| unary-expression assignment-operator assignment-expression
+assignment_expression:
+	logical_OR_expression
+	| unary_expression assignment_operator assignment_expression
 	;
 
-assignment-operator:
+assignment_operator:
 	ASGN 
 	| CASS 
 	;
 
 expression:
-	assignment-expression
+	assignment_expression
 	;
 
-constant-expression:
-	logical-OR-expression
+constant_expression:
+	logical_OR_expression
 	;
 
 
@@ -198,168 +187,168 @@ constant-expression:
 /////////////// Declarations
 
 declaration:
-	no-leading-attribute-declaration
+	no_leading_attribute_declaration
 	;
 
-no-leading-attribute-declaration:
-	declaration-specifiers init-declarator-list SEMIC
+no_leading_attribute_declaration:
+	declaration_specifiers init_declarator_list SEMIC
 	;
 
-declaration-specifiers:
-	declaration-specifier
-	| declaration-specifier declaration-specifiers
+declaration_specifiers:
+	declaration_specifier
+	| declaration_specifier declaration_specifiers
 	;
 
-declaration-specifier:
-	storage-class-specifier
-	| type-specifier-qualifier
+declaration_specifier:
+	storage_class_specifier
+	| type_specifier_qualifier
 	;
 
-init-declarator-list:
-	init-declarator
-	| init-declarator-list COMMA init-declarator
+init_declarator_list:
+	init_declarator
+	| init_declarator_list COMMA init_declarator
 	;
 
-init-declarator:
+init_declarator:
 	declarator
 	;
 
-storage-class-specifier:
+storage_class_specifier:
 	TYPEDEF
 	;
 
-type-specifier:
+type_specifier:
 	VOID
 	| ETYPE
-	| struct-or-union-specifier
-	| enum-specifier
-	| TYPEDEF-name
+	| struct_or_union_specifier
+	| enum_specifier
+	| typedef_name
 	;
 
-struct-or-union-specifier:
-	struct-or-union IDF LCUR member-declaration-list RCUR
-	| struct-or-union IDF
+struct_or_union_specifier:
+	struct_or_union IDF LCUR member_declaration_list RCUR
+	| struct_or_union IDF
 	;
 
-struct-or-union:
+struct_or_union:
 	STRUCT
 	;
 
-member-declaration-list:
-	member-declaration
-	| member-declaration-list member-declaration
+member_declaration_list:
+	member_declaration
+	| member_declaration_list member_declaration
 	;
 
-member-declaration:
-	specifier-qualifier-list member-declarator-list SEMIC
+member_declaration:
+	specifier_qualifier_list member_declarator_list SEMIC
 	;
 
-specifier-qualifier-list:
-	type-specifier-qualifier
-	| type-specifier-qualifier specifier-qualifier-list
+specifier_qualifier_list:
+	type_specifier_qualifier
+	| type_specifier_qualifier specifier_qualifier_list
 	;
 
-type-specifier-qualifier:
-	type-specifier
-	| type-qualifier
+type_specifier_qualifier:
+	type_specifier
+	| type_qualifier
 	;
 
-member-declarator-list:
-	member-declarator
-	| member-declarator-list COMMA member-declarator
+member_declarator_list:
+	member_declarator
+	| member_declarator_list COMMA member_declarator
 	;
 
-member-declarator:
+member_declarator:
 	declarator
 	;
 
-enum-specifier:
-	ENUM IDF LCUR enumerator-list RCUR
-	| ENUM IDF LCUR enumerator-list COMMA RCUR
+enum_specifier:
+	ENUM IDF LCUR enumerator_list RCUR
+	| ENUM IDF LCUR enumerator_list COMMA RCUR
 	| ENUM IDF
 	;
 
-enumerator-list:
+enumerator_list:
 	enumerator
-	| enumerator-list COMMA enumerator
+	| enumerator_list COMMA enumerator
 	;
 
 enumerator:
 	IDF
-	| IDF ASGN constant-expression
+	| IDF ASGN constant_expression
 	;
 
-type-qualifier:
+type_qualifier:
 	CONST
 
 declarator:
-	pointer direct-declarator
+	pointer direct_declarator
 	;
 
-direct-declarator:
+direct_declarator:
 	IDF
 	| LPAR declarator RPAR
-	| array-declarator
-	| function-declarator
+	| array_declarator
+	| function_declarator
 	;
 
-array-declarator:
-	direct-declarator LBRA assignment-expression RBRA
+array_declarator:
+	direct_declarator LBRA assignment_expression RBRA
 	;
 
-function-declarator:
-	direct-declarator LPAR parameter-type-list RPAR
+function_declarator:
+	direct_declarator LPAR parameter_type_list RPAR
 	;
 
 pointer:
-	STAR type-qualifier-list
-	| STAR type-qualifier-list pointer
+	STAR type_qualifier_list
+	| STAR type_qualifier_list pointer
 	;
 
-type-qualifier-list:
-	type-qualifier
-	| type-qualifier-list type-qualifier
+type_qualifier_list:
+	type_qualifier
+	| type_qualifier_list type_qualifier
 	;
 
-parameter-type-list:
-	parameter-list
+parameter_type_list:
+	parameter_list
 	;
 
-parameter-list:
-	parameter-declaration
-	| parameter-list COMMA parameter-declaration
+parameter_list:
+	parameter_declaration
+	| parameter_list COMMA parameter_declaration
 	;
 
-parameter-declaration:
-	declaration-specifiers declarator
-	| declaration-specifiers abstract-declarator
+parameter_declaration:
+	declaration_specifiers declarator
+	| declaration_specifiers abstract_declarator
 	;
 
-type-name:
-	specifier-qualifier-list abstract-declarator
+type_name:
+	specifier_qualifier_list abstract_declarator
 	;
 
-abstract-declarator:
+abstract_declarator:
 	pointer
-	| pointer direct-abstract-declarator
+	| pointer direct_abstract_declarator
 	;
 
-direct-abstract-declarator:
-	LPAR abstract-declarator RPAR
-	| array-abstract-declarator
-	| function-abstract-declarator
+direct_abstract_declarator:
+	LPAR abstract_declarator RPAR
+	| array_abstract_declarator
+	| function_abstract_declarator
 	;
 
-array-abstract-declarator:
-	direct-abstract-declarator LBRA assignment-expression RBRA
+array_abstract_declarator:
+	direct_abstract_declarator LBRA assignment_expression RBRA
 	;
 
-function-abstract-declarator:
-	direct-abstract-declarator LPAR parameter-type-list RPAR
+function_abstract_declarator:
+	direct_abstract_declarator LPAR parameter_type_list RPAR
 	;
 
-TYPEDEF-name:
-	IDF
+typedef_name:
+	TYPEIDF
 	;
 
 
@@ -368,43 +357,57 @@ TYPEDEF-name:
 /////////////// Statements
 
 statement:
-	expression-statement
-	| compound-statement
-	| selection-statement
-	| iteration-statement
-	| jump-statement
+	statement_m
+	| statement_u
 	;
 
-compound-statement:
-	LCUR block-item-list RCUR
+statement_m:
+	selection_statement_m
+	| jump_statement
 	;
 
-block-item-list:
-	block-item
-	| block-item-list block-item
+statement_u:
+	expression_statement
+	| compound_statement
+	| selection_statement_u
+	| iteration_statement
 	;
 
-block-item:
+compound_statement:
+	LCUR block_item_list RCUR
+	;
+
+block_item_list:
+	block_item
+	| block_item_list block_item
+	;
+
+block_item:
 	declaration
 	| statement
 	;
 
-expression-statement:
+expression_statement:
 	expression SEMIC
 	;
 
-selection-statement:
-	IF LPAR expression RPAR statement
-	| IF LPAR expression RPAR statement ELSE statement
+
+selection_statement_m:
+	IF LPAR expression RPAR statement_m ELSE statement_m
 	;
 
-iteration-statement:
+selection_statement_u:
+	IF LPAR expression RPAR statement
+	| IF LPAR expression RPAR statement_m ELSE statement_u
+	;
+	
+iteration_statement:
 	WHILE LPAR expression RPAR statement
 	| DO statement WHILE LPAR expression RPAR SEMIC
 	| FOR LPAR expression SEMIC expression SEMIC expression RPAR statement
 	;
 
-jump-statement:
+jump_statement:
 	RETURN expression SEMIC
 	;
 
@@ -412,18 +415,18 @@ jump-statement:
 
 /////////////// External definitions
 
-translation-unit:
-	external-declaration
-	| translation-unit external-declaration
+translation_unit:
+	external_declaration
+	| translation_unit external_declaration
 	;
 
-external-declaration:
-	function-definition
+external_declaration:
+	function_definition
 	| declaration
 	;
 
-function-definition:
-	declaration-specifiers declarator compound-statement
+function_definition:
+	declaration_specifiers declarator compound_statement
 	;
 
 
