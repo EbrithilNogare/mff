@@ -66,10 +66,6 @@
 "else"		return cecko::parser::make_ELSE(ctx->line());	
 "do"		return cecko::parser::make_DO(ctx->line());	
 "while"		return cecko::parser::make_WHILE(ctx->line());	
-"for"		return cecko::parser::make_FOR(ctx->line());	
-"goto"		return cecko::parser::make_GOTO(ctx->line());	
-"continue"	return cecko::parser::make_CONTINUE(ctx->line());		
-"break"		return cecko::parser::make_BREAK(ctx->line());	
 "return"	return cecko::parser::make_RETURN(ctx->line());		
 "sizeof"	return cecko::parser::make_SIZEOF(ctx->line());		
 
@@ -107,7 +103,6 @@
 ";"			return cecko::parser::make_SEMIC(ctx->line());
 "{"			return cecko::parser::make_LCUR(ctx->line());
 "}"			return cecko::parser::make_RCUR(ctx->line());
-":"			return cecko::parser::make_COLON(ctx->line());
 
 
 [a-zA-Z_][a-zA-Z0-9_]*	{
@@ -269,11 +264,19 @@
 	}
 
 [\\][x][0-9a-fA-F]{1,3}	{
-		return cecko::parser::make_TYPEIDF(std::basic_string(yytext),ctx->line());
+		if(ctx->is_typedef(yytext)){
+			return cecko::parser::make_TYPEIDF(yytext,ctx->line());
+		}else{
+			return cecko::parser::make_IDF(yytext,ctx->line());
+		}
 	}
 
 \\x[0-9a-fA-F]*	{
-		return cecko::parser::make_TYPEIDF(std::basic_string(yytext),ctx->line());
+		if(ctx->is_typedef(yytext)){
+			return cecko::parser::make_TYPEIDF(yytext,ctx->line());
+		}else{
+			return cecko::parser::make_IDF(yytext,ctx->line());
+		}
 	}
 
 
