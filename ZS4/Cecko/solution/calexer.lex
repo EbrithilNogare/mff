@@ -66,6 +66,7 @@
 "else"		return cecko::parser::make_ELSE(ctx->line());	
 "do"		return cecko::parser::make_DO(ctx->line());	
 "while"		return cecko::parser::make_WHILE(ctx->line());	
+"for"		return cecko::parser::make_FOR(ctx->line());	
 "return"	return cecko::parser::make_RETURN(ctx->line());		
 "sizeof"	return cecko::parser::make_SIZEOF(ctx->line());		
 
