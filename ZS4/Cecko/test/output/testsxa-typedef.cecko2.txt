@@ -1,0 +1,2 @@
+0a1
+> Error (line 10): Syntax error: syntax error, unexpected ;, expecting *
