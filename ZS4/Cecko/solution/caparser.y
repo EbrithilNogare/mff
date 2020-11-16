@@ -104,10 +104,15 @@ primary_expression:
 postfix_expression:
 	primary_expression
 	| postfix_expression LBRA expression RBRA
-	| postfix_expression LPAR argument_expression_list RPAR
+	| postfix_expression LPAR argument_expression_list_opt RPAR
 	| postfix_expression DOT IDF
 	| postfix_expression ARROW IDF
 	| postfix_expression INCDEC
+	;
+
+argument_expression_list_opt:
+	%empty
+	| argument_expression_list
 	;
 
 argument_expression_list:
@@ -170,8 +175,13 @@ assignment_expression:
 	;
 
 assignment_operator:
-	ASGN 
-	| CASS 
+	ASGN
+	| CASS
+	;
+
+expression_opt:
+	%empty
+	| expression
 	;
 
 expression:
@@ -184,6 +194,7 @@ constant_expression:
 
 
 
+
 /////////////// Declarations
 
 declaration:
@@ -191,7 +202,7 @@ declaration:
 	;
 
 no_leading_attribute_declaration:
-	declaration_specifiers init_declarator_list SEMIC
+	declaration_specifiers init_declarator_list_opt SEMIC
 	;
 
 declaration_specifiers:
@@ -204,9 +215,15 @@ declaration_specifier:
 	| type_specifier_qualifier
 	;
 
+init_declarator_list_opt:
+	%empty
+	| init_declarator_list
+	;
+
+
 init_declarator_list:
 	init_declarator
-	| init_declarator_list COMMA init_declarator
+	|init_declarator_list COMMA init_declarator
 	;
 
 init_declarator:
@@ -240,7 +257,7 @@ member_declaration_list:
 	;
 
 member_declaration:
-	specifier_qualifier_list member_declarator_list SEMIC
+	specifier_qualifier_list member_declarator_list_opt SEMIC
 	;
 
 specifier_qualifier_list:
@@ -251,6 +268,11 @@ specifier_qualifier_list:
 type_specifier_qualifier:
 	type_specifier
 	| type_qualifier
+	;
+
+member_declarator_list_opt:
+	%empty
+	| member_declarator_list
 	;
 
 member_declarator_list:
@@ -280,9 +302,10 @@ enumerator:
 
 type_qualifier:
 	CONST
+	;
 
 declarator:
-	pointer direct_declarator
+	pointer_opt direct_declarator
 	;
 
 direct_declarator:
@@ -300,9 +323,19 @@ function_declarator:
 	direct_declarator LPAR parameter_type_list RPAR
 	;
 
+pointer_opt:
+	%empty
+	| pointer
+	;
+
 pointer:
-	STAR type_qualifier_list
-	| STAR type_qualifier_list pointer
+	STAR type_qualifier_list_opt
+	| STAR type_qualifier_list_opt pointer
+	;
+
+type_qualifier_list_opt:
+	%empty
+	| type_qualifier_list
 	;
 
 type_qualifier_list:
@@ -321,16 +354,26 @@ parameter_list:
 
 parameter_declaration:
 	declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
+	| declaration_specifiers abstract_declarator_opt
 	;
 
 type_name:
-	specifier_qualifier_list abstract_declarator
+	specifier_qualifier_list abstract_declarator_opt
+	;
+
+abstract_declarator_opt:
+	%empty
+	| abstract_declarator
 	;
 
 abstract_declarator:
 	pointer
-	| pointer direct_abstract_declarator
+	| pointer_opt direct_abstract_declarator
+	;
+
+direct_abstract_declarator_opt:
+	direct_abstract_declarator
+	// | %empty
 	;
 
 direct_abstract_declarator:
@@ -340,17 +383,16 @@ direct_abstract_declarator:
 	;
 
 array_abstract_declarator:
-	direct_abstract_declarator LBRA assignment_expression RBRA
+	direct_abstract_declarator_opt LBRA assignment_expression RBRA
 	;
 
 function_abstract_declarator:
-	direct_abstract_declarator LPAR parameter_type_list RPAR
+	direct_abstract_declarator_opt LPAR parameter_type_list RPAR
 	;
 
 typedef_name:
 	TYPEIDF
 	;
-
 
 
 
@@ -362,19 +404,25 @@ statement:
 	;
 
 statement_m:
-	selection_statement_m
+	expression_statement
+	| compound_statement
+	| selection_statement_m
+	| iteration_statement_m
 	| jump_statement
 	;
 
 statement_u:
-	expression_statement
-	| compound_statement
-	| selection_statement_u
-	| iteration_statement
+	selection_statement_u
+	| iteration_statement_u
 	;
 
 compound_statement:
-	LCUR block_item_list RCUR
+	LCUR block_item_list_opt RCUR
+	;
+
+block_item_list_opt:
+	%empty
+	| block_item_list
 	;
 
 block_item_list:
@@ -388,29 +436,33 @@ block_item:
 	;
 
 expression_statement:
-	expression SEMIC
+	expression_opt SEMIC
 	;
-
 
 selection_statement_m:
 	IF LPAR expression RPAR statement_m ELSE statement_m
 	;
-
+	
 selection_statement_u:
 	IF LPAR expression RPAR statement
 	| IF LPAR expression RPAR statement_m ELSE statement_u
 	;
+
+iteration_statement_m:
+	WHILE LPAR expression RPAR statement_m
+	| DO statement_m WHILE LPAR expression RPAR SEMIC
+	| FOR LPAR expression_opt SEMIC expression_opt SEMIC expression_opt RPAR statement_m
+	;
 	
-iteration_statement:
-	WHILE LPAR expression RPAR statement
-	| DO statement WHILE LPAR expression RPAR SEMIC
-	| FOR LPAR expression SEMIC expression SEMIC expression RPAR statement
+iteration_statement_u:
+	WHILE LPAR expression RPAR statement_u
+	| DO statement_u WHILE LPAR expression RPAR SEMIC
+	| FOR LPAR expression_opt SEMIC expression_opt SEMIC expression_opt RPAR statement_u
 	;
 
 jump_statement:
-	RETURN expression SEMIC
+	RETURN expression_opt SEMIC
 	;
-
 
 
 /////////////// External definitions
