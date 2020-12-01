@@ -1,0 +1,82 @@
+========== tables ==========
+struct Str{
+	const char*key;
+	struct Str*next;
+};
+int main(int,char**);
+bool test();
+void fibtest();
+void argreverttest(int,char**);
+int printf(const char*,...);
+int sscanf(const char*,const char*,...);
+void*memset(void*,int,int);
+void pop_front(struct Str**);
+void pointerarithmeticstest();
+bool empty(struct Str**);
+int fib(int);
+struct Str*get_str();
+void push_front(struct Str**,const char*);
+const char*front(struct Str**);
+int scanf(const char*,...);
+int sprintf(char*,const char*,...);
+void stringtest();
+bool status;
+int array_end;
+struct Str array[1000];
+struct Str*root;
+int main(int argc,char**argv){
+}
+bool test(){
+}
+void fibtest(){
+	int s;
+	int n;
+}
+void argreverttest(int argc,char**argv){
+	int i;
+	const char*z;
+}
+void pop_front(struct Str**rootp){
+}
+void pointerarithmeticstest(){
+	char*e;
+	char ch;
+	char*p;
+	char arr[27];
+}
+bool empty(struct Str**rootp){
+}
+int fib(int x){
+	int s;
+}
+struct Str*get_str(){
+	struct Str*p;
+}
+void push_front(struct Str**rootp,const char*key){
+	struct Str*p;
+}
+const char*front(struct Str**rootp){
+}
+void stringtest(){
+	char t[40];
+	int i;
+	char arr[100];
+}
+========== IR module ==========
+========== starting main() ==========
+This is test1.c main()
+... argreverttest ...
+sizeof(struct Str) = 16
+argv[0] is "test1.c"
+popped "test1.c"
+... fibtest ...
+fib(20) returned 6765
+... stringtest ...
+sprintf: 1 text
+sscanf: 1 text
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+... pointerarithmeticstest ...
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+========== main() returned 0 ==========
+========== cecko4 done ==========

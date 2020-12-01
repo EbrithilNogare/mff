@@ -35,6 +35,43 @@ A wrapper over LLVM IR.
 #include <cstdio>
 
 namespace cecko {
+
+	/// @cond INTERNAL
+	template< typename E>
+	struct safe_default
+	{
+		E operator()() const { return E(); }
+	};
+	/// @endcond
+
+	/// @brief Safe pointer to E
+	/// 
+	/// No crashes: When the value is nullptr, * and -> returns a dummy object responding to all member functions.
+	/// No random values: Initialized to nullptr.
+	/// Automatic conversion to E*.
+	/// Explicit conversion from E*.
+	template< typename E, typename DF = safe_default<E>>
+	class safe_ptr
+	{
+	public:
+		safe_ptr() : p_(nullptr) {}
+		safe_ptr(std::nullptr_t) : p_(nullptr) {}
+		template<typename E2, typename DF2, std::enable_if_t<std::is_convertible_v<E2*,E*>,bool> = true>
+		safe_ptr(const safe_ptr<E2, DF2>& b) : p_(b.p_) {}
+		explicit safe_ptr(E* p) : p_(p) {}
+		operator E* () const { return p_; }
+		operator bool() const { return !!p_; }
+		E& operator*() const { return p_ ? *p_ : dummy(); }
+		E* operator->() const { return p_ ? p_ : &dummy(); }
+		friend bool operator==(const safe_ptr& a, const safe_ptr& b) { return a.p_ == b.p_; }
+		friend bool operator!=(const safe_ptr& a, const safe_ptr& b) { return a.p_ != b.p_; }
+	private:
+		E* p_;
+		static E& dummy() { static decltype(DF()()) d = DF()(); return d; }
+		template<typename E2, typename DF2>
+		friend class safe_ptr;
+	};
+
 	// numbers
 	using CKIRAPInt = llvm::APInt;	///< @sa <a href="http://llvm.org/doxygen/classllvm_1_1APInt.html">llvm::APInt</a>
 	// context
@@ -133,17 +170,23 @@ namespace cecko {
 	{
 		return llvm::Function::Create(FT, llvm::Function::ExternalLinkage, name, M);
 	}
-	/// @endcond
 
 	/// Create a new basic block
 	inline CKIRBasicBlockObs CKCreateBasicBlock(const std::string& name, CKIRFunctionObs F)
 	{
+		if (!F)
+			return nullptr;
 		return llvm::BasicBlock::Create(F->getContext(), name, F);
 	}
+	/// @endcond
 
 	/// Get integral constant from a llvm::Value
 	inline CKIRConstantIntObs CKTryGetConstantInt(CKIRValueObs v)
 	{
+		if (!v)
+			return nullptr;
+		if (!llvm::isa< llvm::ConstantInt>(v))
+			return nullptr;
 		return llvm::cast<llvm::ConstantInt>(v);
 	}
 

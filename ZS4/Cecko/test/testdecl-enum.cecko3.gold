@@ -1,31 +1,31 @@
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
-enum days{
-	MON=0,
-	TUE=1,
-	WED=2,
-	THU=3,
-	WRI=4,
-	SAT=15,
-	SUN=16
+enum days_3{
+	MON_3=0,
+	TUE_3=1,
+	WED_3=2,
+	THU_3=3,
+	WRI_3=4,
+	SAT_3=15,
+	SUN_3=16
 };
-typedef struct _file_s FILE;
+typedef struct _file_s_0 FILE_0;
 // --- FUNCTION DECLARATIONS ---
-int main(int,char**);
-void*memset(void*,int,int);
-int printf(const char*,...);
-int scanf(const char*,...);
-int sprintf(char*,const char*,...);
-int sscanf(const char*,const char*,...);
+int main_5(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
 // --- FUNCTION DEFINITIONS ---
-int main(int argc,char**argv){
-	enum rgb{
-		RED=0,
-		GREEN=1,
-		BLUE=2
+int main_5(int argc_5,char**argv_5){
+	enum rgb_9{
+		RED_9=0,
+		GREEN_9=1,
+		BLUE_9=2
 	};
-	enum rgb color;
-	enum days day;
+	enum rgb_9 color_9;
+	enum days_3 day_7;
 }
 ========== cecko3 done ==========

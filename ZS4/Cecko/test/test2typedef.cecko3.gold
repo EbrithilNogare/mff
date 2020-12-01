@@ -1,98 +1,98 @@
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
-enum En{
-	ALPHA=0,
-	BETA=729,
-	GAMMA=730
+enum En_9{
+	ALPHA_10=0,
+	BETA_11=729,
+	GAMMA_12=730
 };
-struct Str{
-	const char*key;
-	struct Str*next;
+struct Str_35{
+	const char*key_36;
+	struct Str_35*next_37;
 };
-typedef struct _file_s FILE;
-typedef enum En ent;
-typedef struct Str*str_ptr;
+typedef struct _file_s_0 FILE_0;
+typedef enum En_9 ent_5;
+typedef struct Str_35*str_ptr_33;
 // --- FUNCTION DECLARATIONS ---
-void argreverttest(int,char**);
-_Bool empty(struct Str**);
-int fib(int);
-void fibtest();
-const char*front(struct Str**);
-struct Str*get_str();
-int main(int,char**);
-void*memset(void*,int,int);
-void pointerarithmeticstest();
-void pop_front(struct Str**);
-int printf(const char*,...);
-void push_front(struct Str**,const char*);
-int scanf(const char*,...);
-int sprintf(char*,const char*,...);
-int sscanf(const char*,const char*,...);
-void stringtest();
-_Bool test();
-void test_enum();
-enum En test_enum_internal(enum En);
+void argreverttest_133(int,char**);
+_Bool empty_62(struct Str_35**);
+int fib_31(int);
+void fibtest_155();
+const char*front_67(struct Str_35**);
+struct Str_35*get_str_45();
+int main_172(int,char**);
+void*memset_0(void*,int,int);
+void pointerarithmeticstest_111();
+void pop_front_72(struct Str_35**);
+int printf_0(const char*,...);
+void push_front_53(struct Str_35**,const char*);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+void stringtest_89();
+_Bool test_167();
+void test_enum_23();
+enum En_9 test_enum_internal_15(enum En_9);
 // --- GLOBAL VARIABLES ---
-struct Str array[1000];
-int array_end;
-enum En my_var;
-struct _file_s*myout;
-struct Str*root;
-_Bool status;
+struct Str_35 array_42[1000];
+int array_end_43;
+enum En_9 my_var_7;
+struct _file_s_0*myout_3;
+struct Str_35*root_40;
+_Bool status_165;
 // --- FUNCTION DEFINITIONS ---
-void argreverttest(int argc,char**argv){
-	int i;
-	const char*z;
+void argreverttest_133(int argc_133,char**argv_133){
+	int i_136;
+	const char*z_135;
 	{
 	}
 	{
 	}
 }
-_Bool empty(struct Str**rootp){
+_Bool empty_62(struct Str_35**rootp_62){
 }
-int fib(int x){
-	int s;
+int fib_31(int x_77){
+	int s_79;
 	{
 	}
 }
-void fibtest(void){
-	int n;
-	int s;
+void fibtest_155(void){
+	int n_157;
+	int s_158;
 }
-const char*front(struct Str**rootp){
+const char*front_67(struct Str_35**rootp_67){
 }
-struct Str*get_str(void){
-	struct Str*p;
+struct Str_35*get_str_45(void){
+	struct Str_35*p_47;
 }
-int main(int argc,char**argv){
+int main_172(int argc_172,char**argv_172){
 	{
 	}
 }
-void pointerarithmeticstest(void){
-	char arr[27];
-	char ch;
-	char*e;
-	char*p;
+void pointerarithmeticstest_111(void){
+	char arr_113[27];
+	char ch_116;
+	char*e_115;
+	char*p_114;
 	{
-		int locvar;
+		int locvar_123;
 	}
 }
-void pop_front(struct Str**rootp){
+void pop_front_72(struct Str_35**rootp_72){
 }
-void push_front(struct Str**rootp,const char*key){
-	struct Str*p;
+void push_front_53(struct Str_35**rootp_53,const char*key_53){
+	struct Str_35*p_55;
 }
-void stringtest(void){
-	char arr[100];
-	int i;
-	char t[40];
+void stringtest_89(void){
+	char arr_91[100];
+	int i_92;
+	char t_93[40];
 }
-_Bool test(void){
+_Bool test_167(void){
 }
-void test_enum(void){
-	enum En x;
+void test_enum_23(void){
+	enum En_9 x_25;
 }
-enum En test_enum_internal(enum En arg){
-	enum En tmp;
+enum En_9 test_enum_internal_15(enum En_9 arg_15){
+	enum En_9 tmp_17;
 }
 ========== cecko3 done ==========

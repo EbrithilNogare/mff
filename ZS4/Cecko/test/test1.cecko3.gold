@@ -1,80 +1,80 @@
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
-struct Str{
-	const char*key;
-	struct Str*next;
+struct Str_5{
+	const char*key_6;
+	struct Str_5*next_7;
 };
-typedef struct _file_s FILE;
+typedef struct _file_s_0 FILE_0;
 // --- FUNCTION DECLARATIONS ---
-void argreverttest(int,char**);
-_Bool empty(struct Str**);
-int fib(int);
-void fibtest();
-const char*front(struct Str**);
-struct Str*get_str();
-int main(int,char**);
-void*memset(void*,int,int);
-void pointerarithmeticstest();
-void pop_front(struct Str**);
-int printf(const char*,...);
-void push_front(struct Str**,const char*);
-int scanf(const char*,...);
-int sprintf(char*,const char*,...);
-int sscanf(const char*,const char*,...);
-void stringtest();
-_Bool test();
+void argreverttest_101(int,char**);
+_Bool empty_32(struct Str_5**);
+int fib_3(int);
+void fibtest_123();
+const char*front_37(struct Str_5**);
+struct Str_5*get_str_15();
+int main_140(int,char**);
+void*memset_0(void*,int,int);
+void pointerarithmeticstest_81();
+void pop_front_42(struct Str_5**);
+int printf_0(const char*,...);
+void push_front_23(struct Str_5**,const char*);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+void stringtest_59();
+_Bool test_135();
 // --- GLOBAL VARIABLES ---
-struct Str array[1000];
-int array_end;
-struct Str*root;
-_Bool status;
+struct Str_5 array_12[1000];
+int array_end_13;
+struct Str_5*root_10;
+_Bool status_133;
 // --- FUNCTION DEFINITIONS ---
-void argreverttest(int argc,char**argv){
-	int i;
-	const char*z;
+void argreverttest_101(int argc_101,char**argv_101){
+	int i_104;
+	const char*z_103;
 	{
 	}
 	{
 	}
 }
-_Bool empty(struct Str**rootp){
+_Bool empty_32(struct Str_5**rootp_32){
 }
-int fib(int x){
-	int s;
+int fib_3(int x_47){
+	int s_49;
 	{
 	}
 }
-void fibtest(void){
-	int n;
-	int s;
+void fibtest_123(void){
+	int n_125;
+	int s_126;
 }
-const char*front(struct Str**rootp){
+const char*front_37(struct Str_5**rootp_37){
 }
-struct Str*get_str(void){
-	struct Str*p;
+struct Str_5*get_str_15(void){
+	struct Str_5*p_17;
 }
-int main(int argc,char**argv){
+int main_140(int argc_140,char**argv_140){
 	{
 	}
 }
-void pointerarithmeticstest(void){
-	char arr[27];
-	char ch;
-	char*e;
-	char*p;
+void pointerarithmeticstest_81(void){
+	char arr_83[27];
+	char ch_86;
+	char*e_85;
+	char*p_84;
 	{
 	}
 }
-void pop_front(struct Str**rootp){
+void pop_front_42(struct Str_5**rootp_42){
 }
-void push_front(struct Str**rootp,const char*key){
-	struct Str*p;
+void push_front_23(struct Str_5**rootp_23,const char*key_23){
+	struct Str_5*p_25;
 }
-void stringtest(void){
-	char arr[100];
-	int i;
-	char t[40];
+void stringtest_59(void){
+	char arr_61[100];
+	int i_62;
+	char t_63[40];
 }
-_Bool test(void){
+_Bool test_135(void){
 }
 ========== cecko3 done ==========

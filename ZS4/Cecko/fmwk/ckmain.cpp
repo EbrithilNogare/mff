@@ -69,14 +69,14 @@ namespace cecko {
 
 		if (!covname.empty())
 		{
-			std::ofstream covf(covname);
+			std::ofstream covf(covname, std::ios_base::binary);	// enforce LF delimiters
 			cd_.for_each([&covf](auto&& name, auto&& cc) {
 				covf << std::setw(5) << cc.get() << "\t" << name << std::endl;
 				});
 		}
 		if (!covlinename.empty())
 		{
-			std::ofstream covf(covlinename);
+			std::ofstream covf(covlinename, std::ios_base::binary);	// enforce LF delimiters
 			std::ifstream inf(input_fname);
 			loc_t infline = 0;
 			cd_.for_each_line([&covf, &inf, &infline](auto&& line, auto&& lcd) {
@@ -158,7 +158,7 @@ namespace cecko {
 					return false;
 				{
 					auto outname = get_val();
-					outp_owner_ = std::make_unique<std::ofstream>(outname);
+					outp_owner_ = std::make_unique<std::ofstream>(outname, std::ios_base::binary);	// enforce LF delimiters
 					if (!outp_owner_->good())
 					{
 						outp_owner_.reset();
@@ -195,7 +195,7 @@ namespace cecko {
 
 		if (!aname.empty())
 		{
-			std::ofstream af(aname);
+			std::ofstream af(aname, std::ios_base::binary);	// enforce LF delimiters
 			if (!af.good())
 			{
 				std::cout << "Cannot open output file \"" << aname << "\"" << std::endl;
