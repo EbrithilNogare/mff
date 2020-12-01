@@ -1,20 +1,20 @@
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
-typedef struct _file_s FILE;
-typedef enum En ent;
-typedef struct Str*str_ptr;
+typedef struct _file_s_0 FILE_0;
+typedef enum En_0 ent_5;
+typedef struct Str_0*str_ptr_7;
 // --- FUNCTION DECLARATIONS ---
-int main(int,char**);
-void*memset(void*,int,int);
-int printf(const char*,...);
-int scanf(const char*,...);
-int sprintf(char*,const char*,...);
-int sscanf(const char*,const char*,...);
+int main_9(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
 // --- FUNCTION DEFINITIONS ---
-int main(int argc,char**argv){
-	enum En*e;
-	struct _file_s*myout;
-	struct Str*p;
+int main_9(int argc_9,char**argv_9){
+	enum En_0*e_13;
+	struct _file_s_0*myout_11;
+	struct Str_0*p_12;
 }
 ========== cecko3 done ==========

@@ -61,10 +61,17 @@ namespace cecko {
 		extern err_def_s BADINT;	///< Malformed integer literal
 		extern err_def_s BADESCAPE;	///< Malformed escape sequence
 		extern err_def_s UNCHAR;	///< Invalid character
-		extern err_def_s NOFILE;	///< Cannot open input file
 		extern err_def_s UNDEF_IDF;	///< Undefined identifier of constant/variable/function
 		//extern err_def_s UNDEF_TYPEIDF;	///< Undefined type identifier
-
+		/// @cond INTERNAL
+		extern err_def_s NOFILE;	///< Cannot open input file (reported by the framework)
+		extern err_def_s DUPLICATE_IDF;	///< Duplicate identifier (reported by the framework)
+		extern err_def_s DUPLICATE_TAG; ///< Duplicate tag (reported by the framework)
+		extern err_def_s DUPLICATE_FUNCTION_DEFINITION; ///< Duplicate function definition (reported by the framework)
+		extern err_def_s DUPLICATE_STRUCT_DEFINITION; ///< Duplicate function definition (reported by the framework)
+		extern err_def_s DUPLICATE_ENUM_DEFINITION; ///< Duplicate function definition (reported by the framework)
+		/// @endcond
+		
 		extern err_def_n INTERNAL;	///< Internal error
 		extern err_def_n EMPTYCHAR;	///< Empty character literal
 		extern err_def_n MULTICHAR_LONG;	///< Too long character literal
@@ -79,6 +86,13 @@ namespace cecko {
 		extern err_def_n NOT_POINTER;	///< Expression is not a pointer
 		extern err_def_n NOT_NUMBER_OR_POINTER; 	///< Expression is not a number or pointer
 		extern err_def_n INCOMPATIBLE;		///< Incompatible operands
+		extern err_def_n INVALID_FUNCTION_TYPE;		///< Invalid function type constructed
+		extern err_def_n INVALID_ARRAY_TYPE;		///< Invalid array type constructed
+		extern err_def_n INVALID_SPECIFIERS;	///< Conflicting declaration specifiers
+
+		/// @cond INTERNAL
+		extern err_def_n INVALID_VARIABLE_TYPE;		///< Invalid variable type (reported by the framework)
+		/// @endcond
 	}
 
 	/// @cond COVERAGE

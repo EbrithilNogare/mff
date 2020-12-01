@@ -20,8 +20,12 @@ int main(int argc, char** argv)
 	struct god_str {
 		struct mighty_str ims_;
 	} gs;
+	struct mighty_str {
+		char u;
+	};
 	{
 		struct god_str* ps;
+		struct mighty_str* ms;
 	}
 
 	return 0;
