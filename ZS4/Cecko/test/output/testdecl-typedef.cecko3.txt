@@ -1,0 +1,13 @@
+0a1
+> Error (line 12): Syntax error: syntax error, unexpected identifier, expecting ;
+4,5d4
+< typedef enum En_0 ent_5;
+< typedef struct Str_0*str_ptr_7;
+7d5
+< int main_9(int,char**);
+15,19d12
+< int main_9(int argc_9,char**argv_9){
+< 	enum En_0*e_13;
+< 	struct _file_s_0*myout_11;
+< 	struct Str_0*p_12;
+< }
