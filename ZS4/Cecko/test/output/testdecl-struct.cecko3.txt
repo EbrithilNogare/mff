@@ -1,0 +1,28 @@
+3,7d2
+< struct mighty_str_3{
+< 	char c_4;
+< 	int x_5;
+< 	int y_5;
+< };
+10d4
+< int main_11(int,char**);
+17d10
+< int x_8;
+19,35d11
+< int main_11(int argc_11,char**argv_11){
+< 	struct god_str_20{
+< 		struct mighty_str_3 ims__21;
+< 	};
+< 	struct mighty_str_23{
+< 		char u_24;
+< 	};
+< 	struct god_str_20 gs_22;
+< 	struct mighty_str_3 ms_13;
+< 	{
+< 		struct mighty_str_3*ps_16;
+< 	}
+< 	{
+< 		struct mighty_str_23*ms_28;
+< 		struct god_str_20*ps_27;
+< 	}
+< }

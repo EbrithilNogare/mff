@@ -1,0 +1,22 @@
+3,11d2
+< enum days_3{
+< 	MON_3=0,
+< 	TUE_3=1,
+< 	WED_3=2,
+< 	THU_3=3,
+< 	WRI_3=4,
+< 	SAT_3=15,
+< 	SUN_3=16
+< };
+14d4
+< int main_5(int,char**);
+22,30d11
+< int main_5(int argc_5,char**argv_5){
+< 	enum rgb_9{
+< 		RED_9=0,
+< 		GREEN_9=1,
+< 		BLUE_9=2
+< 	};
+< 	enum rgb_9 color_9;
+< 	enum days_3 day_7;
+< }
