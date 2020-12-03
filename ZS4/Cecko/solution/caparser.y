@@ -87,23 +87,13 @@ using namespace casem;
 
 /////////////////////////////////
 
-/////////////// Expressions
-%type<CKVoidTypeSafeObs> primary_expression
-%type<CKVoidTypeSafeObs> postfix_expression
-%type<CKVoidTypeSafeObs> argument_expression_list
-%type<CKVoidTypeSafeObs> unary_expression
-%type<CKVoidTypeSafeObs> unary_operator
-%type<CKVoidTypeSafeObs> cast_expression
-%type<CKVoidTypeSafeObs> multiplicative_expression
-%type<CKVoidTypeSafeObs> additive_expression
-%type<CKVoidTypeSafeObs> relational_expression
-%type<CKVoidTypeSafeObs> equality_expression
-%type<CKVoidTypeSafeObs> logical_AND_expression
-%type<CKVoidTypeSafeObs> logical_OR_expression
-%type<CKVoidTypeSafeObs> assignment_expression
-%type<CKVoidTypeSafeObs> assignment_operator
-%type<CKVoidTypeSafeObs> expression
-%type<CKVoidTypeSafeObs> constant_expression
+/////////////// Declarations
+%type<cecko::CKVoidTypeSafeObs> voidType
+%type<cecko::CKBoolTypeSafeObs> boolType
+%type<cecko::CKCharTypeSafeObs> charType
+%type<cecko::CKIntTypeSafeObs> intType
+
+
 
 
 /////////////////////////////////
@@ -116,10 +106,10 @@ using namespace casem;
 /////////////// Expressions
 
 primary_expression:
-	IDF { $$ = $1}
-	| INTLIT { $$ = $1}
-	| STRLIT { $$ = $1}
-	| LPAR expression RPAR { $$ = $2}
+	IDF
+	| INTLIT
+	| STRLIT
+	| LPAR expression RPAR
 	;
 
 postfix_expression:
@@ -206,7 +196,7 @@ expression_opt:
 	;
 
 expression:
-	assignment_expression { $$ = $1; }
+	assignment_expression
 	;
 
 constant_expression:
