@@ -16,5 +16,5 @@ target_sources("framework" PUBLIC "ckbisonflex.hpp" "ckir.hpp" "cktables.hpp" "c
 target_sources("framework_dump" PRIVATE "ckir.cpp" "cktables.cpp" "ckcontext.cpp" "ckmain.cpp")
 target_sources("framework_dump" PUBLIC "ckbisonflex.hpp" "ckir.hpp" "cktables.hpp" "ckcontext.hpp" "ckgrptokens.hpp" "ckmain.hpp")
 
-DOXYGEN("doxy" "ckbisonflex.hpp" "ckir.hpp" "cktables.hpp" "ckcontext.hpp" "ckgrptokens.hpp" "ckmain.hpp")
+DOXYGEN("doxy" "ckbisonflex.hpp" "ckir.hpp" "cktables.hpp" "ckcontext.hpp" "ckgrptokens.hpp" "ckmain.hpp" "faq.md")
 

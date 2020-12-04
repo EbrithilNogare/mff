@@ -23,15 +23,27 @@ namespace cecko {
 
 		/// @cond INTERNAL
 		template< std::size_t N>
-		using err_object_base = std::array<const char*, N>;
+		using err_string_array = std::array<const char*, N>;
+			
+		template< std::size_t N>
+		class err_object_base : public err_string_array<N>
+		{
+		public:
+			const char* name;
+		protected:
+			template< typename ... AT>
+			err_object_base(const char* name, AT && ... at)
+				: name(name), err_string_array<N>{std::forward<AT>(at) ...}
+			{}
+		};
 		/// @endcond 
 
 		/// Error message with a string parameter
 		class err_object_s : public err_object_base<2> {
 		public:
 			/// @cond INTERNAL
-			err_object_s(const char* e0, const char* e1)
-				: err_object_base<2>{ e0, e1 }
+			err_object_s(const char* n, const char* e0, const char* e1)
+				: err_object_base<2>{ n, e0, e1 }
 			{}
 			/// @endcond 
 		};
@@ -40,8 +52,8 @@ namespace cecko {
 		class err_object_n : public err_object_base<1> {
 		public:
 			/// @cond INTERNAL
-			err_object_n(const char* e0)
-				: err_object_base<1>{ e0 }
+			err_object_n(const char* n, const char* e0)
+				: err_object_base<1>{ n, e0 }
 			{}
 			/// @endcond 
 		};

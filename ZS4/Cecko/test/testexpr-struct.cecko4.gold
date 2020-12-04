@@ -1,0 +1,33 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+struct mighty_str_3{
+	char c_4;
+	int x_5;
+	int y_5;
+};
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+struct mighty_str_3 F_8();
+int main_17(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+// --- FUNCTION DEFINITIONS ---
+struct mighty_str_3 F_8(void){
+	struct mighty_str_3 locvar_10;
+}
+int main_17(int argc_17,char**argv_17){
+	char c_25;
+	struct mighty_str_3 ms_19;
+	int x_26;
+	int y_26;
+}
+========== starting main() ==========
+c=C x=10 y=42
+c=C x=10 y=42
+
+========== main() returned 0 ==========
+========== cecko4 done ==========

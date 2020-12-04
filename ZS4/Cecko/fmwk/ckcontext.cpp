@@ -15,37 +15,37 @@ namespace cecko {
 
 	namespace errors {
 
-		err_def_s SYNTAX{ "Syntax error: ", "" };
-		err_def_s INTOUTRANGE{ "Integer literal \"", "\" out of range" };
-		err_def_s BADINT{ "Malformed integer literal \"", "\"" };
-		err_def_s BADESCAPE{ "Malformed escape sequence \"", "\"" };
-		err_def_s UNCHAR{ "Unknown character '", "'" };
-		err_def_s NOFILE{ "Unable to open input file \"", "\"" };
-		err_def_s UNDEF_IDF{ "Undefined identifier \"", "\"" };
-		err_def_s DUPLICATE_IDF{ "Identifier \"", "\" was already declared in this scope" };
-		err_def_s DUPLICATE_TAG{ "Tag \"", "\" was already declared as another kind in this scope" };
-		err_def_s DUPLICATE_FUNCTION_DEFINITION{ "Function \"", "\" was already defined" };
-		err_def_s DUPLICATE_STRUCT_DEFINITION{ "Struct \"", "\" was already defined" };
-		err_def_s DUPLICATE_ENUM_DEFINITION{ "Enum \"", "\" was already defined" };
+		err_def_s SYNTAX{ "SYNTAX", "Syntax error: ", "" };
+		err_def_s INTOUTRANGE{ "INTOUTRANGE", "Integer literal \"", "\" out of range" };
+		err_def_s BADINT{ "BADINT", "Malformed integer literal \"", "\"" };
+		err_def_s BADESCAPE{ "BADESCAPE", "Malformed escape sequence \"", "\"" };
+		err_def_s UNCHAR{ "UNCHAR", "Unknown character '", "'" };
+		err_def_s NOFILE{ "NOFILE", "Unable to open input file \"", "\"" };
+		err_def_s UNDEF_IDF{ "UNDEF_IDF", "Undefined identifier \"", "\"" };
+		err_def_s DUPLICATE_IDF{ "DUPLICATE_IDF", "Identifier \"", "\" was already declared in this scope" };
+		err_def_s DUPLICATE_TAG{ "DUPLICATE_TAG", "Tag \"", "\" was already declared as another kind in this scope" };
+		err_def_s DUPLICATE_FUNCTION_DEFINITION{ "DUPLICATE_FUNCTION_DEFINITION", "Function \"", "\" was already defined" };
+		err_def_s DUPLICATE_STRUCT_DEFINITION{ "DUPLICATE_STRUCT_DEFINITION", "Struct \"", "\" was already defined" };
+		err_def_s DUPLICATE_ENUM_DEFINITION{ "DUPLICATE_ENUM_DEFINITION", "Enum \"", "\" was already defined" };
 
-		err_def_n INTERNAL{ "INTERNAL ERROR" };
-		err_def_n EMPTYCHAR{ "Empty character" };
-		err_def_n MULTICHAR_LONG{ "Multi-character too long" };
-		err_def_n EOLINSTRCHR{ "End of line in string or character literal" };
-		err_def_n EOFINSTRCHR{ "End of file in string or character literal" };
-		err_def_n EOFINCMT{ "End of file in comment" };
-		err_def_n UNEXPENDCMT{ "End of comment outside comment" };
-		err_def_n VOIDEXPR{ "Expression is void" };
-		err_def_n ARRAY_NOT_LVALUE{ "Array expression is not an lvalue"};
-		err_def_n NAME_NOT_VALUE{ "Name does not denote a value" };
-		err_def_n NOT_NUMBER{ "Expression is not a number" };
-		err_def_n NOT_POINTER{ "Expression is not a pointer" };
-		err_def_n NOT_NUMBER_OR_POINTER{ "Expression is not a number or pointer" };
-		err_def_n INCOMPATIBLE{ "Incompatible operand(s)" };
-		err_def_n INVALID_FUNCTION_TYPE{ "Invalid function type constructed" };
-		err_def_n INVALID_ARRAY_TYPE{ "Invalid array type constructed" };
-		err_def_n INVALID_SPECIFIERS{ "Invalid declaration specifiers" };
-		err_def_n INVALID_VARIABLE_TYPE{ "Invalid variable type" };
+		err_def_n INTERNAL{ "INTERNAL", "INTERNAL ERROR" };
+		err_def_n EMPTYCHAR{ "EMPTYCHAR", "Empty character" };
+		err_def_n MULTICHAR_LONG{ "MULTICHAR_LONG", "Multi-character too long" };
+		err_def_n EOLINSTRCHR{ "EOLINSTRCHR", "End of line in string or character literal" };
+		err_def_n EOFINSTRCHR{ "EOFINSTRCHR", "End of file in string or character literal" };
+		err_def_n EOFINCMT{ "EOFINCMT", "End of file in comment" };
+		err_def_n UNEXPENDCMT{ "UNEXPENDCMT", "End of comment outside comment" };
+		err_def_n VOIDEXPR{ "VOIDEXPR", "Expression is void" };
+		err_def_n ARRAY_NOT_LVALUE{ "ARRAY_NOT_LVALUE", "Array expression is not an lvalue"};
+		err_def_n NAME_NOT_VALUE{ "NAME_NOT_VALUE", "Name does not denote a value" };
+		err_def_n NOT_NUMBER{ "NOT_NUMBER", "Expression is not a number" };
+		err_def_n NOT_POINTER{ "NOT_POINTER", "Expression is not a pointer" };
+		err_def_n NOT_NUMBER_OR_POINTER{ "NOT_NUMBER_OR_POINTER", "Expression is not a number or pointer" };
+		err_def_n INCOMPATIBLE{ "INCOMPATIBLE", "Incompatible operand(s)" };
+		err_def_n INVALID_FUNCTION_TYPE{ "INVALID_FUNCTION_TYPE", "Invalid function type constructed" };
+		err_def_n INVALID_ARRAY_TYPE{ "INVALID_ARRAY_TYPE", "Invalid array type constructed" };
+		err_def_n INVALID_SPECIFIERS{ "INVALID_SPECIFIERS", "Invalid declaration specifiers" };
+		err_def_n INVALID_VARIABLE_TYPE{ "INVALID_VARIABLE_TYPE", "Invalid variable type" };
 	}
 
 	std::string context::escape(std::string_view s)
@@ -64,12 +64,14 @@ namespace cecko {
 	void context::message(errors::err_s err, loc_t loc, std::string_view msg)
 	{
 		errors::err_def_s& e = err;
+		cov(e.name);
 		out() << "Error (line " << loc << "): " << e[0] << escape(msg) << e[1] << std::endl;
 	}
 
 	void context::message(errors::err_n err, loc_t loc)
 	{
 		errors::err_def_n & e = err;
+		cov(e.name);
 		out() << "Error (line " << loc << "): " << e[0] << std::endl;
 	}
 
