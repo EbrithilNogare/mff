@@ -1,16 +1,16 @@
-// testing TYPEIDF and typedef
+// testing typedef
 
-//#include <stdio.h>
+typedef int ti;
+typedef char tx;
 
-typedef enum En ent;
+ti vi;
+tx vx;
 
-typedef struct Str* str_ptr;
-
-int main(int argc, char** argv)
+ti main(ti argc, tx** argv)
 {
-	FILE * myout;	// this is a declaration
-	str_ptr p;
-	ent* e;
-
-	return 0;
+	typedef ti t2;
+	t2 v2;
 }
+
+typedef tx t2;
+t2 v2;

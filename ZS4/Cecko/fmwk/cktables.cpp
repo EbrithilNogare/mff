@@ -271,7 +271,7 @@ namespace cecko {
 		fncs_.for_each(decllambda);
 		os << "// --- GLOBAL VARIABLES ---" << std::endl;
 		auto varlambda = [&os](auto&& a) {
-			os << a->get_type()->declaration(false, a->get_dump_name()) << ";" << CIEndl;
+			os << a->get_type()->declaration(a->is_const(), a->get_dump_name()) << ";" << CIEndl;
 		};
 		vars_.for_each(varlambda);
 		os << "// --- FUNCTION DEFINITIONS ---" << std::endl;
