@@ -1,0 +1,11 @@
+11,20d10
+< const int*const cpci_3;
+< const int*const cpci2_4;
+< const int*const*const cpcpci_5;
+< int*const cpi_6;
+< int*const cpi2_7;
+< int**const cppi_8;
+< const int*pci_9;
+< const int*pci2_10;
+< int*const*pcpi_11;
+< const int**ppci_12;

@@ -1,0 +1,9 @@
+5d4
+< int main_3(int,char**);
+13,18d11
+< int main_3(int argc_3,char**argv_3){
+< 	int arr_5[42];
+< 	int darr_9[4][2];
+< 	int i_7;
+< 	int j_7;
+< }

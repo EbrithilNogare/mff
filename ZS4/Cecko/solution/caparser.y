@@ -88,10 +88,14 @@ using namespace casem;
 /////////////////////////////////
 
 /////////////// Declarations
-%type<cecko::CKVoidTypeSafeObs> voidType
-%type<cecko::CKBoolTypeSafeObs> boolType
-%type<cecko::CKCharTypeSafeObs> charType
-%type<cecko::CKIntTypeSafeObs> intType
+%type<cecko::CKTypeObs> type_specifier typedef_name
+%type<casem::DeclarationSpecifierDto> declaration_specifier
+%type<casem::DeclarationSpecifiersDto> declaration_specifiers
+%type<casem::DeclaratorDto> declarator direct_declarator
+%type<casem::DeclaratorsDto> init_declarator_list member_declarator_list
+//%type<casem::PointerDto> pointer
+
+
 
 
 
@@ -209,57 +213,52 @@ constant_expression:
 /////////////// Declarations
 
 declaration:
-	no_leading_attribute_declaration
+	declaration_body SEMIC
 	;
 
-no_leading_attribute_declaration:
-	declaration_specifiers init_declarator_list_opt SEMIC
+declaration_body:
+	declaration_specifiers init_declarator_list_opt { casem::DefineVariables(ctx, $1, $2); }
 	;
 
 declaration_specifiers:
-	declaration_specifier
-	| declaration_specifier declaration_specifiers
+	declaration_specifier { 
+		auto vec = casem::create_DeclarationSpecifiersDto();
+		vec.push_back($1);
+		$$ = vec;
+	}
+	| declaration_specifier declaration_specifiers {
+		$1.push_back($2);
+		$$ = $1;
+	}
 	;
 
 declaration_specifier:
-	storage_class_specifier
-	| type_specifier_qualifier
+	TYPEDEF { $$ = casem::DeclarationSpecifioerDto{true, false}; } // todo
+	| type_specifier_qualifier { $$ = $1; } // todo not here
 	;
 
 init_declarator_list_opt:
-	%empty
-	| init_declarator_list
+	%empty { $$ = casem::CreateDeclarators(); }
+	| init_declarator_list { $$ = $1; }
 	;
 
 
 init_declarator_list:
-	init_declarator
-	|init_declarator_list COMMA init_declarator
-	;
-
-init_declarator:
-	declarator
-	;
-
-storage_class_specifier:
-	TYPEDEF
+	declarator // a
+	|init_declarator_list COMMA declarator // a, b
 	;
 
 type_specifier:
-	VOID
-	| ETYPE
-	| struct_or_union_specifier
-	| enum_specifier
-	| typedef_name
+	VOID { $$ = ctx->get_void_type(); }
+	| ETYPE { $$ = casem::parse_etype(ctx, $1); }
+	| struct_or_union_specifier // bonus
+	| enum_specifier // bonus
+	| typedef_name { $$ = $1; }
 	;
 
 struct_or_union_specifier:
-	struct_or_union IDF LCUR member_declaration_list RCUR
-	| struct_or_union IDF
-	;
-
-struct_or_union:
-	STRUCT
+	STRUCT IDF LCUR member_declaration_list RCUR
+	| STRUCT IDF
 	;
 
 member_declaration_list:
@@ -272,13 +271,20 @@ member_declaration:
 	;
 
 specifier_qualifier_list:
-	type_specifier_qualifier
-	| type_specifier_qualifier specifier_qualifier_list
+	type_specifier_qualifier { 
+		auto vec = casem::create_DeclarationSpecifiersDto();
+		vec.push_back($1);
+		$$ = vec;
+	}
+	| type_specifier_qualifier specifier_qualifier_list {
+		$1.push_back($2);
+		$$ = $1;
+	}
 	;
 
 type_specifier_qualifier:
-	type_specifier
-	| type_qualifier
+	type_specifier { $$ = casem::DeclarationSpecifierDto{$1}; }
+	| type_qualifier { $$ = $1; }
 	;
 
 member_declarator_list_opt:
@@ -287,12 +293,8 @@ member_declarator_list_opt:
 	;
 
 member_declarator_list:
-	member_declarator
-	| member_declarator_list COMMA member_declarator
-	;
-
-member_declarator:
 	declarator
+	| member_declarator_list COMMA declarator
 	;
 
 enum_specifier:
@@ -312,7 +314,7 @@ enumerator:
 	;
 
 type_qualifier:
-	CONST
+	CONST { $$ = casem::DeclarationSpecifioerDto{false, true}; } // todo
 	;
 
 declarator:
@@ -402,7 +404,7 @@ function_abstract_declarator:
 	;
 
 typedef_name: 
-	TYPEIDF
+	TYPEIDF { $$ = ctx->find_typedef($1)->get_type_pack.type(); }
 	;
 
 

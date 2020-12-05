@@ -1,0 +1,8 @@
+0a1
+> Error (line 5): Syntax error: syntax error, unexpected identifier
+11,15d11
+< _Bool vb_3;
+< int vi_4;
+< struct _file_s_0*vpF_5;
+< void*vpv_6;
+< char*vpx_7;
