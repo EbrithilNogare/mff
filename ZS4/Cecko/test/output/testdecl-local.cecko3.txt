@@ -1,0 +1,17 @@
+5d4
+< int main_5(int,char**);
+12d10
+< int v_3;
+14,25d11
+< int main_5(int argc_5,char**argv_5){
+< 	int v_7;
+< 	{
+< 		int v_9;
+< 		{
+< 			int v_11;
+< 		}
+< 	}
+< 	{
+< 		int v_15;
+< 	}
+< }

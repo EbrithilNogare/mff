@@ -1,0 +1,8 @@
+11,17d10
+< int*pi_3;
+< int*pi2_4;
+< int*pi3_5;
+< int**ppi_6;
+< int**ppi2_7;
+< int**ppi3_8;
+< int**ppi4_9;
