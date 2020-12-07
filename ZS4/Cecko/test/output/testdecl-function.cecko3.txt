@@ -1,23 +1,23 @@
-5,11d4
-< int fi_3();
-< int fixix_4(char,int,char);
-< void fv_5();
-< void fvi_6(int);
-< void fvix_7(int,char);
-< void fvxi_8(char,int);
-< char fxixi_9(int,char,int);
-19,32d11
-< int fi_3(void){
-< }
-< int fixix_4(char a_15,int b_15,char c_15){
-< }
-< void fv_5(void){
-< }
-< void fvi_6(int d_22){
-< }
-< void fvix_7(int e_25,char f_25){
-< }
-< void fvxi_8(char g_28,int h_28){
-< }
-< char fxixi_9(int j_31,char k_31,int l_31){
-< }
+Error (line 4): Identifier "" was already declared in this scope
+Error (line 5): Invalid variable type
+Error (line 5): Identifier "" was already declared in this scope
+Error (line 6): Invalid variable type
+Error (line 6): Identifier "" was already declared in this scope
+Error (line 7): Invalid variable type
+Error (line 7): Identifier "" was already declared in this scope
+Error (line 8): Invalid variable type
+Error (line 8): Identifier "" was already declared in this scope
+Error (line 9): Identifier "" was already declared in this scope
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+int _3;
+// --- FUNCTION DEFINITIONS ---
+========== cecko3 done ==========

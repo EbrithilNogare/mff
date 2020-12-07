@@ -1,9 +1,13 @@
-5d4
-< int main_3(int,char**);
-13,18d11
-< int main_3(int argc_3,char**argv_3){
-< 	int arr_5[42];
-< 	int darr_9[4][2];
-< 	int i_7;
-< 	int j_7;
-< }
+Error (line 3): Syntax error: syntax error, unexpected identifier, expecting )
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+// --- FUNCTION DEFINITIONS ---
+========== cecko3 done ==========

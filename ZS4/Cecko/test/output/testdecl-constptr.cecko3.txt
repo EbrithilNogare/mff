@@ -1,11 +1,13 @@
-11,20d10
-< const int*const cpci_3;
-< const int*const cpci2_4;
-< const int*const*const cpcpci_5;
-< int*const cpi_6;
-< int*const cpi2_7;
-< int**const cppi_8;
-< const int*pci_9;
-< const int*pci2_10;
-< int*const*pcpi_11;
-< const int**ppci_12;
+Error (line 3): Syntax error: syntax error, unexpected *, expecting ;
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+// --- FUNCTION DEFINITIONS ---
+========== cecko3 done ==========
