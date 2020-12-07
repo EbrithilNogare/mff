@@ -1,8 +1,15 @@
-0a1
-> Error (line 5): Syntax error: syntax error, unexpected identifier
-11,15d11
-< _Bool vb_3;
-< int vi_4;
-< struct _file_s_0*vpF_5;
-< void*vpv_6;
-< char*vpx_7;
+Error (line 5): Syntax error: syntax error, unexpected identifier
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+_Bool vb_3;
+int vi_4;
+// --- FUNCTION DEFINITIONS ---
+========== cecko3 done ==========

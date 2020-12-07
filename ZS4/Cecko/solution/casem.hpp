@@ -6,28 +6,36 @@
 #include "ckgrptokens.hpp"
 
 namespace casem {
-
-	class DeclarationSpecifiersDto {
+	class DeclarationSpecifierDto {
 		public:
 		cecko::CKTypeObs type;
 		bool is_typedef;
 		bool is_const;
 		bool is_type;
 
-		DeclarationSpecifiersDto(void):
+		DeclarationSpecifierDto(void):
 			is_typedef(false), is_const(false), is_type(false), type() {}
 		
-		DeclarationSpecifiersDto(bool typdef, bool cnst):
+		DeclarationSpecifierDto(bool typdef, bool cnst):
 			is_typedef(typdef), is_const(cnst), is_type(false), type() {}
 		
-		DeclarationSpecifiersDto(cecko::CKTypeObs type):
+		DeclarationSpecifierDto(cecko::CKTypeObs type):
 			is_typedef(false), is_const(false), is_type(true), type(type) {}
 	};
+	using DeclarationSpecifiersDto = std::vector<casem::DeclarationSpecifierDto>;
 
+	class PointerDto {
+		public:
+			bool is_const;
+			PointerDto(bool is_const = false): 
+				is_const(is_const) {}
+	};
+	using PointersDto = std::vector<casem::PointerDto>; 
+	
 	class DeclaratorDto{
 		public:
 			cecko::CIName identifier;
-			PointersDto poiters;
+			PointersDto pointers;
 			bool is_empty;
 			bool is_array;
 			bool is_function;
@@ -41,17 +49,13 @@ namespace casem {
 
 			void add_pointer(PointersDto& ptr) { pointers = ptr; is_pointer = true; }
 
-	}
-
-	class PointerDto {
-		public:
-			bool is_const;
-
-			PointerDto(bool is_const = false): 
-				is_const(is_const) {}
 	};
+	using DeclaratorsDto = std::vector<casem::DeclaratorDto>;
 
-	
+	void DefineVariables(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators);
+	cecko::CKTypeObs parse_etype(cecko::context* ctx, cecko::gt_etype etype);
+
+	class DeclarationBodyDto;
 
 }
 
