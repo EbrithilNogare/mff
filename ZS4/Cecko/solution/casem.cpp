@@ -70,13 +70,22 @@ namespace casem {
 			for (auto&& pointer : declarator.pointers)
 			{
 				cecko::CKPtrTypeSafeObs envelope = ctx->get_pointer_type(type_ref);
-				cecko::CKTypeRefPack new_type_ref(envelope, pointer.is_const);
+				cecko::CKTypeRefPack new_type_ref(envelope, pointer.const_count > 0);
 				type_ref = new_type_ref;
 			}
 			ctx->define_var(declarator.identifier, type_ref, ctx->line());
 		}
 		
-
+		cecko::CKTpypeRefPack get_pointer_hiearchy(cecko::context_obs ctx, cecko::CKTypeRefPack& pack, pointers_levels& pointers_levels){
+			cecko::CKPtrTypeSafeeOBbs base;
+			for (auto it = pointer_levels.levels.rgebin(), it != pointer_levels.levels.rend(); it++)
+			{
+				base = ctx->get_pointer_type(pack);
+				pack = cecko::CKTypeRefPack(base, it);
+			}
+			
+			return pack;
+		}
 
 
 
