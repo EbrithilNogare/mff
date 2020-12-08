@@ -26,9 +26,9 @@ namespace casem {
 
 	class PointerDto {
 		public:
-			bool is_const;
-			PointerDto(bool is_const = false): 
-				is_const(is_const) {}
+			int const_count;
+			PointerDto(int const_count = 0): 
+				const_count(const_count) {}
 	};
 	using PointersDto = std::vector<casem::PointerDto>; 
 	

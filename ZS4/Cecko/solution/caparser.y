@@ -89,11 +89,12 @@ using namespace casem;
 
 /////////////// Declarations
 %type<cecko::CKTypeObs> type_specifier typedef_name
-%type<casem::DeclarationSpecifierDto> declaration_specifier type_qualifier
+%type<casem::DeclarationSpecifierDto> declaration_specifier
 %type<casem::DeclarationSpecifiersDto> declaration_specifiers specifier_qualifier_list
 %type<casem::DeclaratorDto> declarator direct_declarator
 %type<casem::DeclaratorsDto> init_declarator_list member_declarator_list
-%type<casem::PointersDto> pointer type_qualifier_list
+%type<casem::PointersDto> pointer
+%type<int> type_qualifier_list
 %type<casem::DeclaratorsDto> init_declarator_list_opt
 %type<casem::DeclarationSpecifierDto> type_specifier_qualifier
 
@@ -294,7 +295,7 @@ specifier_qualifier_list:
 
 type_specifier_qualifier:
 	type_specifier { $$ = casem::DeclarationSpecifierDto{$1}; }
-	| type_qualifier { $$ = $1; }
+	| CONST { $$ = casem::DeclarationSpecifierDto{false, true}; }
 	;
 
 member_declarator_list_opt:
@@ -330,10 +331,6 @@ enumerator:
 	| IDF ASGN constant_expression
 	;
 
-type_qualifier:
-	CONST { $$ = casem::DeclarationSpecifierDto{false, true}; }
-	;
-
 declarator: // type: casem::DeclaratorDto
 	direct_declarator
 	| pointer direct_declarator { $$ = $2; } // todo call constructor
@@ -354,26 +351,30 @@ function_declarator:
 	direct_declarator LPAR parameter_type_list RPAR
 	;
 
-pointer: // type: casem::PointersDto
-	STAR type_qualifier_list_opt { $$ = $2; }
-	| STAR type_qualifier_list_opt pointer { $$ = $2; }
-	;
-
-type_qualifier_list_opt:
-	%empty
-	| type_qualifier_list
-	;
-
-type_qualifier_list: //type: casem::PointersDto
-	type_qualifier { 
+pointer // type: casem::PointersDto
+	: STAR {
 		auto vec = casem::PointersDto();
-		vec.push_back($1);
+		vec.push_back(casem::PointerDto(0));
 		$$ = vec;
 	}
-	| type_qualifier_list type_qualifier {
-		$1.push_back($2);
-		$$ = $1;
+	| STAR type_qualifier_list {
+		auto vec = casem::PointersDto();
+		vec.push_back(casem::PointerDto($2));
+		$$ = vec;
 	}
+	| STAR pointer {
+		$2.push_back(casem::PointerDto(0));
+		$$ = $2;
+	}
+	| STAR type_qualifier_list pointer {
+		$3.push_back(casem::PointerDto($2));
+		$$ = $3;
+	}
+	;
+
+type_qualifier_list:
+	CONST { $$ = 1; }
+	| type_qualifier_list CONST  { $$ = $1+1; }
 	;
 
 parameter_type_list:
