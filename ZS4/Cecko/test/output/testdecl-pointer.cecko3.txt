@@ -1,4 +1,3 @@
-Error (line 3): Syntax error: syntax error, unexpected *, expecting ;
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;
@@ -9,5 +8,12 @@ int scanf_0(const char*,...);
 int sprintf_0(char*,const char*,...);
 int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
+int*pi_3;
+int*pi2_4;
+int*pi3_5;
+int**ppi_6;
+int**ppi2_7;
+int**ppi3_8;
+int**ppi4_9;
 // --- FUNCTION DEFINITIONS ---
 ========== cecko3 done ==========

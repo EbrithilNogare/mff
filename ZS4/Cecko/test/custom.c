@@ -1,1 +1,2 @@
-int* cpci;
+int** const cppi;
+int* const* pcpi;

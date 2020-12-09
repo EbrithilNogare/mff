@@ -1,4 +1,7 @@
-Error (line 5): Syntax error: syntax error, unexpected identifier, expecting )
+Error (line 7): Identifier "v" was already declared in this scope
+Error (line 9): Identifier "v" was already declared in this scope
+Error (line 11): Identifier "v" was already declared in this scope
+Error (line 15): Identifier "v" was already declared in this scope
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;

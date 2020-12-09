@@ -1,4 +1,4 @@
-Error (line 11): Syntax error: syntax error, unexpected identifier, expecting )
+Error (line 27): Identifier "ps" was already declared in this scope
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;
@@ -9,6 +9,8 @@ int scanf_0(const char*,...);
 int sprintf_0(char*,const char*,...);
 int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
+void*ms_28;
+void*ps_16;
 int x_8;
 // --- FUNCTION DEFINITIONS ---
 ========== cecko3 done ==========
