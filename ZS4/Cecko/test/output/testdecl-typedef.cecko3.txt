@@ -2,6 +2,8 @@ Error (line 6): Syntax error: syntax error, unexpected identifier
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;
+typedef int ti_3;
+typedef char tx_4;
 // --- FUNCTION DECLARATIONS ---
 void*memset_0(void*,int,int);
 int printf_0(const char*,...);
@@ -9,7 +11,5 @@ int scanf_0(const char*,...);
 int sprintf_0(char*,const char*,...);
 int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
-int ti_3;
-char tx_4;
 // --- FUNCTION DEFINITIONS ---
 ========== cecko3 done ==========

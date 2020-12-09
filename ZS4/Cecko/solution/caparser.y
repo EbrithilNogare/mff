@@ -91,12 +91,12 @@ using namespace casem;
 %type<cecko::CKTypeObs> type_specifier typedef_name
 %type<casem::DeclarationSpecifierDto> declaration_specifier
 %type<casem::DeclarationSpecifiersDto> declaration_specifiers specifier_qualifier_list
-%type<casem::DeclaratorDto> declarator direct_declarator
-%type<casem::DeclaratorsDto> init_declarator_list member_declarator_list
+%type<casem::DeclaratorDto> declarator direct_declarator array_declarator function_declarator
+%type<casem::DeclaratorsDto> init_declarator_list init_declarator_list_opt member_declarator_list
 %type<casem::PointersDto> pointer
-%type<int> type_qualifier_list
-%type<casem::DeclaratorsDto> init_declarator_list_opt
 %type<casem::DeclarationSpecifierDto> type_specifier_qualifier
+%type<casem::ParameterDto> parameter_declaration
+%type<casem::ParametersDto> parameter_list
 
 
 
@@ -221,22 +221,22 @@ declaration:
 	;
 
 declaration_body:
-	declaration_specifiers init_declarator_list_opt { casem::DefineVariables(ctx, $1, $2); }
+	declaration_specifiers init_declarator_list_opt { casem::declare(ctx, $1, $2); }
 	;
 
-declaration_specifiers:
+declaration_specifiers: // type: casem::DeclarationSpecifiersDto
 	declaration_specifier { 
 		auto vec = casem::DeclarationSpecifiersDto();
 		vec.push_back($1);
 		$$ = vec;
 	}
-	| declaration_specifier declaration_specifiers {
-		$2.push_back($1);
-		$$ = $2;
+	| declaration_specifiers declaration_specifier {
+		$1.push_back($2);
+		$$ = $1;
 	}
 	;
 
-declaration_specifier:
+declaration_specifier: // type: casem::DeclarationSpecifierDto
 	TYPEDEF { $$ = casem::DeclarationSpecifierDto{true, false}; }
 	| type_specifier_qualifier { $$ = $1; }
 	;
@@ -333,62 +333,90 @@ enumerator:
 
 declarator: // type: casem::DeclaratorDto
 	direct_declarator
-	| pointer direct_declarator { $$ = $2; } // todo call constructor
+	| pointer direct_declarator {
+		$2.add_modifier($1, false);
+		$$ = $2;
+	}
 	;
 
-direct_declarator:
-	IDF { $$ = casem::DeclaratorDto($1); }
-	| LPAR declarator RPAR { $$ = casem::DeclaratorDto($2); }
-	| array_declarator { $$ = casem::DeclaratorDto(); } // bonus
-	| function_declarator { $$ = casem::DeclaratorDto(); } // bonus
+direct_declarator: // type: casem::DeclaratorDto
+	IDF { $$ = casem::DeclaratorDto($1, @1); }
+	| LPAR declarator RPAR { $$ = $2; }
+	| array_declarator { $$ = casem::DeclaratorDto();}//$1; }
+	| function_declarator { $$ = casem::DeclaratorDto();}//$1; }
 	;
 
-array_declarator:
-	direct_declarator LBRA assignment_expression RBRA
+array_declarator: // type: casem::DeclaratorDto
+	// direct_declarator LBRA assignment_expression RBRA // hack
+	direct_declarator LBRA INTLIT RBRA {
+		$1.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($3))), false);
+		$$ = $1;
+	}
 	;
 
-function_declarator:
-	direct_declarator LPAR parameter_type_list RPAR
+function_declarator: // type: casem::DeclaratorDto
+	direct_declarator LPAR parameter_list RPAR {
+		$1.add_modifier(casem::DeclaratorModifierDto(casem::FunctionDto($3)), true);
+		$$ = $1;
+	}
 	;
 
 pointer // type: casem::PointersDto
 	: STAR {
-		auto vec = casem::PointersDto();
-		vec.push_back(casem::PointerDto(0));
-		$$ = vec;
+		casem::PointerDto pointer(false);
+		auto pointers = casem::PointersDto();
+		pointers.push_back(pointer);
+		$$ = pointers;
 	}
 	| STAR type_qualifier_list {
-		auto vec = casem::PointersDto();
-		vec.push_back(casem::PointerDto($2));
-		$$ = vec;
+		casem::PointerDto pointer(true);
+		auto pointers = casem::PointersDto();
+		pointers.push_back(pointer);
+		$$ = pointers;
 	}
 	| STAR pointer {
-		$2.push_back(casem::PointerDto(0));
+		casem::PointerDto pointer(false);
+		$2.push_back(pointer);
 		$$ = $2;
 	}
 	| STAR type_qualifier_list pointer {
-		$3.push_back(casem::PointerDto($2));
+		casem::PointerDto pointer(true);
+		$3.push_back(pointer);
 		$$ = $3;
 	}
 	;
 
 type_qualifier_list:
-	CONST { $$ = 1; }
-	| type_qualifier_list CONST  { $$ = $1+1; }
+	CONST
+	| type_qualifier_list CONST
 	;
 
-parameter_type_list:
-	parameter_list
+parameter_list:  // type: casem::ParametersDto 
+	parameter_declaration { 
+		auto vec = casem::ParametersDto();
+		vec.push_back($1);
+		$$ = vec;
+	}
+	| parameter_declaration COMMA parameter_list {
+		$3.push_back($1);
+		$$ = $3;
+	}
 	;
 
-parameter_list:
-	parameter_declaration
-	| parameter_list COMMA parameter_declaration
-	;
-
-parameter_declaration:
-	declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator_opt
+parameter_declaration: // type: casem::ParameterDto
+	declaration_specifiers { casem::ParameterDto($1); }
+	| declaration_specifiers declarator {
+		casem::DeclaratorsDto declarators = casem::DeclaratorsDto();
+		declarators.push_back($2);
+		casem:ParameterDto param($1, declarators);
+		$$ = param;
+	}
+	/*| declaration_specifiers abstract_declarator {
+		casem::DeclaratorsDto declarators = casem::DeclaratorsDto();
+		declarators.push_back($2);
+		casem:ParameterDto param($1, declarators);
+		$$ = param;
+	}*/
 	;
 
 type_name:
@@ -399,9 +427,8 @@ abstract_declarator_opt:
 	%empty
 	| abstract_declarator
 	;
-
-abstract_declarator:
-	pointer
+abstract_declarator: // type: casem::DeclaratorDto
+	pointer 
 	| direct_abstract_declarator
 	| pointer direct_abstract_declarator
 	;
@@ -411,7 +438,7 @@ direct_abstract_declarator_opt:
 	// | %empty
 	;
 
-direct_abstract_declarator:
+direct_abstract_declarator: // type casem::DeclaratorDto
 	LPAR abstract_declarator RPAR
 	| array_abstract_declarator
 	| function_abstract_declarator
@@ -422,7 +449,7 @@ array_abstract_declarator:
 	;
 
 function_abstract_declarator:
-	direct_abstract_declarator_opt LPAR parameter_type_list RPAR
+	direct_abstract_declarator_opt LPAR parameter_list RPAR
 	;
 
 typedef_name: 
@@ -496,7 +523,8 @@ iteration_statement_u:
 	;
 
 jump_statement:
-	RETURN expression_opt SEMIC
+	// RETURN expression_opt SEMIC
+	RETURN INTLIT SEMIC
 	;
 
 

@@ -6,6 +6,15 @@
 #include "ckgrptokens.hpp"
 
 namespace casem {
+	class ParameterDto;
+	using ParametersDto = std::vector<casem::ParameterDto>;
+
+	enum ModifierType {
+		pointer,
+		array,
+		function,
+	};
+
 	class DeclarationSpecifierDto {
 		public:
 		cecko::CKTypeObs type;
@@ -26,33 +35,68 @@ namespace casem {
 
 	class PointerDto {
 		public:
-			int const_count;
-			PointerDto(int const_count = 0): 
-				const_count(const_count) {}
+			bool is_const;
+			PointerDto(bool is_const): 
+				is_const(is_const) {}
 	};
 	using PointersDto = std::vector<casem::PointerDto>; 
 	
+	class ArrayDto {
+		public:
+			cecko::CKIRConstantIntObs size;
+			ArrayDto(cecko::CKIRConstantIntObs size) : size(size) {}
+			ArrayDto() {}
+	};
+	class FunctionDto{
+		public:
+			ParametersDto parameters;
+			FunctionDto() {}
+			FunctionDto(ParametersDto parameters) : parameters(parameters) {}
+	};
+
+	class DeclaratorModifierDto{
+		public:
+			ModifierType type;
+			PointersDto pointers;
+			ArrayDto array;
+			FunctionDto function;
+
+			DeclaratorModifierDto(PointersDto ptrs) : pointers(ptrs), type(ModifierType::pointer) {}
+			DeclaratorModifierDto(ArrayDto array) : array(array), type(ModifierType::array) {}
+			DeclaratorModifierDto(FunctionDto func) : function(func), type(ModifierType::function) {}
+	};	
+
 	class DeclaratorDto{
 		public:
 			cecko::CIName identifier;
-			PointersDto pointers;
-			bool is_empty;
-			bool is_array;
-			bool is_function;
-			bool is_pointer;
+			cecko::loc_t line;
+			std::vector<DeclaratorModifierDto> modifiers;
+			
+			bool is_anonym;
+			bool is_var;
+			bool is_func;
 
-			DeclaratorDto(void):
-				is_empty(true), is_array(false), is_function(false), is_pointer(false), identifier(), pointers() {}
+			DeclaratorDto(void): is_anonym(true), is_var(true), is_func(false), identifier() {}
+			DeclaratorDto(cecko::CIName identifier, cecko::loc_t line): identifier(identifier), is_anonym(false), is_var(false), is_func(false), line(line) {}
 
-			DeclaratorDto(cecko::CIName identifier):
-				identifier(identifier), is_empty(false) {}
-
-			void add_pointer(PointersDto& ptr) { pointers = ptr; is_pointer = true; }
-
+			void add_modifier(DeclaratorModifierDto modifier, bool func){
+				modifiers.push_back(modifier);
+			}
 	};
-	using DeclaratorsDto = std::vector<casem::DeclaratorDto>;
+	using DeclaratorsDto = std::vector<DeclaratorDto>;
 
-	void DefineVariables(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators);
+	class ParameterDto{
+		public:
+			DeclarationSpecifiersDto declarationSpecifiers;
+			DeclaratorsDto declarators;
+			ParameterDto() {}
+			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers):
+			 declarationSpecifiers(declarationSpecifiers) {}
+			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers, casem::DeclaratorsDto declarators):
+				declarationSpecifiers(declarationSpecifiers), declarators(declarators) {}
+	};
+
+	void declare(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators);
 	cecko::CKTypeObs parse_etype(cecko::context* ctx, cecko::gt_etype etype);
 
 	class DeclarationBodyDto;

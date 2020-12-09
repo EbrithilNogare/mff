@@ -1,13 +1,5 @@
-Error (line 4): Identifier "" was already declared in this scope
-Error (line 5): Invalid variable type
-Error (line 5): Identifier "" was already declared in this scope
-Error (line 6): Invalid variable type
-Error (line 6): Identifier "" was already declared in this scope
-Error (line 7): Invalid variable type
-Error (line 7): Identifier "" was already declared in this scope
-Error (line 8): Invalid variable type
-Error (line 8): Identifier "" was already declared in this scope
-Error (line 9): Identifier "" was already declared in this scope
+Error (line 3009855112): Identifier "" was already declared in this scope
+Error (line 3009855112): Identifier "" was already declared in this scope
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;
@@ -18,6 +10,6 @@ int scanf_0(const char*,...);
 int sprintf_0(char*,const char*,...);
 int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
-int _3;
+int _3009855112;
 // --- FUNCTION DEFINITIONS ---
 ========== cecko3 done ==========
