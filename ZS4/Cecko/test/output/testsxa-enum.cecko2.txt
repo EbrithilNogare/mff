@@ -1,0 +1,4 @@
+0a1,3
+> 😀declare_struct_type
+> 😀declare_struct_type
+> Error (line 12): Syntax error: syntax error, unexpected identifier, expecting integer literal

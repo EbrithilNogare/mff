@@ -1,2 +1,1 @@
-int** const cppi;
-int* const* pcpi;
+int fi(void);

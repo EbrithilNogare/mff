@@ -1,4 +1,3 @@
-Error (line 5): Syntax error: syntax error, unexpected identifier
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;
@@ -11,5 +10,8 @@ int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
 _Bool vb_3;
 int vi_4;
+struct _file_s_0*vpF_5;
+void*vpv_6;
+char*vpx_7;
 // --- FUNCTION DEFINITIONS ---
 ========== cecko3 done ==========

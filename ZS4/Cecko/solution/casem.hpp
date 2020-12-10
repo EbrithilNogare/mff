@@ -90,10 +90,8 @@ namespace casem {
 			DeclarationSpecifiersDto declarationSpecifiers;
 			DeclaratorsDto declarators;
 			ParameterDto() {}
-			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers):
-			 declarationSpecifiers(declarationSpecifiers) {}
-			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers, casem::DeclaratorsDto declarators):
-				declarationSpecifiers(declarationSpecifiers), declarators(declarators) {}
+			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers): declarationSpecifiers(declarationSpecifiers) {}
+			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers, casem::DeclaratorsDto declarators): declarationSpecifiers(declarationSpecifiers), declarators(declarators) {}
 	};
 
 	void declare(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators);

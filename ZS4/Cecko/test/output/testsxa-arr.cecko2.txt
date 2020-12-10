@@ -1,0 +1,6 @@
+0a1,5
+> 😀define_var
+> 😀define_var
+> 😀define_var
+> 😀define_var
+> Error (line 0): Identifier "" was already declared in this scope

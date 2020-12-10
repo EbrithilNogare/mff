@@ -1,0 +1,4 @@
+0a1,3
+> 😀declare_struct_type
+> 😀define_var
+> 😀declare_struct_type

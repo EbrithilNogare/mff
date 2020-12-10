@@ -1,7 +1,8 @@
-Error (line 6): Syntax error: syntax error, unexpected identifier
+Error (line 16): Identifier "v2" was already declared in this scope
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;
+typedef int t2_11;
 typedef int ti_3;
 typedef char tx_4;
 // --- FUNCTION DECLARATIONS ---
@@ -11,5 +12,8 @@ int scanf_0(const char*,...);
 int sprintf_0(char*,const char*,...);
 int sscanf_0(const char*,const char*,...);
 // --- GLOBAL VARIABLES ---
+int v2_12;
+int vi_6;
+char vx_7;
 // --- FUNCTION DEFINITIONS ---
 ========== cecko3 done ==========

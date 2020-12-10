@@ -88,10 +88,10 @@ using namespace casem;
 /////////////////////////////////
 
 /////////////// Declarations
-%type<cecko::CKTypeObs> type_specifier typedef_name
+%type<cecko::CKTypeObs> type_specifier
 %type<casem::DeclarationSpecifierDto> declaration_specifier
 %type<casem::DeclarationSpecifiersDto> declaration_specifiers specifier_qualifier_list
-%type<casem::DeclaratorDto> declarator direct_declarator array_declarator function_declarator
+%type<casem::DeclaratorDto> declarator direct_declarator abstract_declarator direct_abstract_declarator array_declarator array_abstract_declarator function_declarator function_abstract_declarator
 %type<casem::DeclaratorsDto> init_declarator_list init_declarator_list_opt member_declarator_list
 %type<casem::PointersDto> pointer
 %type<casem::DeclarationSpecifierDto> type_specifier_qualifier
@@ -143,7 +143,8 @@ unary_expression:
 	postfix_expression
 	| INCDEC unary_expression
 	| unary_operator cast_expression
-	| SIZEOF LPAR type_name RPAR
+	| SIZEOF LPAR specifier_qualifier_list  RPAR
+	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR
 	;
 
 unary_operator:
@@ -259,12 +260,12 @@ init_declarator_list:
 	}
 	;
 
-type_specifier:
+type_specifier: // type: cecko::CKTypeObs
 	VOID { $$ = ctx->get_void_type(); }
 	| ETYPE { $$ = casem::parse_etype(ctx, $1); }
 	| struct_or_union_specifier { $$ = ctx->get_void_type(); } // bonus
 	| enum_specifier { $$ = ctx->get_void_type(); } // bonus
-	| typedef_name { $$ = $1; }
+	| TYPEIDF { $$ = ctx->find_typedef($1)->get_type_pack().type; }
 	;
 
 struct_or_union_specifier:
@@ -342,21 +343,22 @@ declarator: // type: casem::DeclaratorDto
 direct_declarator: // type: casem::DeclaratorDto
 	IDF { $$ = casem::DeclaratorDto($1, @1); }
 	| LPAR declarator RPAR { $$ = $2; }
-	| array_declarator { $$ = casem::DeclaratorDto();}//$1; }
-	| function_declarator { $$ = casem::DeclaratorDto();}//$1; }
+	| array_declarator { $$ = $1; }
+	| function_declarator { $$ = $1; }
 	;
 
 array_declarator: // type: casem::DeclaratorDto
 	// direct_declarator LBRA assignment_expression RBRA // hack
 	direct_declarator LBRA INTLIT RBRA {
-		$1.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($3))), false);
+		$1.add_modifier(casem::ArrayDto(ctx->get_int32_constant($3)), false);
 		$$ = $1;
 	}
 	;
 
 function_declarator: // type: casem::DeclaratorDto
 	direct_declarator LPAR parameter_list RPAR {
-		$1.add_modifier(casem::DeclaratorModifierDto(casem::FunctionDto($3)), true);
+		printf("😀function_declarator\n");
+		$1.add_modifier(casem::FunctionDto($3), true);
 		$$ = $1;
 	}
 	;
@@ -406,56 +408,61 @@ parameter_list:  // type: casem::ParametersDto
 parameter_declaration: // type: casem::ParameterDto
 	declaration_specifiers { casem::ParameterDto($1); }
 	| declaration_specifiers declarator {
-		casem::DeclaratorsDto declarators = casem::DeclaratorsDto();
+		auto declarators = casem::DeclaratorsDto();
 		declarators.push_back($2);
-		casem:ParameterDto param($1, declarators);
-		$$ = param;
+		$$ = casem::ParameterDto($1, declarators);
 	}
-	/*| declaration_specifiers abstract_declarator {
-		casem::DeclaratorsDto declarators = casem::DeclaratorsDto();
+	| declaration_specifiers abstract_declarator {
+		auto declarators = casem::DeclaratorsDto();
 		declarators.push_back($2);
-		casem:ParameterDto param($1, declarators);
-		$$ = param;
-	}*/
+		$$ = casem::ParameterDto($1, declarators);
+	}
 	;
 
-type_name:
-	specifier_qualifier_list abstract_declarator_opt
-	;
-
-abstract_declarator_opt:
-	%empty
-	| abstract_declarator
-	;
 abstract_declarator: // type: casem::DeclaratorDto
-	pointer 
+	pointer {
+		auto declarator = casem::DeclaratorDto();
+		declarator.add_modifier($1, false);
+		$$ = declarator;
+	}
 	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
-	;
-
-direct_abstract_declarator_opt:
-	direct_abstract_declarator
-	// | %empty
+	| pointer direct_abstract_declarator {
+		$2.add_modifier($1, false);
+		$$ = $2;
+	}
 	;
 
 direct_abstract_declarator: // type casem::DeclaratorDto
-	LPAR abstract_declarator RPAR
-	| array_abstract_declarator
-	| function_abstract_declarator
+	LPAR abstract_declarator RPAR { $$ = casem::DeclaratorDto($2); }
+	| array_abstract_declarator { $$ = $1; }
+	| function_abstract_declarator { $$ = $1; }
 	;
 
-array_abstract_declarator:
-	direct_abstract_declarator_opt LBRA assignment_expression RBRA
+array_abstract_declarator: // type casem::DeclaratorDto
+	// LBRA assignment_expression RBRA // hack
+	//direct_abstract_declarator LBRA assignment_expression RBRA // hack
+	LBRA INTLIT RBRA {
+		auto declarator = casem::DeclaratorDto();
+		declarator.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($2))), false);
+		$$ = declarator;
+	}
+	| direct_abstract_declarator LBRA INTLIT RBRA {
+		$1.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($3))), false);
+		$$ = $1;
+	}
 	;
 
-function_abstract_declarator:
-	direct_abstract_declarator_opt LPAR parameter_list RPAR
+function_abstract_declarator: // type casem::DeclaratorDto
+	LPAR parameter_list RPAR {
+		auto declarator = casem::DeclaratorDto();
+		declarator.add_modifier(casem::FunctionDto($2), true);
+		$$ = declarator;
+	}
+	| direct_abstract_declarator LPAR parameter_list RPAR {
+		$1.add_modifier(casem::FunctionDto($3), true);
+		$$ = $1;
+	}
 	;
-
-typedef_name: 
-	TYPEIDF { $$ = ctx->find_typedef($1)->get_type_pack().type; }
-	;
-
 
 
 /////////////// Statements

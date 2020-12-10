@@ -145,86 +145,56 @@ if [[ $1 -eq 3 ]] ; then
 	echo "MAKE cecko3"
 	make cecko3
 
-	echo -n "Test base constptr"
+	echo "Test base constptr"
 	./stud-main/cecko3 ../test/testdecl-constptr.c > ../test/output/testdecl-constptr.cecko3.txt
-	if [ -s ../test/output/testdecl-constptr.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-constptr.cecko3.gold ../test/output/testdecl-constptr.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
+	diff ../test/testdecl-constptr.cecko3.gold ../test/output/testdecl-constptr.cecko3.txt
+	echo ""
 
-	echo -n "Test base elementary"
+	echo "Test base elementary"
 	./stud-main/cecko3 ../test/testdecl-elementary.c > ../test/output/testdecl-elementary.cecko3.txt
-	if [ -s ../test/output/testdecl-elementary.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-elementary.cecko3.gold ../test/output/testdecl-elementary.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test base function"
+	diff ../test/testdecl-elementary.cecko3.gold ../test/output/testdecl-elementary.cecko3.txt
+	echo ""
+	
+	echo "Test base function"
 	./stud-main/cecko3 ../test/testdecl-function.c > ../test/output/testdecl-function.cecko3.txt
-	if [ -s ../test/output/testdecl-function.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-function.cecko3.gold ../test/output/testdecl-function.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test base funptr"
+	diff ../test/testdecl-function.cecko3.gold ../test/output/testdecl-function.cecko3.txt
+	echo ""
+	
+	echo "Test base funptr"
 	./stud-main/cecko3 ../test/testdecl-funptr.c > ../test/output/testdecl-funptr.cecko3.txt
-	if [ -s ../test/output/testdecl-funptr.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-funptr.cecko3.gold ../test/output/testdecl-funptr.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test base local"
+	diff ../test/testdecl-funptr.cecko3.gold ../test/output/testdecl-funptr.cecko3.txt
+	echo ""
+	
+	echo "Test base local"
 	./stud-main/cecko3 ../test/testdecl-local.c > ../test/output/testdecl-local.cecko3.txt
-	if [ -s ../test/output/testdecl-local.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-local.cecko3.gold ../test/output/testdecl-local.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test base pointer"
+	diff ../test/testdecl-local.cecko3.gold ../test/output/testdecl-local.cecko3.txt
+	echo ""
+	
+	echo "Test base pointer"
 	./stud-main/cecko3 ../test/testdecl-pointer.c > ../test/output/testdecl-pointer.cecko3.txt
-	if [ -s ../test/output/testdecl-pointer.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-pointer.cecko3.gold ../test/output/testdecl-pointer.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test bonus arr"
+	diff ../test/testdecl-pointer.cecko3.gold ../test/output/testdecl-pointer.cecko3.txt
+	echo ""
+	
+	echo "Test bonus arr"
 	./stud-main/cecko3 ../test/testdecl-arr.c > ../test/output/testdecl-arr.cecko3.txt
-	if [ -s ../test/output/testdecl-arr.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-arr.cecko3.gold ../test/output/testdecl-arr.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test bonus enum"
+	diff ../test/testdecl-arr.cecko3.gold ../test/output/testdecl-arr.cecko3.txt
+	echo ""
+	
+	echo "Test bonus enum"
 	./stud-main/cecko3 ../test/testdecl-enum.c > ../test/output/testdecl-enum.cecko3.txt
-	if [ -s ../test/output/testdecl-enum.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-enum.cecko3.gold ../test/output/testdecl-enum.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test bonus struct"
+	diff ../test/testdecl-enum.cecko3.gold ../test/output/testdecl-enum.cecko3.txt
+	echo ""
+	
+	echo "Test bonus struct"
 	./stud-main/cecko3 ../test/testdecl-struct.c > ../test/output/testdecl-struct.cecko3.txt
-	if [ -s ../test/output/testdecl-struct.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-struct.cecko3.gold ../test/output/testdecl-struct.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
-
-	echo -n "Test bonus typedef"
+	diff ../test/testdecl-struct.cecko3.gold ../test/output/testdecl-struct.cecko3.txt
+	echo ""
+	
+	echo "Test bonus typedef"
 	./stud-main/cecko3 ../test/testdecl-typedef.c > ../test/output/testdecl-typedef.cecko3.txt
-	if [ -s ../test/output/testdecl-typedef.cecko3.txt ]; then
-		echo ""; diff ../test/testdecl-typedef.cecko3.gold ../test/output/testdecl-typedef.cecko3.txt; echo ""
-	else
-		echo " ---> OK"
-	fi
+	diff ../test/testdecl-typedef.cecko3.gold ../test/output/testdecl-typedef.cecko3.txt
+	echo ""
+	
 fi
-
 
 echo "DONE"
