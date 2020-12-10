@@ -107,7 +107,11 @@
 
 
 [a-zA-Z_][a-zA-Z0-9_]*	{
-		return cecko::parser::make_IDF(std::basic_string(yytext),ctx->line());
+		if(ctx->is_typedef(yytext)){
+			return cecko::parser::make_TYPEIDF(yytext,ctx->line());
+		}else{
+			return cecko::parser::make_IDF(yytext,ctx->line());
+		}
 	}
 
 \"	{ //"{
@@ -264,20 +268,8 @@
 		return cecko::parser::make_INTLIT(happyending?sum:INTMAX+sum,ctx->line());
 	}
 
-[\\][x][0-9a-fA-F]{1,3}	{
-		if(ctx->is_typedef(yytext)){
-			return cecko::parser::make_TYPEIDF(yytext,ctx->line());
-		}else{
-			return cecko::parser::make_IDF(yytext,ctx->line());
-		}
-	}
-
-\\x[0-9a-fA-F]*	{
-		if(ctx->is_typedef(yytext)){
-			return cecko::parser::make_TYPEIDF(yytext,ctx->line());
-		}else{
-			return cecko::parser::make_IDF(yytext,ctx->line());
-		}
+\\x[0-9a-fA-F]*	{		
+		return cecko::parser::make_IDF(std::basic_string(yytext),ctx->line());
 	}
 
 

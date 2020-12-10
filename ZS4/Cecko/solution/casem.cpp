@@ -48,7 +48,7 @@ namespace casem {
 				typedef_ind = i;
 			}
 			if(specifiers[i].is_type){
-				type= specifiers[i].type;
+				type = specifiers[i].type;
 				type_count++;
 				type_ind = i;
 			}
@@ -63,7 +63,7 @@ namespace casem {
 	cecko::CKTypeRefPack envelope_type(cecko::context* ctx, cecko::CKTypeRefPack decl_type, DeclaratorDto declarator){
 		std::reverse(declarator.modifiers.begin(), declarator.modifiers.end());
 		for (auto&& modifier : declarator.modifiers) {
-			if (modifier.type == ModifierType::pointer) {				 
+			if (modifier.type == ModifierType::pointer){				 
 				std::reverse(modifier.pointers.begin(), modifier.pointers.end());
 				for (auto&& pointer : modifier.pointers) { 
 					auto ptr_type = ctx->get_pointer_type(decl_type);
@@ -85,11 +85,15 @@ namespace casem {
 					}
 
 					if(no_declarator == true){
+						printf("😎-1\n");
+						printf("😎-type? %s \n", param_type.type);
+						printf("😎-2\n");
+						printf("😎-int?: %s \n", param_type.type->is_int());
+						printf("😎-3\n");
 						if(param_type.type->is_int()){
-							auto int_type = ctx->get_int_type();
-							params.push_back(int_type);
+							params.push_back(ctx->get_int_type());
 						}
-						if(param_type.type->is_int()){
+						if(param_type.type->is_char()){
 							params.push_back(ctx->get_char_type());
 						}
 						if(param_type.type->is_bool()){
@@ -127,8 +131,8 @@ namespace casem {
 				decl_type.type->is_enum()){
 				ctx->define_var(declarator.identifier, decl_type, declarator.line);
 			}
-
-			if(decl_type.type->is_function() == true){
+			
+			if(decl_type.type->is_function()){
 				ctx->declare_function(declarator.identifier, decl_type.type, declarator.line);
 			}
 		
