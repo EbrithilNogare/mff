@@ -1,3 +1,0 @@
-0a1,2
-> 😀define_var
-> Error (line 15): Syntax error: syntax error, unexpected identifier, expecting integer literal

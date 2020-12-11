@@ -475,7 +475,7 @@ statement:
 
 statement_m:
 	expression_statement
-	| compound_statement
+	| enter_block block_item_list_opt exit_block
 	| selection_statement_m
 	| iteration_statement_m
 	| jump_statement
@@ -486,8 +486,12 @@ statement_u:
 	| iteration_statement_u
 	;
 
-compound_statement:
-	LCUR block_item_list_opt RCUR
+enter_block:
+	LCUR { printf("enter_block\n"); ctx->enter_block(); } 
+	;
+
+exit_block:
+	RCUR { printf("exit_block\n"); ctx->exit_block(); }
 	;
 
 block_item_list_opt:
@@ -531,7 +535,7 @@ iteration_statement_u:
 	;
 
 jump_statement:
-	// RETURN expression_opt SEMIC
+	// RETURN expression_opt SEMIC // hack
 	RETURN INTLIT SEMIC
 	;
 
@@ -549,9 +553,18 @@ external_declaration:
 	;
 
 function_definition:
-	declaration_specifiers declarator compound_statement
+	// declaration_specifiers declarator open_function block_item_list_opt close_function
+	declaration_specifiers declarator LCUR block_item_list_opt RCUR
+	;
+/*
+open_function:
+	LCUR { ctx->enter_function(...); } 
 	;
 
+close_function:
+	RCUR { ctx-> exit_function(); }
+	;
+*/
 
 
 

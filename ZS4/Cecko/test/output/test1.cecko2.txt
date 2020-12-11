@@ -1,7 +1,0 @@
-0a1,6
-> 😀define_var
-> 😀define_var
-> 😀declare_struct_type
-> 😀define_var
-> 😀define_var
-> Error (line 20): Syntax error: syntax error, unexpected identifier, expecting integer literal
