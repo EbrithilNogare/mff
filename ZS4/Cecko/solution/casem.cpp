@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 namespace casem {
-	cecko::CKTypeObs parse_etype(cecko::context* ctx, cecko::gt_etype etype){
+	cecko::CKTypeObs convert_etype(cecko::context* ctx, cecko::gt_etype etype){
 		switch(etype){
 			case cecko::gt_etype::BOOL: return ctx->get_bool_type();
 			case cecko::gt_etype::CHAR: return ctx->get_char_type();
@@ -11,112 +11,92 @@ namespace casem {
 		}
 	}
 
-	cecko::CKTypeRefPack get_base_type(cecko::context* ctx, DeclarationSpecifiersDto specifiers){
+	cecko::CKTypeRefPack get_init_type(cecko::context* ctx, DeclarationSpecifiersDto specifiers){
 		cecko::CKTypeObs type;
-		size_t type_count(0);
-		size_t const_count(0);
-		size_t typedef_count(0);
-		size_t type_ind(0);
-		size_t const_ind(0);
-		size_t typedef_ind(0);
-		bool const_before_type(false);
+		bool contain_const = false;
+		bool const_before_type = false;
 
-		for (size_t i = 0; i < specifiers.size(); i++)
+		for (auto &&specifier: specifiers)
 		{
-			if(specifiers[i].is_const){
-				const_count++;
-				const_ind = i;
-
-				if(type_count == 0){
-					const_before_type = true;
-				}
-			}
-			if(specifiers[i].is_typedef){
-				typedef_count++;
-				typedef_ind = i;
-			}
-			if(specifiers[i].is_type){
-				type = specifiers[i].type;
-				type_count++;
-				type_ind = i;
-			}
+			if(specifier.is_const)
+				contain_const = true;
+			if(specifier.is_type)
+				type = specifier.type;
 		}
 		
-		cecko::CKTypeRefPack decl_type(type, (const_count > 0));
-
-		return decl_type;
+		return cecko::CKTypeRefPack(type, contain_const);
 	}
 
 	// Scan the given declarators and complete the type.... 
-	cecko::CKTypeRefPack envelope_type(cecko::context* ctx, cecko::CKTypeRefPack decl_type, DeclaratorDto declarator){
+	cecko::CKTypeRefPack apply_to_type(cecko::context* ctx, cecko::CKTypeRefPack declarator_type, DeclaratorDto declarator){
 		std::reverse(declarator.modifiers.begin(), declarator.modifiers.end());
+		
 		for (auto&& modifier : declarator.modifiers) {
 			if (modifier.type == ModifierType::pointer){				 
 				std::reverse(modifier.pointers.begin(), modifier.pointers.end());
 				for (auto&& pointer : modifier.pointers) { 
-					auto ptr_type = ctx->get_pointer_type(decl_type);
-					decl_type = cecko::CKTypeRefPack{ptr_type, pointer.is_const};
+					auto ptr_type = ctx->get_pointer_type(declarator_type);
+					declarator_type = cecko::CKTypeRefPack{ptr_type, pointer.is_const};
 				} 
 			}
 			
 			if (modifier.type == ModifierType::array){
-				auto arr_type = ctx->get_array_type(decl_type.type, modifier.array.size);
-				decl_type = cecko::CKTypeRefPack{arr_type, false};
+				auto arr_type = ctx->get_array_type(declarator_type.type, modifier.array.size);
+				declarator_type = cecko::CKTypeRefPack{arr_type, false};
 			}
 			
 			if(modifier.type == ModifierType::function){
 				std::vector<cecko::CKTypeObs> params;
 				for (auto && param : modifier.function.parameters) {
-					auto param_type = get_base_type(ctx, param.declarationSpecifiers);
+					auto param_type = get_init_type(ctx, param.declarationSpecifiers);
 
 					for(auto && param_declarator : param.declarators){
-						param_type = envelope_type(ctx, param_type, param_declarator);
+						param_type = apply_to_type(ctx, param_type, param_declarator);
 						params.push_back(param_type.type);
 					}
 
-					if(param_type.type->is_int()){
+					if(param_type.type->is_int())
 						params.push_back(ctx->get_int_type());
-					}
-					if(param_type.type->is_char()){
+					
+					if(param_type.type->is_char())
 						params.push_back(ctx->get_char_type());
-					}
-					if(param_type.type->is_bool()){
+					
+					if(param_type.type->is_bool())
 						params.push_back(ctx->get_bool_type());
-					}
 
 				}
 
-				auto func_type = ctx->get_function_type(decl_type.type, params);
-				decl_type = cecko::CKTypeRefPack{func_type, false};
+				auto func_type = ctx->get_function_type(declarator_type.type, params);
+				declarator_type = cecko::CKTypeRefPack{func_type, false};
 			}
 		}
-		return decl_type;
+
+		return declarator_type;
 	}
 
 	void declare(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators){
-		cecko::CKTypeRefPack decl_type = get_base_type(ctx, specifiers);
+		cecko::CKTypeRefPack declarator_type = get_init_type(ctx, specifiers);
 		
 		bool typedf = specifiers[0].is_typedef;
 
 		for (auto &&declarator : declarators) {
-			decl_type = envelope_type(ctx, decl_type, declarator);
+			declarator_type = apply_to_type(ctx, declarator_type, declarator);
 		
 			if(typedf){
-				ctx->define_typedef(declarator.identifier, decl_type, declarator.line);
+				ctx->define_typedef(declarator.identifier, declarator_type, declarator.line);
 				continue;
 			}
 		
-			if(	decl_type.type->is_int()||
-				decl_type.type->is_bool() ||
-				decl_type.type->is_char() ||
-				decl_type.type->is_pointer() ||
-				decl_type.type->is_array() ||
-				decl_type.type->is_enum()){
-				ctx->define_var(declarator.identifier, decl_type, declarator.line);
-			}
+			if(	declarator_type.type->is_int() ||
+				declarator_type.type->is_bool() ||
+				declarator_type.type->is_char() ||
+				declarator_type.type->is_pointer() ||
+				declarator_type.type->is_array() ||
+				declarator_type.type->is_enum())
+				ctx->define_var(declarator.identifier, declarator_type, declarator.line);
 			
-			if(decl_type.type->is_function()){
-				ctx->declare_function(declarator.identifier, decl_type.type, declarator.line);
+			if(declarator_type.type->is_function()) {
+				ctx->declare_function(declarator.identifier, declarator_type.type, declarator.line);
 			}
 		
 		}
