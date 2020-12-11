@@ -72,14 +72,10 @@ namespace casem {
 			cecko::loc_t line;
 			std::vector<DeclaratorModifierDto> modifiers;
 			
-			bool is_anonym;
-			bool is_var;
-			bool is_func;
+			DeclaratorDto(void): identifier() {}
+			DeclaratorDto(cecko::CIName identifier, cecko::loc_t line): identifier(identifier), line(line) {}
 
-			DeclaratorDto(void): is_anonym(true), is_var(true), is_func(false), identifier() {}
-			DeclaratorDto(cecko::CIName identifier, cecko::loc_t line): identifier(identifier), is_anonym(false), is_var(false), is_func(false), line(line) {}
-
-			void add_modifier(DeclaratorModifierDto modifier, bool func){
+			void add_modifier(DeclaratorModifierDto modifier){
 				modifiers.push_back(modifier);
 			}
 	};

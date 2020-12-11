@@ -2,18 +2,6 @@
 #include <stdio.h>
 
 namespace casem {
-	std::vector<DeclarationSpecifierDto> create_DeclarationSpecifiersDto(){
-		return std::vector<DeclarationSpecifierDto>();
-	}
-	
-	std::vector<DeclaratorDto> create_DeclaratorsDto(){
-		return std::vector<DeclaratorDto>();
-	}
-
-	std::vector<PointerDto> create_PointersDto(){
-		return std::vector<PointerDto>();
-	}
-
 	cecko::CKTypeObs parse_etype(cecko::context* ctx, cecko::gt_etype etype){
 		switch(etype){
 			case cecko::gt_etype::BOOL: return ctx->get_bool_type();
@@ -69,36 +57,31 @@ namespace casem {
 					auto ptr_type = ctx->get_pointer_type(decl_type);
 					decl_type = cecko::CKTypeRefPack{ptr_type, pointer.is_const};
 				} 
-			} else if (modifier.type == ModifierType::array){
+			}
+			
+			if (modifier.type == ModifierType::array){
 				auto arr_type = ctx->get_array_type(decl_type.type, modifier.array.size);
 				decl_type = cecko::CKTypeRefPack{arr_type, false};
-			} else if(modifier.type == ModifierType::function){
+			}
+			
+			if(modifier.type == ModifierType::function){
 				std::vector<cecko::CKTypeObs> params;
 				for (auto && param : modifier.function.parameters) {
 					auto param_type = get_base_type(ctx, param.declarationSpecifiers);
-					bool no_declarator = true;
 
 					for(auto && param_declarator : param.declarators){
 						param_type = envelope_type(ctx, param_type, param_declarator);
 						params.push_back(param_type.type);
-						no_declarator = false;
 					}
 
-					if(no_declarator == true){
-						printf("😎-1\n");
-						printf("😎-type? %s \n", param_type.type);
-						printf("😎-2\n");
-						printf("😎-int?: %s \n", param_type.type->is_int());
-						printf("😎-3\n");
-						if(param_type.type->is_int()){
-							params.push_back(ctx->get_int_type());
-						}
-						if(param_type.type->is_char()){
-							params.push_back(ctx->get_char_type());
-						}
-						if(param_type.type->is_bool()){
-							params.push_back(ctx->get_bool_type());
-						}
+					if(param_type.type->is_int()){
+						params.push_back(ctx->get_int_type());
+					}
+					if(param_type.type->is_char()){
+						params.push_back(ctx->get_char_type());
+					}
+					if(param_type.type->is_bool()){
+						params.push_back(ctx->get_bool_type());
 					}
 
 				}
