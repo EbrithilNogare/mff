@@ -335,7 +335,7 @@ enumerator:
 declarator: // type: casem::DeclaratorDto
 	direct_declarator
 	| pointer direct_declarator {
-		$2.add_modifier($1, false);
+		$2.add_modifier($1);
 		$$ = $2;
 	}
 	;
@@ -350,15 +350,14 @@ direct_declarator: // type: casem::DeclaratorDto
 array_declarator: // type: casem::DeclaratorDto
 	// direct_declarator LBRA assignment_expression RBRA // hack
 	direct_declarator LBRA INTLIT RBRA {
-		$1.add_modifier(casem::ArrayDto(ctx->get_int32_constant($3)), false);
+		$1.add_modifier(casem::ArrayDto(ctx->get_int32_constant($3)));
 		$$ = $1;
 	}
 	;
 
 function_declarator: // type: casem::DeclaratorDto
 	direct_declarator LPAR parameter_list RPAR {
-		printf("😀function_declarator\n");
-		$1.add_modifier(casem::FunctionDto($3), true);
+		$1.add_modifier(casem::FunctionDto($3));
 		$$ = $1;
 	}
 	;
@@ -399,14 +398,16 @@ parameter_list:  // type: casem::ParametersDto
 		vec.push_back($1);
 		$$ = vec;
 	}
-	| parameter_declaration COMMA parameter_list {
-		$3.push_back($1);
-		$$ = $3;
+	|  parameter_list COMMA parameter_declaration {
+		$1.push_back($3);
+		$$ = $1;
 	}
 	;
 
 parameter_declaration: // type: casem::ParameterDto
-	declaration_specifiers { casem::ParameterDto($1); }
+	declaration_specifiers {
+		$$ = casem::ParameterDto($1);
+	}
 	| declaration_specifiers declarator {
 		auto declarators = casem::DeclaratorsDto();
 		declarators.push_back($2);
@@ -422,12 +423,12 @@ parameter_declaration: // type: casem::ParameterDto
 abstract_declarator: // type: casem::DeclaratorDto
 	pointer {
 		auto declarator = casem::DeclaratorDto();
-		declarator.add_modifier($1, false);
+		declarator.add_modifier($1);
 		$$ = declarator;
 	}
 	| direct_abstract_declarator
 	| pointer direct_abstract_declarator {
-		$2.add_modifier($1, false);
+		$2.add_modifier($1);
 		$$ = $2;
 	}
 	;
@@ -443,11 +444,11 @@ array_abstract_declarator: // type casem::DeclaratorDto
 	//direct_abstract_declarator LBRA assignment_expression RBRA // hack
 	LBRA INTLIT RBRA {
 		auto declarator = casem::DeclaratorDto();
-		declarator.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($2))), false);
+		declarator.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($2))));
 		$$ = declarator;
 	}
 	| direct_abstract_declarator LBRA INTLIT RBRA {
-		$1.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($3))), false);
+		$1.add_modifier(casem::DeclaratorModifierDto(casem::ArrayDto(ctx->get_int32_constant($3))));
 		$$ = $1;
 	}
 	;
@@ -455,11 +456,11 @@ array_abstract_declarator: // type casem::DeclaratorDto
 function_abstract_declarator: // type casem::DeclaratorDto
 	LPAR parameter_list RPAR {
 		auto declarator = casem::DeclaratorDto();
-		declarator.add_modifier(casem::FunctionDto($2), true);
+		declarator.add_modifier(casem::FunctionDto($2));
 		$$ = declarator;
 	}
 	| direct_abstract_declarator LPAR parameter_list RPAR {
-		$1.add_modifier(casem::FunctionDto($3), true);
+		$1.add_modifier(casem::FunctionDto($3));
 		$$ = $1;
 	}
 	;
