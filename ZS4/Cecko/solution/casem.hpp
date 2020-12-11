@@ -15,86 +15,116 @@ namespace casem {
 		function,
 	};
 
-	class DeclarationSpecifierDto {
+	struct DeclarationSpecifierDto {
 		public:
 		cecko::CKTypeObs type;
 		bool is_typedef;
 		bool is_const;
 		bool is_type;
 
-		DeclarationSpecifierDto(void):
-			is_typedef(false), is_const(false), is_type(false), type() {}
-		
-		DeclarationSpecifierDto(bool typdef, bool cnst):
-			is_typedef(typdef), is_const(cnst), is_type(false), type() {}
-		
-		DeclarationSpecifierDto(cecko::CKTypeObs type):
-			is_typedef(false), is_const(false), is_type(true), type(type) {}
+		DeclarationSpecifierDto() {}
+		DeclarationSpecifierDto(bool is_typedef, bool is_const) {
+			this->is_typedef = is_typedef;
+			this->is_const = is_const;
+			this->is_type = false;
+			this->type = cecko::CKTypeObs();
+		}
+		DeclarationSpecifierDto(cecko::CKTypeObs type) {
+			this->is_typedef = false;
+			this->is_const = false;
+			this->is_type = true;
+			this->type = type;
+		}
 	};
 	using DeclarationSpecifiersDto = std::vector<casem::DeclarationSpecifierDto>;
 
-	class PointerDto {
+	struct PointerDto {
 		public:
 			bool is_const;
-			PointerDto(bool is_const): 
-				is_const(is_const) {}
+
+			PointerDto(bool is_const){ 
+				this->is_const = is_const;
+			}
 	};
 	using PointersDto = std::vector<casem::PointerDto>; 
 	
-	class ArrayDto {
+	struct ArrayDto {
 		public:
 			cecko::CKIRConstantIntObs size;
-			ArrayDto(cecko::CKIRConstantIntObs size) : size(size) {}
+
 			ArrayDto() {}
+			ArrayDto(cecko::CKIRConstantIntObs size){
+				this->size = size;
+			}
 	};
-	class FunctionDto{
+	struct FunctionDto{
 		public:
 			ParametersDto parameters;
-			FunctionDto() {}
-			FunctionDto(ParametersDto parameters) : parameters(parameters) {}
+
+			FunctionDto(void) {}
+			FunctionDto(ParametersDto parameters){
+				this->parameters = parameters;
+			}
 	};
 
-	class DeclaratorModifierDto{
+	struct DeclaratorModifierDto{
 		public:
 			ModifierType type;
 			PointersDto pointers;
 			ArrayDto array;
 			FunctionDto function;
 
-			DeclaratorModifierDto(PointersDto ptrs) : pointers(ptrs), type(ModifierType::pointer) {}
-			DeclaratorModifierDto(ArrayDto array) : array(array), type(ModifierType::array) {}
-			DeclaratorModifierDto(FunctionDto func) : function(func), type(ModifierType::function) {}
+			DeclaratorModifierDto(PointersDto pointers){
+				this->type = ModifierType::pointer;
+				this->pointers = pointers;
+			}
+			DeclaratorModifierDto(ArrayDto array){
+				this->type = ModifierType::array;
+				this->array = array;
+			}
+			DeclaratorModifierDto(FunctionDto function){
+				this->type = ModifierType::function;
+				this->function = function;
+			}
 	};	
 
-	class DeclaratorDto{
+	struct DeclaratorDto{
 		public:
 			cecko::CIName identifier;
 			cecko::loc_t line;
 			std::vector<DeclaratorModifierDto> modifiers;
 			
-			DeclaratorDto(void): identifier() {}
-			DeclaratorDto(cecko::CIName identifier, cecko::loc_t line): identifier(identifier), line(line) {}
+			DeclaratorDto(void){
+				this->identifier = cecko::CIName();
+			}
+			DeclaratorDto(cecko::CIName identifier, cecko::loc_t line) {
+				this->identifier = identifier;
+				this->line = line;
+			}
 
 			void add_modifier(DeclaratorModifierDto modifier){
-				modifiers.push_back(modifier);
+				this->modifiers.push_back(modifier);
 			}
 	};
 	using DeclaratorsDto = std::vector<DeclaratorDto>;
 
-	class ParameterDto{
+	struct ParameterDto{
 		public:
 			DeclarationSpecifiersDto declarationSpecifiers;
 			DeclaratorsDto declarators;
-			ParameterDto() {}
-			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers): declarationSpecifiers(declarationSpecifiers) {}
-			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers, casem::DeclaratorsDto declarators): declarationSpecifiers(declarationSpecifiers), declarators(declarators) {}
+			
+			ParameterDto(void) {}
+			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers){
+				this->declarationSpecifiers = declarationSpecifiers;
+			}
+			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers, casem::DeclaratorsDto declarators){
+				this->declarationSpecifiers = declarationSpecifiers;
+				this->declarators = declarators;
+			}
 	};
 
 	void declare(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators);
-	cecko::CKTypeObs parse_etype(cecko::context* ctx, cecko::gt_etype etype);
-
-	class DeclarationBodyDto;
-
+	cecko::CKTypeObs convert_etype(cecko::context* ctx, cecko::gt_etype etype);
 }
 
 #endif

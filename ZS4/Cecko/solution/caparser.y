@@ -262,7 +262,7 @@ init_declarator_list:
 
 type_specifier: // type: cecko::CKTypeObs
 	VOID { $$ = ctx->get_void_type(); }
-	| ETYPE { $$ = casem::parse_etype(ctx, $1); }
+	| ETYPE { $$ = casem::convert_etype(ctx, $1); }
 	| struct_or_union_specifier { $$ = ctx->get_void_type(); } // bonus
 	| enum_specifier { $$ = ctx->get_void_type(); } // bonus
 	| TYPEIDF { $$ = ctx->find_typedef($1)->get_type_pack().type; }
@@ -553,18 +553,21 @@ external_declaration:
 	;
 
 function_definition:
-	// declaration_specifiers declarator open_function block_item_list_opt close_function
-	declaration_specifiers declarator LCUR block_item_list_opt RCUR
-	;
-/*
-open_function:
-	LCUR { ctx->enter_function(...); } 
+	// declaration_specifiers declarator LCUR block_item_list_opt RCUR
+	function_definition_head function_definition_body
 	;
 
-close_function:
-	RCUR { ctx-> exit_function(); }
+function_definition_head:
+	declaration_specifiers declarator LCUR {
+		printf("enter_function\n");
+		ctx->enter_function(, , @1);
+	} 
 	;
-*/
+
+function_definition_body:
+	block_item_list_opt RCUR { printf("exit_function\n"); ctx-> exit_function(); }
+	;
+
 
 
 
