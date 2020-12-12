@@ -554,18 +554,18 @@ external_declaration:
 
 function_definition:
 	// declaration_specifiers declarator LCUR block_item_list_opt RCUR
-	function_definition_head function_definition_body
+	function_definition_head function_definition_body RCUR
 	;
 
 function_definition_head:
-	declaration_specifiers declarator LCUR {
-		printf("enter_function\n");
-		ctx->enter_function(, , @1);
+	declaration_specifiers declarator {
+		printf("💜function_definition_head\n");
+		{ casem::declareFunctionDefinition(ctx, $1, $2); }
 	} 
 	;
 
 function_definition_body:
-	block_item_list_opt RCUR { printf("exit_function\n"); ctx-> exit_function(); }
+	LCUR block_item_list_opt { printf("💜exit_function\n"); ctx-> exit_function(); }
 	;
 
 
