@@ -124,6 +124,7 @@ namespace casem {
 	};
 
 	void declare(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators);
+	void declareFunctionDefinition(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorDto declarator);
 	cecko::CKTypeObs convert_etype(cecko::context* ctx, cecko::gt_etype etype);
 }
 

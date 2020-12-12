@@ -1,7 +1,3 @@
-// testing local variables
-
-int v;
-
 int main(int argc, char** argv)
 {
 	int v;

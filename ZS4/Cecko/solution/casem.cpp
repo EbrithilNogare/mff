@@ -103,5 +103,59 @@ namespace casem {
 
 	}
 
-}
+void declareFunctionDefinition(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorDto declarator){
+	cecko::CKTypeRefPack declarator_type = get_init_type(ctx, specifiers);
+	
 
+	declarator_type = apply_to_type(ctx, declarator_type, declarator);
+
+	if(declarator_type.type->is_function()) {
+		auto func_object = ctx->declare_function(declarator.identifier, declarator_type.type, declarator.line);
+		cecko::CKFunctionFormalPackArray params_prepared;
+		
+		printf("here");
+		/*
+		for(auto& param: declarator.modifiers){
+			if(param.type != ModifierType::function) continue;
+			params_prepared.emplace_back(param.function.parameters.declarators.name, false, param.loc);
+		}
+		*/
+		printf("enter_function\n");
+		ctx->enter_function(func_object, params_prepared, declarator.line);
+	}
+
+
+}
+	
+
+/*
+	cecko::CKTypeRefPack get_pointer_hierarchy(cecko::context_obs ctx, cecko::CKTypeRefPack& pack, pointers_levels& pointers_levels){
+		cecko::CKTypeRefSafePack base;
+		for(auto it = pointers_levels.levels.rbegin(); it != pointers_levels.levels.rend(); it++){
+			base = ctx->get_pointer_type(pack);
+			pack = cecko:: CKTypeRefPack(base, *it);
+		}
+
+		return pack;
+	}
+	void enter_function_inner(cecko::context_obs ctx, DeclarationSpecifiersDto& specifiers, DeclaratorModifier& declarator, cecko::loc_t loc){
+		CSProcessedSpecifier specifier = process_specifiers(ctx, specifiers, loc);
+		cecko::CKTypeRefPack pack = specifier.pack;
+
+		pack = get_pointer_hierarchy(ctx,pack, declarator.constness_pointer);
+
+		cecko::CKTypeObs func_type = get_function_pointer_hierarchy_as_function(ctx, pack.type,declarator.parameter_levels, loc);
+		auto func_object = ctx->declare_function(declarator.identifier,func_type,loc);
+
+		cecko::CKFunctionFormalPackArray params_prepared;
+
+		for(auto& param: declarator.parameters_levels[0]){
+			if(!param.pack.type->is_void())
+				params_prepared.emplace_back(param.name, false, param.loc);
+
+		}
+
+		ctx->enter_function(func_object, params_prepared, loc);
+	}
+*/
+}
