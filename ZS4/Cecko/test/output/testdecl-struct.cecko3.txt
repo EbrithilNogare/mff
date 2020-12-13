@@ -1,0 +1,23 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+int main_11(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+int x_8;
+// --- FUNCTION DEFINITIONS ---
+int main_11(int argc_11,char**argv_11){
+	{
+		void*ps_16;
+	}
+	{
+		void*ms_28;
+		void*ps_27;
+	}
+}
+========== cecko3 done ==========

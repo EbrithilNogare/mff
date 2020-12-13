@@ -49,21 +49,22 @@ namespace casem {
 				std::vector<cecko::CKTypeObs> params;
 				for (auto && param : modifier.function.parameters) {
 					auto param_type = get_init_type(ctx, param.declarationSpecifiers);
+					bool skip_defaults = false;
 
-					for(auto && param_declarator : param.declarators){
+					for(auto && param_declarator : param.declarators) {
 						param_type = apply_to_type(ctx, param_type, param_declarator);
 						params.push_back(param_type.type);
+						skip_defaults = true;
 					}
 
-					if(param_type.type->is_int())
+					if(!skip_defaults && param_type.type->is_int())
 						params.push_back(ctx->get_int_type());
 					
-					if(param_type.type->is_char())
+					if(!skip_defaults && param_type.type->is_char())
 						params.push_back(ctx->get_char_type());
 					
-					if(param_type.type->is_bool())
+					if(!skip_defaults && param_type.type->is_bool())
 						params.push_back(ctx->get_bool_type());
-
 				}
 
 				auto func_type = ctx->get_function_type(declarator_type.type, params);
@@ -103,59 +104,29 @@ namespace casem {
 
 	}
 
-void declareFunctionDefinition(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorDto declarator){
-	cecko::CKTypeRefPack declarator_type = get_init_type(ctx, specifiers);
-	
+	void declareFunctionDefinition(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorDto declarator){
+		cecko::CKTypeRefPack declarator_type = get_init_type(ctx, specifiers);
+		
+		declarator_type = apply_to_type(ctx, declarator_type, declarator);
 
-	declarator_type = apply_to_type(ctx, declarator_type, declarator);
+		if(!declarator_type.type->is_function()) {
+			printf("!!! !declarator_type.type->is_function()\n");
+			return;
+		}
+		
 
-	if(declarator_type.type->is_function()) {
 		auto func_object = ctx->declare_function(declarator.identifier, declarator_type.type, declarator.line);
 		cecko::CKFunctionFormalPackArray params_prepared;
 		
-		printf("here");
-		/*
-		for(auto& param: declarator.modifiers){
-			if(param.type != ModifierType::function) continue;
-			params_prepared.emplace_back(param.function.parameters.declarators.name, false, param.loc);
+
+		for(auto& param: declarator.modifiers[0].function.parameters){
+			if(param.declarationSpecifiers[0].type->is_void()) continue;
+		
+			params_prepared.emplace_back(param.declarators[0].identifier, param.declarationSpecifiers[0].is_const, declarator.line);
 		}
-		*/
-		printf("enter_function\n");
+		
 		ctx->enter_function(func_object, params_prepared, declarator.line);
+
 	}
-
-
-}
 	
-
-/*
-	cecko::CKTypeRefPack get_pointer_hierarchy(cecko::context_obs ctx, cecko::CKTypeRefPack& pack, pointers_levels& pointers_levels){
-		cecko::CKTypeRefSafePack base;
-		for(auto it = pointers_levels.levels.rbegin(); it != pointers_levels.levels.rend(); it++){
-			base = ctx->get_pointer_type(pack);
-			pack = cecko:: CKTypeRefPack(base, *it);
-		}
-
-		return pack;
-	}
-	void enter_function_inner(cecko::context_obs ctx, DeclarationSpecifiersDto& specifiers, DeclaratorModifier& declarator, cecko::loc_t loc){
-		CSProcessedSpecifier specifier = process_specifiers(ctx, specifiers, loc);
-		cecko::CKTypeRefPack pack = specifier.pack;
-
-		pack = get_pointer_hierarchy(ctx,pack, declarator.constness_pointer);
-
-		cecko::CKTypeObs func_type = get_function_pointer_hierarchy_as_function(ctx, pack.type,declarator.parameter_levels, loc);
-		auto func_object = ctx->declare_function(declarator.identifier,func_type,loc);
-
-		cecko::CKFunctionFormalPackArray params_prepared;
-
-		for(auto& param: declarator.parameters_levels[0]){
-			if(!param.pack.type->is_void())
-				params_prepared.emplace_back(param.name, false, param.loc);
-
-		}
-
-		ctx->enter_function(func_object, params_prepared, loc);
-	}
-*/
 }

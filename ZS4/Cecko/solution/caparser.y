@@ -487,11 +487,11 @@ statement_u:
 	;
 
 enter_block:
-	LCUR { printf("enter_block\n"); ctx->enter_block(); } 
+	LCUR { ctx->enter_block(); } 
 	;
 
 exit_block:
-	RCUR { printf("exit_block\n"); ctx->exit_block(); }
+	RCUR { ctx->exit_block(); }
 	;
 
 block_item_list_opt:
@@ -558,14 +558,11 @@ function_definition:
 	;
 
 function_definition_head:
-	declaration_specifiers declarator {
-		printf("💜function_definition_head\n");
-		{ casem::declareFunctionDefinition(ctx, $1, $2); }
-	} 
+	declaration_specifiers declarator { casem::declareFunctionDefinition(ctx, $1, $2); }
 	;
 
 function_definition_body:
-	LCUR block_item_list_opt { printf("💜exit_function\n"); ctx-> exit_function(); }
+	LCUR block_item_list_opt { ctx-> exit_function(); }
 	;
 
 
