@@ -11,7 +11,7 @@ namespace casem {
 		}
 	}
 
-	cecko::CKTypeRefPack get_init_type(cecko::context* ctx, DeclarationSpecifiersDto specifiers){
+	cecko::CKTypeRefPack get_init_type(cecko::context* ctx, CKDeclarationSpecifierList specifiers){
 		cecko::CKTypeObs type;
 		bool contain_const = false;
 		bool const_before_type = false;
@@ -28,7 +28,7 @@ namespace casem {
 	}
 
 	// Scan the given declarators and complete the type.... 
-	cecko::CKTypeRefPack apply_to_type(cecko::context* ctx, cecko::CKTypeRefPack declarator_type, DeclaratorDto declarator){
+	cecko::CKTypeRefPack apply_to_type(cecko::context* ctx, cecko::CKTypeRefPack declarator_type, CKDeclarator declarator){
 		std::reverse(declarator.modifiers.begin(), declarator.modifiers.end());
 		
 		for (auto&& modifier : declarator.modifiers) {
@@ -75,7 +75,7 @@ namespace casem {
 		return declarator_type;
 	}
 
-	void declare(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators){
+	void declare(cecko::context* ctx, CKDeclarationSpecifierList specifiers, CKDeclaratorList declarators){
 		cecko::CKTypeRefPack declarator_type = get_init_type(ctx, specifiers);
 		
 		bool typedf = specifiers[0].is_typedef;
@@ -104,7 +104,7 @@ namespace casem {
 
 	}
 
-	void declareFunctionDefinition(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorDto declarator){
+	void declareFunctionDefinition(cecko::context* ctx, CKDeclarationSpecifierList specifiers, CKDeclarator declarator){
 		cecko::CKTypeRefPack declarator_type = get_init_type(ctx, specifiers);
 		
 		declarator_type = apply_to_type(ctx, declarator_type, declarator);
