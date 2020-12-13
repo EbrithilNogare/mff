@@ -6,7 +6,7 @@
 #include "ckgrptokens.hpp"
 
 namespace casem {
-	class ParameterDto;
+	struct ParameterDto;
 	using ParametersDto = std::vector<casem::ParameterDto>;
 
 	enum ModifierType {
