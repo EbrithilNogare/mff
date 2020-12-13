@@ -6,8 +6,8 @@
 #include "ckgrptokens.hpp"
 
 namespace casem {
-	struct ParameterDto;
-	using ParametersDto = std::vector<casem::ParameterDto>;
+	struct CKParameter;
+	using CKParameterList = std::vector<casem::CKParameter>;
 
 	enum ModifierType {
 		pointer,
@@ -15,116 +15,116 @@ namespace casem {
 		function,
 	};
 
-	struct DeclarationSpecifierDto {
+	struct CKDeclarationSpecifier {
 		public:
 		cecko::CKTypeObs type;
 		bool is_typedef;
 		bool is_const;
 		bool is_type;
 
-		DeclarationSpecifierDto() {}
-		DeclarationSpecifierDto(bool is_typedef, bool is_const) {
+		CKDeclarationSpecifier() {}
+		CKDeclarationSpecifier(bool is_typedef, bool is_const) {
 			this->is_typedef = is_typedef;
 			this->is_const = is_const;
 			this->is_type = false;
 			this->type = cecko::CKTypeObs();
 		}
-		DeclarationSpecifierDto(cecko::CKTypeObs type) {
+		CKDeclarationSpecifier(cecko::CKTypeObs type) {
 			this->is_typedef = false;
 			this->is_const = false;
 			this->is_type = true;
 			this->type = type;
 		}
 	};
-	using DeclarationSpecifiersDto = std::vector<casem::DeclarationSpecifierDto>;
+	using CKDeclarationSpecifierList = std::vector<casem::CKDeclarationSpecifier>;
 
-	struct PointerDto {
+	struct CKPointer {
 		public:
 			bool is_const;
 
-			PointerDto(bool is_const){ 
+			CKPointer(bool is_const){ 
 				this->is_const = is_const;
 			}
 	};
-	using PointersDto = std::vector<casem::PointerDto>; 
+	using CKPointerList = std::vector<casem::CKPointer>; 
 	
-	struct ArrayDto {
+	struct CKArray {
 		public:
 			cecko::CKIRConstantIntObs size;
 
-			ArrayDto() {}
-			ArrayDto(cecko::CKIRConstantIntObs size){
+			CKArray() {}
+			CKArray(cecko::CKIRConstantIntObs size){
 				this->size = size;
 			}
 	};
-	struct FunctionDto{
+	struct CKFunction{
 		public:
-			ParametersDto parameters;
+			CKParameterList parameters;
 
-			FunctionDto(void) {}
-			FunctionDto(ParametersDto parameters){
+			CKFunction(void) {}
+			CKFunction(CKParameterList parameters){
 				this->parameters = parameters;
 			}
 	};
 
-	struct DeclaratorModifierDto{
+	struct CKDeclaratorModifier{
 		public:
 			ModifierType type;
-			PointersDto pointers;
-			ArrayDto array;
-			FunctionDto function;
+			CKPointerList pointers;
+			CKArray array;
+			CKFunction function;
 
-			DeclaratorModifierDto(PointersDto pointers){
+			CKDeclaratorModifier(CKPointerList pointers){
 				this->type = ModifierType::pointer;
 				this->pointers = pointers;
 			}
-			DeclaratorModifierDto(ArrayDto array){
+			CKDeclaratorModifier(CKArray array){
 				this->type = ModifierType::array;
 				this->array = array;
 			}
-			DeclaratorModifierDto(FunctionDto function){
+			CKDeclaratorModifier(CKFunction function){
 				this->type = ModifierType::function;
 				this->function = function;
 			}
 	};	
 
-	struct DeclaratorDto{
+	struct CKDeclarator{
 		public:
 			cecko::CIName identifier;
 			cecko::loc_t line;
-			std::vector<DeclaratorModifierDto> modifiers;
+			std::vector<CKDeclaratorModifier> modifiers;
 			
-			DeclaratorDto(void){
+			CKDeclarator(void){
 				this->identifier = cecko::CIName();
 			}
-			DeclaratorDto(cecko::CIName identifier, cecko::loc_t line) {
+			CKDeclarator(cecko::CIName identifier, cecko::loc_t line) {
 				this->identifier = identifier;
 				this->line = line;
 			}
 
-			void add_modifier(DeclaratorModifierDto modifier){
+			void add_modifier(CKDeclaratorModifier modifier){
 				this->modifiers.push_back(modifier);
 			}
 	};
-	using DeclaratorsDto = std::vector<DeclaratorDto>;
+	using CKDeclaratorList = std::vector<CKDeclarator>;
 
-	struct ParameterDto{
+	struct CKParameter{
 		public:
-			DeclarationSpecifiersDto declarationSpecifiers;
-			DeclaratorsDto declarators;
+			CKDeclarationSpecifierList declarationSpecifiers;
+			CKDeclaratorList declarators;
 			
-			ParameterDto(void) {}
-			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers){
+			CKParameter(void) {}
+			CKParameter(CKDeclarationSpecifierList declarationSpecifiers){
 				this->declarationSpecifiers = declarationSpecifiers;
 			}
-			ParameterDto(DeclarationSpecifiersDto declarationSpecifiers, casem::DeclaratorsDto declarators){
+			CKParameter(CKDeclarationSpecifierList declarationSpecifiers, casem::CKDeclaratorList declarators){
 				this->declarationSpecifiers = declarationSpecifiers;
 				this->declarators = declarators;
 			}
 	};
 
-	void declare(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorsDto declarators);
-	void declareFunctionDefinition(cecko::context* ctx, DeclarationSpecifiersDto specifiers, DeclaratorDto declarator);
+	void declare(cecko::context* ctx, CKDeclarationSpecifierList specifiers, CKDeclaratorList declarators);
+	void declareFunctionDefinition(cecko::context* ctx, CKDeclarationSpecifierList specifiers, CKDeclarator declarator);
 	cecko::CKTypeObs convert_etype(cecko::context* ctx, cecko::gt_etype etype);
 }
 
