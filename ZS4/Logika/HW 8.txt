@@ -1,0 +1,5 @@
+a) je bezesporna, protoze v T nelze dokazat spor.
+b) ano je, protoze neni sporna a kazda sentence je v ni dokazatelna ci zamitnutelna
+c) L'=L T';={...T, adj(y,x)->adj(x,y)}
+d) pridame do jazyka L dalsi funkci, napr. L'=<adj, w, s, a>
+e) pridame do Teorie dalsi vyrok, napr. T'={...T, x=y}
