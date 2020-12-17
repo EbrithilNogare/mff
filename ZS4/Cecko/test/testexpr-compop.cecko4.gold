@@ -1,0 +1,70 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+int main_3(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+// --- FUNCTION DEFINITIONS ---
+int main_3(int argc_3,char**argv_3){
+	int ar_5;
+	int br_5;
+	int cr_5;
+	int dr_5;
+	int er_5;
+	int fr_5;
+	int gr_5;
+	int hr_5;
+	int ir_5;
+	{
+		int ai_7;
+		int bi_7;
+		int ci_7;
+		int di_7;
+		int ei_7;
+		int fi_7;
+		int gi_7;
+		int hi_7;
+		int ii_7;
+	}
+	{
+		char ai_33;
+		char bi_33;
+		char ci_33;
+		char di_33;
+		char ei_33;
+		char fi_33;
+		char gi_33;
+		char hi_33;
+		char ii_33;
+	}
+	{
+		const char*ai_59;
+		const char*ar_60;
+		const char*bi_59;
+		const char*br_60;
+		const char*ci_59;
+		const char*cr_60;
+		const char*d_61;
+		const char*di_59;
+		const char*dr_60;
+		const char*ei_59;
+		const char*er_60;
+		const char*fi_59;
+		const char*fr_60;
+	}
+}
+========== starting main() ==========
+ai=8 bi=10 ci=10 di=12 ei=20 fi=13 gi=57 hi=10 ii=5
+ar=8 br=9 cr=10 dr=13 er=20 fr=13 gr=57 hr=10 ir=5
+ai=0 bi=0 ci=255 di=255 ei=4 fi=252 gi=88 hi=100 ii=2
+ar=0 br=255 cr=255 dr=0 er=4 fr=252 gr=88 hr=100 ir=2
+*ai=F *bi=F *ci=D *di=D *ei=J *fi=A
+*ar=F *br=E *cr=D *dr=E *er=J *fr=A
+
+========== main() returned 0 ==========
+========== cecko4 done ==========

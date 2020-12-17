@@ -288,6 +288,9 @@ namespace cecko {
 		/// Get LLVM type descriptor
 		virtual CKIRTypeObs get_ir() const = 0;
 
+		/// Get LLVM null value
+		virtual CKIRConstantObs get_null_value() const;
+
 		/// @name Determining the kind of the type
 		/// @{
 		

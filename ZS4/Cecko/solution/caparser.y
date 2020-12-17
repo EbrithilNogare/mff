@@ -88,19 +88,45 @@ using namespace casem;
 /////////////////////////////////
 
 /////////////// Declarations
-%type<cecko::CKTypeObs> type_specifier
+%type<cecko::CKTypeObs>
+	type_specifier
 
-%type<casem::CKDeclarationSpecifier> declaration_specifier type_specifier_qualifier
-%type<casem::CKDeclarationSpecifierList> declaration_specifiers specifier_qualifier_list
+%type<casem::CKDeclarationSpecifier>
+	declaration_specifier
+	type_specifier_qualifier
 
-%type<casem::CKDeclarator> declarator direct_declarator abstract_declarator direct_abstract_declarator array_declarator array_abstract_declarator function_declarator function_abstract_declarator
-%type<casem::CKDeclaratorList> init_declarator_list init_declarator_list_opt member_declarator_list
+%type<casem::CKDeclarationSpecifierList>
+	declaration_specifiers
+	specifier_qualifier_list
 
-%type<casem::CKPointerList> pointer
+%type<casem::CKDeclarator>
+	declarator
+	direct_declarator
+	abstract_declarator
+	direct_abstract_declarator
+	array_declarator
+	array_abstract_declarator
+	function_declarator
+	function_abstract_declarator
 
-%type<casem::CKParameter> parameter_declaration
-%type<casem::CKParameterList> parameter_list
+%type<casem::CKDeclaratorList>
+	init_declarator_list
+	init_declarator_list_opt
+	member_declarator_list
 
+%type<casem::CKPointerList>
+	pointer
+
+%type<casem::CKParameter> 
+	parameter_declaration
+
+%type<casem::CKParameterList>
+	parameter_list
+
+
+%type<casem::CKExpression>
+	expression_opt
+	expression
 
 
 
@@ -145,16 +171,12 @@ argument_expression_list:
 unary_expression:
 	postfix_expression
 	| INCDEC unary_expression
-	| unary_operator cast_expression
+	| AMP cast_expression
+	| STAR cast_expression
+	| ADDOP cast_expression
+	| EMPH cast_expression
 	| SIZEOF LPAR specifier_qualifier_list  RPAR
 	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR
-	;
-
-unary_operator:
-	AMP
-	| STAR
-	| ADDOP
-	| EMPH
 	;
 
 cast_expression:
@@ -194,21 +216,17 @@ logical_OR_expression:
 
 assignment_expression:
 	logical_OR_expression
-	| unary_expression assignment_operator assignment_expression
+	| unary_expression ASGN assignment_expression
+	| unary_expression CASS assignment_expression
 	;
 
-assignment_operator:
-	ASGN
-	| CASS
+expression_opt: // type: casem::CKExpression
+	%empty { $$ = casem::CKExpression(); }
+	| expression { $$ = $1; }
 	;
 
-expression_opt:
-	%empty
-	| expression
-	;
-
-expression:
-	assignment_expression
+expression: // type: casem::CKExpression
+	assignment_expression { $$ = casem::CKExpression(); } // todo
 	;
 
 constant_expression:
@@ -538,10 +556,26 @@ iteration_statement_u:
 	;
 
 jump_statement:
-	// RETURN expression_opt SEMIC // hack
-	RETURN INTLIT SEMIC
-	;
+	RETURN SEMIC {
+		ctx->builder()->CreateRetVoid();
+		ctx->builder()->ClearInsertionPoint();
+	}
+	| RETURN expression SEMIC {
 
+		// get type of function
+
+		// get type of expression_opt
+
+		// if equal
+			// return 
+
+		// else
+			// convert it
+
+			
+		ctx->builder()->ClearInsertionPoint();
+	}
+	;
 
 /////////////// External definitions
 
@@ -565,7 +599,15 @@ function_definition_head:
 	;
 
 function_definition_body:
-	LCUR block_item_list_opt { ctx-> exit_function(); }
+	LCUR block_item_list_opt {
+		if(ctx->builder()->GetInsertBlock() != NULL){
+			// emit the implicit final return
+			ctx->builder()->CreateRetVoid();
+			ctx->builder()->ClearInsertionPoint();
+		}
+
+		ctx-> exit_function();
+	}
 	;
 
 

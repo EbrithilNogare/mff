@@ -101,6 +101,7 @@ namespace cecko {
 		extern err_def_n INVALID_FUNCTION_TYPE;		///< Invalid function type constructed
 		extern err_def_n INVALID_ARRAY_TYPE;		///< Invalid array type constructed
 		extern err_def_n INVALID_SPECIFIERS;	///< Conflicting declaration specifiers
+		extern err_def_n BAD_NUMBER_OF_ARGUMENTS;	///< Bad number of arguments
 
 		/// @cond INTERNAL
 		extern err_def_n INVALID_VARIABLE_TYPE;		///< Invalid variable type (reported by the framework)

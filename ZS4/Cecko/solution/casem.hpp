@@ -126,6 +126,42 @@ namespace casem {
 	void declare(cecko::context* ctx, CKDeclarationSpecifierList specifiers, CKDeclaratorList declarators);
 	void declareFunctionDefinition(cecko::context* ctx, CKDeclarationSpecifierList specifiers, CKDeclarator declarator);
 	cecko::CKTypeObs convert_etype(cecko::context* ctx, cecko::gt_etype etype);
+
+
+	enum CKExpressionType{
+		// CKArrayType,
+		CKBoolType,
+		CKCharType,
+		// CKEnumType,
+		// CKFunctionType,
+		CKIntType,
+		CKPtrType,
+		// CKStructType,
+		CKVoidType,
+		CKNIType, // not implemented
+	};
+
+	struct CKExpression{
+		CKExpressionType type;
+		//cecko::CIAbstractType value;
+
+		CKExpression(){
+			this->type = CKVoidType;
+		}
+		CKExpression(CKExpressionType type/*, cecko::CIAbstractType value*/){
+			this->type = type;
+			//this->value = value;
+		}
+
+	};
+
+
+
+
+
+
+
+
 }
 
 #endif

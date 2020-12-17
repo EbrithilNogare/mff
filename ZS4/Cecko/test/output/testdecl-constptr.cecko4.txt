@@ -1,0 +1,46 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+const int*const cpci_3;
+const int*const cpci2_4;
+const int*const*const cpcpci_5;
+int*const cpi_6;
+int*const cpi2_7;
+int**const cppi_8;
+const int*pci_9;
+const int*pci2_10;
+int*const*pcpi_11;
+const int**ppci_12;
+// --- FUNCTION DEFINITIONS ---
+========== IR module ==========
+::: ; ModuleID = 'test'
+::: source_filename = "test"
+::: 
+::: @cpci = global i32* null
+::: @cpci2 = global i32* null
+::: @cpcpci = global i32** null
+::: @cpi = global i32* null
+::: @cpi2 = global i32* null
+::: @cppi = global i32** null
+::: @pci = global i32* null
+::: @pci2 = global i32* null
+::: @pcpi = global i32** null
+::: @ppci = global i32** null
+::: 
+::: declare i32 @ckrt_printf(i8*, ...)
+::: 
+::: declare i32 @ckrt_scanf(i8*, ...)
+::: 
+::: declare i32 @ckrt_sprintf(i8*, i8*, ...)
+::: 
+::: declare i32 @ckrt_sscanf(i8*, i8*, ...)
+::: 
+::: declare i8* @ckrt_memset(i8*, i32, i32)
+Cannot find main function.

@@ -1,0 +1,54 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+int char_to_int_20(char);
+char int_to_char_25(int);
+int main_30(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+char to_char_10(char);
+int to_int_5(int);
+const char*to_pointer_15(const char*);
+// --- GLOBAL VARIABLES ---
+_Bool b_3;
+// --- FUNCTION DEFINITIONS ---
+int char_to_int_20(char a_20){
+}
+char int_to_char_25(int a_25){
+}
+int main_30(int argc_30,char**argv_30){
+	{
+		int i_34;
+		int j_34;
+		int k_34;
+		const char*p_35;
+		char x_33;
+		char y_33;
+	}
+	{
+		int i_50;
+		int j_50;
+		int k_50;
+		const char*p_51;
+		char x_49;
+		char y_49;
+	}
+}
+char to_char_10(char a_10){
+}
+int to_int_5(int a_5){
+}
+const char*to_pointer_15(const char*a_15){
+}
+========== starting main() ==========
+to_int(x)=0x58 k=0x3f41 i=0 j=0x58 to_int(y)=0x41
+x='X' k=16193 p="Test" i=0 j=88 y='A'
+to_int(x)=0x58 k=0x3f41 i=0 j=0x58 to_int(y)=0x41
+x='X' k=16193 p="Test" i=0 j=88 y='A'
+
+========== main() returned 0 ==========
+========== cecko4 done ==========
