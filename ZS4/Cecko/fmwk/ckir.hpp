@@ -190,6 +190,12 @@ namespace cecko {
 		return llvm::cast<llvm::ConstantInt>(v);
 	}
 
+	/// Get null value for a llvm::Type
+	inline CKIRConstantObs CKIRNullValue(CKIRTypeObs t)
+	{
+		return llvm::Constant::getNullValue(t);
+	}
+
 	/// @cond INTERNAL
 	CKIRConstantObs CKCreateGlobalVariable(CKIRTypeObs irtp, const std::string& name, CKIRModuleObs M);
 

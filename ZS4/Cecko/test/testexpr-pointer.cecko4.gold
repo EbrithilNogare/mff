@@ -1,0 +1,52 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+int main_8(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+_Bool gb_3;
+int gi_5;
+int*gpi_6;
+char gx_4;
+// --- FUNCTION DEFINITIONS ---
+int main_8(int argc_8,char**argv_8){
+	int li_11;
+	char lx_10;
+	_Bool*pgb_13;
+	int*pgi_15;
+	int**pgpi_16;
+	char*pgx_14;
+	int*pli_15;
+	char*plx_14;
+	{
+		int j_25;
+		int k_25;
+		int l_25;
+		int m_25;
+		int n_25;
+	}
+	{
+		int k_41;
+		int l_41;
+		int m_41;
+		int n_41;
+	}
+	{
+		int j_59;
+		int k_59;
+		int l_59;
+		int m_59;
+	}
+}
+========== starting main() ==========
+j=0 k=0 l=0 m='L' n=123
+k='Z' l=729 m='Z' n=729
+j=123 k=333 l=729 m=444
+
+========== main() returned 0 ==========
+========== cecko4 done ==========

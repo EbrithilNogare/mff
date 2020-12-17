@@ -197,4 +197,25 @@ if [[ $1 -eq 3 ]] ; then
 	
 fi
 
+if [[ $1 -eq 4 ]] ; then
+	echo "MAKE cecko4"
+	make cecko4
+
+	echo "Test base conv"
+	./stud-main/cecko4 ../test/testexpr-conv.c > ../test/output/testexpr-conv.cecko4.txt
+	diff ../test/testexpr-conv.cecko4.gold ../test/output/testexpr-conv.cecko4.txt
+	echo ""
+
+	echo "Test base intop"
+	./stud-main/cecko4 ../test/testexpr-intop.c > ../test/output/testexpr-intop.cecko4.txt
+	diff ../test/testexpr-intop.cecko4.gold ../test/output/testexpr-intop.cecko4.txt
+	echo ""
+
+	echo "Test base pointer"
+	./stud-main/cecko4 ../test/testexpr-pointer.c > ../test/output/testexpr-pointer.cecko4.txt
+	diff ../test/testexpr-pointer.cecko4.gold ../test/output/testexpr-pointer.cecko4.txt
+	echo ""
+
+fi
+
 echo "DONE"

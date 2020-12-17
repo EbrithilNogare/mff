@@ -1,0 +1,40 @@
+Error (line 7): Syntax error: syntax error, unexpected identifier, expecting integer literal
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+int to_int_5(int);
+// --- GLOBAL VARIABLES ---
+_Bool b_3;
+// --- FUNCTION DEFINITIONS ---
+int to_int_5(int a_5){
+}
+========== IR module ==========
+::: ; ModuleID = 'test'
+::: source_filename = "test"
+::: 
+::: @b = global i1 false
+::: 
+::: declare i32 @ckrt_printf(i8*, ...)
+::: 
+::: declare i32 @ckrt_scanf(i8*, ...)
+::: 
+::: declare i32 @ckrt_sprintf(i8*, i8*, ...)
+::: 
+::: declare i32 @ckrt_sscanf(i8*, i8*, ...)
+::: 
+::: declare i8* @ckrt_memset(i8*, i32, i32)
+::: 
+::: define i32 @to_int(i32 %0) {
+::: prolog:
+:::   %a = alloca i32
+:::   store i32 %0, i32* %a
+::: 
+::: start:                                            ; No predecessors!
+::: }
+Cannot find main function.

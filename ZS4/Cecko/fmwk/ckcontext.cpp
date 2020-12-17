@@ -46,6 +46,7 @@ namespace cecko {
 		err_def_n INVALID_ARRAY_TYPE{ "INVALID_ARRAY_TYPE", "Invalid array type constructed" };
 		err_def_n INVALID_SPECIFIERS{ "INVALID_SPECIFIERS", "Invalid declaration specifiers" };
 		err_def_n INVALID_VARIABLE_TYPE{ "INVALID_VARIABLE_TYPE", "Invalid variable type" };
+		err_def_n BAD_NUMBER_OF_ARGUMENTS{ "BAD_NUMBER_OF_ARGUMENTS", "Bad number of arguments" };
 	}
 
 	std::string context::escape(std::string_view s)

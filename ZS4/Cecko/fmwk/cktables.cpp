@@ -32,6 +32,11 @@ namespace cecko {
 		return generate_dump_name(*name_ptr_, def_loc_);
 	}
 
+	CKIRConstantObs CIAbstractType::get_null_value() const
+	{
+		return CKIRNullValue(get_ir());
+	}
+
 	CIDecl CKVoidType::declaration(bool is_const, const CIDecl& dtor) const { return decl_const(is_const) + "void" + decl_dtor(false, false, dtor); }
 
 	CIDecl CKBoolType::declaration(bool is_const, const CIDecl& dtor) const { return decl_const(is_const) + "_Bool" + decl_dtor(false, false, dtor); }

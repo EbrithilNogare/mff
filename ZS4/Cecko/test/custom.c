@@ -1,6 +1,8 @@
-int fixix(int, int*, int**);
-
-int fixix(int a, int* b, int** c)
+int main(int argc, char** argv)
 {
-	return 0;
+	{
+		int i;
+		i = 42;
+	}
+	return i;
 }
