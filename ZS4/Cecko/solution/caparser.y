@@ -125,8 +125,13 @@ using namespace casem;
 
 
 %type<casem::CKExpression>
-	expression_opt
+	primary_expression
 	expression
+	assignment_expression
+	unary_expression
+	postfix_expression
+
+
 
 
 
@@ -142,14 +147,14 @@ using namespace casem;
 
 /////////////// Expressions
 
-primary_expression:
-	IDF
-	| INTLIT
-	| STRLIT
-	| LPAR expression RPAR
+primary_expression: // type: CKExpression
+	IDF { $$ = casem::CKExpression::get_by_name(ctx, $1, @1); }
+	| INTLIT { $$ = casem::CKExpression(ctx, $1); }
+	| STRLIT { $$ = casem::CKExpression(ctx, $1); }
+	| LPAR expression RPAR { $$ = $2; }
 	;
 
-postfix_expression:
+postfix_expression: // type: CKExpression
 	primary_expression
 	| postfix_expression LBRA expression RBRA
 	| postfix_expression LPAR argument_expression_list_opt RPAR
@@ -168,7 +173,7 @@ argument_expression_list:
 	| argument_expression_list COMMA assignment_expression
 	;
 
-unary_expression:
+unary_expression: // type: casem::CKExpression
 	postfix_expression
 	| INCDEC unary_expression
 	| AMP cast_expression
@@ -214,19 +219,23 @@ logical_OR_expression:
 	| logical_OR_expression DVERT logical_AND_expression
 	;
 
-assignment_expression:
-	logical_OR_expression
-	| unary_expression ASGN assignment_expression
-	| unary_expression CASS assignment_expression
+assignment_expression: // type: casem::CKExpression
+	logical_OR_expression { $$ = casem::CKExpression(); } // todo
+	| unary_expression ASGN assignment_expression {
+		$$ = casem::assigment(ctx, $1, $3, casem::CKExpressionOperation::assign, @1); 
+	}
+	| unary_expression CASS assignment_expression {
+		$$ = casem::assigment(ctx, $1, $3, casem::get_cass_type(ctx, $2), @1); 
+	}
 	;
 
-expression_opt: // type: casem::CKExpression
-	%empty { $$ = casem::CKExpression(); }
-	| expression { $$ = $1; }
+expression_opt:
+	%empty
+	| expression
 	;
 
 expression: // type: casem::CKExpression
-	assignment_expression { $$ = casem::CKExpression(); } // todo
+	assignment_expression { $$ = $1; }
 	;
 
 constant_expression:
@@ -573,6 +582,7 @@ jump_statement:
 			// convert it
 
 			
+		ctx->builder()->CreateRet(ctx->get_int32_constant(43)); //todo fix temp
 		ctx->builder()->ClearInsertionPoint();
 	}
 	;

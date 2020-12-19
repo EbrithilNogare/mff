@@ -1,0 +1,105 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\setcounter{MaxMatrixCols}{40}
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Kombinatorika a grafy 1}\\
+\textbf{Ukol: 5.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}
+
+\section*{Prvni ukol}
+Dokazeme indukci, podle poctu ruznych hodnot\\
+Zacneme s balickem o 4 barvach a jednou hodnotou, ten plati trivialne\\
+Indukci krok bude pridani jedne hodnoty (ctyr karet ruzne barvy).\\
+Pridame balicek 4 karet a pokud karty nechame v tomto balicku, tento balicek bude slouzit pro vybrani dane hodnoty.\\
+Pokud by v tomto balicku mela byt karta jine hodnoty, urcime tento balicek pro vybrani one hodnoty a druhy balicekze ktereho kartu bereme
+a nastavime na to, abychom z nej vybrali aktualni hodnotu. (neboli prohodime 2 karty a zaroven prohodime co z techto balicku budeme vybirat)\\
+toto lze aplikovat i 4krat za sebou (prohozeni celeho balicku) a porad to bude fungovat.
+Tudiz porad mame u kazdeho balicku unikatni hodnotu, ktera urcuje jakou kartu z ni budeme vybirat.\\
+\\
+ukazka: (cislo balicku: 4karty (kterou kartu budeme z balicku vybirat))\\
+1: 1111 (1)\\
+pridame balicek 2 ...\\
+1: 1111 (1)\\
+2: 2222 (2)\\
+prohodime karty a typy balicku ...\\
+1: 1112 (2)\\
+2: 2221 (1)
+
+
+
+
+
+
+
+
+
+
+
+\section*{Druhy ukol}
+nejdrive dokazeme pravou implikaci\\
+lze vydlazdit => plati pravidlo o poctu der v podtrojuhelnicich\\
+dokazeme sporem, predpokladejme, ze neplati pravidlo o poctu der.\\
+Pak mame trojuhelnik velikosti n s n+1 dirami.
+Jelikoz dira muze byt pouze trojuhelnik smerem nahoru (horni trojuhelnik) a
+trojuhelnik velikosti n, ma presne o n hornich trojuhelniku vice nez spodnich.
+Tak dostaneme trojuhelnik kde se nerovna pocet hornich a spodnich trojuhelniku.\\
+Dalsim pozorovanim je, ze diamant se sklada vzdy z jednoho horniho a jednoho spodniho trojuhleniku.\\
+Tudiz jsme dosli ke sporu, nebot takovy trojuhelnik nelze diamanty vyskladat.\\
+\\
+pote dokazeme levou implikaci\\
+plati pravidlo o poctu der v podtrojuhelnicich => lze vydlazdit\\
+pokud je pocet der v trojuhleniku roven jeho velikosti, pak jej vydlazdime normalne. (souhlasi pocet hornich a dolnich trojuhelniku)\\
+pokud je pocet der mensi nez velikost, pak vydlazdime normalne, ale zbude nam par volnych dolnich trojuhelniku.
+To ale nevadi, nebot je vsechny (a ne vic) pouzijeme v nekterem z vetsich trojuhleniku, ktery je nadmnozinou aktualniho trojuhelnika.\\
+\\
+tudiz plati
+
+\section*{Treti ukol}
+\includegraphics[width=300px]{HW5grafy.png}
+
+
+
+\section*{Ctvrty ukol}
+1) pokud ignorujeme fakt, ze cesty maji stejne pocatecni a koncove vrcholy.
+Tak tvrzeni plati\\
+nebot $k_v \leq k_e$ tudiz pokud odebereme hrany P1
+z grafu, tak graf zustane souvisly a tudiz musi existovat dalsi cesta z x do y.\\
+\\
+2) Plati\\
+odeberme z grafu vrchol z\\
+zbyde nam minimalne vrcholove 2-souvisly graf a tudiz minimalne hranove 2-souvisly a tudiz mezi x a y musi existovat minimalne dve disjunktni cesty, coz je definice kruznice
+\\
+3) Neplati\\
+prikladem je graf typu motylek\\
+
+
+
+
+
+
+
+
+
+
+\end{document}
