@@ -1,0 +1,18 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{R}
+library(sqldf)
+```
+
+```{R}
+czechia <- read.csv.sql("2020_CZ_Region_Mobility_Report.csv", sql = "select retail_and_recreation_percent_change_from_baseline from file where sub_region_1 = ''", eol = "\n")
+prague <- read.csv.sql("2020_CZ_Region_Mobility_Report.csv", sql = "select retail_and_recreation_percent_change_from_baseline from file where sub_region_1 = 'Prague'", eol = "\n")
+
+lregrese<-lm(prague$retail_and_recreation_percent_change_from_baseline ~ czechia$retail_and_recreation_percent_change_from_baseline)
+
+plot(czechia[, 1], prague[, 1], pch = 20, asp=1)
+abline(lregrese,col="red")
+```
