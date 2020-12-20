@@ -155,12 +155,12 @@ primary_expression: // type: CKExpression
 	;
 
 postfix_expression: // type: CKExpression
-	primary_expression
-	| postfix_expression LBRA expression RBRA
-	| postfix_expression LPAR argument_expression_list_opt RPAR
-	| postfix_expression DOT IDF
-	| postfix_expression ARROW IDF
-	| postfix_expression INCDEC
+	primary_expression { $$ = $1; }
+	| postfix_expression LBRA expression RBRA { $$ = $1; } // todo
+//	| postfix_expression LPAR argument_expression_list_opt RPAR { $$ = casem::call_function(ctx, $1, $3, @1); }
+//	| postfix_expression DOT IDF { $$ = casem::struct_item(ctx, $1, $3, @1); }
+//	| postfix_expression ARROW IDF { $$ = casem::struct_item(ctx, $1, $3, @1); }
+	| postfix_expression INCDEC { $$ =  casem::unary_expressions(ctx, casem::get_incdec_type(ctx, $2), @1, false); }
 	;
 
 argument_expression_list_opt:
@@ -175,13 +175,13 @@ argument_expression_list:
 
 unary_expression: // type: casem::CKExpression
 	postfix_expression
-	| INCDEC unary_expression
-	| AMP cast_expression
-	| STAR cast_expression
-	| ADDOP cast_expression
-	| EMPH cast_expression
-	| SIZEOF LPAR specifier_qualifier_list  RPAR
-	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR
+	| INCDEC unary_expression { $$ = casem::unary_operation(ctx, casem::get_incdec_type(ctx, $1), $2); }
+	| AMP cast_expression { $$ = casem::unary_operation(ctx, cecko::CKExpressionOperator::addressing, @1, false); }
+	| STAR cast_expression { $$ = casem::unary_operation(ctx, cecko::CKExpressionOperator::dereferencing, @1, false); }
+	| ADDOP cast_expression { $$ = casem::unary_operation(ctx, cecko::get_addop_type(ctx, $1), @1, false); }
+//	| EMPH cast_expression { $$ = casem::unary_operation(ctx, cecko::CKExpressionOperator::negation, @1, false); }
+//	| SIZEOF LPAR specifier_qualifier_list  RPAR
+//	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR
 	;
 
 cast_expression:
@@ -570,20 +570,7 @@ jump_statement:
 		ctx->builder()->ClearInsertionPoint();
 	}
 	| RETURN expression SEMIC {
-
-		// get type of function
-
-		// get type of expression_opt
-
-		// if equal
-			// return 
-
-		// else
-			// convert it
-
-			
-		ctx->builder()->CreateRet(ctx->get_int32_constant(43)); //todo fix temp
-		ctx->builder()->ClearInsertionPoint();
+		return_function(ctx, $2);	
 	}
 	;
 

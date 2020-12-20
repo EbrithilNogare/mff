@@ -141,7 +141,41 @@ namespace casem {
 		assign,
 	};
 
-	casem::CKExpression assigment(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t line){
+	casem::unary_operation(cecko::context_obs ctx, CKExpression expression, CKExpressionOperator op, cecko::loc_t loc, bool is_const){
+
+
+
+
+		cecko::CKIRValueObs result;
+		cecko::CKIRValueObs changed
+		cecko::CKITypeRefPack refpack;
+
+		switch(op){
+			case CKExpressionOperator::addition:
+				result = operandRvalue;
+				break;
+			case CKExpressionOperator::substraction:
+				result = ctx->builder()->Creating(operandRvalue, "result_unary_negation");
+				break;
+			case CKExpressionOperator::incrementing:
+				if(type->is_char() ||type->is_bool())
+					changed = ctx->builder()->CreateAdd(operrandRvalue, ctx->get_int8_constaint(1), "incrementing");
+				else if (type->is_pointer())
+					changed = ctx->builder()->CreateGEP(operrandRvalue, ctx->get_int32_constaint(1), "pointer incrementing");
+				else
+					changed = ctx->builder()CreateAdd(operrandRvalue, ctx->get_int32_constaint(1), "increment");
+		
+				ctx->builderCreateStore(changed, operand.value);
+				if(is_prefix)
+					result = changed;
+				else
+				{}
+		
+		}
+
+	}
+
+	casem::CKExpression assigment(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc){
 
 		cecko::CKIRValueObs result;
 		cecko::CKTypeObs type;
@@ -233,7 +267,17 @@ namespace casem {
 	};
 
 
+	void return_function(cecko::context_obs ctx, CTExpression expression){
+		auto return_type = ctx->current_function_return_type();
+		auto return_value_rvalue = convert_to_rvalue(ctx, expression.value(), "return_value");
+		if(return_type->is_int() && (expression->type->is_char() || expression->type->is_bool()))
+			return_value_rvalue = ctx->builder()->CreateZExt(return_value_rvalue, ctx-> get_int_type()->get_ir(), "CreateZExt");
+		else if(return_type->is_char() && expression->type->is_int())
+			return_value_rvalue = ctx->builder->CreateTrunc(return_value_rvalue, ctx->get_char_type()->get_ir(), "CreateTrunc");
 
+		ctx->builder()->CreateRet(return_value_rvalue);
+		ctx->builder()->ClearInsertionPoint();
+	}
 
 
 
