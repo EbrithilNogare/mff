@@ -1,3 +1,4 @@
+Error (line 37): Syntax error: syntax error, unexpected (, expecting ;
 ========== tables ==========
 // --- GLOBAL TYPEDEFS ---
 typedef struct _file_s_0 FILE_0;
@@ -29,18 +30,6 @@ int main_8(int argc_8,char**argv_8){
 		int l_25;
 		int m_25;
 		int n_25;
-	}
-	{
-		int k_41;
-		int l_41;
-		int m_41;
-		int n_41;
-	}
-	{
-		int j_59;
-		int k_59;
-		int l_59;
-		int m_59;
 	}
 }
 ========== IR module ==========
@@ -81,17 +70,41 @@ int main_8(int argc_8,char**argv_8){
 :::   %l = alloca i32
 :::   %m = alloca i32
 :::   %n = alloca i32
-:::   %k1 = alloca i32
-:::   %l2 = alloca i32
-:::   %m3 = alloca i32
-:::   %n4 = alloca i32
-:::   %j5 = alloca i32
-:::   %k6 = alloca i32
-:::   %l7 = alloca i32
-:::   %m8 = alloca i32
-:::   br label %start
 ::: 
-::: start:                                            ; preds = %prolog
+::: start:                                            ; No predecessors!
+:::   %load = load i1, i1* @gb
+:::   %load1 = load i1, i1* @gb
+:::   store i1 %load1, i1** %pgb
+:::   %load2 = load i8, i8* @gx
+:::   %load3 = load i8, i8* @gx
+:::   store i8 %load3, i8** %pgx
+:::   %load4 = load i32, i32* @gi
+:::   %load5 = load i32, i32* @gi
+:::   store i32 %load5, i32** %pgi
+:::   %load6 = load i8, i8* %lx
+:::   %load7 = load i8, i8* %lx
+:::   store i8 %load7, i8*** %plx
+:::   %load8 = load i32, i32* %li
+:::   %load9 = load i32, i32* %li
+:::   store i32 %load9, i32*** %pli
+:::   %load10 = load i1*, i1** %pgb
+:::   %load11 = load i1*, i1** %pgb
+:::   store i1* %load11, i32* %j
+:::   %load12 = load i8*, i8** %pgx
+:::   %load13 = load i8*, i8** %pgx
+:::   store i8* %load13, i32* %k
+:::   %load14 = load i32*, i32** %pgi
+:::   %load15 = load i32*, i32** %pgi
+:::   store i32* %load15, i32* %l
+:::   %load16 = load i8*, i8** %pgx
+:::   store i32 76, i8** %pgx
+:::   %load17 = load i32*, i32** %pgi
+:::   store i32 123, i32** %pgi
+:::   %load18 = load i8, i8* @gx
+:::   %zext = zext i8 %load18 to i32
+:::   store i32 %zext, i32* %m
+:::   %load19 = load i32, i32* @gi
+:::   store i32 %load19, i32* %n
 ::: }
 ========== Error constructing function ==========
 ========== cecko4 done ==========

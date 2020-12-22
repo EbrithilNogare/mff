@@ -129,4 +129,183 @@ namespace casem {
 
 	}
 	
+
+	cecko::CKIRValueObs convert_to_rvalue(cecko::context_obs ctx, CKExpression operand, std::string note){
+		cecko::CKIRValueObs operandRvalue;
+		if(operand.mode == CKExpressionMode::lvalue){
+			return ctx->builder()->CreateLoad(operand.type->get_ir(), operand.value, "load");
+		}
+		else{
+			return operand.value;
+		}
+
+	}
+
+	CKExpression unary_operations(cecko::context_obs ctx, CKExpression operand, CKExpressionOperator op, cecko::loc_t loc, bool is_prefix){  //maybe const
+
+		cecko::CKTypeObs type = operand.type;
+		cecko::CKIRValueObs operandRvalue = convert_to_rvalue(ctx, operand, "operand");
+
+		cecko::CKIRValueObs result;
+		cecko::CKIRValueObs changed;
+		cecko::CKTypeRefPack refpack;
+
+		switch(op){
+			case CKExpressionOperator::addition:
+				result = operandRvalue;
+				break;
+			case CKExpressionOperator::substraction:
+				result = ctx->builder()->CreateNeg(operandRvalue, "result_unary_negation");
+				break;
+			case CKExpressionOperator::incrementing:
+				if(type->is_char() ||type->is_bool())
+					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int8_constant(1), "incrementing");
+				else if (type->is_pointer())
+					changed = ctx->builder()->CreateGEP(operandRvalue, ctx->get_int32_constant(1), "pointer incrementing");
+				else
+					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int32_constant(1), "increment");
+		
+				ctx->builder()->CreateStore(changed, operand.value);
+				if(is_prefix)
+					result = changed;
+				else
+				{}
+				break;
+			case CKExpressionOperator::decrementing:
+				if(type->is_char() ||type->is_bool())
+					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int8_constant(-1), "incrementing");
+				else if (type->is_pointer())
+					changed = ctx->builder()->CreateGEP(operandRvalue, ctx->get_int32_constant(-1), "pointer incrementing");
+				else
+					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int32_constant(-1), "increment");
+		
+				ctx->builder()->CreateStore(changed, operand.value);
+				if(is_prefix)
+					result = changed;
+				else
+				{}
+				break;
+		
+		}
+		return operand;
+	}
+	
+
+	CKExpression binary_operations(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc){
+		cecko::CKTypeObs type = to.type;
+		cecko::CKIRValueObs operandRvalue = convert_to_rvalue(ctx, to, "operand");
+
+		cecko::CKIRValueObs result;
+		cecko::CKIRValueObs changed;
+		cecko::CKTypeRefPack refpack;
+
+		switch(op){
+			case CKExpressionOperator::addition:
+				if(type->is_char() ||type->is_bool())
+					changed = ctx->builder()->CreateAdd(operandRvalue, from.value, "incrementing");
+				else if (type->is_pointer())
+					changed = ctx->builder()->CreateGEP(operandRvalue, from.value, "pointer incrementing");
+				else
+					changed = ctx->builder()->CreateAdd(operandRvalue, from.value, "increment");
+		
+				ctx->builder()->CreateStore(changed, to.value);
+				//	result = changed;
+				break;
+			case CKExpressionOperator::substraction:
+				result = ctx->builder()->CreateNeg(operandRvalue, "result_unary_negation");
+				if(type->is_char() ||type->is_bool())
+					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int8_constant(-1), "incrementing");
+				else if (type->is_pointer())
+					changed = ctx->builder()->CreateGEP(operandRvalue, ctx->get_int32_constant(-1), "pointer incrementing");
+				else
+					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int32_constant(-1), "increment");
+		
+				ctx->builder()->CreateStore(changed, to.value);
+				
+				//	result = changed;
+				break;
+		
+		}
+		return to;
+	}
+
+	CKExpression assigment(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc){
+
+		cecko::CKIRValueObs result;
+		cecko::CKTypeObs type;
+
+		if(op != CKExpressionOperator::assign){
+			CKExpression binary_result = binary_operations(ctx, to, from, op, loc);
+			result = binary_result.value;
+			type = binary_result.type;
+		} else {
+			result = convert_to_rvalue(ctx, from, "assignment");
+			type = from.type;
+		}
+
+		if(type == ctx->get_int_type() && to.type == ctx->get_char_type())
+			result = ctx->builder()->CreateTrunc(result, ctx->get_char_type()->get_ir(), "trunc");
+		else if(type == ctx->get_char_type() && to.type == ctx->get_int_type())
+			result = ctx->builder()->CreateZExt(result, to.type->get_ir(), "zext");
+		else if(type == ctx->get_bool_type() && to.type == ctx->get_int_type())
+			result = ctx->builder()->CreateZExt(result, to.type->get_ir(), "zext");
+
+		auto store_result = ctx->builder()->CreateStore(result, to.value);
+		return CKExpression(result, CKExpressionMode::rvalue, to.type, to.is_const);
+	}
+
+	CKExpressionOperator get_cass_type(cecko::gt_cass cass){
+		switch (cass)
+		{
+			case cecko::gt_cass::MULA: return CKExpressionOperator::multiplication;
+			case cecko::gt_cass::DIVA: return CKExpressionOperator::division;
+			case cecko::gt_cass::MODA: return CKExpressionOperator::modulo;
+			case cecko::gt_cass::ADDA: return CKExpressionOperator::addition;
+			case cecko::gt_cass::SUBA: return CKExpressionOperator::substraction;
+			default: break;
+		}
+		return CKExpressionOperator::addition;
+	}
+
+	CKExpressionOperator get_incdec_type(cecko::gt_incdec incdec){
+		
+		switch(incdec)
+		{
+			case cecko::gt_incdec::INC: return CKExpressionOperator::incrementing;
+			case cecko::gt_incdec::DEC: return CKExpressionOperator::decrementing;
+			default: break;
+		}
+		return CKExpressionOperator::addition;
+	}
+
+	CKExpressionOperator get_addop_type(cecko::gt_addop addop){
+		
+		switch(addop)
+		{
+			case cecko::gt_addop::ADD: return CKExpressionOperator::addition;
+			case cecko::gt_addop::SUB: return CKExpressionOperator::substraction;
+			default: break;
+		}
+		return CKExpressionOperator::addition;
+	}
+
+
+	CKExpression call_function(cecko::context_obs ctx, CKExpression $1, $3, cecko::loc_t loc){
+
+	}
+
+
+	void return_function(cecko::context_obs ctx, CKExpression expression){
+		auto return_type = ctx->current_function_return_type();
+		auto return_value_rvalue = convert_to_rvalue(ctx, expression, "return_value");  // exprerssion.value();
+		if(return_type->is_int() && (expression.type->is_char() || expression.type->is_bool()))
+			return_value_rvalue = ctx->builder()->CreateZExt(return_value_rvalue, ctx->get_int_type()->get_ir(), "CreateZExt");
+		else if(return_type->is_char() && expression.type->is_int())
+			return_value_rvalue = ctx->builder()->CreateTrunc(return_value_rvalue, ctx->get_char_type()->get_ir(), "CreateTrunc");
+
+		ctx->builder()->CreateRet(return_value_rvalue);
+		ctx->builder()->ClearInsertionPoint();
+	}
+
+
 }
