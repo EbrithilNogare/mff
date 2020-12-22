@@ -1,5 +1,4 @@
-#ifndef casem_hpp_
-#define casem_hpp_
+#pragma once
 
 #include "cktables.hpp"
 #include "ckcontext.hpp"
@@ -7,7 +6,7 @@
 
 namespace casem {
 	struct CKParameter;
-	using CKParameterList = std::vector<casem::CKParameter>;
+	using CKParameterList = std::vector<CKParameter>;
 
 	enum ModifierType {
 		pointer,
@@ -36,7 +35,7 @@ namespace casem {
 			this->type = type;
 		}
 	};
-	using CKDeclarationSpecifierList = std::vector<casem::CKDeclarationSpecifier>;
+	using CKDeclarationSpecifierList = std::vector<CKDeclarationSpecifier>;
 
 	struct CKPointer {
 		public:
@@ -46,7 +45,7 @@ namespace casem {
 				this->is_const = is_const;
 			}
 	};
-	using CKPointerList = std::vector<casem::CKPointer>; 
+	using CKPointerList = std::vector<CKPointer>; 
 	
 	struct CKArray {
 		public:
@@ -117,7 +116,7 @@ namespace casem {
 			CKParameter(CKDeclarationSpecifierList declarationSpecifiers){
 				this->declarationSpecifiers = declarationSpecifiers;
 			}
-			CKParameter(CKDeclarationSpecifierList declarationSpecifiers, casem::CKDeclaratorList declarators){
+			CKParameter(CKDeclarationSpecifierList declarationSpecifiers, CKDeclaratorList declarators){
 				this->declarationSpecifiers = declarationSpecifiers;
 				this->declarators = declarators;
 			}
@@ -127,6 +126,11 @@ namespace casem {
 	void declareFunctionDefinition(cecko::context_obs ctx, CKDeclarationSpecifierList specifiers, CKDeclarator declarator);
 	cecko::CKTypeObs convert_etype(cecko::context_obs ctx, cecko::gt_etype etype);
 	
+	enum CKExpressionMode{
+		rvalue, 
+		lvalue,
+	};
+
 	enum CKExpressionOperator{
 		addition,
 		substraction,
@@ -141,83 +145,7 @@ namespace casem {
 		assign,
 	};
 
-	casem::unary_operation(cecko::context_obs ctx, CKExpression expression, CKExpressionOperator op, cecko::loc_t loc, bool is_const){
-
-
-
-
-		cecko::CKIRValueObs result;
-		cecko::CKIRValueObs changed
-		cecko::CKITypeRefPack refpack;
-
-		switch(op){
-			case CKExpressionOperator::addition:
-				result = operandRvalue;
-				break;
-			case CKExpressionOperator::substraction:
-				result = ctx->builder()->Creating(operandRvalue, "result_unary_negation");
-				break;
-			case CKExpressionOperator::incrementing:
-				if(type->is_char() ||type->is_bool())
-					changed = ctx->builder()->CreateAdd(operrandRvalue, ctx->get_int8_constaint(1), "incrementing");
-				else if (type->is_pointer())
-					changed = ctx->builder()->CreateGEP(operrandRvalue, ctx->get_int32_constaint(1), "pointer incrementing");
-				else
-					changed = ctx->builder()CreateAdd(operrandRvalue, ctx->get_int32_constaint(1), "increment");
-		
-				ctx->builderCreateStore(changed, operand.value);
-				if(is_prefix)
-					result = changed;
-				else
-				{}
-		
-		}
-
-	}
-
-	casem::CKExpression assigment(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc){
-
-		cecko::CKIRValueObs result;
-		cecko::CKTypeObs type;
-
-		if(op != CKExpressionOperator::assign){
-			CKExpression binary_result = binary_operations(ctx, to, from, op, loc);
-			result = binary_result.value;
-			type = binary_result.type;
-		} else {
-			result = convert_to_rvalue(ctx, from, "assignment");
-			type = from.type;
-		}
-
-		if(type == ctx->get_int_type() && to.type == ctx->get_char_type())
-			result = ctx->builder()->CreateTrunc(result, ctx->get_char_type()->get_ir(), "trunc");
-		else if(type == ctx->get_char_type() && to.type == ctx->get_int_type())
-			result = ctx->builder()->CreateZExt(result, to.type == ctx->get_ir(), "zext");
-		else if(type == ctx->get_bool_type() && to.type == ctx->get_int_type())
-			result = ctx->builder()->CreateZExt(result, to.type == ctx->get_ir(), "zext");
-
-		auto store_result = ctx->builder()->CreateStore(result, to.value);
-		return CKExpression(result, CKExpressionMode::rvalue, to.type, to.is_const)
-	}
-
-	CKExpressionOperator get_cass_type(cecko::gt_cass cass){
-		switch (cass)
-		{
-			case cecko::gt_cass::MULA: return CKExpressionOperator::multiplication;
-			case cecko::gt_cass::DIVA: return CKExpressionOperator::division;
-			case cecko::gt_cass::MODA: return CKExpressionOperator::modulo;
-			case cecko::gt_cass::ADDA: return CKExpressionOperator::addressing;
-			case cecko::gt_cass::SUBA: return CKExpressionOperator::substraction;
-			default: break;
-		}
-	}
-
-
-	enum CKExpressionMode{
-		rvalue, 
-		lvalue,
-	};
-
+	
 	struct CKExpression{
 		cecko::CKIRValueObs value;
 		cecko::CKTypeObs type;
@@ -264,25 +192,33 @@ namespace casem {
 			return CKExpression(expression->get_ir(), mode, expression->get_type(), expression->is_const());
 		}
 
+		/*
+		static CKExpression value(void){
+			CKExpression ex;
+			return ex;
+		}
+		*/
+
 	};
 
+	cecko::CKIRValueObs convert_to_rvalue(cecko::context_obs ctx, CKExpression operand, std::string note);
+	CKExpression unary_operations(cecko::context_obs ctx, CKExpression operand, CKExpressionOperator op, cecko::loc_t loc, bool is_prefix);
 
-	void return_function(cecko::context_obs ctx, CTExpression expression){
-		auto return_type = ctx->current_function_return_type();
-		auto return_value_rvalue = convert_to_rvalue(ctx, expression.value(), "return_value");
-		if(return_type->is_int() && (expression->type->is_char() || expression->type->is_bool()))
-			return_value_rvalue = ctx->builder()->CreateZExt(return_value_rvalue, ctx-> get_int_type()->get_ir(), "CreateZExt");
-		else if(return_type->is_char() && expression->type->is_int())
-			return_value_rvalue = ctx->builder->CreateTrunc(return_value_rvalue, ctx->get_char_type()->get_ir(), "CreateTrunc");
+	CKExpression binary_operations(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc);
+	CKExpression assigment(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc);
 
-		ctx->builder()->CreateRet(return_value_rvalue);
-		ctx->builder()->ClearInsertionPoint();
-	}
+	CKExpressionOperator get_cass_type(cecko::gt_cass cass);
+
+	CKExpressionOperator get_incdec_type(cecko::gt_incdec incdec);
+	CKExpressionOperator get_addop_type(cecko::gt_addop addop);
+	
+
+
+	void return_function(cecko::context_obs ctx, CKExpression expression);
+	
 
 
 
 
 
 }
-
-#endif

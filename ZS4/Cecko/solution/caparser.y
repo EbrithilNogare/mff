@@ -130,6 +130,14 @@ using namespace casem;
 	assignment_expression
 	unary_expression
 	postfix_expression
+	expression_opt
+	logical_OR_expression
+	logical_AND_expression
+	equality_expression
+	relational_expression
+	additive_expression
+	multiplicative_expression
+	cast_expression
 
 
 
@@ -157,10 +165,10 @@ primary_expression: // type: CKExpression
 postfix_expression: // type: CKExpression
 	primary_expression { $$ = $1; }
 	| postfix_expression LBRA expression RBRA { $$ = $1; } // todo
-//	| postfix_expression LPAR argument_expression_list_opt RPAR { $$ = casem::call_function(ctx, $1, $3, @1); }
+	| postfix_expression LPAR argument_expression_list_opt RPAR { $$ = casem::call_function(ctx, $1, $3, @1); }
 //	| postfix_expression DOT IDF { $$ = casem::struct_item(ctx, $1, $3, @1); }
 //	| postfix_expression ARROW IDF { $$ = casem::struct_item(ctx, $1, $3, @1); }
-	| postfix_expression INCDEC { $$ =  casem::unary_expressions(ctx, casem::get_incdec_type(ctx, $2), @1, false); }
+	| postfix_expression INCDEC { $$ =  casem::unary_operations(ctx, $1, casem::get_incdec_type($2), @1, false); }
 	;
 
 argument_expression_list_opt:
@@ -175,11 +183,11 @@ argument_expression_list:
 
 unary_expression: // type: casem::CKExpression
 	postfix_expression
-	| INCDEC unary_expression { $$ = casem::unary_operation(ctx, casem::get_incdec_type(ctx, $1), $2); }
-	| AMP cast_expression { $$ = casem::unary_operation(ctx, cecko::CKExpressionOperator::addressing, @1, false); }
-	| STAR cast_expression { $$ = casem::unary_operation(ctx, cecko::CKExpressionOperator::dereferencing, @1, false); }
-	| ADDOP cast_expression { $$ = casem::unary_operation(ctx, cecko::get_addop_type(ctx, $1), @1, false); }
-//	| EMPH cast_expression { $$ = casem::unary_operation(ctx, cecko::CKExpressionOperator::negation, @1, false); }
+	| INCDEC unary_expression { $$ = casem::unary_operations(ctx,$2, casem::get_incdec_type($1), @1, true); }
+	| AMP cast_expression { $$ = casem::unary_operations(ctx, $2, casem::CKExpressionOperator::addressing, @1, true); }
+	| STAR cast_expression { $$ = casem::unary_operations(ctx, $2, casem::CKExpressionOperator::dereferencing, @1, true); }
+	| ADDOP cast_expression { $$ = casem::unary_operations(ctx,$2, casem::get_addop_type( $1), @1, true); }
+//	| EMPH cast_expression { $$ = casem::unary_operations(ctx, casem::CKExpressionOperator::negation, @1, true); }
 //	| SIZEOF LPAR specifier_qualifier_list  RPAR
 //	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR
 	;
@@ -190,7 +198,7 @@ cast_expression:
 
 multiplicative_expression:
 	cast_expression
-	| multiplicative_expression STAR cast_expression
+	| multiplicative_expression STAR cast_expression { $$ = casem::binary_operations(ctx, $1, $3, casem::CKExpressionOperator::multiplication,@1);}
 	| multiplicative_expression DIVOP cast_expression
 	;
 
@@ -220,18 +228,18 @@ logical_OR_expression:
 	;
 
 assignment_expression: // type: casem::CKExpression
-	logical_OR_expression { $$ = casem::CKExpression(); } // todo
+	logical_OR_expression
 	| unary_expression ASGN assignment_expression {
-		$$ = casem::assigment(ctx, $1, $3, casem::CKExpressionOperation::assign, @1); 
+		$$ = casem::assigment(ctx, $1, $3, casem::CKExpressionOperator::assign, @1); 
 	}
 	| unary_expression CASS assignment_expression {
-		$$ = casem::assigment(ctx, $1, $3, casem::get_cass_type(ctx, $2), @1); 
+		$$ = casem::assigment(ctx, $1, $3, casem::get_cass_type($2), @1); 
 	}
 	;
 
 expression_opt:
-	%empty
-	| expression
+	%empty {$$ = casem::CKExpression();}
+	| expression {$$ = $1;}
 	;
 
 expression: // type: casem::CKExpression
