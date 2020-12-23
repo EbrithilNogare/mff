@@ -1,0 +1,50 @@
+{
+  "models": [
+	{
+	  "model": "resources/models/drone.obj",
+	  "texture": "resources/textures/marble.png",
+	  "position": [ 0, 1, 0 ],
+	  "rotation": [ 0, 1, 0 ],
+	  "scale": [ 1, 1, 1 ],
+	  "transparent": false
+	},
+	{
+	  "model": "resources/models/room.obj",
+	  "texture": "resources/textures/room diffuse+ao.png",
+	  "position": [ 0, 0, 0 ],
+	  "rotation": [ 0, 1, 0 ],
+	  "scale": [ 1, 1, 1 ],
+	  "transparent": false
+	},
+	{
+	  "model": "resources/models/projectionPlane.obj",
+	  "texture": "resources/textures/screen.png",
+	  "position": [ 0, 0, 0 ],
+	  "rotation": [ 0, 1, 0 ],
+	  "scale": [ 1, 1, 1 ],
+	  "transparent": true
+	},
+	{
+	  "model": "resources/models/glasses.obj",
+	  "texture": "resources/textures/glass.png",
+	  "position": [ 0, 0, 0 ],
+	  "rotation": [ 0, 1, 0 ],
+	  "scale": [ 1, 1, 1 ],
+	  "transparent": true
+	}
+  ],
+  "sun": {
+	"position": [ 5, 2, 0 ],
+	"lookAt": [ 0, 0.5, 0 ],
+	"near_plane": 1,
+	"far_plane": 8,
+	"fov": 45
+  },
+  "projection": {
+	"position": [ -0.108664, 1.23244, -2.01998 ],
+	"lookAt": [ -0.115622, 1.23301, 1.74584 ],
+	"near_plane": 0.1,
+	"far_plane": 4.0,
+	"fov": 18
+  }
+}

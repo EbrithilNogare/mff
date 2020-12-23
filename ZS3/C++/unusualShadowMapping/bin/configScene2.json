@@ -1,0 +1,50 @@
+{
+  "models": [
+	{
+	  "model": "resources/models/suzanne.obj",
+	  "texture": "resources/textures/wood.jpg",
+	  "position": [ 0, 0, 0 ],
+	  "rotation": [ 0, 0, 0 ],
+	  "scale": [ 1, 1, 1 ],
+	  "transparent": false
+	},
+	{
+	  "model": "resources/models/box.obj",
+	  "texture": "resources/textures/wall.png",
+	  "position": [ 0, 0, 0 ],
+	  "rotation": [ 0, 0, 0 ],
+	  "scale": [ 1, 1, 1 ],
+	  "transparent": false
+	},
+	{
+	  "model": "resources/models/grass.obj",
+	  "texture": "resources/textures/grass.jpg",
+	  "position": [ 0, 0, 0 ],
+	  "rotation": [ 0, 0, 0 ],
+	  "scale": [ 0.5, 0.5, 0.5 ],
+	  "transparent": false
+	},
+	{
+	  "model": "resources/models/mozaic.obj",
+	  "texture": "resources/textures/mosaic.png",
+	  "position": [ 0, 0, 0 ],
+	  "rotation": [ 0, 0, 0 ],
+	  "scale": [ 1, 1, 1 ],
+	  "transparent": true
+	}
+  ],
+  "sun": {
+	"position": [ 5, 2, 0 ],
+	"lookAt": [ 0, 0.5, 0 ],
+	"near_plane": 1,
+	"far_plane": 8,
+	"fov": 45
+  },
+  "projection": {
+	"position": [ -3, 1.597, -5.355 ],
+	"lookAt": [ 0, 1, 0 ],
+	"near_plane": 1,
+	"far_plane": 10,
+	"fov": 30
+  }
+}
