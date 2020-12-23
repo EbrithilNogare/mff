@@ -200,6 +200,8 @@ namespace casem {
 		*/
 
 	};
+	using CKExpressionList = std::vector<CKExpression>;
+
 
 	cecko::CKIRValueObs convert_to_rvalue(cecko::context_obs ctx, CKExpression operand, std::string note);
 	CKExpression unary_operations(cecko::context_obs ctx, CKExpression operand, CKExpressionOperator op, cecko::loc_t loc, bool is_prefix);
@@ -211,8 +213,9 @@ namespace casem {
 
 	CKExpressionOperator get_incdec_type(cecko::gt_incdec incdec);
 	CKExpressionOperator get_addop_type(cecko::gt_addop addop);
+	CKExpressionOperator get_divop_type(cecko::gt_divop divop);
 	
-
+	CKExpression call_function(cecko::context_obs ctx, CKExpression f, CKExpressionList args, cecko::loc_t loc);
 
 	void return_function(cecko::context_obs ctx, CKExpression expression);
 	

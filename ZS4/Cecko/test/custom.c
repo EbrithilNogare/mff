@@ -1,18 +1,73 @@
 // int operations
 
+_Bool gb;	// false
+char gx;
+int gi;
+int* gpi;
+
 int main(int argc, char** argv)
 {
-	int a, b, c, d, e, f, g, h;
+	char lx;
+	int li;
+	_Bool* pgb;
+	char* pgx, * plx;
+	int* pgi, * pli;
+	int** pgpi;
 
-	a = 3;
-	b = 7;
-	c = a + b;
-	d = b - a;
-	e = a * a;
-	f = b / a;
-	g = b % a;
-	h = -b;
-	printf("a=%d b=%d c=%d d=%d e=%d f=%d g=%d h=%d\n", a, b, c, d, e, f, g, h);
+	pgb = &gb;
+/*
+	pgx = &gx;
+	pgi = &gi;
+	plx = &lx;
+	pli = &li;
 
+	{
+		int j, k, l, m, n;
+
+		j = *pgb;
+		k = *pgx;
+		l = *pgi;
+
+		*pgx = 'L';
+		*pgi = 123;
+
+		m = gx;
+		n = gi;
+
+		printf("j=%d k=%d l=%d m='%c' n=%d\n", j, k, l, m, n);
+	}
+
+	{
+		int k, l, m, n;
+
+		*plx = 'Z';
+		*pli = 729;
+
+		k = *plx;
+		l = *pli;
+
+		m = lx;
+		n = li;
+
+		printf("k='%c' l=%d m='%c' n=%d\n", k, l, m, n);
+	}
+
+	gpi = pgi;
+	pgpi = &gpi;
+
+	{
+		int j, k, l, m;
+
+		j = **pgpi;
+		**pgpi = 333;
+		k = gi;
+		*pgpi = pli;
+		l = **pgpi;
+		**pgpi = 444;
+		m = li;
+
+		printf("j=%d k=%d l=%d m=%d\n", j, k, l, m);
+	}
+*/
 	return 0;
 }

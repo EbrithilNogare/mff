@@ -139,6 +139,10 @@ using namespace casem;
 	multiplicative_expression
 	cast_expression
 
+%type<casem::CKExpressionList>
+	argument_expression_list_opt
+	argument_expression_list
+
 
 
 
@@ -164,7 +168,7 @@ primary_expression: // type: CKExpression
 
 postfix_expression: // type: CKExpression
 	primary_expression { $$ = $1; }
-	| postfix_expression LBRA expression RBRA { $$ = $1; } // todo
+//	| postfix_expression LBRA expression RBRA { $$ = $1; } // bonus
 	| postfix_expression LPAR argument_expression_list_opt RPAR { $$ = casem::call_function(ctx, $1, $3, @1); }
 //	| postfix_expression DOT IDF { $$ = casem::struct_item(ctx, $1, $3, @1); }
 //	| postfix_expression ARROW IDF { $$ = casem::struct_item(ctx, $1, $3, @1); }
@@ -172,13 +176,20 @@ postfix_expression: // type: CKExpression
 	;
 
 argument_expression_list_opt:
-	%empty
+	%empty {$$ = CKExpressionList();}
 	| argument_expression_list
 	;
 
 argument_expression_list:
-	assignment_expression
-	| argument_expression_list COMMA assignment_expression
+	assignment_expression { 
+		auto vec = casem::CKExpressionList();
+		vec.push_back($1);
+		$$ = vec;
+	}
+	|  argument_expression_list COMMA assignment_expression {
+		$1.push_back($3);
+		$$ = $1;
+	}
 	;
 
 unary_expression: // type: casem::CKExpression
@@ -186,7 +197,7 @@ unary_expression: // type: casem::CKExpression
 	| INCDEC unary_expression { $$ = casem::unary_operations(ctx,$2, casem::get_incdec_type($1), @1, true); }
 	| AMP cast_expression { $$ = casem::unary_operations(ctx, $2, casem::CKExpressionOperator::addressing, @1, true); }
 	| STAR cast_expression { $$ = casem::unary_operations(ctx, $2, casem::CKExpressionOperator::dereferencing, @1, true); }
-	| ADDOP cast_expression { $$ = casem::unary_operations(ctx,$2, casem::get_addop_type( $1), @1, true); }
+	| ADDOP cast_expression { $$ = casem::unary_operations(ctx,$2, casem::get_addop_type($1), @1, true); }
 //	| EMPH cast_expression { $$ = casem::unary_operations(ctx, casem::CKExpressionOperator::negation, @1, true); }
 //	| SIZEOF LPAR specifier_qualifier_list  RPAR
 //	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR
@@ -199,17 +210,17 @@ cast_expression:
 multiplicative_expression:
 	cast_expression
 	| multiplicative_expression STAR cast_expression { $$ = casem::binary_operations(ctx, $1, $3, casem::CKExpressionOperator::multiplication,@1);}
-	| multiplicative_expression DIVOP cast_expression
+	| multiplicative_expression DIVOP cast_expression { $$ = casem::binary_operations(ctx, $1, $3, casem::get_divop_type($2),@1);}
 	;
 
 additive_expression:
 	multiplicative_expression
-	| additive_expression ADDOP multiplicative_expression
+	| additive_expression ADDOP multiplicative_expression { $$ = casem::binary_operations(ctx, $1, $3, casem::get_addop_type($2),@1);}
 	;
 
 relational_expression:
 	additive_expression
-	| relational_expression CMPO additive_expression
+	| relational_expression CMPO additive_expression 
 	;
 
 equality_expression:
