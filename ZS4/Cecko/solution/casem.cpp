@@ -169,7 +169,7 @@ namespace casem {
 				if(is_prefix)
 					result = changed;
 				else
-				{}
+					result = operandRvalue;
 				break;
 			case CKExpressionOperator::decrementing:
 				if(type->is_char() ||type->is_bool())
@@ -183,17 +183,28 @@ namespace casem {
 				if(is_prefix)
 					result = changed;
 				else
-				{}
+					result = operandRvalue;
 				break;
-		
+				case CKExpressionOperator::addressing:
+					result = operand.value;
+					// todo
+				break;
+				case CKExpressionOperator::dereferencing:
+					result = ctx->builder()->CreateLoad(type, operandRvalue , "dereferencing");
+					// todo
+				break;
+			default:
+				printf("😥unsupported unary_operations\n");
 		}
-		return operand;
+		return CKExpression(result, CKExpressionMode::rvalue, type, operand.is_const);
 	}
 	
 
 	CKExpression binary_operations(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc){
-		cecko::CKTypeObs type = to.type;
-		cecko::CKIRValueObs operandRvalue = convert_to_rvalue(ctx, to, "operand");
+		cecko::CKTypeObs type1 = to.type;
+		cecko::CKTypeObs type2 = from.type;
+		cecko::CKIRValueObs operandRvalue1 = convert_to_rvalue(ctx, to, "operand");
+		cecko::CKIRValueObs operandRvalue2 = convert_to_rvalue(ctx, from, "operand");
 
 		cecko::CKIRValueObs result;
 		cecko::CKIRValueObs changed;
@@ -201,32 +212,40 @@ namespace casem {
 
 		switch(op){
 			case CKExpressionOperator::addition:
-				if(type->is_char() ||type->is_bool())
-					changed = ctx->builder()->CreateAdd(operandRvalue, from.value, "incrementing");
-				else if (type->is_pointer())
-					changed = ctx->builder()->CreateGEP(operandRvalue, from.value, "pointer incrementing");
-				else
-					changed = ctx->builder()->CreateAdd(operandRvalue, from.value, "increment");
-		
-				ctx->builder()->CreateStore(changed, to.value);
-				//	result = changed;
+				if(type1->is_char() ||type1->is_bool())
+					changed = ctx->builder()->CreateAdd(operandRvalue1, operandRvalue2, "addition_i8");
+				else if (type1->is_pointer()){
+					auto neg = ctx->builder()->CreateNeg(operandRvalue1, "result_unary_negation");
+					changed = ctx->builder()->CreateGEP(neg, operandRvalue2, "pointer addition");
+				} else
+					changed = ctx->builder()->CreateAdd(operandRvalue1, operandRvalue2, "addition_i32");
 				break;
+
 			case CKExpressionOperator::substraction:
-				result = ctx->builder()->CreateNeg(operandRvalue, "result_unary_negation");
-				if(type->is_char() ||type->is_bool())
-					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int8_constant(-1), "incrementing");
-				else if (type->is_pointer())
-					changed = ctx->builder()->CreateGEP(operandRvalue, ctx->get_int32_constant(-1), "pointer incrementing");
+				if(type1->is_char() ||type1->is_bool())
+					changed = ctx->builder()->CreateSub(operandRvalue1, operandRvalue2, "substraction");
+				else if (type1->is_pointer())
+					changed = ctx->builder()->CreateGEP(operandRvalue1, operandRvalue2, "pointer substraction");
 				else
-					changed = ctx->builder()->CreateAdd(operandRvalue, ctx->get_int32_constant(-1), "increment");
-		
-				ctx->builder()->CreateStore(changed, to.value);
-				
-				//	result = changed;
+					changed = ctx->builder()->CreateSub(operandRvalue1, operandRvalue2, "substraction");
 				break;
-		
+
+			case CKExpressionOperator::multiplication :
+				changed = ctx->builder()->CreateMul(operandRvalue1, operandRvalue2, "multiplication");
+				break;
+
+			case CKExpressionOperator::division:
+				changed = ctx->builder()->CreateSDiv(operandRvalue1, operandRvalue2, "division");
+				break;
+
+			case CKExpressionOperator::modulo:
+				changed = ctx->builder()->CreateSRem(operandRvalue1, operandRvalue2, "modulo");
+				break;
+
+			default:
+				printf("binary 😥");
 		}
-		return to;
+		return CKExpression(changed, CKExpressionMode::rvalue, to.type, to.is_const);
 	}
 
 	CKExpression assigment(cecko::context_obs ctx, CKExpression to, CKExpression from, CKExpressionOperator op, cecko::loc_t loc){
@@ -268,7 +287,6 @@ namespace casem {
 	}
 
 	CKExpressionOperator get_incdec_type(cecko::gt_incdec incdec){
-		
 		switch(incdec)
 		{
 			case cecko::gt_incdec::INC: return CKExpressionOperator::incrementing;
@@ -278,8 +296,18 @@ namespace casem {
 		return CKExpressionOperator::addition;
 	}
 
+	CKExpressionOperator get_divop_type(cecko::gt_divop divop){
+		switch(divop)
+		{
+			case cecko::gt_divop::DIV: return CKExpressionOperator::division;
+			case cecko::gt_divop::MOD: return CKExpressionOperator::modulo;
+			default: break;
+		}
+		return CKExpressionOperator::addition;
+	}
+
+
 	CKExpressionOperator get_addop_type(cecko::gt_addop addop){
-		
 		switch(addop)
 		{
 			case cecko::gt_addop::ADD: return CKExpressionOperator::addition;
@@ -290,8 +318,21 @@ namespace casem {
 	}
 
 
-	CKExpression call_function(cecko::context_obs ctx, CKExpression $1, $3, cecko::loc_t loc){
+	CKExpression call_function(cecko::context_obs ctx, CKExpression f, CKExpressionList args, cecko::loc_t loc){
+		std::vector<cecko::CKIRValueObs> parameters;
 
+
+		for (auto &&arg : args)
+		{
+			parameters.push_back(convert_to_rvalue(ctx, arg, "argument"));
+		}
+		
+
+
+		auto funkce = ctx->find("printf")->get_ir();
+		auto result = ctx->builder()->CreateCall(funkce, parameters);
+
+		return CKExpression();
 	}
 
 

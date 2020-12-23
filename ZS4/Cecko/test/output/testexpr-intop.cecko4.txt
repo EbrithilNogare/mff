@@ -1,0 +1,96 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+int main_3(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+// --- FUNCTION DEFINITIONS ---
+int main_3(int argc_3,char**argv_3){
+	int a_5;
+	int b_5;
+	int c_5;
+	int d_5;
+	int e_5;
+	int f_5;
+	int g_5;
+	int h_5;
+}
+========== IR module ==========
+::: ; ModuleID = 'test'
+::: source_filename = "test"
+::: 
+::: @0 = private unnamed_addr constant [41 x i8] c"a=%d b=%d c=%d d=%d e=%d f=%d g=%d h=%d\0A\00", align 1
+::: 
+::: declare i32 @ckrt_printf(i8*, ...)
+::: 
+::: declare i32 @ckrt_scanf(i8*, ...)
+::: 
+::: declare i32 @ckrt_sprintf(i8*, i8*, ...)
+::: 
+::: declare i32 @ckrt_sscanf(i8*, i8*, ...)
+::: 
+::: declare i8* @ckrt_memset(i8*, i32, i32)
+::: 
+::: define i32 @main(i32 %0, i8** %1) {
+::: prolog:
+:::   %argc = alloca i32
+:::   store i32 %0, i32* %argc
+:::   %argv = alloca i8**
+:::   store i8** %1, i8*** %argv
+:::   %a = alloca i32
+:::   %b = alloca i32
+:::   %c = alloca i32
+:::   %d = alloca i32
+:::   %e = alloca i32
+:::   %f = alloca i32
+:::   %g = alloca i32
+:::   %h = alloca i32
+:::   br label %start
+::: 
+::: start:                                            ; preds = %prolog
+:::   store i32 3, i32* %a
+:::   store i32 7, i32* %b
+:::   %load = load i32, i32* %a
+:::   %load1 = load i32, i32* %b
+:::   %addition_i32 = add i32 %load, %load1
+:::   store i32 %addition_i32, i32* %c
+:::   %load2 = load i32, i32* %b
+:::   %load3 = load i32, i32* %a
+:::   %substraction = sub i32 %load2, %load3
+:::   store i32 %substraction, i32* %d
+:::   %load4 = load i32, i32* %a
+:::   %load5 = load i32, i32* %a
+:::   %multiplication = mul i32 %load4, %load5
+:::   store i32 %multiplication, i32* %e
+:::   %load6 = load i32, i32* %b
+:::   %load7 = load i32, i32* %a
+:::   %division = sdiv i32 %load6, %load7
+:::   store i32 %division, i32* %f
+:::   %load8 = load i32, i32* %b
+:::   %load9 = load i32, i32* %a
+:::   %modulo = srem i32 %load8, %load9
+:::   store i32 %modulo, i32* %g
+:::   %load10 = load i32, i32* %b
+:::   %result_unary_negation = sub i32 0, %load10
+:::   store i32 %result_unary_negation, i32* %h
+:::   %load11 = load i32, i32* %a
+:::   %load12 = load i32, i32* %b
+:::   %load13 = load i32, i32* %c
+:::   %load14 = load i32, i32* %d
+:::   %load15 = load i32, i32* %e
+:::   %load16 = load i32, i32* %f
+:::   %load17 = load i32, i32* %g
+:::   %load18 = load i32, i32* %h
+:::   %2 = call i32 (i8*, ...) @ckrt_printf(i8* getelementptr inbounds ([41 x i8], [41 x i8]* @0, i32 0, i32 0), i32 %load11, i32 %load12, i32 %load13, i32 %load14, i32 %load15, i32 %load16, i32 %load17, i32 %load18)
+:::   ret i32 0
+::: }
+========== starting main() ==========
+a=3 b=7 c=10 d=4 e=9 f=2 g=1 h=-7
+
+========== main() returned 0 ==========
+========== cecko4 done ==========
