@@ -199,8 +199,8 @@ unary_expression: // type: casem::CKExpression
 	| STAR cast_expression { $$ = casem::unary_operations(ctx, $2, casem::CKExpressionOperator::dereferencing, @1, true); }
 	| ADDOP cast_expression { $$ = casem::unary_operations(ctx,$2, casem::get_addop_type($1), @1, true); }
 //	| EMPH cast_expression { $$ = casem::unary_operations(ctx, casem::CKExpressionOperator::negation, @1, true); }
-//	| SIZEOF LPAR specifier_qualifier_list  RPAR
-//	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR
+	| SIZEOF LPAR specifier_qualifier_list RPAR { $$ = casem::get_sizeof(ctx, $3); }
+	| SIZEOF LPAR specifier_qualifier_list abstract_declarator RPAR { $$ = casem::CKExpression(ctx, 8); }
 	;
 
 cast_expression:

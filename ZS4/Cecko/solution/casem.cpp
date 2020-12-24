@@ -27,10 +27,8 @@ namespace casem {
 		return cecko::CKTypeRefPack(type, contain_const);
 	}
 
-	// Scan the given declarators and complete the type.... 
 	cecko::CKTypeRefPack apply_to_type(cecko::context* ctx, cecko::CKTypeRefPack declarator_type, CKDeclarator declarator){
 		std::reverse(declarator.modifiers.begin(), declarator.modifiers.end());
-		
 		for (auto&& modifier : declarator.modifiers) {
 			if (modifier.type == ModifierType::pointer){				 
 				std::reverse(modifier.pointers.begin(), modifier.pointers.end());
@@ -81,23 +79,23 @@ namespace casem {
 		bool typedf = specifiers[0].is_typedef;
 
 		for (auto &&declarator : declarators) {
-			declarator_type = apply_to_type(ctx, declarator_type, declarator);
+			auto decl_type = apply_to_type(ctx, declarator_type, declarator);
 		
 			if(typedf){
-				ctx->define_typedef(declarator.identifier, declarator_type, declarator.line);
+				ctx->define_typedef(declarator.identifier, decl_type, declarator.line);
 				continue;
 			}
 		
-			if(	declarator_type.type->is_int() ||
-				declarator_type.type->is_bool() ||
-				declarator_type.type->is_char() ||
-				declarator_type.type->is_pointer() ||
-				declarator_type.type->is_array() ||
-				declarator_type.type->is_enum())
-				ctx->define_var(declarator.identifier, declarator_type, declarator.line);
+			if(	decl_type.type->is_int() ||
+				decl_type.type->is_bool() ||
+				decl_type.type->is_char() ||
+				decl_type.type->is_pointer() ||
+				decl_type.type->is_array() ||
+				decl_type.type->is_enum())
+				ctx->define_var(declarator.identifier, decl_type, declarator.line);
 			
-			if(declarator_type.type->is_function()) {
-				ctx->declare_function(declarator.identifier, declarator_type.type, declarator.line);
+			if(decl_type.type->is_function()) {
+				ctx->declare_function(declarator.identifier, decl_type.type, declarator.line);
 			}
 		
 		}
@@ -120,9 +118,9 @@ namespace casem {
 		
 
 		for(auto& param: declarator.modifiers[0].function.parameters){
-			if(param.declarationSpecifiers[0].type->is_void()) continue;
+			if(param.declarationSpecifiers[0].type && param.declarationSpecifiers[0].type->is_void()) continue;
 		
-			params_prepared.emplace_back(param.declarators[0].identifier, param.declarationSpecifiers[0].is_const, declarator.line);
+			params_prepared.emplace_back(param.declarators[0].identifier, false, declarator.line);
 		}
 		
 		ctx->enter_function(func_object, params_prepared, declarator.line);
@@ -185,18 +183,18 @@ namespace casem {
 				else
 					result = operandRvalue;
 				break;
-				case CKExpressionOperator::addressing:
-					result = operand.value;
-					// todo
-				break;
 				case CKExpressionOperator::dereferencing:
-					result = ctx->builder()->CreateLoad(type, operandRvalue , "dereferencing");
-					// todo
+					refpack = type->get_pointer_points_to();
+					return CKExpression(operandRvalue, CKExpressionMode::lvalue, refpack.type , false);
+				break;
+				case CKExpressionOperator::addressing:
+					refpack = cecko::CKTypeRefPack(type, operand.is_const);
+					return CKExpression(operand.value, CKExpressionMode::rvalue, ctx->get_pointer_type(refpack), operand.is_const);
 				break;
 			default:
 				printf("😥unsupported unary_operations\n");
 		}
-		return CKExpression(result, CKExpressionMode::rvalue, type, operand.is_const);
+		return CKExpression(result, CKExpressionMode::rvalue, type, false);
 	}
 	
 
@@ -210,23 +208,27 @@ namespace casem {
 		cecko::CKIRValueObs changed;
 		cecko::CKTypeRefPack refpack;
 
+		if(type1->is_char() && !type2->is_char()) printf("😱is_char");
+		if(type1->is_bool() && !type2->is_bool()) printf("😱is_bool");
+		if(type1->is_int() && !type2->is_int()) printf("😱is_int");
+
 		switch(op){
 			case CKExpressionOperator::addition:
-				if(type1->is_char() ||type1->is_bool())
+				if(type1->is_char() || type1->is_bool())
 					changed = ctx->builder()->CreateAdd(operandRvalue1, operandRvalue2, "addition_i8");
-				else if (type1->is_pointer()){
-					auto neg = ctx->builder()->CreateNeg(operandRvalue1, "result_unary_negation");
-					changed = ctx->builder()->CreateGEP(neg, operandRvalue2, "pointer addition");
-				} else
+				else if (type1->is_pointer())
+					changed = ctx->builder()->CreateGEP(operandRvalue1, operandRvalue2, "pointer addition");
+				else
 					changed = ctx->builder()->CreateAdd(operandRvalue1, operandRvalue2, "addition_i32");
 				break;
 
 			case CKExpressionOperator::substraction:
-				if(type1->is_char() ||type1->is_bool())
+				if(type1->is_char() || type1->is_bool())
 					changed = ctx->builder()->CreateSub(operandRvalue1, operandRvalue2, "substraction");
-				else if (type1->is_pointer())
-					changed = ctx->builder()->CreateGEP(operandRvalue1, operandRvalue2, "pointer substraction");
-				else
+				else if (type1->is_pointer()) {
+					auto neg = ctx->builder()->CreateNeg(operandRvalue1, "result_unary_negation");
+					changed = ctx->builder()->CreateGEP(neg, operandRvalue2, "pointer substraction");
+				} else
 					changed = ctx->builder()->CreateSub(operandRvalue1, operandRvalue2, "substraction");
 				break;
 
@@ -321,24 +323,39 @@ namespace casem {
 	CKExpression call_function(cecko::context_obs ctx, CKExpression f, CKExpressionList args, cecko::loc_t loc){
 		std::vector<cecko::CKIRValueObs> parameters;
 
-
-		for (auto &&arg : args)
+		for (size_t i = 0; i < args.size(); i++)
 		{
-			parameters.push_back(convert_to_rvalue(ctx, arg, "argument"));
+			auto arg = args[i];
+			cecko::CKIRValueObs result = convert_to_rvalue(ctx, arg, "arg");
+
+
+			auto typeRequired = f.type->get_function_arg_type(i);
+
+			if(arg.type == ctx->get_int_type() && typeRequired == ctx->get_char_type())
+				result = ctx->builder()->CreateTrunc(result, ctx->get_char_type()->get_ir(), "trunc");
+			else if(arg.type == ctx->get_char_type() && typeRequired == ctx->get_int_type())
+				result = ctx->builder()->CreateZExt(result, typeRequired->get_ir(), "zext");
+			else if(arg.type == ctx->get_bool_type() && typeRequired == ctx->get_int_type())
+				result = ctx->builder()->CreateZExt(result, typeRequired->get_ir(), "zext");
+			else if(arg.type->is_array() && typeRequired->is_pointer())
+				result = ctx->builder()->CreateConstInBoundsGEP2_32(arg.type->get_ir(), arg.value, 0, 0);
+			
+
+			parameters.push_back(result);
 		}
-		
 
+		cecko::CKIRValueObs result = ctx->builder()->CreateCall(f.value, parameters);
 
-		auto funkce = ctx->find("printf")->get_ir();
-		auto result = ctx->builder()->CreateCall(funkce, parameters);
-
-		return CKExpression();
+		if(f.type->get_function_return_type() == ctx->get_void_type())
+			return CKExpression();
+		else
+			return CKExpression(result, CKExpressionMode::rvalue, f.type->get_function_return_type(), true);
 	}
 
 
 	void return_function(cecko::context_obs ctx, CKExpression expression){
 		auto return_type = ctx->current_function_return_type();
-		auto return_value_rvalue = convert_to_rvalue(ctx, expression, "return_value");  // exprerssion.value();
+		auto return_value_rvalue = convert_to_rvalue(ctx, expression, "return_value");
 		if(return_type->is_int() && (expression.type->is_char() || expression.type->is_bool()))
 			return_value_rvalue = ctx->builder()->CreateZExt(return_value_rvalue, ctx->get_int_type()->get_ir(), "CreateZExt");
 		else if(return_type->is_char() && expression.type->is_int())
@@ -347,6 +364,15 @@ namespace casem {
 		ctx->builder()->CreateRet(return_value_rvalue);
 		ctx->builder()->ClearInsertionPoint();
 	}
+
+
+	CKExpression get_sizeof(cecko::context_obs ctx, casem::CKDeclarationSpecifierList t){
+		if(t[0].type->is_bool()) return CKExpression(ctx, 1);
+		if(t[0].type->is_char()) return CKExpression(ctx, 1);
+		if(t[0].type->is_int()) return CKExpression(ctx, 4);
+		return CKExpression(ctx, 1);
+	}
+
 
 
 }

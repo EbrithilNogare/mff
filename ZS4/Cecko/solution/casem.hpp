@@ -220,7 +220,7 @@ namespace casem {
 	void return_function(cecko::context_obs ctx, CKExpression expression);
 	
 
-
+	CKExpression get_sizeof(cecko::context_obs ctx, casem::CKDeclarationSpecifierList t);
 
 
 
