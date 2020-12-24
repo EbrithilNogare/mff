@@ -1,0 +1,193 @@
+========== tables ==========
+// --- GLOBAL TYPEDEFS ---
+typedef struct _file_s_0 FILE_0;
+// --- FUNCTION DECLARATIONS ---
+int main_8(int,char**);
+void*memset_0(void*,int,int);
+int printf_0(const char*,...);
+int scanf_0(const char*,...);
+int sprintf_0(char*,const char*,...);
+int sscanf_0(const char*,const char*,...);
+// --- GLOBAL VARIABLES ---
+_Bool gb_3;
+int gi_5;
+int*gpi_6;
+char gx_4;
+// --- FUNCTION DEFINITIONS ---
+int main_8(int argc_8,char**argv_8){
+	int li_11;
+	char lx_10;
+	_Bool*pgb_13;
+	int*pgi_15;
+	int**pgpi_16;
+	char*pgx_14;
+	int*pli_15;
+	char*plx_14;
+	{
+		int j_25;
+		int k_25;
+		int l_25;
+		int m_25;
+		int n_25;
+	}
+	{
+		int k_41;
+		int l_41;
+		int m_41;
+		int n_41;
+	}
+	{
+		int j_59;
+		int k_59;
+		int l_59;
+		int m_59;
+	}
+}
+========== IR module ==========
+::: ; ModuleID = 'test'
+::: source_filename = "test"
+::: 
+::: @gb = global i1 false
+::: @gx = global i8 0
+::: @gi = global i32 0
+::: @gpi = global i32* null
+::: @0 = private unnamed_addr constant [28 x i8] c"j=%d k=%d l=%d m='%c' n=%d\0A\00", align 1
+::: @1 = private unnamed_addr constant [25 x i8] c"k='%c' l=%d m='%c' n=%d\0A\00", align 1
+::: @2 = private unnamed_addr constant [21 x i8] c"j=%d k=%d l=%d m=%d\0A\00", align 1
+::: 
+::: declare i32 @ckrt_printf(i8*, ...)
+::: 
+::: declare i32 @ckrt_scanf(i8*, ...)
+::: 
+::: declare i32 @ckrt_sprintf(i8*, i8*, ...)
+::: 
+::: declare i32 @ckrt_sscanf(i8*, i8*, ...)
+::: 
+::: declare i8* @ckrt_memset(i8*, i32, i32)
+::: 
+::: define i32 @main(i32 %0, i8** %1) {
+::: prolog:
+:::   %argc = alloca i32
+:::   store i32 %0, i32* %argc
+:::   %argv = alloca i8**
+:::   store i8** %1, i8*** %argv
+:::   %lx = alloca i8
+:::   %li = alloca i32
+:::   %pgb = alloca i1*
+:::   %pgx = alloca i8*
+:::   %plx = alloca i8*
+:::   %pgi = alloca i32*
+:::   %pli = alloca i32*
+:::   %pgpi = alloca i32**
+:::   %j = alloca i32
+:::   %k = alloca i32
+:::   %l = alloca i32
+:::   %m = alloca i32
+:::   %n = alloca i32
+:::   %k22 = alloca i32
+:::   %l23 = alloca i32
+:::   %m24 = alloca i32
+:::   %n25 = alloca i32
+:::   %j42 = alloca i32
+:::   %k43 = alloca i32
+:::   %l44 = alloca i32
+:::   %m45 = alloca i32
+:::   br label %start
+::: 
+::: start:                                            ; preds = %prolog
+:::   %load = load i1, i1* @gb
+:::   store i1* @gb, i1** %pgb
+:::   %load1 = load i8, i8* @gx
+:::   store i8* @gx, i8** %pgx
+:::   %load2 = load i32, i32* @gi
+:::   store i32* @gi, i32** %pgi
+:::   %load3 = load i8, i8* %lx
+:::   store i8* %lx, i8** %plx
+:::   %load4 = load i32, i32* %li
+:::   store i32* %li, i32** %pli
+:::   %load5 = load i1*, i1** %pgb
+:::   %load6 = load i1, i1* %load5
+:::   %zext = zext i1 %load6 to i32
+:::   store i32 %zext, i32* %j
+:::   %load7 = load i8*, i8** %pgx
+:::   %load8 = load i8, i8* %load7
+:::   %zext9 = zext i8 %load8 to i32
+:::   store i32 %zext9, i32* %k
+:::   %load10 = load i32*, i32** %pgi
+:::   %load11 = load i32, i32* %load10
+:::   store i32 %load11, i32* %l
+:::   %load12 = load i8*, i8** %pgx
+:::   store i8 76, i8* %load12
+:::   %load13 = load i32*, i32** %pgi
+:::   store i32 123, i32* %load13
+:::   %load14 = load i8, i8* @gx
+:::   %zext15 = zext i8 %load14 to i32
+:::   store i32 %zext15, i32* %m
+:::   %load16 = load i32, i32* @gi
+:::   store i32 %load16, i32* %n
+:::   %load17 = load i32, i32* %j
+:::   %load18 = load i32, i32* %k
+:::   %load19 = load i32, i32* %l
+:::   %load20 = load i32, i32* %m
+:::   %load21 = load i32, i32* %n
+:::   %2 = call i32 (i8*, ...) @ckrt_printf(i8* getelementptr inbounds ([28 x i8], [28 x i8]* @0, i32 0, i32 0), i32 %load17, i32 %load18, i32 %load19, i32 %load20, i32 %load21)
+:::   %load26 = load i8*, i8** %plx
+:::   store i8 90, i8* %load26
+:::   %load27 = load i32*, i32** %pli
+:::   store i32 729, i32* %load27
+:::   %load28 = load i8*, i8** %plx
+:::   %load29 = load i8, i8* %load28
+:::   %zext30 = zext i8 %load29 to i32
+:::   store i32 %zext30, i32* %k22
+:::   %load31 = load i32*, i32** %pli
+:::   %load32 = load i32, i32* %load31
+:::   store i32 %load32, i32* %l23
+:::   %load33 = load i8, i8* %lx
+:::   %zext34 = zext i8 %load33 to i32
+:::   store i32 %zext34, i32* %m24
+:::   %load35 = load i32, i32* %li
+:::   store i32 %load35, i32* %n25
+:::   %load36 = load i32, i32* %k22
+:::   %load37 = load i32, i32* %l23
+:::   %load38 = load i32, i32* %m24
+:::   %load39 = load i32, i32* %n25
+:::   %3 = call i32 (i8*, ...) @ckrt_printf(i8* getelementptr inbounds ([25 x i8], [25 x i8]* @1, i32 0, i32 0), i32 %load36, i32 %load37, i32 %load38, i32 %load39)
+:::   %load40 = load i32*, i32** %pgi
+:::   store i32* %load40, i32** @gpi
+:::   %load41 = load i32*, i32** @gpi
+:::   store i32** @gpi, i32*** %pgpi
+:::   %load46 = load i32**, i32*** %pgpi
+:::   %load47 = load i32*, i32** %load46
+:::   %load48 = load i32, i32* %load47
+:::   store i32 %load48, i32* %j42
+:::   %load49 = load i32**, i32*** %pgpi
+:::   %load50 = load i32*, i32** %load49
+:::   store i32 333, i32* %load50
+:::   %load51 = load i32, i32* @gi
+:::   store i32 %load51, i32* %k43
+:::   %load52 = load i32**, i32*** %pgpi
+:::   %load53 = load i32*, i32** %pli
+:::   store i32* %load53, i32** %load52
+:::   %load54 = load i32**, i32*** %pgpi
+:::   %load55 = load i32*, i32** %load54
+:::   %load56 = load i32, i32* %load55
+:::   store i32 %load56, i32* %l44
+:::   %load57 = load i32**, i32*** %pgpi
+:::   %load58 = load i32*, i32** %load57
+:::   store i32 444, i32* %load58
+:::   %load59 = load i32, i32* %li
+:::   store i32 %load59, i32* %m45
+:::   %load60 = load i32, i32* %j42
+:::   %load61 = load i32, i32* %k43
+:::   %load62 = load i32, i32* %l44
+:::   %load63 = load i32, i32* %m45
+:::   %4 = call i32 (i8*, ...) @ckrt_printf(i8* getelementptr inbounds ([21 x i8], [21 x i8]* @2, i32 0, i32 0), i32 %load60, i32 %load61, i32 %load62, i32 %load63)
+:::   ret i32 0
+::: }
+========== starting main() ==========
+j=0 k=0 l=0 m='L' n=123
+k='Z' l=729 m='Z' n=729
+j=123 k=333 l=729 m=444
+
+========== main() returned 0 ==========
+========== cecko4 done ==========
