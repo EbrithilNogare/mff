@@ -1,0 +1,125 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Vyrokova a predikatorova logika}\\
+\textbf{Ukol: 11.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}
+
+
+
+\section*{axiomy rovnosti}
+\renewcommand{\labelenumi}{\roman{enumi}}
+\begin{enumerate}
+    \item axiom reflexivity: 
+        $x=x$
+    \item schema axiomu kongruence vzhledem k relacim: $
+        x_{1} = y_{1},...,x_{n}=y_{n}
+        \rightarrow
+        (R(x_{1},...,x_{n})
+        \rightarrow
+        R(y_{1},...,y_{n}))
+        $, kde n je přirozené číslo a R je n-ární relační symbol.
+    \item schema axiomu kongruence vzhledem k funkcim: $
+        x_{1}=y_{1},...,x_{n}=y_{n}
+        \rightarrow
+        F(x_{1},...,x_{n})=F(y_{1},...,y_{n})
+        $, kde n je přirozené číslo a F je n-ární funkční symbol.
+\end{enumerate}
+
+
+\section*{a)  $T^\star |= x = y \rightarrow y = x$}
+
+\begin{tabular}{ c c c c }
+    \multicolumn{4}{c}{$F(\forall x)(\forall y)(x=y\rightarrow y=x)$} \\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$F(c=d\rightarrow d=c)$ nove c, d} \\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$T c=d$}\\
+    \multicolumn{4}{c}{$F d=c$}\\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$T(\forall x)(\forall y)(x=x \wedge x=y)\rightarrow(f(x,x)\rightarrow f(y,x))$}\\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$T(c=c \wedge c=d) \rightarrow (f(c,c) \rightarrow f(d,c))$ c=x, d=y}\\ 
+    \multicolumn{2}{c}{/} & \multicolumn{2}{c}{$\backslash$} \\
+    \multicolumn{2}{c}{$F c=c \wedge c=c$} & \multicolumn{2}{c}{$T f(c,c) \rightarrow f(d,c)$} \\
+    / & $\backslash$ & / & $\backslash$ \\
+    $F c=c$ & $F c=d$ & $Ff(c,c)$ & $Tf(d,c)$  \\ 
+    | & | & | & | \\
+    $T(\forall x)(x=x)$ & $\otimes$ &  $T(\forall x)(x=x)$ & $T d=c$ \\  
+    | &  & | & | \\
+    $T c=c$ &  & $T c=c$ & $\otimes$ \\
+    | &  & | &  \\
+    $\otimes$ &  & $\otimes$ &     
+\end{tabular}
+\\
+vsechny vetve jsou sporne, tudiz puvodni tvrzeni plati $\square$
+
+
+
+\section*{b)  $T^\star |= (x = y \wedge y = z) \rightarrow x = z$}
+
+\begin{tabular}{ c c c c }
+    \multicolumn{4}{c}{$F(\forall x)(\forall y)(\forall z)(x=y \wedge y=z \rightarrow x=z)$} \\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$F(c=d \wedge d=e) \rightarrow c=e$ nove c, d, e} \\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$T c=d \wedge d=e$}\\
+    \multicolumn{4}{c}{$F c=e$}\\
+    \multicolumn{4}{c}{$T c=d$}\\
+    \multicolumn{4}{c}{$T d=e$}\\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$T(\forall x)(\forall y)(\forall z)(x=x \wedge y=z)\rightarrow(f(x,y)\rightarrow f(y,z))$}\\
+    \multicolumn{4}{c}{|} \\
+    \multicolumn{4}{c}{$T(c=c \wedge d=e) \rightarrow (f(c,d) \rightarrow f(d,e))$ c=x, d=y, e=z}\\ 
+    \multicolumn{2}{c}{/} & \multicolumn{2}{c}{$\backslash$} \\
+    \multicolumn{2}{c}{$F c=c \wedge d=e$} & \multicolumn{2}{c}{$T f(c,d) \rightarrow f(c,e)$} \\
+    / & $\backslash$ & / & $\backslash$ \\
+    $F c=c$ & $F d=e$ & $Ff(c,d)$ & $Tf(c,e)$  \\ 
+    | & | & | & | \\
+    $T(\forall x)(x=x)$ & $\otimes$ &  $F(c=d)$ & $T c=e$ \\  
+    | &  & | & | \\
+    $T c=c$ &  & $F c=d$ & $\otimes$ \\
+    | &  & | &  \\
+    $\otimes$ &  & $\otimes$ &     
+\end{tabular}
+\\
+vsechny vetve jsou sporne, tudiz puvodni tvrzeni plati $\square$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
