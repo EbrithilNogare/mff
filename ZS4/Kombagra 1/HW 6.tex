@@ -1,0 +1,188 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}   % pro unicode UTF-8
+\usepackage[czech]{babel} %jazyk dokumentu
+\usepackage{listings}
+\usepackage{color}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{listingsutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage[margin={1cm,2cm}]{geometry}
+
+\graphicspath{ {/} }
+
+\setcounter{MaxMatrixCols}{40}
+\def\doubleunderline#1{\underline{\underline{#1}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\noindent
+\textbf{Predmet: Kombinatorika a grafy 1}\\
+\textbf{Ukol: 6.}\\
+\textbf{Verze: 1.}\\
+\textbf{Autor: David Napravnik}
+
+\section*{Prvni ukol}
+Generujici matice: $ G = 
+\begin{bmatrix}
+	1 & 0 & 0 & 0 & 1 & 1 & 0\\
+	0 & 1 & 0 & 0 & 1 & 0 & 1\\
+	0 & 0 & 1 & 0 & 0 & 1 & 1\\
+	0 & 0 & 0 & 1 & 1 & 1 & 1\\
+\end{bmatrix}
+$\\
+Parametry jsou $[4,7]$, dokaze opravit az 1 chybny bit.\\
+Kontrolni matice: $ H = 
+\begin{bmatrix}
+	1 & 1 & 0 & 1 & 1 & 0 & 0\\
+	1 & 0 & 1 & 1 & 0 & 1 & 0\\
+	0 & 1 & 1 & 1 & 0 & 0 & 1\\
+\end{bmatrix}
+$\\
+Odesilame zpravu $5 \sim 0b0101$\\
+Enkodovana zprava = $
+\begin{bmatrix}
+	0 & 1 & 0 & 1\\
+\end{bmatrix}
+*
+\begin{bmatrix}
+	1 & 0 & 0 & 0 & 1 & 1 & 0\\
+	0 & 1 & 0 & 0 & 1 & 0 & 1\\
+	0 & 0 & 1 & 0 & 0 & 1 & 1\\
+	0 & 0 & 0 & 1 & 1 & 1 & 1\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+	0 & 1 & 0 & 1 & 0 & 1 & 0\\
+\end{bmatrix}
+$\\
+Odesilame zpravu $9 \sim 0b1001$\\
+Enkodovana zprava = $
+\begin{bmatrix}
+	1 & 0 & 0 & 1\\
+\end{bmatrix}
+*
+\begin{bmatrix}
+	1 & 0 & 0 & 0 & 1 & 1 & 0\\
+	0 & 1 & 0 & 0 & 1 & 0 & 1\\
+	0 & 0 & 1 & 0 & 0 & 1 & 1\\
+	0 & 0 & 0 & 1 & 1 & 1 & 1\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+	1 & 0 & 0 & 1 & 0 & 0 & 1\\
+\end{bmatrix}
+$\\
+\subsection*{Prijimame zpravu 1100100}
+Kontrola chyb: $
+\begin{bmatrix}
+	1 & 1 & 0 & 1 & 1 & 0 & 0\\
+	1 & 0 & 1 & 1 & 0 & 1 & 0\\
+	0 & 1 & 1 & 1 & 0 & 0 & 1\\
+\end{bmatrix}
+*
+\begin{bmatrix}
+	1 \\
+	1 \\
+	0 \\
+	0 \\
+	1 \\
+	0 \\
+	0 \\
+\end{bmatrix}
+=
+[1,1,1]
+$\\
+jelikoz se chyba nasla na 4 pozici (4. slupec kontrolni matice),
+tak puvodni zprava znela: $[1,1,0,1,1,0,0]$,
+coz nam bez kontrolnich bitu dava cislo $0b1101 \sim 13$
+\\
+\subsection*{Prijimame zpravu 1111111}
+Kontrola chyb: $
+\begin{bmatrix}
+	1 & 1 & 0 & 1 & 1 & 0 & 0\\
+	1 & 0 & 1 & 1 & 0 & 1 & 0\\
+	0 & 1 & 1 & 1 & 0 & 0 & 1\\
+\end{bmatrix}
+*
+\begin{bmatrix}
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+	1 \\
+\end{bmatrix}
+=
+[0,0,0]
+$\\
+jelikoz chyba nenasla (nulovy vektor),
+tak puvodni zprava znela: $[1,1,1,1,1,1,1]$,
+coz nam bez kontrolnich bitu dava cislo $0b1111 \sim 15$
+\\
+\subsection*{Prijimame zpravu 0110010}
+Kontrola chyb: $
+\begin{bmatrix}
+	1 & 1 & 0 & 1 & 1 & 0 & 0\\
+	1 & 0 & 1 & 1 & 0 & 1 & 0\\
+	0 & 1 & 1 & 1 & 0 & 0 & 1\\
+\end{bmatrix}
+*
+\begin{bmatrix}
+	0 \\
+	1 \\
+	1 \\
+	0 \\
+	0 \\
+	1 \\
+	0 \\
+\end{bmatrix}
+=
+[1,0,0]
+$\\
+jelikoz se chyba nasla na 5 pozici (5. slupec kontrolni matice),
+tak puvodni zprava znela: $[0,1,1,0,1,1,0]$,
+coz nam bez kontrolnich bitu dava cislo $0b0110 \sim 6$ \\
+
+\section*{Druhy ukol}
+Vezmeme jeden vrchol $v$ ten musi mit 16 hran k ostatnim bodum.\\
+Jelikoz mame 3 barvy a 16 hran, tak podle holubnikoveho lematu, 
+musi jedna barva byt zastoupena minimalne 6krat. (rekneme treba modra)\\
+Vezmeme techto 6 hran stejne barvy a jejich vrcholy. Ty tvori $K_6$.\\
+Rozebereme tri pripady co se deje uvnitr tohoto $K_6$ grafu:\\
+\textbf{graf nema zadnou modrou hranu} \\
+Tak je to kompletni graf na 6ti vrcholech obarveny 2mi barvami
+a tudiz ma dva jednobarevne trojuhelniky.\\
+\textbf{graf ma alespon jednu modrou hranu} \\
+Tudiz existuje modra hrana mezi vrcholy $t$ a $u$ (hranu nazveme $tu$),
+dale mame dve modre hrany $vt$ a $vu$ nebot kazdy vrchol z $K_6$ je napojen na $v$.
+Tudiz dostavame trojuhelnik $tuv$ modre barvy.
+
+\section*{Treti ukol}
+R(3,4) = 9\\
+Mejme graf $K_9$ obarveny modre a cervene.\\
+Chceme dokazat, ze existuje modry ctverec nebo cerveny trojuhelnik.\\
+Vezmeme vrchol $x$, ten muze mit maximalne 5 modrych hran,
+protoze kdyby mel vice nez 5 modrych hran, tak by tvoril modry ctverec, nebo cerveny trojuhelnik.
+A muze mit maximalne 3 cervene hrany, protoze kdyby jich mel vic, tak zase vznikne cerveny trojuhelnik nebo modry ctverec.\\
+Jelikoz z vrcholu $x$ vychazi 8 hran, maximalne 5 je modrych a maximalne 3 cervene, tak ma prave 5 modrych a prave 3 cervene hrany.\\
+Kazdy vrchol z $K_9$ tak musi mit prave 3 cervene a 5 modrych hran.
+To ale neni mozne, protoze cervenych hran by bylo $3*9/2=13.5$, polovicni hrana nemuze existovat, proto musime cislo zaokrouhlit,
+pokud cislo zaokrouhlime dolu, bude v grafu vrchol ktery ma 6 modrych hran,
+pokud nahoru, tak bude existovat vrchol s 4mi cervenymi vrcholi. Obe tyto moznosti implikuji vznik cerveneho trojuhelniku nebo modreho ctverce.\\
+Tudiz dokazano.
+
+
+
+
+
+
+
+
+\end{document}

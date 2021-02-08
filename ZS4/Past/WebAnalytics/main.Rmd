@@ -1,0 +1,191 @@
+---
+title: "Zápočtová úloha"
+author: "David Napravnik"
+date: "2/5/2021"
+output:
+  html_document: default
+  pdf_document: default
+---
+  
+```{R, echo=FALSE, message=FALSE}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load( sqldf,
+  ggplot2,
+  scales,
+  dplyr,
+  utf8
+)
+
+```
+
+# Úvod
+
+Touto analýzou bych chtěl sledovat počet návštěv na svém webu.
+Web obsahuje informace o možnosti pronájmu hotelového pokoje.
+
+# Sběr dat
+
+Data jsem sbíral po dobu 4 a půl let.
+Na stránce je script od Google Analytics, který sleduje a ukládá veškerou uživatelskou aktivitu.
+Vygeneroval jsem si dva soubory dat, první má počet návštěv po dnech, druhý po hodinách.
+
+Data o počtu nemocných mám ze stránky https://ourworldindata.org/coronavirus-data.
+Na data jsem poté aplikoval filtr, aby obsahovala jen údaje z Čr.
+
+```{R, echo=FALSE, message=FALSE}
+dailyDataset <- read.csv(file="daily.csv")
+hourlyDataset <- read.csv(file="hourly.csv")
+covidDataset <- read.csv(file="covidCzechia.csv")
+
+dailyDataset$Day <- as.Date(dailyDataset$Day, format = "%d.%m.%Y")
+covidDataset$Day <- as.Date(covidDataset$Day, format = "%d.%m.%Y")
+DataSet <- merge(dailyDataset, covidDataset)
+
+```
+
+```{R, echo=FALSE, message=FALSE}
+DayName <- c("Po", "Út", "St", "Čt", "Pá", "So", "Ne")
+  
+DayViews <- c(
+sum(dailyDataset[which(dailyDataset[,3] == 1),2]),
+sum(dailyDataset[which(dailyDataset[,3] == 2),2]),
+sum(dailyDataset[which(dailyDataset[,3] == 3),2]),
+sum(dailyDataset[which(dailyDataset[,3] == 4),2]),
+sum(dailyDataset[which(dailyDataset[,3] == 5),2]),
+sum(dailyDataset[which(dailyDataset[,3] == 6),2]),
+sum(dailyDataset[which(dailyDataset[,3] == 7),2]))
+
+ViewsPerDay <- data.frame(DayName, DayViews)
+
+```
+
+```{R, echo=FALSE, message=FALSE}
+Hour <- seq(0, 23)
+  
+HourViews <- c(
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 00),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 01),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 02),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 03),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 04),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 05),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 06),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 07),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 08),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 09),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 10),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 11),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 12),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 13),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 14),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 15),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 16),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 17),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 18),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 19),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 20),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 21),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 22),2])/nrow(dailyDataset),
+sum(hourlyDataset[which(hourlyDataset[,1] %% 24 == 23),2])/nrow(dailyDataset))
+
+ViewsPerHour <- data.frame(Hour, HourViews)
+
+```
+
+# Celková návštěvnost webu
+
+Graf znázorňuje počet návštěv po dnech během sledovaného úseku ~4 let.
+Modrou barvou je pak vyznačena lokální regrese.
+
+Ke konci grafu můžeme zřetelně vidět klesající regresi.
+
+```{R, echo=FALSE, message=FALSE}
+
+ggplot(data = dailyDataset, aes(x=Day, y=Views)) +
+  geom_point(color="#a11e15") +
+  scale_x_date(breaks="1 year") +
+  geom_smooth(method = 'loess', color="#0e77c7", size=2) +
+  theme_bw() +
+  xlab("Datum") +
+  ylab("Zobrazení webu")
+
+```
+
+# Počet případů COIVD-19
+
+Graf ukazuje počet případů na území Čr.
+Pro jednodušší porovnání se sledovaným obdobím z minulého bodu, jsou data na časové ose v poměru jako předchozí graf.
+
+```{R, echo=FALSE, message=FALSE}
+ggplot(data = covidDataset, aes(x=Day, y=total_cases)) +
+  scale_x_date(breaks="1 year", limits=as.Date(c("2016-07-25","2021-2-4"))) +
+  geom_area(color="#12b3a0",fill="#c7fcf7")+
+  theme_bw() +
+  xlab("Datum") +
+  ylab("Případů COVID-19")
+
+
+```
+
+# Vliv COVID-19 na počet návštěv webu
+ 
+ Z prvního grafu jsme vyděli klesající počet návštěv v období výskytu covidu.
+ Tento graf ukazuje, že pokles opravdu nastal, ale není až tak výrazný.
+
+```{R, echo=FALSE, message=FALSE}
+ggplot(DataSet, aes(x=total_cases, y=Views)) +
+    geom_point(col = "#0055ab", size = 2 ) +
+    stat_smooth(method = "lm",
+                col = "#bd6db7") +
+    theme_bw() +
+  xlab("Případů COVID-19") +
+  ylab("Zobrazení webu")
+```
+# Prohlížení webu podle dne v týdnu
+
+Na tomto grafu vidíme, že stránky si lidé nejčastěji prohlíží ve všední dny.
+
+
+```{R, echo=FALSE, message=FALSE}
+
+ViewsPerDay <- ViewsPerDay %>% 
+  arrange(desc(DayName)) %>%
+  mutate(prop = DayViews / sum(ViewsPerDay$DayViews) *100) %>%
+  mutate(ypos = cumsum(DayViews)- 0.5*DayViews )
+
+ggplot(ViewsPerDay, aes(x="", y=DayViews, fill=DayName)) +
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0) +
+  theme_void() +
+  theme(legend.position="none") +
+  geom_text(aes(y = ypos, label = DayName), color = "black", size=6) +
+  scale_fill_brewer(palette="Set1")
+
+```
+# Prohlížení webu podle denní hodiny
+
+Z grafu vidíme, že denní doba, krom času, kdy lidé spí, je rovnoměrně rozprostřená.
+Vzhledem k předchozímu grafu, tedy můžeme říct, že web si lidé prohlížejí jak během pracovní doby, tak i ve svém volném čase.
+
+
+```{R, echo=FALSE, message=FALSE}
+ggplot(ViewsPerHour, aes(x=Hour, y=HourViews)) +
+  geom_bar(stat="identity", width=0.66, fill="#78195b", color="#000000") +
+  theme(axis.text.x = element_text(angle=65, vjust=0.6)) +
+  xlab("Hodina") +
+  ylab("Zobrazení webu")
+
+
+```
+
+# Závěr
+
+Touto analýzou dat, jsem sipotvrdil předpoklad, že kvůli covidu, klesl zájem o pronájem hotelového pokoje
+a tudíž i návštěvnost webu. Avšak pokles nebyl až tak výrazný jak jsem očekával.
+
+# Zdroje
+## Data o počtu případů COVID-19
+https://ourworldindata.org/coronavirus-data
+
+## Data o počtu zobrazení webu
+https://analytics.google.com/
