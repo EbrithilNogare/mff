@@ -48,6 +48,7 @@
 % addBin([1, 0, 1], [1, 1, 0, 1], R).
 % R = [0, 0, 0, 0, 1].
 
+
 toNat(N, R) :-
 	integer(N),
 	toNat_(N, R).
@@ -88,9 +89,6 @@ logtwo(s(N), s(K)) :-
 %% fibonaci
 
 generalizedFib(0, A, _, A).
-generalizedFib(s(0), _, B, B).
-generalizedFib(s(s(0)), A, B, R) :-
-	add(A,B,R).
 generalizedFib(s(I), A, B, R) :-
 	add(A,B,AB),
 	generalizedFib(I,B,AB,R).
@@ -99,3 +97,54 @@ fib(N, Fib) :-
 	toNat(N,I),
 	generalizedFib(I,0,s(0),R),
 	fromNat(R,Fib).
+
+
+%% binary addition
+
+% alias
+addBin(A, B, R) :- addBin(A, B, R, 0).
+
+% array decomposition
+addBin([], [], [], 0).
+addBin([], [B|BX], [B|BX], 0).
+addBin([A|AX], [], [A|AX], 0).
+addBin([A|AX], [B|BX], [R|RX], 0) :- addBinComb(A, B, R, AX, BX, RX, 0).
+addBin([], [], [1], 1).
+addBin([], [B|BX], RX, 1) :- addBin([1], [B|BX], RX).
+addBin([A|AX], [], RX, 1) :- addBin([A|AX], [1], RX).
+addBin([A|AX], [B|BX], [R|RX], 1) :- addBinComb(A, B, R, AX, BX, RX, 1).
+
+% bin adder
+% addBinComb(A, B, C, _, _, _, D) ~ C = A + B + D
+addBinComb(0, 0, 0, AX, BX, RX, 0) :- addBin(AX, BX, RX, 0).
+addBinComb(0, 1, 1, AX, BX, RX, 0) :- addBin(AX, BX, RX, 0).
+addBinComb(1, 0, 1, AX, BX, RX, 0) :- addBin(AX, BX, RX, 0).
+addBinComb(1, 1, 0, AX, BX, RX, 0) :- addBin(AX, BX, RX, 1).
+addBinComb(0, 0, 1, AX, BX, RX, 1) :- addBin(AX, BX, RX, 0).
+addBinComb(0, 1, 0, AX, BX, RX, 1) :- addBin(AX, BX, RX, 1).
+addBinComb(1, 0, 0, AX, BX, RX, 1) :- addBin(AX, BX, RX, 1).
+addBinComb(1, 1, 1, AX, BX, RX, 1) :- addBin(AX, BX, RX, 1).
+
+
+%% tests
+
+tests() :-
+	toNat(3, K3),
+	toNat(4, K4),
+	toNat(5, K5),
+	toNat(14, K14),
+	generalizedFib(K3, K4, K5, K14),
+	\+logtwo(0, _),
+	logtwo(s(s(s(0))), s(0)),
+	logtwo(s(0), 0),
+	fib(1,1),
+	fib(2,1),
+	fib(3,2),
+	fib(4,3),
+	fib(5,5),
+	fib(6,8),
+	addBin([0], [0], [0]),
+	addBin([1], [1], [0, 1]),
+	addBin([0], [1, 1, 1, 1], [1, 1, 1, 1]),
+	addBin([1, 0, 1], [1, 1, 0, 1], [0, 0, 0, 0, 1]),
+	!.

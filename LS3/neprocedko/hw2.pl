@@ -48,9 +48,8 @@ push([L | M], R, [L | MR]) :- push( M, R, MR).
 % transp([[a],[b,c],[d]], R).
 % false.
 
-transp([], []).
-transp([[] | Tail], []):-
-	transp(Tail, _).
+transp(Empty, []) :-
+	flat(Empty, []). % testuje jestli je cely sloupec prazdny
 transp(Matrix, [Row | Rows]) :-
 	getColumn(Matrix, Row, RestMatrix),
 	transp(RestMatrix, Rows).
@@ -84,3 +83,15 @@ getColumn([[Head | Tail] | Rows], [Head | HeadRest], [Tail | TailRest]) :-
 %
 % avlInsert(1, t(0, nil, 1, nil), R).
 % R = t(0, nil, 1, nil).
+
+test :-
+	flat([], []),
+	flat([[]], []),
+	flat([a,b,c], [a,b,c]),
+	flat([a,[[],b,[]],[c,[d]]], [a,b,c,d]),
+
+	transp([], []),
+	transp([[],[],[]], []),
+	transp([[a,b],[c,d],[e,f]], [[a,c,e],[b,d,f]]),
+	\+transp([[a],[b,c],[d]], _),
+	!.
