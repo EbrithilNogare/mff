@@ -27,7 +27,8 @@ sudoku(Rows) :-
 	transpose(Rows, Columns),
 	forEach(all_distinct, Columns),
 	squares(A, B),
-	squares(C, D).
+	squares(C, D),
+	labeling([ff], V).
 
 /**
  * squares(ListA : list, ListB : list, ?ListC : list)
@@ -105,6 +106,13 @@ prettyPrintSudoku([Row | Rest]) :-
 	write("|\n"),
 	prettyPrintSudoku(Rest).
 
+/**
+ * prettyPrintRow(List : list)
+ * 
+ * Print list.
+ *
+ * @param List List to be printed.
+ */
 prettyPrintRow([]).
 prettyPrintRow([Column | Rest]) :-
 	write("| "),
@@ -113,15 +121,32 @@ prettyPrintRow([Column | Rest]) :-
 	prettyPrintRow(Rest),
 	!.
 
+/**
+ * prettyPrintNotNull(_ : _)
+ * 
+ * Print value, if it is anonymou variable, print space.
+ *
+ * @param _ Variable to print.
+ */
 prettyPrintNotNull("Null") :-
 	write(" ").
 
 prettyPrintNotNull(String) :-
 	print(String).
 
+/**
+ * generateSudoku9x9(Difficulty : int)
+ * 
+ * Generate sudoku with one solution and pretty print it..
+ *
+ * @param Difficulty Difficulty from 1 to 20.
+ */
+generateSudoku9x9(Difficulty) :- 
+	Difficulty < 1; Difficulty > 20,
+	write("difficulty must be between 1 and 20").	
 generateSudoku9x9(Difficulty) :- 
 	Difficulty > 0,
-	Difficulty < 51,
+	Difficulty < 21,
 	SudokuIn = [
 		[1,2,3,4,5,6,7,8,9],
 		[7,8,9,1,2,3,4,5,6],
@@ -138,20 +163,39 @@ generateSudoku9x9(Difficulty) :-
 	prettyPrintSudoku(SudokuOut),
 	!.
 
+/**
+ * generateSudoku4x4(Difficulty : int)
+ * 
+ * Generate sudoku with one solution and pretty print it..
+ *
+ * @param Difficulty Difficulty from 1 to 5.
+ */
+generateSudoku4x4(Difficulty) :- 
+	Difficulty < 1; Difficulty > 5,
+	write("difficulty must be between 1 and 5").	
 generateSudoku4x4(Difficulty) :- 
 	Difficulty > 0,
-	Difficulty < 11,
+	Difficulty < 6,
 	SudokuIn = [
 		[1,2,3,4],
 		[3,4,1,2],
 		[2,1,4,3],
 		[4,3,2,1]
 	],
-	sudokuShuffle(SudokuIn, 3, SudokuShuffled),
+	sudokuShuffle(SudokuIn, 10, SudokuShuffled),
 	sudokuHardener(SudokuShuffled, Difficulty, SudokuOut),
 	prettyPrintSudoku(SudokuOut),
 	!.
 
+/**
+ * sudokuHardener(SudokuIn : list, Count : int, SudokuOut: list)
+ * 
+ * Remove random field from sudoku until it have one solution and Counter is on 0.
+ *
+ * @param SudokuIn Sudoku to alternate.
+ * @param Count Number of tries to remove another numbers.
+ * @param SudokuOut Resulted sudoku.
+ */
 sudokuHardener(Sudoku, 0, Sudoku).
 sudokuHardener(SudokuIn, Count, SudokuOut) :-
 	length(SudokuIn, Length),
@@ -163,37 +207,77 @@ sudokuHardener(SudokuIn, Count, SudokuOut) :-
 		sudokuHardener(SudokuAlternated, Count, SudokuOut)
 	;
 		NewCount is Count - 1,
-		sudokuHardener(SudokuAlternated, NewCount, SudokuOut)
+		sudokuHardener(SudokuIn, NewCount, SudokuOut)
 	).
 
-conditionalyRemoveItem(Column, Item, New_item, Index) :-
+/**
+ * conditionalyRemoveItem(Column : int, Item : var, NewItem : var, Index : int)
+ * 
+ * If Column equals Index, remove Item from List
+ *
+ * @param Column Column index to compare
+ * @param Item Old Item.
+ * @param NewItem NewItem.
+ * @param Index Actual Index of List.
+ */
+conditionalyRemoveItem(Column, Item, NewItem, Index) :-
 	( Index = Column ->
-		New_item = _
+		NewItem = _
 	;
-		New_item = Item
+		NewItem = Item
 	).
 
-conditionalyRemoveItemFromList(Row, Column, List, New_list, Index) :-
+/**
+ * conditionalyRemoveItem(Row : int, Column : int, List : list, NewList : list, Index : list)
+ * 
+ * If Row equals Index, remove List in List on Column.
+ *
+ * @param Row Row index to compare.
+ * @param Column Column index to compare.
+ * @param List Old List to alternate.
+ * @param NewList Alternated List.
+ * @param Index Actual Index of List.
+ */
+conditionalyRemoveItemFromList(Row, Column, List, NewList, Index) :-
 	( length(List, 9) ->
 		IndicesList = [1,2,3,4,5,6,7,8,9]
 	;
 		IndicesList = [1,2,3,4]
 	),
 	( Index = Row ->
-		maplist(conditionalyRemoveItem(Column), List, New_list, IndicesList)
+		maplist(conditionalyRemoveItem(Column), List, NewList, IndicesList)
 	;
-		New_list = List
+		NewList = List
 	).
 
-conditionalyRemoveItemFromArray( Row, Column, Array, New_array) :-
+/**
+ * conditionalyRemoveItem(Row : int, Column : int, Array : list, NewArray : list)
+ * 
+ * If Row equals Index, remove Array in Array on Column.
+ *
+ * @param Row Row index to compare.
+ * @param Column Column index to compare.
+ * @param Array Array to alternate.
+ * @param NewArray Alternated Array.
+ */
+conditionalyRemoveItemFromArray( Row, Column, Array, NewArray) :-
 	( length(Array, 9) ->
 		IndicesList = [1,2,3,4,5,6,7,8,9]
 	;
 		IndicesList = [1,2,3,4]
 	),
-    maplist(conditionalyRemoveItemFromList(Row, Column), Array, New_array, IndicesList).
+    maplist(conditionalyRemoveItemFromList(Row, Column), Array, NewArray, IndicesList).
 
 
+/**
+ * sudokuShuffle(Sudoku : List, Count : int, Output : List)
+ * 
+ * Swap two rows then swap two columns and repeat until Count is not zero.
+ *
+ * @param Sudoku Sudoku to shuffle.
+ * @param Count Desired number of swaps .
+ * @param Output Alternated sudoku.
+ */
 sudokuShuffle(Sudoku, 0, Sudoku).
 sudokuShuffle(Sudoku, Count, Output) :-
 	Count > 0,
@@ -241,18 +325,37 @@ moveRow(In, 2, 2, Out) :- moveRow(In, 1, 2, Out).
 moveRow([A, B, C, D | Rest], 3, 2, [A, B, D, C | Rest]).
 moveRow(In, 4, 2, Out) :- moveRow(In, 3, 2, Out).
 
-
+/**
+ * help()
+ * 
+ * Just print help to user.
+ */	
 help :-
 	write("""
+This program can solve any 9x9 or 4x4 sudoku.
+
+By this sequence, you can input your own sudoku and program will print solution(s).
 Sudoku = [
 	[_,_,_,_],
 	[_,_,_,_],
 	[_,_,_,_],
 	[_,_,_,_]
-], sudoku(Sudoku), prettyPrintSudoku(Sudoku).		
+], sudoku(Sudoku), prettyPrintSudoku(Sudoku).	
+
+There are some examples to fast test program. 
+sudoku0.
+sudoku1.
+sudoku2.
+sudoku3.
+sudoku4.
+
+You can also generate sudoku for you to solve, with custom difficulty setting.
+1 is easy and more higher number is, more difficult it genererate.
+generateSudoku9x9(10).
+generateSudoku4x4(3).
 """).
 
-
+% empty 9x9 sudoku
 sudoku0 :- 
 	Sudoku = [
 		[_,_,_,_,_,_,_,_,_],
@@ -267,7 +370,33 @@ sudoku0 :-
 	sudoku(Sudoku),
 	prettyPrintSudoku(Sudoku).
 
+% random 9x9 sudoku
 sudoku1 :- 
+	Sudoku = [
+	[_,6,_,7,_,_,_,_,_],
+	[_,3,_,_,_,_,_,8,_],
+	[_,_,_,_,3,2,_,_,4],
+	[6,7,_,_,_,_,5,_,_],
+	[4,5,8,_,_,6,_,1,_],
+	[_,_,_,_,_,_,_,_,9],
+	[_,_,2,5,_,_,_,_,_],
+	[_,_,_,_,1,_,_,9,_],
+	[9,_,5,_,8,_,1,3,_]],
+	sudoku(Sudoku),
+	prettyPrintSudoku(Sudoku).
+
+% random 4x4 sudoku
+sudoku2 :- 
+	Sudoku = [
+		[_,2,_,4],
+		[_,_,1,_],
+		[2,_,4,_],
+		[_,3,2,_]],
+	sudoku(Sudoku),
+	prettyPrintSudoku(Sudoku).
+
+% anti bruteforce sudoku
+sudoku3 :- 
 	Sudoku = [
 		[_,_,_,_,_,_,_,_,_],
 		[_,_,_,_,_,3,_,8,5],
@@ -281,37 +410,17 @@ sudoku1 :-
 	sudoku(Sudoku),
 	prettyPrintSudoku(Sudoku).
 
-sudoku2 :- 
+% sudoku with 2 solutions
+sudoku4 :- 
 	Sudoku = [
-		[_,2,_,4],
-		[_,_,1,_],
-		[2,_,4,_],
-		[_,3,2,_]],
+		[8,7,6,1,9,2,5,4,3],
+		[2,9,5,7,4,3,8,6,1],
+		[4,3,1,8,6,5,9,_,_],
+		[1,5,4,9,3,8,6,_,_],
+		[9,2,8,6,7,1,3,5,4],
+		[7,6,3,5,2,4,1,8,9],
+		[6,1,2,3,8,7,4,9,5],
+		[5,4,9,2,1,6,7,3,8],
+		[3,8,7,4,5,9,2,1,6]],
 	sudoku(Sudoku),
 	prettyPrintSudoku(Sudoku).
-
-sudoku4x4_0 :- 
-	Sudoku = [
-		[_,_,_,_],
-		[_,_,_,_],
-		[_,_,_,_],
-		[_,_,_,_]],
-	sudoku(Sudoku),
-	prettyPrintSudoku(Sudoku).
-
-sudoku3 :- 
-	Sudoku = [
-		[_,_,_,_,_,_,_,_,_],
-		[_,_,_,_,_,3,_,_,5],
-		[_,_,1,_,2,_,_,_,_],
-		[_,_,_,5,_,7,_,_,_],
-		[_,_,4,_,_,_,1,_,_],
-		[_,9,_,_,_,_,_,_,_],
-		[5,_,_,_,_,_,_,7,3],
-		[_,_,2,_,1,_,_,_,_],
-		[_,_,_,_,4,_,_,_,9]],
-	sudoku(Sudoku),
-	prettyPrintSudoku(Sudoku).
-
-
-% problem(1, Rows), sudoku(Rows), prettyPrintSudoku(Rows).
