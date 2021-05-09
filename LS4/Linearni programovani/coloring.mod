@@ -1,23 +1,29 @@
 # mnoziny
 param N;
-set V := 1..N;
-set E within (V cross V);
+set I := 0..N;
+set E within (I cross I);
 
-var w{1..N} binary;
-var x{V,1..N} binary;
+# promenne
+var V{I,I} binary;
+var P{I} binary;
 
-minimize Colors: sum{i in 1..N} w[i];
+# podminky
+s.t. JustOneColor {i in I}: sum{j in I} V[i,j] = 1;
+s.t. Edges1 {(i,j) in E, k in I}: V[i,k] + V[j,k] <= P[k];
+s.t. Edges2 {(i,j) in E, k in I}: V[i,j] = 0;
+s.t. Edges3 {i in I, j in I: i > j }: V[i,j] = 0;
 
-subject to Assigned {i in V}:
-sum{j in 1..N}x[i,j]=1;
 
-subject to Edges {(i,j) in E, k in 1..N}:
-x[i,k] + x[j,k] <= w[k];
+# min/max funkce
+minimize Colors: sum{j in I} P[j];
 
+# vyres to!
 solve;
 
 # napis vysledek
-printf "%d\n", Colors.val;
+printf "#OUTPUT: %d\n", Colors.val;
+printf {i in I, j in I: V[i,j] != 0} "v_%d : %d\n", i, j;
+printf "#OUTPUT END\n";
 
 # umri
 end;
