@@ -23,17 +23,16 @@ var P{J}, >= 0, <= 1, integer;
 
 # podminky
 s.t. a{i in I}: sum{j in J} V[i,j] = 1;
-s.t. b{i in I, j in J}: P[j] >= V[i,j];
 """)
 
 counter = 0
 
 for row in range(len(table)):
-	for column in range(row, len(table)):
+	for column in range(0, len(table)):
 		if(table[row][column] == 0):
-			print("s.t. c_"+str(counter)+"{j in J}: V[",row,",j] + V[",column,",j] <= 1;")
+			if(column >= row):
+				print("s.t. c_"+str(counter)+"{j in J}: V[",row,",j] + V[",column,",j] <= P[j];")
 			print("s.t. d_"+str(counter)+": V[",row,",",column,"] = 0;")
-			print("s.t. e_"+str(counter)+": V[",column,",",row,"] = 0;")
 			counter+=1
 
 
