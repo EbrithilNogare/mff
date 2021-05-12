@@ -1,7 +1,8 @@
 # mnoziny
 param N;
-set I := 0..N;
+set I;
 set E within (I cross I);
+set D within (0..N cross 0..N);
 
 # promenne
 var V{I,I} binary;
@@ -22,7 +23,8 @@ solve;
 
 # napis vysledek
 printf "#OUTPUT: %d\n", Colors.val;
-printf {i in I, j in I: V[i,j] != 0} "v_%d : %d\n", i, j;
+printf {i in I, j in I: V[i,j] == 1} "v_%d : %d\n", i, j;
+printf {(d, s) in D, j in I: V[d,j] == 1} "v_%d : %d\n", s, j;
 printf "#OUTPUT END\n";
 
 # umri
