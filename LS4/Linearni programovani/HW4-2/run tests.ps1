@@ -6,7 +6,7 @@ Foreach-Object {
 		$Now = Get-Date
 
 		cat $FullName | python .\HW4.py > coloring.data
-		$output = .\glpsol.exe -m ./coloring.mod -d ./coloring.data | findstr "#OUTPUT: "
+		$output = ..\glpsol.exe -m ./coloring.mod -d ./coloring.data | findstr "#OUTPUT: "
 		
 		$output = $output.Substring(9)
 		$time = NEW-TIMESPAN –Start $Now –End (Get-Date)
