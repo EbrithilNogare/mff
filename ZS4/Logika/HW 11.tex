@@ -22,7 +22,7 @@
 \noindent
 \textbf{Predmet: Vyrokova a predikatorova logika}\\
 \textbf{Ukol: 11.}\\
-\textbf{Verze: 1.}\\
+\textbf{Verze: 2}\\
 \textbf{Autor: David Napravnik}
 
 
@@ -57,13 +57,13 @@
     \multicolumn{4}{c}{$T c=d$}\\
     \multicolumn{4}{c}{$F d=c$}\\
     \multicolumn{4}{c}{|} \\
-    \multicolumn{4}{c}{$T(\forall x)(\forall y)(x=x \wedge x=y)\rightarrow(f(x,x)\rightarrow f(y,x))$}\\
+    \multicolumn{4}{c}{$T(\forall x)(\forall y)(x=x \wedge x=y)\rightarrow(R(x,x)\rightarrow R(y,x))$}\\
     \multicolumn{4}{c}{|} \\
-    \multicolumn{4}{c}{$T(c=c \wedge c=d) \rightarrow (f(c,c) \rightarrow f(d,c))$ c=x, d=y}\\ 
+    \multicolumn{4}{c}{$T(c=c \wedge c=d) \rightarrow (R(c,c) \rightarrow R(d,c))$ c=x, d=y}\\ 
     \multicolumn{2}{c}{/} & \multicolumn{2}{c}{$\backslash$} \\
-    \multicolumn{2}{c}{$F c=c \wedge c=c$} & \multicolumn{2}{c}{$T f(c,c) \rightarrow f(d,c)$} \\
+    \multicolumn{2}{c}{$F c=c \wedge c=c$} & \multicolumn{2}{c}{$T R(c,c) \rightarrow R(d,c)$} \\
     / & $\backslash$ & / & $\backslash$ \\
-    $F c=c$ & $F c=d$ & $Ff(c,c)$ & $Tf(d,c)$  \\ 
+    $F c=c$ & $F c=d$ & $FR(c,c)$ & $TR(d,c)$  \\ 
     | & | & | & | \\
     $T(\forall x)(x=x)$ & $\otimes$ &  $T(\forall x)(x=x)$ & $T d=c$ \\  
     | &  & | & | \\
@@ -88,13 +88,13 @@ vsechny vetve jsou sporne, tudiz puvodni tvrzeni plati $\square$
     \multicolumn{4}{c}{$T c=d$}\\
     \multicolumn{4}{c}{$T d=e$}\\
     \multicolumn{4}{c}{|} \\
-    \multicolumn{4}{c}{$T(\forall x)(\forall y)(\forall z)(x=x \wedge y=z)\rightarrow(f(x,y)\rightarrow f(y,z))$}\\
+    \multicolumn{4}{c}{$T(\forall x)(\forall y)(\forall z)(x=x \wedge y=z)\rightarrow(R(x,y)\rightarrow R(y,z))$}\\
     \multicolumn{4}{c}{|} \\
-    \multicolumn{4}{c}{$T(c=c \wedge d=e) \rightarrow (f(c,d) \rightarrow f(d,e))$ c=x, d=y, e=z}\\ 
+    \multicolumn{4}{c}{$T(c=c \wedge d=e) \rightarrow (R(c,d) \rightarrow R(d,e))$ c=x, d=y, e=z}\\ 
     \multicolumn{2}{c}{/} & \multicolumn{2}{c}{$\backslash$} \\
-    \multicolumn{2}{c}{$F c=c \wedge d=e$} & \multicolumn{2}{c}{$T f(c,d) \rightarrow f(c,e)$} \\
+    \multicolumn{2}{c}{$F c=c \wedge d=e$} & \multicolumn{2}{c}{$T R(c,d) \rightarrow R(c,e)$} \\
     / & $\backslash$ & / & $\backslash$ \\
-    $F c=c$ & $F d=e$ & $Ff(c,d)$ & $Tf(c,e)$  \\ 
+    $F c=c$ & $F d=e$ & $FR(c,d)$ & $TR(c,e)$  \\ 
     | & | & | & | \\
     $T(\forall x)(x=x)$ & $\otimes$ &  $F(c=d)$ & $T c=e$ \\  
     | &  & | & | \\
