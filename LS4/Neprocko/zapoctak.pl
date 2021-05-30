@@ -142,8 +142,9 @@ prettyPrintNotNull(String) :-
  * @param Difficulty Difficulty from 1 to 20.
  */
 generateSudoku9x9(Difficulty) :- 
-	Difficulty < 1; Difficulty > 20,
-	write("difficulty must be between 1 and 20").	
+	(Difficulty < 1; Difficulty > 20),
+	write("difficulty must be between 1 and 20"),
+	!.	
 generateSudoku9x9(Difficulty) :- 
 	Difficulty > 0,
 	Difficulty < 21,
@@ -171,8 +172,9 @@ generateSudoku9x9(Difficulty) :-
  * @param Difficulty Difficulty from 1 to 5.
  */
 generateSudoku4x4(Difficulty) :- 
-	Difficulty < 1; Difficulty > 5,
-	write("difficulty must be between 1 and 5").	
+	(Difficulty < 1; Difficulty > 5),
+	write("difficulty must be between 1 and 5"),
+	!.	
 generateSudoku4x4(Difficulty) :- 
 	Difficulty > 0,
 	Difficulty < 6,
