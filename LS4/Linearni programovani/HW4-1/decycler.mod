@@ -9,8 +9,8 @@ var E{I,I} binary;
 
 # podminky
 s.t. Edges {(i,j) in NotEdges}: E[i,j] = 0;
-s.t. Not3Cycle {i in I, j in I, k in I}: E[i,j] + E[j,k] + E[k,i] <= 2;
-s.t. Not4Cycle {i in I, j in I, k in I, l in I}: E[i,j] + E[j,k] + E[k,l] + E[l,i] <= 3;
+s.t. Not3Cycle {i in I, j in I, k in I : i!=j && i!=k && j!=k}: E[i,j] + E[j,k] + E[k,i] <= 2;
+s.t. Not4Cycle {i in I, j in I, k in I, l in I : i!=j && i!=k && i!=l && j!=k && j!=l && k!=l}: E[i,j] + E[j,k] + E[k,l] + E[l,i] <= 3;
 
 # min/max funkce
 maximize obj: sum{i in I, j in I} (W[i,j] * E[i,j]);
