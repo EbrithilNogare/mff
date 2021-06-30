@@ -1,0 +1,12 @@
+1) the derivative of sine x equals cosine x
+2) the derivative of tangent x equals one over the squared cosine of x 
+3) the squared sine of x plus the squared cosine x equals one 
+4) the sine to the power of minus one of alpha equals the cosine to the power of minus one of beta
+62|t) 
+    the sine of the sum or the subtraction respectively of alpha and beta
+is equal to
+    the sum or the subtraction respectively of
+        the product of
+            the sine of alpha and the cosine of beta
+        and
+            the cosine of alpha and the sine of beta

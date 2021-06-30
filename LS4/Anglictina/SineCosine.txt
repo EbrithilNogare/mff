@@ -1,0 +1,26 @@
+1)
+respectively = individually = take one by one
+differentiable = its derivation exists
+in terms of = in the meaning of
+assume = having some fulfilled reuirements
+circumference = length of the line of the circle 
+arbitrary = we can choose anything from set
+denote = to show
+set = give value to variable
+ordered pair = tuple of two numbers which are in specific order
+briefly = not so complicated
+hence = something is as it is because of something else
+sufficiently = good enought
+from which it follows = therefore because of it
+
+2)
+the point on the circle C whose distance - defining 
+which is an ordered pair - defining 
+
+3)
+... if the difference between two real numbers t and a is small, then the point ...
+
+4)
+cosine zero equals one and sinus zero equals zero
+the cosinus of pi quarters equals the sinus of pi quarters equals one half the square root of two
+cosinus pi halfs equals zero and sinus pi halfs equals one
