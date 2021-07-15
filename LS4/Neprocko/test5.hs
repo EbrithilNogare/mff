@@ -31,3 +31,8 @@ main = do
     print $ otoceni [('a',True),('b',True),('c',False)]
 
 -- c) ano fungovalo, protoze funkce splitOtoceni bere prvky postupne a zbytek vraci zpatky do otoceni
+
+-- Komentář:
+-- - b) asi jste řešil jinou úlohu anebo Vám chybí jedna úroveň zpracování. Nevidím nikde vlastní otáčení části seznamu.
+
+-- body: 3/10

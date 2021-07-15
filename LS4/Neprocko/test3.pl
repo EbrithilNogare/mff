@@ -12,7 +12,6 @@
 % a   c  f   g      g   f  a   c       f   f  f   f
 
 
-
 % a) popis stromu: t(leftSubtree, parent, rightSubtree)
 % priklad viz testovaci data
 
@@ -51,3 +50,10 @@ test(Popis) :-
 
 % c) je nedeterministicky, protoze muze nastat situace, ze levy i pravy podstrom budou mit unifikovatelne deti 
 % neboli bude platit stejneDeti(L1,L2) & stejneDeti(R1,R2) & stejneDeti(L1,R2) & stejneDeti(L1,R2)
+
+
+% KomentářeKomentář:
+% - c) používáte řez, tak klauzule i predikát iso jsou deterministické
+% - v důsledku řezu program nenajde všechna řešení. Například za podmínek popsaných na konci c), když L1 a L2 nejsou isomorfní.
+
+% body: 7/10

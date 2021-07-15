@@ -24,3 +24,9 @@ test(Koncept) :-
 	koncept([[barva-modra, motor-diesel, pocet_kol-6],  % TIR
              [barva-bila, motor-plyn, pocet_mist-40],   % bus
              [motor-elektro, pocet_mist-5] ],  Koncept). % osobni
+
+% Komentář:
+% - vyřešit opakování hodnot v klicPridej (například)
+% - přidávání nedef
+
+% body: 7/10
