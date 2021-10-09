@@ -1,0 +1,14 @@
+zabijeni nepratel, kteri se posouvaji ke me a pribivaji, dle seznamu vpravo
+mame kameny, kterymi strilime a nicime prekazky, cim vic prekazek, tim vetsi dgm
+muzeme si vybrat na koho z nepratel strilime
+je tam item bomby, ktera dava dmg vsem a je fakt OP
+kdyz dojdou kameny, jedno kolo se vynechava
+po dokonceni levelu je odmena
+kameny maji ruzny dnmg a kriticky dmg
+Level nemusi byt jen bojovy, ale je tam i pribeh s rozhodnutimi a mozne odmeny a postihy
+Vyber levelu je pomoci mireni jako ve hre
+Pri ziskani noveho orbu se zobrazi popis jak se pouziva
+pri trefeni prekazky R, se obnovi prekazky, pri ! se zapne kriticky poskozeni
+na konci levelu je mozne ziskat HP, orb, nebo si ogb vylepsit
+Kazdy typ nepritele bojuje na jinou vzdalenost (zblizka a zdaleka)
+Po smrti se zacina znova zcela bez veci
