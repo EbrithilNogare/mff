@@ -1,11 +1,8 @@
-hazim kamenem a podle toho, do ceho vrazi tak dam takove mnozstvi poskozeni nepriteli.
-nepratele se objevuji stale novi, kamenu mam asi nekonecno, desky se resetuji po udereni do orbu
-v prvnim levelu byly 3 nepratele, po jejich porazeni je level dokoncen a muzu si vybrat odmenu
-levely jsou vyznaceny na mape a muzeme se mezi nimi posouvat
-nektere levely se bojuje, v nekterych ceka poklad, v nekterych muzu prijit o orb, nebo ziskat (pribeh)
-jsou tu specialni itemy jako bomba, kriticky zasah
-jsou tu specialni orby (kameny, kterymi se hazi), ktere se daji kupovat na konci levelu
-kazdy orb ma svuj dmg a kriticky dmg, ktery se pak nasobi s poctem srazek, pripadne dalsi superschopnost
-pokud se nepritel dostane az ke me, anizbych ho zabil, zacne mi ubirat zivot (mene zivotu = tmavsi nadech hry)
-kdyz umru zacinam od zacatku a bez itemu co jsem nasbiral
-na konci mapy je boss fight
+Game was choosen from steam library as a game which has early access (free demo from unfinished game)
+
+I download game and play two rounds that is around 2 hours and so I finished the demo.
+My partner played clean game after for 3 hours and played 4 rounds.
+
+Game has no tutorial, player is just put into the first level and is all alone to get know how.
+Each level has ...
+
