@@ -13,8 +13,10 @@ public class MyAgent extends MarioAIBase {
 		super.debugDraw(vis, level, env, g);
 		if (mario == null) return;
 
+		//mario.speed.x		
+
 		// EXAMPLE DEBUG VISUALIZATION
-		String debug = "MY DEBUG STRING";
+		String debug = "Debug info: " + (int)mario.sprite.mapX;
 		VisualizationComponent.drawStringDropShadow(g, debug, 0, 26, 1);
 	}
 
@@ -22,7 +24,12 @@ public class MyAgent extends MarioAIBase {
 	@Override
 	public MarioInput actionSelectionAI() {
         MarioInput input = new MarioInput();
-        input.press(MarioKey.RIGHT);
+		if(tiles.anyTile(1, 0)){
+			input.press(MarioKey.JUMP);
+		}
+		else
+			input.press(MarioKey.RIGHT);
+
         return input;
 	}
 }
