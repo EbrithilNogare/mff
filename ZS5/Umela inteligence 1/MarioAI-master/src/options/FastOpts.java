@@ -1,0 +1,313 @@
+package options;
+
+import engine.core.Enemy;
+import engine.core.EntityGeneralizer;
+import engine.core.MarioEnvironment;
+import engine.core.TileGeneralizer;
+import options.MarioOptions.BoolOption;
+import options.MarioOptions.IntOption;
+import options.MarioOptions.StringOption;
+import options.SimulatorOptions.ReceptiveFieldMode;
+
+/**
+ * For your convinience - build options by connecting respective options or use FAST_xxx prebuilt options.
+ * <br/><br/> 
+ * For complete list of parameters / options inspect {@link MarioOptions} class.
+ * 
+ * @author Jakub 'Jimmy' Gemrot, gemrot@gamedev.cuni.cz
+ */
+public class FastOpts {
+	
+	static {
+		// FORCE MarioOptions TO INITIALIZE FIRST! So we can use all the parameters as needed.
+		MarioOptions.javaInit();
+	}
+	
+	// ==========
+	// AI OPTIONS
+	// ==========
+	
+	/**
+	 * Generalization level for TILEs, see {@link TileGeneralizer}.
+	 * @param level
+	 * @return
+	 */
+	public static String AI_TILE_Z(int level) {
+		return " " + IntOption.AI_TILE_GENERALIZATION_ZLEVEL.getParam() + " " + level;
+	}
+	
+	/**
+	 * Generalization level for ENTITYies, see {@link EntityGeneralizer}.
+	 */
+	public static String AI_ENTITY_Z(int level) {
+		return " " + IntOption.AI_ENTITY_GENERALIZATION_ZLEVEL.getParam() + " " + level;
+	}
+	
+	/**
+	 * Generalization levels: Tiles = 0, Entities = 0
+	 */
+	public static final String AI_ZL_0_0 = AI_TILE_Z(0) + AI_ENTITY_Z(0);
+	
+	/**
+	 * Generalization levels: Tiles = 1, Entities = 0
+	 */
+	public static final String AI_ZL_1_0 = AI_TILE_Z(1) + AI_ENTITY_Z(0);
+	
+	/**
+	 * Generalization levels: Tiles = 1, Entities = 1
+	 */
+	public static final String AI_ZL_1_1 = AI_TILE_Z(1) + AI_ENTITY_Z(1);
+	
+	/**
+	 * Mario receptive field, see {@link MarioEnvironment#reset()}
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static String AI_RECEPTIVE_FIELD(int width, int height) {
+		return " " + IntOption.AI_RECEPTIVE_FIELD_WIDTH.getParam() + " " + width + IntOption.AI_RECEPTIVE_FIELD_HEIGHT.getParam() + " " + height;
+	}
+	
+	// =======================
+	// LEVEL GENERATOR OPTIONS
+	// =======================
+	
+	/**
+	 * Graphics will be rendered with "overground" tile set.  
+	 */
+	public static final String L_OVERGROUND = ""
+					+ " " + IntOption.LEVEL_TYPE.getParam() + " 0";
+	
+	/**
+	 * Graphics will be rendered with "underground" tile set. Also such a level contain ceiling.  
+	 */
+	public static final String L_UNDERGROUND = ""
+			+ " " + IntOption.LEVEL_TYPE.getParam() + " 1";
+	
+	/**
+	 * Graphics will be rendered with "castle" tile set.  
+	 */
+	public static final String L_CASTLE = ""
+			+ " " + IntOption.LEVEL_TYPE.getParam() + " 2";
+	
+	/**
+	 * Level will be generated as 'length'-tile long.
+	 * @param lenght
+	 * @return
+	 */
+	public static String L_LENGTH(int length) {
+		return " " + IntOption.LEVEL_LENGTH.getParam() + " " + length;
+	}
+	
+	/**
+	 * Enable generation of blocks.
+	 */
+	public static final String L_BLOCKS_ON = ""
+			+ " " + BoolOption.LEVEL_BLOCKS.getParam() + " on";
+	
+	/**
+	 * Disable generation of blocks.
+	 */
+	public static final String L_BLOCKS_OFF = ""
+			+ " " + BoolOption.LEVEL_BLOCKS.getParam() + " off";
+	
+	/**
+	 * Enable generation of cannons.
+	 */
+	public static final String L_CANNONS_ON = ""
+			+ " " + BoolOption.LEVEL_CANNONS.getParam() + " on";
+	
+	/**
+	 * Disable generation of cannons.
+	 */
+	public static final String L_CANNONS_OFF = ""
+			+ " " + BoolOption.LEVEL_CANNONS.getParam() + " off";
+	
+	/**
+	 * Enable generation of coins.
+	 */
+	public static final String L_COINS_ON = ""
+			+ " " + BoolOption.LEVEL_COINS.getParam() + " on";
+	
+	/**
+	 * Disable generation of coins.
+	 */
+	public static final String L_COINS_OFF = ""
+			+ " " + BoolOption.LEVEL_COINS.getParam() + " off";
+	
+	/**
+	 * Enable generation of dead ends.
+	 */
+	public static final String L_DEAD_ENDS_ON = ""
+			+ " " + BoolOption.LEVEL_DEAD_ENDS.getParam() + " on";
+	
+	/**
+	 * Disable generation of dead ends.
+	 */
+	public static final String L_DEAD_ENDS_OFF = ""
+			+ " " + BoolOption.LEVEL_DEAD_ENDS.getParam() + " off";
+	
+	/**
+	 * Generate level as FLAT (no need to set any other options).
+	 */
+	public static final String L_FLAT = ""
+			+ " " + BoolOption.LEVEL_FLAT.getParam() + " on";
+	
+	/**
+	 * DO NOT generate level as FLAT.
+	 */
+	public static final String L_FLAT_OFF = ""
+			+ " " + BoolOption.LEVEL_FLAT.getParam() + " off";
+	
+	/**
+	 * Enable generation of gaps.
+	 */
+	public static final String L_GAPS_ON = ""
+			+ " " + BoolOption.LEVEL_GAPS.getParam() + " on";
+	
+	/**
+	 * Disable generation of gaps.
+	 */
+	public static final String L_GAPS_OFF = ""
+			+ " " + BoolOption.LEVEL_GAPS.getParam() + " off";
+	
+	/**
+	 * Enable generation of hidden blocks.
+	 */
+	public static final String L_HIDDEN_BLOCKS_ON = ""
+			+ " " + BoolOption.LEVEL_HIDDEN_BLOCKS.getParam() + " on";
+	
+	/**
+	 * Disable generation of hidden blocks.
+	 */
+	public static final String L_HIDDEN_BLOCKS_OFF = ""
+			+ " " + BoolOption.LEVEL_HIDDEN_BLOCKS.getParam() + " off";
+	
+	/**
+	 * Enable generation of platforms over the ground (ones you can jump on from below)..
+	 */
+	public static final String L_PLATFORMS_ON = ""
+			+ " " + BoolOption.LEVEL_PLATFORMS.getParam() + " on";
+	
+	/**
+	 * Disable generation of platforms over the ground (ones you can jump on from below).
+	 */
+	public static final String L_PLATFORMS_OFF= ""
+			+ " " + BoolOption.LEVEL_PLATFORMS.getParam() + " off";
+	
+	/**
+	 * Enable generation of ladders.
+	 */
+	public static final String L_LADDERS_ON = ""
+			+ " " + BoolOption.LEVEL_LADDERS.getParam() + " on";
+	
+	/**
+	 * Disable generation of ladders.
+	 */
+	public static final String L_LADDERS_OFF= ""
+			+ " " + BoolOption.LEVEL_LADDERS.getParam() + " off";
+	
+	/**
+	 * Generate random level (randomize the seed).
+	 */
+	public static final String L_RANDOMIZE = ""
+			+ " " + IntOption.LEVEL_RANDOM_SEED.getParam() + " -1";
+	
+	/**
+	 * Enable generation of tubes.
+	 */
+	public static final String L_TUBES_ON = ""
+			+ " " + BoolOption.LEVEL_TUBES.getParam() + " on";
+	
+	/**
+	 * Disable generation of tubes.
+	 */
+	public static final String L_TUBES_OFF= ""
+			+ " " + BoolOption.LEVEL_TUBES.getParam() + " off";
+
+	/**
+	 * Level difficulty 0-10 (default: 0).
+	 * @param i
+	 * @return
+	 */
+	public static String L_DIFFICULTY(int i) {
+		return " " + IntOption.LEVEL_DIFFICULTY.getParam() + " " + i;
+	}
+	
+	public static String L_ENEMY(Enemy... enemies) {
+		if (enemies == null || enemies.length == 0) return "";
+		
+		String result = " " + StringOption.LEVEL_CREATURES.getParam() + " ";
+	
+		boolean first = true;
+		for (Enemy enemy : enemies) {
+			if (first) first = false;
+			else result += ",";
+			result += enemy.getShorthand();
+		}
+		
+		return result;
+	}
+
+	public static String L_RANDOM_SEED(int seed) {
+		return " " + IntOption.LEVEL_RANDOM_SEED.getParam() + " " + seed;
+	}
+	
+	// ==================
+	// SIMULATION OPTIONS
+	// ==================
+	
+	/**
+	 * Mario will start SMALL.
+	 */
+	public static final String S_MARIO_SMALL = ""
+					+ " " + IntOption.SIMULATION_MARIO_START_MODE.getParam() + " 0";
+	
+	/**
+	 * Mario will start LARGE.
+	 */
+	public static final String S_MARIO_LARGE = ""
+			+ " " + IntOption.SIMULATION_MARIO_START_MODE.getParam() + " 1";
+	
+	/**
+	 * Mario will start LARGE and will be able to FIRE.
+	 */
+	public static final String S_MARIO_FIRE = ""
+			+ " " + IntOption.SIMULATION_MARIO_START_MODE.getParam() + " 2";
+	
+	// =====================
+	// VISUALIZATION OPTIONS
+	// =====================
+	
+	/**
+	 * Enable visualization.
+	 */
+	public static final String VIS_ON = ""
+			        + " " + BoolOption.VISUALIZATION.getParam() + " on";
+	
+	/**
+	 * Disable visualization in order to run HEADLESS (simulator is ticking much much faster, evaluates an agent almost immediatelly).
+	 */
+	public static final String VIS_OFF = ""
+			        + " " + BoolOption.VISUALIZATION.getParam() + " off";
+	
+	/**
+	 * Whether to visualize receptive field around Mario.
+	 * @param mode
+	 * @return
+	 */
+	public static String VIS_FIELD(ReceptiveFieldMode mode) {
+		if (mode == null) return "";
+		return " " + IntOption.VISUALIZATION_RECEPTIVE_FIELD.getParam() + " " + mode.getCode();
+	}
+	
+	// ==============
+	// FAST SHORTCUTS
+	// ==============
+	
+    public static final String ALL_OFF =
+        L_FLAT_OFF + L_BLOCKS_OFF + L_CANNONS_OFF + L_COINS_OFF + L_DEAD_ENDS_OFF +
+        L_GAPS_OFF + L_HIDDEN_BLOCKS_OFF + L_PLATFORMS_OFF + L_LADDERS_OFF + L_TUBES_OFF;
+
+    public static final String ONLY_TUBES = ALL_OFF + L_TUBES_ON;
+}

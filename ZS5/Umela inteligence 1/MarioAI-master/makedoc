@@ -1,0 +1,1 @@
+javadoc -d html -sourcepath src -classpath 'lib/*' -subpackages 'ch:cz' src/*.java
