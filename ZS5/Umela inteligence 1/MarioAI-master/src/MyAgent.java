@@ -12,7 +12,7 @@ public class MyAgent extends MarioAIBase {
 	-1  . # . . . .
 	 0  M # # # . .
 	 1  . # # . . .
-	 2  . . . . . .
+	 2  . # . . . .
 	*/
 	private boolean enemyAhead() {
 		return    
@@ -20,14 +20,30 @@ public class MyAgent extends MarioAIBase {
 									 entities.danger(1,-1) ||
 			entities.danger(0, 0) || entities.danger(1, 0) || entities.danger(2, 0) || entities.danger(3, 0) ||
 									 entities.danger(1, 1) || entities.danger(2, 1) ||
-			false
+									 entities.danger(1, 2)
 		;
+	}
+	
+	/*  
+		0 1 2 3 4 5
+	-2  . . . . . .
+	-1  . . . . . .
+	 0  M # . . . .
+	 1  . # # . . .
+	 2  . . . . . .
+	*/
+	private boolean shootableEnemyAhead() {
+		return entities.shootable(1, 0) ||entities.shootable(1, 1) ||entities.shootable(1, 2);
 	}
 	
 	private boolean brickAhead() {
 		return     tiles.anyTile(1, 0) 
 				|| tiles.anyTile(2, 0)
 				|| tiles.anyTile(3, 0);
+	}
+
+	private boolean holeAhead() {
+		return tiles.emptyTile(1, 1); 
 	}
 
 	@Override
@@ -45,16 +61,18 @@ public class MyAgent extends MarioAIBase {
 
 		input.press(MarioKey.RIGHT);
 
-		if(enemyAhead())
-			if (mario.mayShoot) {
-				if (!lastInput.isPressed(MarioKey.SPEED))
-					input.press(MarioKey.SPEED);    
-			} else{
+		if(enemyAhead()){
+			if (shootableEnemyAhead() && mario.mayShoot && !lastInput.isPressed(MarioKey.SPEED)) {
+				input.press(MarioKey.SPEED);    
+			} else {
 				input.release(MarioKey.RIGHT);
 				input.press(MarioKey.LEFT);
 			}
+		}else{
+			input.press(MarioKey.SPEED);
+		}
 
-        if (mario.mayJump && (enemyAhead() || brickAhead()))
+        if (mario.mayJump && (enemyAhead() || brickAhead() || holeAhead()))
             input.press(MarioKey.JUMP);
 		
 		if (mario.isJumping()) {
