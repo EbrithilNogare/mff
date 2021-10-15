@@ -12,3 +12,17 @@ pri trefeni prekazky R, se obnovi prekazky, pri ! se zapne kriticky poskozeni
 na konci levelu je mozne ziskat HP, orb, nebo si ogb vylepsit
 Kazdy typ nepritele bojuje na jinou vzdalenost (zblizka a zdaleka)
 Po smrti se zacina znova zcela bez veci
+
+
+Hrdina zabíjí nepřátele, kteří se k němu blíží a to díky poškození, které se nasbírá při každém hodu orbem.
+Orby jsou různé a každý dává jiný násobič poškození, navíc, čím více překážek orb trefí, tím větčí poškozeni je.
+U některých orbů je možné si určit, do kterého nepřítele budeme střílet, což má velkou výhodu u levelů s bessem.
+Item bomby dává opravdu velké poškození a ještě k tomu všem zároveň, bohužel jich je jen omezený počet.
+Orbů máme omezený počet a pokud dojdou, tak se doplní za cenu jednoho kola pro nepřítele.
+Na konci levelu dostaneme odměnu, ve formě života, nebo orbu.
+Každý level může být boj, ale také příběh s možnými výhodami i nevýhodami.
+To jestli půjdeme na mapě do levého, nebo pravého levelu se vybírá mířením a vhozením orbu do správného chlívečku.
+Při každém nově získaném orbu se zobrazí nápověda, jak se používá a v čem je dobrý.
+Pokud orb trefí zelenou kuličku s písmenem R, tak se obnoví všechny překážky v levelu.
+Nepřátelé nebojují jen zblýzka, ale někteří i na dálku, neboli dávají malé poškození celou dobu co jsou naživu.
+Pokud hrdina umře, hra začíná zcela od začátku a je ztracen veškerý progres, nicméně, hráč dostane jeden item do začátku za předešlou snahu.

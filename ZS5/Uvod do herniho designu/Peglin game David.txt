@@ -9,3 +9,21 @@ kazdy orb ma svuj dmg a kriticky dmg, ktery se pak nasobi s poctem srazek, pripa
 pokud se nepritel dostane az ke me, anizbych ho zabil, zacne mi ubirat zivot (mene zivotu = tmavsi nadech hry)
 kdyz umru zacinam od zacatku a bez itemu co jsem nasbiral
 na konci mapy je boss fight
+
+
+
+Hra nemá žádný tutoriál ani úvod do příběhu, takže hráč začíná prvním levelem.
+Pomocí myši se, podobně jako ve hře Angry Birds, nastaví úhel střely, čemuž pomáhají tečky, jež predkují kudy střela poletí.
+Daným směrem se vystřelý orb, který naráží do překážek a odráží se od nich, při každém nárazu se připočítá konstanta k celkovému poškození.
+Poté co orb propadne na dno mapy se celkové poškození uplatní na nejbližšího nepřitele.
+Nepřátelé se spawnují podle seznamu vpravo a každý tah se posunou blíže k hrdinovi, pokud se dostanou až k němu, hrdina dostane poškození.
+Pokud hrdinovi dojdou životy hra končí a začítá se úplně od začátku.
+Pokud hrdina úspěšně porazí všechny nepřátele, postoupí do dalšího levelu.
+
+Při vrhání kamenem jsem volil strategii střílet do žluté překážky s vykřičníkem, která zapínala kritické poškození a tudíž jsem nepřátelům dával průměrně 2x vetší poškození.
+Pokud na mapě byla bomba, snažil jsem se si ji šetřit, až se spawnou všichni nepřátelé, protože bomba dává splash damage.
+Pokud už mi docházeli překážky, do kterých by mohl orb narážet, stačilo trefit zelené R, které restartovalo mapu (kromě bomb).
+Na konci levelu jsem si vybíral životy, pokud jsem jich měl málo a měl mě čekat těžký level.
+V opačném případě jsem kupoval nebo prodával dobré orby, z nichž nejlepší byly na uzdravení a ten s elektřinou.
+Při vybírání další mapy jsem plánoval několik levelů dopředu a snažil se vyhýbat se těžkým levelům a spíše preferoval levely se symbolem otazníku. Ty totiž často obsahovali truhlici s pokladem, nebo příběh na jehož konci jsem dostal kvalitní orby.
+Na posledním levelu jsem díky štěstí při střílení orbem snadno zabil slabé nepřátele a měl jsem tak dost času na bosss.
