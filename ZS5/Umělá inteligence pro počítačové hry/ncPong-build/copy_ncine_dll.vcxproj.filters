@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\f81514e036bb83e7b31e7e6072fad8b0\copy_ncine_dll.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\Users\Nogare\Downloads\ncine\ncPong\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\copy_ncine_dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{B094F266-7701-3CDE-B8C7-BBA247FE7065}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

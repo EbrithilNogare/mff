@@ -1,0 +1,8 @@
+﻿  pong.cpp
+C:\Program Files (x86)\nCine\include\nctl\HashFunctions.h(64,1): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Program Files (x86)\nCine\include\nctl\HashFunctions.h(64,1): warning C4267: 'initializing': conversion from 'size_t' to 'const unsigned int', possible loss of data
+C:\Program Files (x86)\nCine\include\nctl\HashFunctions.h(130,1): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Program Files (x86)\nCine\include\nctl\HashFunctions.h(130,1): warning C4267: 'initializing': conversion from 'size_t' to 'const unsigned int', possible loss of data
+C:\Program Files (x86)\nCine\include\nctl\HashFunctions.h(213,1): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Program Files (x86)\nCine\include\nctl\HashFunctions.h(213,1): warning C4267: 'initializing': conversion from 'size_t' to 'const unsigned int', possible loss of data
+  ncpong.vcxproj -> C:\Users\Nogare\Downloads\ncine\ncPong-build\Debug\ncpong.exe

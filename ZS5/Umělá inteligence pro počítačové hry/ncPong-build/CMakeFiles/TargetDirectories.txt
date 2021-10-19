@@ -1,0 +1,14 @@
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/ncpong.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/create_target_dir.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_glew_dll.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_glfw_dll.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_png_dlls.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_webp_dll.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_openal_dll.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_vorbis_dlls.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_lua_dll.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/copy_ncine_dll.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/PACKAGE.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/INSTALL.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/ZERO_CHECK.dir

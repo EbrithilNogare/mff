@@ -1,0 +1,47 @@
+# CMake generation dependency list for this directory.
+C:/Program Files (x86)/nCine/cmake/nCineConfig.cmake
+C:/Program Files (x86)/nCine/cmake/nCineConfigVersion.cmake
+C:/Program Files (x86)/nCine/cmake/nCineTargets-debug.cmake
+C:/Program Files (x86)/nCine/cmake/nCineTargets.cmake
+C:/Program Files (x86)/nCine/project/cmake/find_ncine.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_build_android.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_check_info.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_copy_targets.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_generated_sources.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_get_version.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_imported_targets.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_installation.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_main.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_options.cmake
+C:/Program Files (x86)/nCine/project/cmake/project_strip_binaries.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeCXXInformation.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeGenericSystem.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeRCInformation.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CPack.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/CPackComponent.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Compiler/MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Compiler/MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/FindGit.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/InstallRequiredSystemLibraries.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Platform/Windows-MSVC-CXX.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Platform/Windows-MSVC.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Platform/Windows.cmake
+C:/Program Files/CMake/share/cmake-3.22/Modules/Platform/WindowsPaths.cmake
+C:/Program Files/CMake/share/cmake-3.22/Templates/CPackConfig.cmake.in
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/3.22.0-rc1/CMakeCCompiler.cmake
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/3.22.0-rc1/CMakeCXXCompiler.cmake
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/3.22.0-rc1/CMakeRCCompiler.cmake
+C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/3.22.0-rc1/CMakeSystem.cmake
+C:/Users/Nogare/Downloads/ncine/ncPong/CMakeLists.txt
+C:/Users/Nogare/Downloads/ncine/ncPong/cmake/ncpong_lua.cmake
+C:/Users/Nogare/Downloads/ncine/ncPong/ncpong.lua

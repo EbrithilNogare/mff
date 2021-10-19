@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AF0D9EDA-60EE-3604-B23F-477538028BA1}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Nogare\Downloads\ncine\ncPong\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/Nogare/Downloads/ncine/ncPong/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Nogare/Downloads/ncine/ncPong -BC:/Users/Nogare/Downloads/ncine/ncPong-build --check-stamp-file C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files (x86)\nCine\cmake\nCineConfig.cmake;C:\Program Files (x86)\nCine\cmake\nCineConfigVersion.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets-debug.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets.cmake;C:\Program Files (x86)\nCine\project\cmake\find_ncine.cmake;C:\Program Files (x86)\nCine\project\cmake\project_build_android.cmake;C:\Program Files (x86)\nCine\project\cmake\project_check_info.cmake;C:\Program Files (x86)\nCine\project\cmake\project_copy_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_generated_sources.cmake;C:\Program Files (x86)\nCine\project\cmake\project_get_version.cmake;C:\Program Files (x86)\nCine\project\cmake\project_imported_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_installation.cmake;C:\Program Files (x86)\nCine\project\cmake\project_main.cmake;C:\Program Files (x86)\nCine\project\cmake\project_options.cmake;C:\Program Files (x86)\nCine\project\cmake\project_strip_binaries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\InstallRequiredSystemLibraries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCXXCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeRCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeSystem.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\cmake\ncpong_lua.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\ncpong.lua;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/Nogare/Downloads/ncine/ncPong/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Nogare/Downloads/ncine/ncPong -BC:/Users/Nogare/Downloads/ncine/ncPong-build --check-stamp-file C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files (x86)\nCine\cmake\nCineConfig.cmake;C:\Program Files (x86)\nCine\cmake\nCineConfigVersion.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets-debug.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets.cmake;C:\Program Files (x86)\nCine\project\cmake\find_ncine.cmake;C:\Program Files (x86)\nCine\project\cmake\project_build_android.cmake;C:\Program Files (x86)\nCine\project\cmake\project_check_info.cmake;C:\Program Files (x86)\nCine\project\cmake\project_copy_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_generated_sources.cmake;C:\Program Files (x86)\nCine\project\cmake\project_get_version.cmake;C:\Program Files (x86)\nCine\project\cmake\project_imported_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_installation.cmake;C:\Program Files (x86)\nCine\project\cmake\project_main.cmake;C:\Program Files (x86)\nCine\project\cmake\project_options.cmake;C:\Program Files (x86)\nCine\project\cmake\project_strip_binaries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\InstallRequiredSystemLibraries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCXXCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeRCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeSystem.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\cmake\ncpong_lua.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\ncpong.lua;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/Nogare/Downloads/ncine/ncPong/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Nogare/Downloads/ncine/ncPong -BC:/Users/Nogare/Downloads/ncine/ncPong-build --check-stamp-file C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files (x86)\nCine\cmake\nCineConfig.cmake;C:\Program Files (x86)\nCine\cmake\nCineConfigVersion.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets-debug.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets.cmake;C:\Program Files (x86)\nCine\project\cmake\find_ncine.cmake;C:\Program Files (x86)\nCine\project\cmake\project_build_android.cmake;C:\Program Files (x86)\nCine\project\cmake\project_check_info.cmake;C:\Program Files (x86)\nCine\project\cmake\project_copy_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_generated_sources.cmake;C:\Program Files (x86)\nCine\project\cmake\project_get_version.cmake;C:\Program Files (x86)\nCine\project\cmake\project_imported_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_installation.cmake;C:\Program Files (x86)\nCine\project\cmake\project_main.cmake;C:\Program Files (x86)\nCine\project\cmake\project_options.cmake;C:\Program Files (x86)\nCine\project\cmake\project_strip_binaries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\InstallRequiredSystemLibraries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCXXCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeRCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeSystem.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\cmake\ncpong_lua.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\ncpong.lua;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/Nogare/Downloads/ncine/ncPong/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Nogare/Downloads/ncine/ncPong -BC:/Users/Nogare/Downloads/ncine/ncPong-build --check-stamp-file C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files (x86)\nCine\cmake\nCineConfig.cmake;C:\Program Files (x86)\nCine\cmake\nCineConfigVersion.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets-debug.cmake;C:\Program Files (x86)\nCine\cmake\nCineTargets.cmake;C:\Program Files (x86)\nCine\project\cmake\find_ncine.cmake;C:\Program Files (x86)\nCine\project\cmake\project_build_android.cmake;C:\Program Files (x86)\nCine\project\cmake\project_check_info.cmake;C:\Program Files (x86)\nCine\project\cmake\project_copy_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_generated_sources.cmake;C:\Program Files (x86)\nCine\project\cmake\project_get_version.cmake;C:\Program Files (x86)\nCine\project\cmake\project_imported_targets.cmake;C:\Program Files (x86)\nCine\project\cmake\project_installation.cmake;C:\Program Files (x86)\nCine\project\cmake\project_main.cmake;C:\Program Files (x86)\nCine\project\cmake\project_options.cmake;C:\Program Files (x86)\nCine\project\cmake\project_strip_binaries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPack.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\CPackComponent.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindGit.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\InstallRequiredSystemLibraries.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.22\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.22\Templates\CPackConfig.cmake.in;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeCXXCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeRCCompiler.cmake;C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\3.22.0-rc1\CMakeSystem.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\cmake\ncpong_lua.cmake;C:\Users\Nogare\Downloads\ncine\ncPong\ncpong.lua;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\Nogare\Downloads\ncine\ncPong-build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\ZERO_CHECK.vcxproj">
+      <Project>{55A07CCF-6A82-3C9D-B830-3FB3A44324F9}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_glew_dll.vcxproj">
+      <Project>{ED313153-9B1A-31F4-9653-DC155F0CF201}</Project>
+      <Name>copy_glew_dll</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_glfw_dll.vcxproj">
+      <Project>{3EC9EDB6-0C27-3BB5-B662-676D34E93489}</Project>
+      <Name>copy_glfw_dll</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_lua_dll.vcxproj">
+      <Project>{2F4A81EE-CE94-31BE-BB1E-C04178E2D54D}</Project>
+      <Name>copy_lua_dll</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_ncine_dll.vcxproj">
+      <Project>{C4EE0FC6-704C-313B-8D1B-6AE3DE1023BF}</Project>
+      <Name>copy_ncine_dll</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_openal_dll.vcxproj">
+      <Project>{75A785C2-74F8-3502-BDF0-D763FDBB55A4}</Project>
+      <Name>copy_openal_dll</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_png_dlls.vcxproj">
+      <Project>{C103B0FD-A96F-3A5F-9E94-B1EFF4F56BDD}</Project>
+      <Name>copy_png_dlls</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_vorbis_dlls.vcxproj">
+      <Project>{804D5DDD-0FF2-3CFE-8292-F2A8E4FE01F8}</Project>
+      <Name>copy_vorbis_dlls</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\copy_webp_dll.vcxproj">
+      <Project>{78677DDC-7830-35AD-8202-BE9378051E7D}</Project>
+      <Name>copy_webp_dll</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\create_target_dir.vcxproj">
+      <Project>{5774997A-8DDD-39A5-8A69-DCB88E07CEF9}</Project>
+      <Name>create_target_dir</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\ncpong.vcxproj">
+      <Project>{B582A9EF-4B11-3924-972C-49D4EEEBF3D7}</Project>
+      <Name>ncpong</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

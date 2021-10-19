@@ -1,0 +1,20 @@
+^C:\USERS\NOGARE\DOWNLOADS\NCINE\NCPONG-BUILD\CMAKEFILES\F81514E036BB83E7B31E7E6072FAD8B0\COPY_OPENAL_DLL.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different "C:/Program Files (x86)/nCine/bin/OpenAL32.dll" C:/Users/Nogare/Downloads/ncine/ncPong-build/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\USERS\NOGARE\DOWNLOADS\NCINE\NCPONG\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Nogare/Downloads/ncine/ncPong -BC:/Users/Nogare/Downloads/ncine/ncPong-build --check-stamp-file C:/Users/Nogare/Downloads/ncine/ncPong-build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
