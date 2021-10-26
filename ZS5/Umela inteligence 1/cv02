@@ -1,0 +1,27 @@
+Dijkstra (uniform-cost search)
+
+state space (mnozina vsetkych stavov/vrcholov)
+initial state (pociatocny stav)
+action: actions(state)   (hrana alebo pseudo tah v 15puzzle)
+transition model: result(state, action)  ()
+goal test: isGoal(state)    (true alebo false, ci stav je cielovy)
+(step) path cost: cost(state, action)     (dlzka hrany)
+
+explored (prejdene)
+frontiers (nasledne preskumane v dalsom kroku)
+unexplored set (nepreskumane)
+
+node = state + pointer to parent node + parent action
+
+BFS - fronta = najkratsia cesta v neohodnotenych grafoch
+Dijkstra - prioritna fronta = najkratsia cesta v ohodnotenom grafe
+pouzijeme haldu (priority queue)
+
+
+
+
+pacman aspon 12k points
+
+hladat najblizsiu tecku
+ak je na ceste potvora, tak akoby "vymazem ten vrchol"
+
