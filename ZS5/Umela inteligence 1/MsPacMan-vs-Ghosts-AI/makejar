@@ -1,0 +1,7 @@
+#!/bin/bash
+
+jar cf mspac_tmp.jar -C target/classes . \
+
+zip -d mspac_tmp.jar MyAgent.class
+
+mv -f mspac_tmp.jar mspac.jar
