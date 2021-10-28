@@ -1,1 +1,1 @@
-java -cp target/classes MsPacMan %*
+java -cp target/classes;../PacManAI-master/target/classes MsPacMan %*
