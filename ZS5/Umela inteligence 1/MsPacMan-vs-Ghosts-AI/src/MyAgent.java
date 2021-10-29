@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import controllers.pacman.PacManControllerBase;
@@ -21,20 +20,24 @@ public final class MyAgent extends PacManControllerBase
 		
 		if(solution == null){
 			int[] allDirections = game.getPossiblePacManDirs(false);	
-			pacman.set(allDirections[G.rnd.nextInt(allDirections.length)]); 
+			pacman.set(allDirections[G.rnd.nextInt(allDirections.length)]);	
 			return;
 		}
 
 		int[] directions = solution.actions.stream().mapToInt(i->i).toArray();
-		if(directions.length>0)
+		if(directions.length > 0)
 			pacman.set(directions[0]);
 		
 		int state = game.getCurPacManLoc();
 		for(int dir : directions){
+			int cost = (int)Math.max(Math.min((prob.cost(state, dir)-1)*100,255),0);
 			state = game.getNeighbour(state, dir);
-			if(state != -1)
-				GameView.addPoints(game, Color.RED, state);
+			if(state != -1){
+				GameView.addPoints(game, new Color(cost, 255-cost, 0), state);
+			}
 		}
+		//System.out.println(game.getManhattanDistance(game.getCurPacManLoc(), game.getCurGhostLoc(0)));
+		
 	}
 }
 
@@ -98,6 +101,6 @@ class PacmanProblem implements Problem<Integer, Integer> {
 				closest = Math.min(closest,game.getManhattanDistance(nextStep, game.getCurGhostLoc(i)));
 		}
 
-		return 10 + 100000 / Math.pow(closest,3);
+		return 1 + 10000 / Math.pow(closest,3);
 	}
   }
