@@ -38,6 +38,12 @@ Ace is meant as one and king cant be used as dirrect successor.
 To maintain number of free positions, columns are
 diversificated, so it is easier to tell where and how many empty row here there.
 
+### After second school testing
+The game is finally balanced, but involving strategy isnt as intuitivve as should be, which is not that bad.
+Luck is big part of game but good strategy can move winning chances to one side completely.
+The game is very slow at beginning but very very, fast at the end.
+In the game there is not easy way to get into the state from which game couldnt be played and win by any player.
+
 ## Final rules
 Rules are same as for solitare Klondike and below are exceptions.
 
