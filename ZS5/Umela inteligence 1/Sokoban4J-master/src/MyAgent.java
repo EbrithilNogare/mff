@@ -7,10 +7,7 @@ import game.actions.EDirection;
 import game.actions.compact.*;
 import game.board.compact.BoardCompact;
 
-/**
- * The simplest Tree-DFS agent.
- * @author Jimmy
- */
+
 public class MyAgent extends ArtificialAgent {
 	protected BoardCompact board;
 	protected int searchedNodes;
@@ -22,7 +19,7 @@ public class MyAgent extends ArtificialAgent {
 		long searchStartMillis = System.currentTimeMillis();
 		
 		List<EDirection> result = new ArrayList<EDirection>();
-		dfs(13, result); // the number marks how deep we will search (the longest plan we will consider)
+		dfs(5, result); // the number marks how deep we will search (the longest plan we will consider)
 
 		long searchTime = System.currentTimeMillis() - searchStartMillis;
         
