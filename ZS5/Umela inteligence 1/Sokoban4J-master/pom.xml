@@ -1,0 +1,38 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cz.cuni.mff</groupId>
+    <artifactId>sokoban4j</artifactId>
+    <version>0.1</version>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
+
+        <resources>
+            <resource>
+              <directory>src/ui/atlas/resources</directory>
+              <targetPath>ui/atlas/resources</targetPath>
+            </resource>
+        </resources>
+    </build>
+
+    <dependencies>
+		<dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.13</version>
+        </dependency>
+    <dependency>
+      <groupId>cz.cuni.mff</groupId>
+      <artifactId>ai-1</artifactId>
+      <version>0.1</version>
+    </dependency>
+    </dependencies>
+
+</project>

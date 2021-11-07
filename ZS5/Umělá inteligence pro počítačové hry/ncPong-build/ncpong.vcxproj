@@ -325,8 +325,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="C:\Users\Nogare\Downloads\ncine\ncPong\pong.h" />
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="C:\Users\Nogare\Downloads\ncine\ncPong\pong.cpp" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="PongGameState.h" />
+    <ClInclude Include="Problem.h" />
+    <ClInclude Include="Solution.h" />
     <ResourceCompile Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\generated\resource.rc" />
     <ClCompile Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\generated\version.cpp" />
     <ResourceCompile Include="C:\Users\Nogare\Downloads\ncine\ncPong-build\generated\version.rc" />
