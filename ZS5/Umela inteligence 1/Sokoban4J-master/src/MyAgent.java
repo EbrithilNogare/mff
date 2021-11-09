@@ -5,6 +5,7 @@ import agents.ArtificialAgent;
 import game.actions.EDirection;
 import game.actions.compact.*;
 import game.board.compact.BoardCompact;
+import game.board.compact.CTile;
 import search.HeuristicProblem;
 import search.Solution;
 
@@ -30,10 +31,46 @@ public class MyAgent extends ArtificialAgent {
 class SokobanProblem implements HeuristicProblem<BoardCompact, CAction> {
 	BoardCompact state;
 	boolean[][] dead;
+	int[][] distanceToGoal;
 	
 	public SokobanProblem(BoardCompact state){
 		this.state = state;
-		dead = DeadSquareDetector.detect(state);
+		this.dead = DeadSquareDetector.detect(state);
+		PrecomputeDistancesToGoal();
+	}
+
+	private void PrecomputeDistancesToGoal() {
+		for (int x = 0; x < state.width(); x++) {
+			for (int y = 0; y < state.height(); y++) {
+				
+
+
+				List<MyTile> visited[] = new List<MyTile>;
+
+				LinkedList<Integer> queue = new LinkedList();
+			
+				visited[s] = true;
+				queue.add(s);
+			
+				while (queue.size() != 0) {
+				  s = queue.poll();
+				  System.out.print(s + " ");
+			
+				  Iterator<Integer> i = adj[s].listIterator();
+				  while (i.hasNext()) {
+					int n = i.next();
+					if (!visited[n]) {
+					  visited[n] = true;
+					  queue.add(n);
+					}
+				  }
+				}
+
+
+
+
+			}
+		}
 	}
 
 	public BoardCompact initialState() { 
@@ -77,4 +114,27 @@ class SokobanProblem implements HeuristicProblem<BoardCompact, CAction> {
 	public double estimate(BoardCompact state) {
 		return state.boxCount - state.boxInPlaceCount;
 	}
-  }
+}
+
+class MyTile{
+	int x;
+	int y;
+	public MyTile(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	@Override
+	public boolean equals(Object o){
+		if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof MyTile)) {
+            return false;
+        }
+        
+        MyTile c = (MyTile) o;
+
+        return x == c.x && y == c.y;
+	}
+}
