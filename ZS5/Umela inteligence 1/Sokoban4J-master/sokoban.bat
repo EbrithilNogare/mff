@@ -1,1 +1,1 @@
-java -cp "target/classes;libs/*" SokobanMain %*
+java -cp "target/classes;../PacManAI-master/target/classes;libs/*" SokobanMain %*
