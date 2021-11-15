@@ -1,18 +1,1 @@
-﻿  AStar.cpp
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\queue(177,92): error C2794: 'value_type': is not a member of any direct or indirect base class of 'NodeComparator'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(14,8): error C2976: 'std::priority_queue': too few template arguments
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\queue(178): message : see declaration of 'std::priority_queue'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(14,1): error C2133: 'nodes': unknown size
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(14,45): error C2512: 'std::priority_queue': no appropriate default constructor available
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\queue(178,22): message : see declaration of 'std::priority_queue'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(17,8): error C2663: 'std::priority_queue<_Ty,_Container,_Pr>::push': 2 overloads have no legal conversion for 'this' pointer
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(19,1): error C2662: '_Container::const_reference std::priority_queue<_Ty,_Container,_Pr>::top(void) noexcept(<expr>) const': cannot convert 'this' pointer from 'std::priority_queue' to 'const std::priority_queue<_Ty,_Container,_Pr> &'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(19,1): message : Reason: cannot convert from 'std::priority_queue' to 'const std::priority_queue<_Ty,_Container,_Pr>'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(19,10): message : Conversion requires a second user-defined-conversion operator or constructor
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\queue(262,32): message : see declaration of 'std::priority_queue<_Ty,_Container,_Pr>::top'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(20,1): error C2662: '_Container::const_reference std::priority_queue<_Ty,_Container,_Pr>::top(void) noexcept(<expr>) const': cannot convert 'this' pointer from 'std::priority_queue' to 'const std::priority_queue<_Ty,_Container,_Pr> &'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(20,1): message : Reason: cannot convert from 'std::priority_queue' to 'const std::priority_queue<_Ty,_Container,_Pr>'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(20,16): message : Conversion requires a second user-defined-conversion operator or constructor
-C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\queue(262,32): message : see declaration of 'std::priority_queue<_Ty,_Container,_Pr>::top'
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\AStar.h(20,14): error C2512: 'Node': no appropriate default constructor available
-C:\git\mff\ZS5\Umělá inteligence pro počítačové hry\ncPong-build\Node.h(5,8): message : see declaration of 'Node'
+﻿  ncpong.vcxproj -> C:\Users\Nogare\Downloads\ncine\ncPong-build\Debug\ncpong.exe

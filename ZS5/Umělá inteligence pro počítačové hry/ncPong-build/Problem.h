@@ -11,5 +11,6 @@ public:
 	PongGameState result(PongGameState state, int action);
 	bool isGoal(PongGameState state);
 	bool cost(PongGameState state, int action);
+	bool estimate(PongGameState state);
 };
 
