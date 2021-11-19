@@ -2,47 +2,66 @@ import minimax.*;
 
 public class Minimax < S, A > implements Strategy < S, A > {
 	HeuristicGame < S, A > game;
+	int mainLimit;
+	Boolean playerGoalMax;
+	A lastAction = null;
+	
 	public Minimax(HeuristicGame < S, A > game, int limit) {
 		this.game = game;
-		minimaxAlg(game.initialState(000), limit, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, true);
+		this.mainLimit = limit == 0 ? Integer.MAX_VALUE : limit;
 	}
 
-	private void minimaxAlg(S state, int depth, double alpha, double beta, Boolean maximizingPlayer) {
-		if(depth == 0 || game.isDone(state))
-			return;
+	private double minimaxAlg(S state, int depth, double alpha, double beta, Boolean maximizingPlayer) {
+		if(depth == 0)
+			return game.evaluate(state);
+		
+		if(game.isDone(state))
+			return game.outcome(state) + (game.outcome(state) > 0 ? -1 : 1) * (this.mainLimit - depth);
 
-		double maxEval;
 		if(maximizingPlayer){
-			maxEval = Double.NEGATIVE_INFINITY;
+			double maxEval = Double.NEGATIVE_INFINITY;
 			
 			for(A action : game.actions(state)){
 				S newState = game.clone(state);
-				double eval = minimax(action, depth - 1, alpha, beta false)
+				game.apply(newState, action);
+
+				double eval = minimaxAlg(newState, depth - 1, alpha, beta, false);
+				if(this.playerGoalMax && maxEval < eval && depth == this.mainLimit){
+					lastAction = action;
+				}
+				maxEval = Math.max(maxEval, eval);
 				
-				maxEval = max(maxEval, eval)
-				alpha = max(alpha, eval)
-				if beta <= alpha
-					break
-				return maxEval
+				if (maxEval >= beta)
+					break;
 				
-		} else {
-			minEval = +infinity
-			for(A action : game.actions(state)){
-				eval = minimax(action, depth - 1, alpha, beta true)
-				minEval = min(minEval, eval)
-				beta = min(beta, eval)
-				if beta <= alpha
-					break
+				alpha = Math.max(alpha, eval);
 			}
-			return minEval
+			return maxEval;
+		} else {
+			double minEval = Double.POSITIVE_INFINITY;
+			for(A action : game.actions(state)){
+				S newState = game.clone(state);
+				game.apply(newState, action);
+
+				double eval = minimaxAlg(newState, depth - 1, alpha, beta, true);
+				if(!this.playerGoalMax && minEval > eval && depth == this.mainLimit){
+					lastAction = action;
+				}
+				minEval = Math.min(minEval, eval);
+				
+				if (minEval <= alpha)
+					break;
+				
+				beta = Math.min(beta, eval);
+			}
+			return minEval;
+		}
 	}
 	
 	// method in Strategy interface
 	public A action(S state) {
-
-		// Your implementation goes here.
-
-		return null;
+		playerGoalMax = game.player(state) == 1; // true for maximizing
+		double cost = minimaxAlg(state, this.mainLimit, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, playerGoalMax);
+		return lastAction;
 	}
-
 }
