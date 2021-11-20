@@ -2,7 +2,7 @@ import minimax.*;
 
 public class Minimax < S, A > implements Strategy < S, A > {
 	HeuristicGame < S, A > game;
-	int mainLimit;
+	public int mainLimit;
 	Boolean playerGoalMax;
 	A lastAction = null;
 	
@@ -61,7 +61,8 @@ public class Minimax < S, A > implements Strategy < S, A > {
 	// method in Strategy interface
 	public A action(S state) {
 		playerGoalMax = game.player(state) == 1; // true for maximizing
-		double cost = minimaxAlg(state, this.mainLimit, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, playerGoalMax);
+		double score = minimaxAlg(state, this.mainLimit, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, playerGoalMax);
+		//System.out.println("score: " + score);
 		return lastAction;
 	}
 }

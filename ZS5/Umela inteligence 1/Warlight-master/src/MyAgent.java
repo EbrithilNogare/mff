@@ -1,66 +1,163 @@
+import java.lang.reflect.Constructor;
 import java.util.*;
+
+import javax.print.event.PrintEvent;
+import javax.security.auth.x500.X500Principal;
 
 import engine.AgentBase;
 import game.*;
 import game.move.*;
+import minimax.HeuristicGame;
+import agents.Napoleon;
 
 public class MyAgent extends AgentBase
 {
     Random random = new Random(0);
+    Napoleon napoleon = new Napoleon();
+    Minimax<Game, WarlightAction> minimax;
+    WarlightProblem problem;
+    WarlightAction nextAction;
     
-    // This is a dummy implementation that moves randomly.
-
     @Override
     public void init(long timeoutMillis) {
+        problem = new WarlightProblem();
+        minimax = new Minimax<Game, WarlightAction>(problem, 1); // not actual depth, its dynamically changing
     }
-    
-    // Choose a starting region.
-    
+
     @Override
     public Region chooseRegion(Game game) {
         ArrayList<Region> choosable = game.getPickableRegions();
         return choosable.get(random.nextInt(choosable.size()));
     }
 
-    // Decide where to place armies this turn.
-    // game.armiesPerTurn(game.currentPlayer()) is the number of armies available to place.
-    
     @Override
-    public List<PlaceArmies> placeArmies(Game game) {
-        int me = game.currentPlayer();
-        int available = game.armiesPerTurn(me);
+    public List<PlaceArmies> placeArmies(Game state) {
+        if(state.getRoundNumber() > 20 && state.getRoundNumber() < 90)
+            minimax.mainLimit = 4;
+        else
+            minimax.mainLimit = 7;
 
-        List<Region> mine = game.regionsOwnedBy(me);
-        int numRegions = mine.size();
-        
-        int[] count = new int[numRegions];
-        for (int i = 0 ; i < available ; ++i) {
-            int r = random.nextInt(numRegions);
-            count[r]++;
-        }
-        
-        List<PlaceArmies> ret = new ArrayList<PlaceArmies>();
-        for (int i = 0 ; i < numRegions ; ++i)
-            if (count[i] > 0)
-                ret.add(new PlaceArmies(mine.get(i), count[i]));
-        return ret;
+        problem.me = state.currentPlayer();
+        this.nextAction = minimax.action(state);
+
+        return this.nextAction.placeArmies;
     }
     
-    // Decide where to move armies this turn.
-    
     @Override
-    public List<AttackTransfer> attackTransfer(Game game) {
-        int me = game.currentPlayer();
-        List<AttackTransfer> ret = new ArrayList<AttackTransfer>();
-        
-        for (Region r : game.regionsOwnedBy(me)) {
-            int count = random.nextInt(game.getArmies(r));
-            if (count > 0) {
-                List<Region> neighbors = r.getNeighbors();
-                Region to = neighbors.get(random.nextInt(neighbors.size()));
-                ret.add(new AttackTransfer(r, to, count));
+    public List<AttackTransfer> attackTransfer(Game state) {
+        return this.nextAction.attackTransfer;   
+    }
+}
+
+class WarlightProblem implements HeuristicGame<Game, WarlightAction>{
+    Napoleon napoleon;
+    public int me;
+
+    WarlightProblem(){
+        napoleon = new Napoleon();
+    }
+
+    @Override
+    public Game initialState(int seed) {
+        return null;
+    }
+
+    @Override
+    public Game clone(Game state) {
+        return state.clone();
+    }
+
+    @Override
+    public int player(Game state) {
+        return state.currentPlayer();
+    }
+
+    @Override
+    public List<WarlightAction> actions(Game state) {
+        List<WarlightAction>toReturn = new ArrayList<WarlightAction>();
+
+        if(state.currentPlayer() == this.me){
+            List<Integer> alreadyAttacked = new ArrayList<>();
+            for(Region region : state.regionsOwnedBy(state.currentPlayer())){
+                if(state.getOwner(region) != this.me)
+                    continue;
+                for(Region neighbor : region.getNeighbors()){
+                    if(alreadyAttacked.contains(neighbor.id) || state.getOwner(neighbor) == this.me)
+                        continue;
+                    alreadyAttacked.add(neighbor.id);
+                }
             }
-        }
-        return ret;        
+
+            for(Integer regionToAttack : alreadyAttacked){
+                List<PlaceArmies> placeArmies = new ArrayList<>();
+                List<AttackTransfer> attackTransfer = new ArrayList<>();
+                for(Region regionToAttackNeighbor : state.getRegion(regionToAttack).getNeighbors()) {
+                    if(state.getOwner(regionToAttackNeighbor) != state.currentPlayer())
+                        continue;
+                    if(attackTransfer.size() == 0){
+                        placeArmies.add(new PlaceArmies(regionToAttackNeighbor, state.armiesPerTurn(state.currentPlayer())));
+                        attackTransfer.add(new AttackTransfer(regionToAttackNeighbor, state.getRegion(regionToAttack), state.getArmies(regionToAttackNeighbor)-1 + state.armiesPerTurn(state.currentPlayer())));
+                    } else {
+                        if(state.getArmies(regionToAttackNeighbor)-1 > 0)
+                            attackTransfer.add(new AttackTransfer(regionToAttackNeighbor, state.getRegion(regionToAttack), state.getArmies(regionToAttackNeighbor)-1));
+                    }
+                    
+                    toReturn.add(
+                        new WarlightAction(
+                            placeArmies,
+                            attackTransfer
+                        )
+                    );
+                }
+            }
+        } 
+        else
+        toReturn.add(
+            new WarlightAction(
+                napoleon.placeArmies(state),
+                napoleon.attackTransfer(state)
+            )
+        );
+
+        return toReturn;
+    }
+
+    @Override
+    public void apply(Game state, WarlightAction action) {
+        state.placeArmies(action.placeArmies);
+        state.attackTransfer(action.attackTransfer, true);
+    }
+
+    @Override
+    public boolean isDone(Game state) {
+        return state.isDone();
+    }
+
+    @Override
+    public double outcome(Game state) {
+        if(this.me == state.winningPlayer())
+            return 1000000;
+        else
+            return -1000000;
+    }
+
+    @Override
+    public double evaluate(Game state) {
+        double score = 0;
+        score += state.armiesPerTurn(this.me) - state.armiesPerTurn(this.me == 1 ? 2 : 1);
+        score *= 10;
+        score += state.numberRegionsOwned(this.me) - state.numberRegionsOwned(this.me == 1 ? 2 : 1);
+        score *= 100;
+        score += state.numberArmiesOwned(this.me) - state.numberArmiesOwned(this.me == 1 ? 2 : 1);
+        return score;
+    }
+}
+
+class WarlightAction{
+    List<PlaceArmies> placeArmies;
+    List<AttackTransfer> attackTransfer;
+    WarlightAction(List<PlaceArmies> placeArmies, List<AttackTransfer> attackTransfer){
+        this.placeArmies = placeArmies;
+        this.attackTransfer = attackTransfer;
     }
 }
