@@ -69,7 +69,7 @@ class WarlightProblem implements HeuristicGame<Game, WarlightAction>{
 
     @Override
     public int player(Game state) {
-        return state.currentPlayer();
+        return state.currentPlayer() == this.me ? 1 : 2;
     }
 
     @Override
