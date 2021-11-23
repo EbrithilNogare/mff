@@ -33,7 +33,7 @@ public class MyAgent extends AgentBase
     @Override
     public List<PlaceArmies> placeArmies(Game state) {
         if(state.getRoundNumber() > 20 && state.getRoundNumber() < 90)
-            minimax.mainLimit = 4;
+            minimax.mainLimit = 5;
         else
             minimax.mainLimit = 7;
 
@@ -96,10 +96,17 @@ class WarlightProblem implements HeuristicGame<Game, WarlightAction>{
                         continue;
                     if(attackTransfer.size() == 0){
                         placeArmies.add(new PlaceArmies(regionToAttackNeighbor, state.armiesPerTurn(state.currentPlayer())));
-                        attackTransfer.add(new AttackTransfer(regionToAttackNeighbor, state.getRegion(regionToAttack), state.getArmies(regionToAttackNeighbor)-1 + state.armiesPerTurn(state.currentPlayer())));
+                        attackTransfer.add(new AttackTransfer(
+                            regionToAttackNeighbor,
+                            state.getRegion(regionToAttack),
+                            (state.getArmies(regionToAttackNeighbor) > 50 ? state.getArmies(regionToAttackNeighbor)-20 : state.getArmies(regionToAttackNeighbor)-1) + state.armiesPerTurn(state.currentPlayer())
+                        ));
                     } else {
                         if(state.getArmies(regionToAttackNeighbor)-1 > 0)
-                            attackTransfer.add(new AttackTransfer(regionToAttackNeighbor, state.getRegion(regionToAttack), state.getArmies(regionToAttackNeighbor)-1));
+                            attackTransfer.add(new AttackTransfer(
+                                regionToAttackNeighbor,
+                                state.getRegion(regionToAttack),
+                                state.getArmies(regionToAttackNeighbor)-1));
                     }
                     
                     toReturn.add(
