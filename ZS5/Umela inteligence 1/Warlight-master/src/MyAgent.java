@@ -8,12 +8,10 @@ import engine.AgentBase;
 import game.*;
 import game.move.*;
 import minimax.HeuristicGame;
-import agents.Napoleon;
 
 public class MyAgent extends AgentBase
 {
     Random random = new Random(0);
-    Napoleon napoleon = new Napoleon();
     Minimax<Game, WarlightAction> minimax;
     WarlightProblem problem;
     WarlightAction nextAction;
@@ -32,10 +30,10 @@ public class MyAgent extends AgentBase
 
     @Override
     public List<PlaceArmies> placeArmies(Game state) {
-        if(state.getRoundNumber() > 20 && state.getRoundNumber() < 90)
-            minimax.mainLimit = 5;
+        if(state.getRoundNumber() > 25 && state.getRoundNumber() < 95)
+            minimax.mainLimit = state.numPlayers() == 2 ? 4 : 3;
         else
-            minimax.mainLimit = 7;
+            minimax.mainLimit = state.numPlayers() == 2 ? 5 : 4;
 
         problem.me = state.currentPlayer();
         this.nextAction = minimax.action(state);
@@ -50,11 +48,10 @@ public class MyAgent extends AgentBase
 }
 
 class WarlightProblem implements HeuristicGame<Game, WarlightAction>{
-    Napoleon napoleon;
     public int me;
 
     WarlightProblem(){
-        napoleon = new Napoleon();
+        
     }
 
     @Override
@@ -76,55 +73,46 @@ class WarlightProblem implements HeuristicGame<Game, WarlightAction>{
     public List<WarlightAction> actions(Game state) {
         List<WarlightAction>toReturn = new ArrayList<WarlightAction>();
 
-        if(state.currentPlayer() == this.me){
-            List<Integer> alreadyAttacked = new ArrayList<>();
-            for(Region region : state.regionsOwnedBy(state.currentPlayer())){
-                if(state.getOwner(region) != this.me)
+        List<Integer> alreadyAttacked = new ArrayList<>();
+        for(Region region : state.regionsOwnedBy(state.currentPlayer())){
+            if(state.getOwner(region) != state.currentPlayer())
+                continue;
+            for(Region neighbor : region.getNeighbors()){
+                if(alreadyAttacked.contains(neighbor.id) || state.getOwner(neighbor) == state.currentPlayer())
                     continue;
-                for(Region neighbor : region.getNeighbors()){
-                    if(alreadyAttacked.contains(neighbor.id) || state.getOwner(neighbor) == this.me)
-                        continue;
-                    alreadyAttacked.add(neighbor.id);
-                }
+                alreadyAttacked.add(neighbor.id);
             }
+        }
 
-            for(Integer regionToAttack : alreadyAttacked){
-                List<PlaceArmies> placeArmies = new ArrayList<>();
-                List<AttackTransfer> attackTransfer = new ArrayList<>();
-                for(Region regionToAttackNeighbor : state.getRegion(regionToAttack).getNeighbors()) {
-                    if(state.getOwner(regionToAttackNeighbor) != state.currentPlayer())
-                        continue;
-                    if(attackTransfer.size() == 0){
-                        placeArmies.add(new PlaceArmies(regionToAttackNeighbor, state.armiesPerTurn(state.currentPlayer())));
+        for(Integer regionToAttack : alreadyAttacked){
+            List<PlaceArmies> placeArmies = new ArrayList<>();
+            List<AttackTransfer> attackTransfer = new ArrayList<>();
+            for(Region regionToAttackNeighbor : state.getRegion(regionToAttack).getNeighbors()) {
+                if(state.getOwner(regionToAttackNeighbor) != state.currentPlayer())
+                    continue;
+                if(attackTransfer.size() == 0){
+                    placeArmies.add(new PlaceArmies(regionToAttackNeighbor, state.armiesPerTurn(state.currentPlayer())));
+                    attackTransfer.add(new AttackTransfer(
+                        regionToAttackNeighbor,
+                        state.getRegion(regionToAttack),
+                        (state.getArmies(regionToAttackNeighbor) > 50 ? state.getArmies(regionToAttackNeighbor)-20 : state.getArmies(regionToAttackNeighbor)-1) + state.armiesPerTurn(state.currentPlayer())
+                    ));
+                } else {
+                    if(state.getArmies(regionToAttackNeighbor)-1 > 0)
                         attackTransfer.add(new AttackTransfer(
                             regionToAttackNeighbor,
                             state.getRegion(regionToAttack),
-                            (state.getArmies(regionToAttackNeighbor) > 50 ? state.getArmies(regionToAttackNeighbor)-20 : state.getArmies(regionToAttackNeighbor)-1) + state.armiesPerTurn(state.currentPlayer())
-                        ));
-                    } else {
-                        if(state.getArmies(regionToAttackNeighbor)-1 > 0)
-                            attackTransfer.add(new AttackTransfer(
-                                regionToAttackNeighbor,
-                                state.getRegion(regionToAttack),
-                                state.getArmies(regionToAttackNeighbor)-1));
-                    }
-                    
-                    toReturn.add(
-                        new WarlightAction(
-                            placeArmies,
-                            attackTransfer
-                        )
-                    );
+                            state.getArmies(regionToAttackNeighbor)-1));
                 }
+                
+                toReturn.add(
+                    new WarlightAction(
+                        placeArmies,
+                        attackTransfer
+                    )
+                );
             }
-        } 
-        else
-        toReturn.add(
-            new WarlightAction(
-                napoleon.placeArmies(state),
-                napoleon.attackTransfer(state)
-            )
-        );
+        }
 
         return toReturn;
     }
