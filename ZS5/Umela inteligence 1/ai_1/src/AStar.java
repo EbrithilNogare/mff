@@ -23,20 +23,7 @@ public class AStar<S, A> {
 
 				S newState = prob.result(node.state, action);
 				double newCost = prob.cost(node.state, action) + node.pathCost;
-				HeuristicNode<S,A> foundNode = null;
 
-				for(HeuristicNode<S,A> nodeIndex : nodes){
-					if(nodeIndex.pathCost < newCost)
-						break;
-					if(nodeIndex.state.equals(newState)){
-						foundNode = nodeIndex;
-						break;
-					}
-				}
-				
-				if(foundNode != null && foundNode.pathCost <= newCost)
-					continue;
-				
 				HeuristicNode<S,A> newNode = new HeuristicNode<S,A>(
 					newState,
 					newCost,
@@ -44,14 +31,7 @@ public class AStar<S, A> {
 					action,
 					prob.estimate(newState)
 				);
-				if(foundNode == null){
-					nodes.add(newNode);
-				} else {
-					if(foundNode.pathCost > newCost){
-						nodes.remove(foundNode);
-						nodes.add(newNode);
-					}
-				}
+				nodes.add(newNode);
 			};	
 			
 			visitedStates.add(node.state);
