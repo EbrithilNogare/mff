@@ -12,7 +12,7 @@ public class AStar<S, A> {
 		PriorityQueue<HeuristicNode<S,A>> nodes = new PriorityQueue<HeuristicNode<S,A>>();
 		Set<S> visitedStates = new HashSet<S>();
 
-		nodes.add(new HeuristicNode<S,A>(prob.initialState(), prob.estimate(prob.initialState())));
+		nodes.add(new HeuristicNode<S,A>(prob.initialState()));
 
 		while(nodes.peek() != null && !prob.isGoal(nodes.peek().state)){
 			HeuristicNode<S,A> node = nodes.peek(); 
@@ -22,11 +22,10 @@ public class AStar<S, A> {
 					continue;
 
 				S newState = prob.result(node.state, action);
-				double newCost = prob.cost(node.state, action) + node.pathCost;
 
 				HeuristicNode<S,A> newNode = new HeuristicNode<S,A>(
 					newState,
-					newCost,
+					prob.cost(node.state, action) + node.pathCost,
 					node,
 					action,
 					prob.estimate(newState)
@@ -63,11 +62,9 @@ class HeuristicNode<S,A> implements Comparable<HeuristicNode<S,A>> {
 	double estimatedCost;
 	double totalCost;
 	
-	public HeuristicNode(S state, double estimatedCost)
+	public HeuristicNode(S state)
 	{
 		this.state = state;
-		totalCost = this.estimatedCost = estimatedCost;
-		this.backtracking = null;
 	}
 	
 	public HeuristicNode(S state, double pathCost, HeuristicNode<S,A> backtracking, A action, double estimatedCost)
