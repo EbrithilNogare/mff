@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -37,7 +38,6 @@ public class AStar<S, A> {
 			nodes.remove();	
 		}
 
-
 		System.out.print("visited " + visitedStates.size() + ", ");
 
 		if(nodes.peek() == null)
@@ -46,9 +46,10 @@ public class AStar<S, A> {
 			List<A> finalActions = new ArrayList<A>();
 			HeuristicNode<S,A> nodeIndex = nodes.peek();
 			while(nodeIndex != null && nodeIndex.backtracking != null){
-				finalActions.add(0,nodeIndex.action);
+				finalActions.add(nodeIndex.action);
 				nodeIndex = nodeIndex.backtracking;
 			}
+			Collections.reverse(finalActions);
 			return new Solution<S,A>(finalActions, nodes.peek().state, nodes.peek().pathCost);
 		}
 	}
