@@ -30,7 +30,7 @@ public class Ucs<S, A> {
 						)
 					);
 				}
-			};		
+			};
 			
 			//System.out.println("cost: " + nodes.peek().cost);
 			visitedStates.add(node.state);
@@ -65,7 +65,6 @@ public class Ucs<S, A> {
 				nodes.add(newNode);
 			}
 		}
-		
 	}
 }
 

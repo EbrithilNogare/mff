@@ -6,7 +6,6 @@ import controllers.pacman.PacManControllerBase;
 import game.core.G;
 import game.core.Game;
 import game.core.GameView;
-import game.core.Game.DM;
 import search.Problem;
 import search.Solution;
 
@@ -91,7 +90,7 @@ class PacmanProblem implements Problem<Integer, Integer> {
 			return false;
 		}
 		return game.checkPill(pillIndex);
-	 }
+	}
   
 	public double cost(Integer state, Integer action) {
 		int nextStep = game.getNeighbour(state, action);
