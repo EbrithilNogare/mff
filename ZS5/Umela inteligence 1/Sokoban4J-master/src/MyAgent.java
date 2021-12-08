@@ -111,8 +111,8 @@ class SokobanProblem implements HeuristicProblem<BoardCompact, CAction> {
 	@Override
 	public double estimate(BoardCompact state) {
 		int distanceSum = 0;
-		for (int x = 0; x < state.width(); x++)
-			for (int y = 0; y < state.height(); y++)
+		for (int x = 1; x < state.width()-1; x++)
+			for (int y = 1; y < state.height()-1; y++)
 				if(CTile.isSomeBox(state.tile(x, y)))
 					distanceSum += distanceToGoal[x][y];
 
