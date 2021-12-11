@@ -39,19 +39,21 @@ public class BoardCompact implements Cloneable {
 	
 	public BoardCompact(int width, int height) {
 		tiles = new int[width][height];
-		for (int x = 0; x < width; ++x) {
-			for (int y = 0; y < height; ++y) {
-				tiles[x][y] = 0;
-			}			
-		}
+		//for (int x = 0; x < width; ++x) {
+		//	for (int y = 0; y < height; ++y) {
+		//		tiles[x][y] = 0;
+		//	}			
+		//}
 	}
 	
 	@Override
 	public BoardCompact clone() {
 		BoardCompact result = new BoardCompact();
-		result.tiles = new int[width()][height()];
-		for (int x = 0; x < width(); ++x) {
-			for (int y = 0; y < height(); ++y) {
+		int width = width()-1;
+		int height = height()-1;
+		result.tiles = new int[width+1][height+1];
+		for (int x = 1; x < width; ++x) {
+			for (int y = 1; y < height; ++y) {
 				result.tiles[x][y] = tiles[x][y];
 			}			
 		}
@@ -59,15 +61,18 @@ public class BoardCompact implements Cloneable {
 		result.playerY = playerY;
 		result.boxCount = boxCount;
 		result.boxInPlaceCount = boxInPlaceCount;
+		result.hash = hash;
 		return result;
 	}
 	
 	@Override
 	public int hashCode() {
+		int width = width()-1;
+		int height = height()-1;
 		if (hash == null) {
 			hash = 0;
-			for (int x = 0; x < width(); ++x) {
-				for (int y = 0; y < height(); ++y) {
+			for (int x = 1; x < width; ++x) {
+				for (int y = 1; y < height; ++y) {
 					hash += (290317 * x + 97 * y) * tiles[x][y];
 				}		
 			}
