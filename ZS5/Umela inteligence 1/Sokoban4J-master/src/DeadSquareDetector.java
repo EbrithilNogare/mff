@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import game.actions.EDirection;
 import game.board.compact.BoardCompact;
 import game.board.compact.CTile;
 
@@ -32,19 +33,10 @@ class DeadSquareDetector{
 				continue;
 			}
 			deaths[x][y] = false;
-
-			// from left
-			if(x>1 && !CTile.isWall(board.tile(x-1,y)) && !CTile.isWall(board.tile(x-2,y)))
-				toBeSearched.add(new Pair<Integer, Integer>(x-1,y));
-			// from top
-			if(y>1 && !CTile.isWall(board.tile(x,y-1)) && !CTile.isWall(board.tile(x,y-2)))
-				toBeSearched.add(new Pair<Integer, Integer>(x,y-1));
-			// from right
-			if(x+2<board.width() && !CTile.isWall(board.tile(x+1,y)) && !CTile.isWall(board.tile(x+2,y)))
-				toBeSearched.add(new Pair<Integer, Integer>(x+1,y));
-			// from bottom
-			if(y+2<board.height() && !CTile.isWall(board.tile(x,y+1)) && !CTile.isWall(board.tile(x,y+2)))
-				toBeSearched.add(new Pair<Integer, Integer>(x,y+1));
+			
+			for (EDirection dir : EDirection.arrows())
+			if(!CTile.isWall(board.tile(x + dir.dX, y + dir.dY)) && !CTile.isWall(board.tile(x + 2*dir.dX, y + 2*dir.dY)))
+				toBeSearched.add(new Pair<Integer, Integer>(x + dir.dX, y + dir.dY));
 		}
 
 		return deaths;
