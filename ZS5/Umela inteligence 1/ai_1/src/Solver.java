@@ -22,12 +22,11 @@ public class Solver {
                 realCount += csp.value[var] ? 1 : 0;
             }
 
-            if(realCount > constraint.count)
+            if(realCount > constraint.count || realCount + missingVars.size() < constraint.count){
+                //todo reverse changes
                 return null;
+            }
 
-            if(realCount + missingVars.size() < constraint.count)
-                return null;
-            
             if(missingVars.size() == 0)
                 continue;
 
@@ -73,20 +72,21 @@ public class Solver {
             
             List<Integer> resultFCH = forwardCheck(csp);
             if(resultFCH == null){
-                csp.value = previousValue;
+                csp.value = previousValue.clone();
                 csp.unchecked.clear();
                 continue;
             }
 
             List<Integer> resultCSP = solve(csp);
             if(resultCSP == null){
-                csp.value = previousValue;
+                csp.value = previousValue.clone();
                 csp.unchecked.clear();
                 continue;
             }
 
             toReturn.addAll(resultFCH);
             toReturn.addAll(resultCSP);
+            toReturn.add(valIndex);
 
             return toReturn;
         }
@@ -97,11 +97,30 @@ public class Solver {
     // Infer a value for a single variable if possible using a proof by contradiction.
     // If any variable is inferred, return it; otherwise return -1.
     public int inferVar(BooleanCSP csp) {
-        Boolean[] previousValue = csp.value.clone();
-        List<Integer> resultFCH = forwardCheck(csp);
+        for (int i = 0; i < csp.value.length; i++) {
+            if(csp.value[i] != null)
+                continue;
 
+            csp.set(i, true);
+            List<Integer> resultCSP = solve(csp);
+            if(resultCSP == null){
+                csp.set(i, false);
+                return i;
+            }
+            for(int CSPItem : resultCSP)
+                csp.value[CSPItem] = null;
+            
+            csp.set(i, false);
+            resultCSP = solve(csp);
+            if(resultCSP == null){
+                csp.set(i, true);
+                return i;
+            }
+            for(int CSPItem : resultCSP)
+                csp.value[CSPItem] = null;
+            csp.value[i] = null;
+        }
 
-
-        return resultFCH.size() == 0 ? -1 : resultFCH.get(0);
+        return -1;
     }
 }
