@@ -24,6 +24,9 @@ public class Solver {
 
             if(realCount > constraint.count)
                 return null;
+
+            if(realCount + missingVars.size() < constraint.count)
+                return null;
             
             if(missingVars.size() == 0)
                 continue;
@@ -54,12 +57,51 @@ public class Solver {
     // Return a list of variables whose values were inferred.  If no solution is found,
     // return null.
     public List<Integer> solve(BooleanCSP csp) {
-        throw new Error("unimplemented");
+        Boolean[] previousValue = csp.value.clone();
+        List<Integer> toReturn = new ArrayList<Integer>();
+
+        int valIndex;
+        for(valIndex = 0; valIndex < csp.value.length; valIndex++)
+            if(csp.value[valIndex] == null)
+                break;
+        
+        if(valIndex == csp.value.length)
+            return toReturn;
+
+        for(int guessValue = 0; guessValue < 2; guessValue++){
+            csp.set(valIndex, guessValue == 0 ? false : true);
+            
+            List<Integer> resultFCH = forwardCheck(csp);
+            if(resultFCH == null){
+                csp.value = previousValue;
+                csp.unchecked.clear();
+                continue;
+            }
+
+            List<Integer> resultCSP = solve(csp);
+            if(resultCSP == null){
+                csp.value = previousValue;
+                csp.unchecked.clear();
+                continue;
+            }
+
+            toReturn.addAll(resultFCH);
+            toReturn.addAll(resultCSP);
+
+            return toReturn;
+        }
+
+        return null;
     }
 
     // Infer a value for a single variable if possible using a proof by contradiction.
     // If any variable is inferred, return it; otherwise return -1.
     public int inferVar(BooleanCSP csp) {
-        throw new Error("unimplemented");
+        Boolean[] previousValue = csp.value.clone();
+        List<Integer> resultFCH = forwardCheck(csp);
+
+
+
+        return resultFCH.size() == 0 ? -1 : resultFCH.get(0);
     }
 }
