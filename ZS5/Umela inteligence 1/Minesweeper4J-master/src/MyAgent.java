@@ -18,68 +18,67 @@ public class MyAgent extends ArtificialAgent {
      */
 	Solver solver = new Solver();
 	BooleanCSP csp = null;
-	boolean wasAdvice = false;
+	List<Integer> availableMoves = new ArrayList<>();
 			
 	@Override
 	protected Action thinkImpl(Board board, Board previousBoard) {
 		if(csp == null)
 			createCSP(board);
-
+			
 		reloadCSP(board, previousBoard);
 		
-
-		for (Integer val = 0; val < csp.numVars ; val++) {
-			if(csp.value[val] == null)
-				continue;
-			if(csp.value[val] == true){
-				Action action = Action.flag(val / board.width, val % board.width);
-				if(action.isPossible(board))
-					return action;
-			} else {
-				Action action = Action.open(val / board.width, val % board.width);
-				if(action.isPossible(board))
-					return action;
+		while(availableMoves.size() != 0) {
+			int val = availableMoves.remove(0);
+			int x = val / board.width;
+			int y = val % board.width;
+			if(csp.value[val] == true && !board.tile(x,y).flag){
+				Action action = Action.flag(x, y);
+				return action;
+			}
+			if(csp.value[val] == false && !board.tile(x,y).visible){
+				Action action = Action.open(x, y);
+				return action;
 			}
 		}
-
 		
 		//System.out.println(csp.toString());
 		//System.out.println(csp.constraints.size());
 		//System.out.println();
 		
-		List<Integer> resultFCH = solver.forwardCheck(csp);
-		if(resultFCH.isEmpty()){			
-			solver.forwardCheck(csp);
 
+		List<Integer> resultFCH = solver.forwardCheck(csp);
+		if(resultFCH == null){
+			return Action.advice();
+		}
+		if(resultFCH.isEmpty()){			
 			int resultIV = solver.inferVar(csp);
 			if(resultIV != -1)
 				resultFCH.add(resultIV);
 		}
+		availableMoves.addAll(resultFCH);
 		
 		
-		for (Integer val : resultFCH) {
-			if(csp.value[val] == null)
-				continue;
-			if(csp.value[val] == true){
-				Action action = Action.flag(val / board.width, val % board.width);
-				if(action.isPossible(board))
-					return action;
-			} else {
-				Action action = Action.open(val / board.width, val % board.width);
-				if(action.isPossible(board))
-					return action;
+		while(availableMoves.size() != 0) {
+			int val = availableMoves.remove(0);
+			int x = val / board.width;
+			int y = val % board.width;
+			if(csp.value[val] == true && !board.tile(x,y).flag){
+				Action action = Action.flag(x, y);
+				return action;
+			}
+			if(csp.value[val] == false && !board.tile(x,y).visible){
+				Action action = Action.open(x, y);
+				return action;
 			}
 		}
-
 		
-		wasAdvice = true;
 		return Action.advice();
 	}
 
 	private void reloadCSP(Board board, Board previousBoard) {
 		for (int x = 0; x < board.width; x++)
 			for (int y = 0; y < board.height; y++)
-				if(previousBoard == null || board.tile(x,y).visible != previousBoard.tile(x,y).visible){
+				if(board.tile(x,y).visible && (previousBoard == null || !previousBoard.tile(x,y).visible)){
 					Tile tile = board.tile(x,y);
 					if(!tile.visible)
 						continue;
@@ -105,7 +104,7 @@ public class MyAgent extends ArtificialAgent {
 	}
 
 	void createCSP(Board board){
-		csp = new BooleanCSP(board.width*board.width);
+		csp = new BooleanCSP(board.width*board.height);
 	}
 	
 }
