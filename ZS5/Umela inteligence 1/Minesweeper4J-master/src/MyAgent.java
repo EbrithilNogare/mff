@@ -43,12 +43,14 @@ public class MyAgent extends ArtificialAgent {
 		}
 
 		
-		System.out.println(csp.toString());
-		System.out.println(csp.constraints.size());
-		System.out.println();
+		//System.out.println(csp.toString());
+		//System.out.println(csp.constraints.size());
+		//System.out.println();
 		
 		List<Integer> resultFCH = solver.forwardCheck(csp);
-		if(resultFCH.isEmpty()){
+		if(resultFCH.isEmpty()){			
+			solver.forwardCheck(csp);
+
 			int resultIV = solver.inferVar(csp);
 			if(resultIV != -1)
 				resultFCH.add(resultIV);
