@@ -1,0 +1,72 @@
+PREDNASKY:
+1. prednaska:
+https://youtu.be/swuv4dZUEY0
+
+2. prednaska:
+https://youtu.be/GPrThvIGMqI
+
+3. prednaska:
+https://youtu.be/Q_Sl-4hDfuo
+
+4. prednaska:
+https://youtu.be/uW3YjsGZnfI
+
+5. prednaska:
+https://youtu.be/L1iWw8Gi3E4
+
+6. prednaska (kvuli technickym problemum na 2 casti):
+https://youtu.be/B_TBkxpN7Mk
+https://youtu.be/NiWnxpDBBYM
+
+* BONUS k 6. prednasce [nad ramec zkousky] = enumeratory jako struct
+https://youtu.be/xEbbrp-EvWc
+
+7. prednaska:
+https://youtu.be/oBzEvWgjb58
+
+8. prednaska:
+https://youtu.be/O0qtCNK9gXI
+
+* BONUS k 8. prednasce [nad ramec zkousky] = covariance a contravariance
+delegatu, eventy, WeakReference:
+https://youtu.be/yUhfjSsVL_Q
+
+9. prednaska:
+https://youtu.be/GoOj0BXQh_A
+
+10. prednaska (4 casti) - anonymni typy, value tuples (dnes v .NET 4.8.x,
+resp. .NET Core je jiz plna podpora pro ValueTuple, a neni treba dodavat
+balicek jako je zmineno ve videu), LINQ:
+https://youtu.be/7ed7U2BNr-c
+https://youtu.be/Xi0vzQ_RH08
+https://youtu.be/yZypNOymFqQ
+https://youtu.be/htVR_XaGzbI
+
+11. prednaska:
+https://youtu.be/y9TmL-8qC_A
+
+12. prednaska:
+https://youtu.be/sRM1qE_xFrY
+
+13. prednaska - kratsi:
+https://youtu.be/Y1VQ0Ufdscs
+
+14. prednaska - kratka:
+https://youtu.be/wwCAxRRJwTk
+https://youtu.be/t2Ul4EtnsBQ
+
+BONUSy = nebudou na zkousce (nicmene koncepty z nich samozrejme muzete
+pouzit v zapoctovych programech, a jejich pouziti bude tez brano jako
+splneni podminky na pouziti "technologie" z .NET I):
+
+15. prednaska = 14. prednaska 2017/2018 = vice k Taskum + Task<T> jako
+future vs. promise:
+https://youtu.be/Pk3-0-tr_ds
+https://youtu.be/dmqQAt86hy0
+https://youtu.be/FkarLl-Tbsk
+
+16. prednaska = 15. bonus prednaska 2017/2018 = dokonceni Tasku + zakladni
+sitovani v .NET pomoci socketu + async/await:
+https://youtu.be/poKLuOLtY_Y
+https://youtu.be/T2FnTazoDMU
+https://youtu.be/YO0-f7xqaXo
