@@ -1298,7 +1298,7 @@ m4_define([m4_map_args_sep],
 m4_define([m4_map_args_w],
 [_$0(_m4_split([ ]m4_flatten([$1])[ ], [[	 ]+],
 	       m4_if(m4_index([$2$3$4], [\]), [-1], [[$3[]$4[]$2]],
-		     [m4_bpatsubst([[$3[]$4[]$2]], [\\], [\\\\])])),
+		     [m4_bpatsubst([[$3[]$4[]$2]], [\\], [])])),
      m4_len([[]$3[]$4]), m4_len([$4[]$2[]]))])
 
 m4_define([_m4_map_args_w],

@@ -75,6 +75,9 @@
     <Compile Include="..\common\Util.cs">
       <Link>Util.cs</Link>
     </Compile>
+    <Compile Include="..\modules\FullColor\ModuleFullColor.cs">
+      <Link>ModuleFullColor\ModuleFullColor.cs</Link>
+    </Compile>
     <Compile Include="..\modules\HSV\ModuleHSV.cs">
       <Link>ModuleHSV\ModuleHSV.cs</Link>
     </Compile>
@@ -87,14 +90,6 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModuleHistogram\Histogram.cs" />
-    <Compile Include="ModuleHistogram\HistogramForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ModuleHistogram\HistogramForm.Designer.cs">
-      <DependentUpon>HistogramForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ModuleHistogram\ModuleHistogram.cs" />
     <Compile Include="..\modules\HSV\FormHSV.cs">
       <Link>ModuleHSV\FormHSV.cs</Link>
       <SubType>Form</SubType>
@@ -107,9 +102,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModuleHistogram\HistogramForm.resx">
-      <DependentUpon>HistogramForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="..\modules\HSV\FormHSV.resx">
       <Link>ModuleHSV\FormHSV.resx</Link>
@@ -144,8 +136,6 @@
   <ItemGroup>
     <None Include="Resources\EmptyImage.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ModuleHSV\hue-wallpaper.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

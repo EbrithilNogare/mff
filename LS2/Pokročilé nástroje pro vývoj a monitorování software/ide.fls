@@ -280,6 +280,35 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmssi8.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmss8.tfm
 INPUT /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmssbx10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmex10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT /usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+INPUT /usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
+INPUT /usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+INPUT /usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
+INPUT /usr/share/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
+INPUT /usr/share/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
+INPUT /usr/share/texmf-dist/fonts/tfm/public/sansmathaccent/mathkerncmssi10.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/sansmathaccent/mathkerncmssi8.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/sansmathaccent/mathkerncmssi8.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmssi10.tfm
+INPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/images/intelisense.png
+INPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/images/intelisense.png
+INPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/images/intelisense.png
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmss17.tfm
 OUTPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/ide.nav
 OUTPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/ide.toc
@@ -287,8 +316,12 @@ OUTPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování softw
 INPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/ide.aux
 INPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/ide.out
 INPUT /data/git/mff/LS2/Pokročilé nástroje pro vývoj a monitorování software/ide.out
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb

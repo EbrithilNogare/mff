@@ -41,21 +41,13 @@ Charles University \\ % Your institution for the title page
 \item work less do more (JQuery)
 \item less mistakes
 \item better orientation
-\item do it once, and leave computer to repeat it
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-\frametitle{fast IDEs introduce}
-\begin{itemize}
-\item Atom
-\item Code (ak. VSCode)
-\end{itemize}
-\end{frame}
 
 \section{packages}
 \begin{frame}
-\frametitle{making package}
+\frametitle{Making package}
 \textbf{nmp package}\\
 writen in JS or TS
 \begin{block}{import library}
@@ -74,63 +66,72 @@ commands.registerCommand('extension.sayHello', () =$>$ \{\\
 \begin{block}{where are extensions stored}
 \$HOME/.vscode/extensions/myextension
 \end{block}
-\begin{block}{install over shell}
+\begin{block}{install in shell}
 code myExtensionFolder/myExtension.vsix
 \end{block}
 install inside IDE under package browser
 \end{frame}
 
-
-\section{fun with colors}
 \begin{frame}
-\frametitle{theme}
-background\\
-type color and style
-\end{frame}
-
-\begin{frame}
-\frametitle{icons}
-just for fun, but it looks pretty
+\frametitle{Look customize}
+\textbf{theme}
+\begin{itemize}
+\item background
+\item color of components
+\end{itemize}
+\textbf{icons}\\
+\textbf{make it stupidly overpowered}\\
+\textit{~~~~eg. vscode-spotify}
 \end{frame}
 
 
 \section{syntax}
 \begin{frame}
-\frametitle{Brackets}
-colors\\
-indent\\
+\frametitle{Color}
+\textbf{Bracket Pair Colorizer 2}\\
+\textbf{Better Comments}\\
+\textbf{Color Highlight}
+
 \end{frame}
 
 \begin{frame}
-\frametitle{collorer}
+\frametitle{Indent}
+\textbf{Readable Indent}\\
+\textbf{indent-rainbow}
+
 \end{frame}
 
 \begin{frame}
-\frametitle{highlight same}
+\frametitle{Minimap}
+not default in all IDEs\\
+separated customization for minimap\\
+\textit{~~~~eg. select highlight in minimap}
 \end{frame}
 
 \begin{frame}
-\frametitle{mipmap}
-\end{frame}
-
-\begin{frame}
-\frametitle{git history}
+\frametitle{Git history}
+\textbf{GitLens - Git supercharged}
 \end{frame}
 
 
 \section{write faster}
 \begin{frame}
-\frametitle{intelliSense}
+\frametitle{IntelliSense}
 \includegraphics[scale=0.4]{images/intelisense.png}
 Path Intellisense
 \end{frame}
 
 \begin{frame}
-\frametitle{code snippets}
+\frametitle{Code snippets}
+for every language one package\\
+depends on extension of file (.js)
+\begin{block}{example}
+    log $\rightarrow$ console.log(cursor here)
+\end{block}
 \end{frame}
 
 \begin{frame}
-\frametitle{beautify}
+\frametitle{Beautify}
 help with:
 \begin{itemize}
 \item indent based on brackets
@@ -143,21 +144,21 @@ can be customized\\
 \end{frame}
 
 \begin{frame}
-\frametitle{keyshortcuts}
+\frametitle{Keyshortcuts}
 shown in menu $->$ easy to learn\\
-can be added in settings.json
+can be added in \textit{keybindings.json}
 \end{frame}
 
 \section{after coding}
 \begin{frame}
-\frametitle{live server}
+\frametitle{Live server}
 run server for html and JS testing\\
 AJAX can be send\\
 with extension can debug inside chrome
 \end{frame}
 
 \begin{frame}
-\frametitle{docker package}
+\frametitle{Docker package}
 control docker from IDE\\
 inspect containers\\
 get info about running container
@@ -166,10 +167,10 @@ get info about running container
 
 \section{end}
 \begin{frame}
-\frametitle{sync}
-sync settings and packages\\
-Atom: easy
-Code: gist !!
+\frametitle{Sync}
+sync settings, keybinds and packages\\
+\textbf{Settings Sync}\\
+~~~~synced over git:gist
 \end{frame}
 
 \begin{frame}
@@ -180,4 +181,4 @@ Code: gist !!
 \Huge{\centerline{The End}}
 \end{frame}
 
-\end{document} %
+\end{document}
