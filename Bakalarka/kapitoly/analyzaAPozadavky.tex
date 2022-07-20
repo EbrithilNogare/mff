@@ -1,0 +1,118 @@
+\chapter{Analýza a požadavky}
+Pro počáteční analýzu jsme vybírali jen z open source produktů, abychom mohli nahlédnout
+do jejich kódu a lépe porozumět implementaci jejich komponent.
+Lépe se pro takový systém vyvíjejí externí moduly, protože
+obvykle mají o dost větší komunitu vývojářů a přispěvatelů.
+
+
+\section{Požadavky na systém}
+Systém bude přístupný jako webová aplikace skrze moderní webové prohlížeče.
+Zadavatel bude moci přidávat, prohlížet, měnit a mazat metadata a k nim příslušné indexy.
+Redaktor bude moci přidávat a měnit články a novinky na webu.
+Uživatel bude moci vyhledat záznam podle několika různých kritérií a poté jej zobrazit,
+též bude moci zobrazit příspěvky na webu, včetně novinek.
+Externí programátoři budou moci k systému přistupovat přes API a získávat nebo měnit data. 
+
+
+\section{Pro koho je systém určen}
+Systém bude sloužit pro (regionální) historiky (explicitně pro pracovníky 
+Historického ústavu AV ČR), jakožto pro zadavatele
+a redaktory stránek této aplikace a bude uchovávat historická data z oblasti Krkonoš,
+tak aby si je návštěvník či případně vědecký pracovník mohl přehledně
+zobrazit na jednom místě a případně si data i automaticky stahovat přes připravené API.
+Zároveň systém obsahuje interaktivní moduly, jež budou k dispozici
+návštěvníkům plánované výstavy Pramenů Krkonoš (jakožto jednoho z výstupů
+projektu), jako je hologram 3D modelu nebo prohlížeč historických map.
+
+\clearpage
+\section{Existující systémy}
+Vzhledem k tomu, že v oblasti knihovních systémů existuje nepřeberné
+množství různých, českých i zahraničních, (open-source) knihovních
+systémů, některých i účelově navržených pro různé typy fondů, my jsme
+se při analýze zaměřili na tři nejrozšířenější z nich. - Systémy Koha,
+SliMS a Evergreen.
+Ve všech třech případech se jedná právě o open-source systémy.
+
+
+\subsection{Koha}
+\begin{wrapfigure}[7]{r}{0.25\textwidth}
+	\includegraphics[width=\linewidth]{img/Koha_Logo.png}\\
+	\caption[logo systému Koha ze stránky \url{https://www.mainelibit.org/node/77}]{logo systému Koha}
+\end{wrapfigure}
+Domovská stránka aplikace: \url{http://www.Koha.cz/}\\
+Koha je nejrozšířenější open source knihovní systém s širokou komunitou.
+Koha má několik tisíc instalací v knihovnách různých velikostí a
+zaměření v desítkách zemí.
+(Tento systém je vhodný i pro použití pro konsorcia knihoven.)
+Byla vyvinuta na Novém Zélandu roku 2000.
+V roce 2005 došlo k zásadnímu vylepšení systému integrací fulltextového
+systému Zebra dánské firmy IndexData.
+Ale je stále udržovaná a stále rozšiřovaná
+(nejnovější update je z konce roku 2020)
+\\
+Používá SQL databázi.
+Je psaná v Perlu, na frontendu využívající JavaScript (ale není jej tolik).
+Jeho nespornou výhodou je ten fakt, že systém má obrovskou (mezinárodní)
+komunitu, která systém udržuje a nadále rozvíjí.
+A pak také to, že se jedná o cloudový systém.
+
+
+\subsection{SLIMS}
+\begin{wrapfigure}[9]{r}{0.15\textwidth}
+	\includegraphics[width=\linewidth]{img/Slims_Logo.png}\\
+	\caption[logo systému SLIMS ze stránky \url{https://slims.web.id/}]{logo systému SLIMS}
+\end{wrapfigure}
+Domovská stránka aplikace: \url{https://slims.web.id/}\\
+Systém SliMS je spíše orientován na malé knihovny. (Je hojně používaný v Asii.)
+Jeho jedinou aplikací v ČR je systém obecniknihovna.cz. - Jedná se však o
+výrazně přepravovanou verzi tohoto systému.
+Systém se základní funkcionalitou a přivětivým vzhledem.
+Není v češtině. Není primárně určen jako knihovní systém, spíš je to univerzální
+systém na cokoliv, proto není až tak efektivní a jeho nastavování
+by zabralo mnoho času.
+
+
+\subsection{Evergreen}
+\begin{wrapfigure}[5]{r}{0.3\textwidth}
+	\centering
+	\includegraphics[width=\linewidth]{img/Evergreen_Logo.png}\\
+	\caption[logo systému Evergreen ze stránky \url{https://eg-wiki.osvobozena-knihovna.cz/}]{logo systému Evergreen}
+\end{wrapfigure}
+Domovská stránka aplikace: \\\url{https://eg-wiki.osvobozena-knihovna.cz}\\
+Další z řady otevřených knihovních systémů je Evergreen (zpřístupněný pod
+licencí \textit{GNU public licenses content}).
+Evergreen byl vyvinut v roce 2006 jako systém pro konsorcium více
+než 270 veřejných knihoven amerického státu Georgia.
+Poté se rozšířil i do dalších států v rámci USA a do Kanady.
+Rozšíření mimo anglicky mluvící státy není tak masivní.
+Nejvýrazněji se v rámci Evropy tento systém uplatňuje ve Finsku,
+neboť finská národní knihovna se rozhodla systém Evergreen nasadit
+jako národní knihovní systém. V rámci ČR lze jako nejvýraznějšího
+uživatele tohoto systémů označit pražskou knihovnu JABOK. (Byť systém není
+v ČR nějak masivněji rozšířen, přesto Evergreen disponuje českou lokalizací.)
+Bohužel jeho nevýhodou je, že jeho funkčnost je zaměřena především na tento
+konsorciální použití, ale postupně si nalézá cestu i do knihoven akademických.
+Ze zajímavých funkcí, kterými se odlišuje od systému Koha, lze vybrat mimo
+jiné zobrazení regálu nebo expertní prohledávání obsahu konkrétního pole.
+Systém používá taktéž SQL databázi, vykreslování probíhá na serveru
+a nemá uživatelsky přívětivé prostředí.
+
+
+
+\subsection{Porovnání existujících systémů}
+Co se týče porovnání výše uvedených systémů, lze říct, že Koha a Evergreen
+vykazují jisté podobné znaky, co se týče funkcionality a uživatelské podpory v
+podobě komunity. Koha však disponuje nepoměrně rozsáhlejší komunitou. Obě
+komunity postupují přibližně stejně i při řešení chyb a rozvoji systému. Oba
+systémy používají systém pro hlášení chyb, navrhování chybějících funkcí apod.
+Systém Koha je plně webový (cloudový), což znamená, že není potřeba instalovat
+žádný speciální klient pro uživatele, což usnadňuje nasazení a aktualizace
+systému. Naopak součástí Evergreenu je i aplikace, kterou musí mít uživatel
+(knihovník) nainstalovanou na svém počítači, aby mohl se systémem pracovat.
+Podstatné je, že klient je multiplatformní a může být na rozdíl od komerčních
+systémů provozován mimo Windows i v operačních systémech Linux a Mac OSX. Pro
+usnadnění přechodu na nové verze nabízí Evergreen možnost automatických
+aktualizací klienta. Co se týče správy systému, Evergreen a SliMS jsou systémy,
+které potřebují silně vyškolenou osobu, aby se o systém starala, na rozdíl od
+systému Koha, která je intuitivnější a pro nové uživatele přívětivější, při
+zachovaní stejné, možná i lepši funkcionality.

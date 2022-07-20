@@ -1,0 +1,148 @@
+\chapter{Implementace backendu}
+Backend je software, který je umístěn na serveru a uživatel má přístup jen
+k výstupu, jež dostane. Slouží pro přijímaní požadavků od klienta a odesílání
+případné odpovědi nebo provedení nějaké činnosti bez výstupu.
+\\
+Součástí backendu je i API, které slouží jako toto spojení mezi serverem a
+klientem. Dále často obsahuje CRON tabulku, která periodicky vykonává nějaký
+script.
+
+\section{Server}
+Stroj, na kterém je dostupná aktuální verze systému, virtuální stroj poskytnutý
+Matematicko-fyzikální fakultou UK, s operačním systémem Linux (přesněji Ubuntu
+20.04.2 LTS).
+\\
+Databáze je pak umístěna na serveru Google kvůli snazší konfiguraci. Není však
+problém kdykoliv tuto DB přesunout na stejný stroj, na kterém běží zbytek
+backendu, a snížit tím prodlevu způsobenou prací s databází.
+
+
+\section{Knihovny}
+Pro rychlý začátek vývoje byla použita knihovna \textbf{Express.js}, která
+umožňuje práci s http requesty potřebnými pro fungovaní API, a to 
+bez většího množství konfigurace ze začátku.
+\\
+Pro práci s databází byla použita knihovna \textbf{mongoose}, která po rychlé konfiguraci
+umožňuje práci s databází typu MongoDB.
+\\
+Dalšími menšími pomocnými knihovnami jsou
+\textbf{cors} (Cross-Origin Resource Sharing) napomáhající s nastavením hlavičky u API requestu,
+\textbf{md5} pro šifrování hesel a hašování dat a nakonec
+\textbf{cookie-parser} zjednodušující práci s cookies.
+
+\subsection{Knihovna express.js}
+Jedná se o minimalistickou a zároveň velmi silnou knihovnu poskytující
+všestranné prostředky pro web. Obsahuje funkce pro jednoduchou správu HTTP metod
+a díky tomu je vytváření i větších API jednoduché a přehledné. Má velmi dobrý
+výkon, který se sice nedá srovnávat s knihovnami psanými v jazyce C, ale z JS
+knihoven je jeden z nejrychlejších.
+
+\subsubsection{Nadstavba pro nahrávání souborů}
+Nadstavba \textbf{express-fileupload} umožňuje v těle requestu rozeznat a
+zpracovat soubor, který se následně pomocí knihovny \textbf{fs} ukládá na
+server, specificky do složky uploads.
+
+\subsection{Knihovna mongoose}
+Tato knihovna je ideální a nepostradatelná pro práci s databází typu MongoDB.
+Poskytuje funkce pro snadné připojení k databázi a komunikaci s ní.
+Hlavní výhodou této knihovny jsou modely, validace a vestavěné přetypování
+(JavaScript je dynamicky typovaný jazyk). 
+S modely se pracuje pomocí tzv. \textbf{promise}, která umožňuje řadit
+akce za sebe, ve stylu:
+\begin{lstlisting}[language=JavaScript]
+Model.find(body)
+     .limit(_limit || 5)
+     .exec()
+     .then(result => { res.status(200).json(result) })
+     .catch(err => { res.status(500).json("something went wrong") })
+\end{lstlisting}
+
+\section{Dokumentace API}
+Na adrese \url{http://quest.ms.mff.cuni.cz/prak/api/documentation}
+se nachází statický soubor s dokumentací.
+Celá stránka je zapouzdřena do jediného souboru, který se po načtení 
+vykreslí na straně uživatele, tudíž nezatěžuje server, ale
+především se dá stáhnout a prohlížet offline.
+
+\subsection{Vykreslovací engine pro dokumentaci}
+Aby bylo možné vykreslit stránku až na straně uživatele,
+je nutné přenášet i script, který to obstará. Tento script se skládá ze dvou částí. -
+Engine na vykreslení a data samotná, která jsou uložena ve formátu JSON.\\
+Script projde veškerá data a podle typu a kontextu postupně vytváří
+html elemety podle vestavěných šablon a přidává jim příslušné styly a ovládací prvky.
+
+
+\section[Routes]{Routes (Směrovače)}
+Pro rozpoznání, která akce se má vykonat při různých dotazech, se porovnává
+jak adresa, tak metoda. Nejdříve se vezme v potaz cesta dotazu za
+statickou předponou \texttt{http://quest.ms.mff.cuni.cz/prak/api/\dots}.
+Jakmile máme vybranou cestu, zjistí se, co vlastně dotaz potřebuje udělat, a to jednou z těchto metod:
+\begin{itemize}
+     \item POST - většinou obecný dotaz s query v těle
+     \item GET - dotaz požadující 1 záznam, většinou podle ID
+     \item PUT - vytvoření nového záznamu
+     \item PATCH - změna v existujícím záznamu
+     \item DELETE - smazání záznamu
+\end{itemize}
+Pokud uživatel má požadované oprávnění, akce se provede. V každém případě
+uživateli přijde zpětná vazba o úspěchu, resp. neúspěchu, dotazu. Tělo
+této zprávy může obsahovat požadovaná data, potvrzení o úspěchu, nebo
+chybovou zprávu a její příčinu.
+
+
+\subsection{Uživatel}
+Tato metoda slouží pro administraci uživatelských účtů pro tuto aplikaci.
+Zakládání nového účtu může zavolat kdokoliv, avšak na zbylé akce, jako
+mazání nebo změnu hesla, má právo pouze majitel účtu a administrátor.
+Velkou bezpečnostní výhodou je naprostá nepřístupnost k heslu a
+přístupnost k sessionID jen pro administrátora nebo vlastníka.
+
+\subsection{Autorizace}
+Pro ověření, zda přihlášený uživatel má příslušná práva
+(a to na straně serveru, jelikož lokálně si je může libovolně upravit), se používá
+\textbf{sessionID}, které se poté porovnává v databázi s uživatelem a jeho skutečnými právy.\\
+SessionID získáme po odeslání korektních přihlašovacích údajů.
+Případně jej ztratíme při odhlášení nebo
+expiraci (která je aktuálně nastavena na 1 rok).
+
+\subsection{Záznam}
+Pro prohlížení záznamu, resp. jejich vyhledávání, není třeba žádné oprávnění.
+Avšak pro jejich editaci, resp. mazání,
+je potřeba mít přiřazena práva pro zápis.
+
+\subsection{Stránka}
+Zobrazení stránky též nevyžaduje žádná práva, ale k jejich vytváření je třeba mít roli CMS editora, která
+definuje uživatele jakožto editora článků a příspěvků.
+
+\subsection{Nahrávání souborů}
+Pro nahrávání souborů na server je třeba práv pro zápis, stejně jako pro mazání.
+Zobrazení souboru žádná práva nevyžaduje, dokonce nenastavuje ani cross-origin policy, neboli
+nevyžaduje přístup ze stejné domény.
+
+\section{Modely}
+Model nebo též schéma je popis záznamu v databázi. Obsahuje datový typ, formát a může obsahovat i
+referenční cestu. V podstatě se jedná o převodní tabulku, aby se JavaScript a MongoDB shodli na datovém typu a
+struktuře (především pro případ reference nebo pole dat). Část, která je pro uživatele nejvíce viditelná, je 
+požadavek na unikátní hodnotu pole nebo požadavek, aby hodnota byla nenulová.
+\subsection{Záznam} 
+Každý záznam má přesný popis v online dokumentaci API, přesněji v pravé části, kde je pravidelně aktualizován.
+\subsection{Stránka}
+Záznam stránky obsahuje název, jazyk, krátký popis obsahu, kategorii a obsah samotný.
+Pro možnost sledování změn je zde i automaticky generovaný seznam editorů a časů jejich editace.
+\subsection{Uživatel}
+Každý uživatel se přihlašuje e-mailem a heslem, s tím, že heslo není uloženo v
+tzv. raw formátu, ale je výsledkem spojení hesla a náhodného textu pro zvýšení
+bezpečnosti (sůl, anglicky \textit{salt}). Výsledný hash (metodou \textit{md5}) se uloží
+do databáze. Při přihlášení pak stačí porovnat hash soli a hesla s údaji v
+databázi. Pro ověřování práv neslouží heslo, ale sessionID. To se generuje
+unikátní pro každého uživatele při přihlášení, ale časem, nebo manuálně, může
+expirovat a poté je nutné se přihlásit znovu. V záznamu uživatele je uloženo i
+jméno a příjmení pro případ, že by bylo potřeba zjistit, kdo např. psal jaký
+článek, a zároveň nebyl prozrazen e-mail. Každý uživatel má určitá práva a to v
+libovolné kombinaci z následujících:
+\begin{itemize}
+     \item READ - právo pro čtení, nahlížení do záznamů a jejich vyhledávaní (toto právo má i nepřihlášený uživatel)
+     \item WRITE - právo pro zápis v rejstřících, umožňuje editovat, vytvářet a mazat záznamy. Dále má navíc právo ukládat na server obrázky a dokumenty
+     \item EXECUTE - administrátorské oprávnění, umožňuje vytváření uživatelských účtů a změnu hesla uživatele, stejně tak jeho údaje
+     \item CMS - práva pro editační změny, co se týče obsahu stránek, jako jsou novinky a příspěvky
+\end{itemize}

@@ -1,0 +1,90 @@
+\chapter{Instalace a spuštění}
+
+\section{Prerekvizity}
+Předpokládáme instalaci na operačním systému Windows 10 s následujícími 
+předinstalovanými programy.
+\subsection{NodeJS}
+JavaScriptový interpret v nejnovější verzi lze stáhnout z oficiálního
+webu \url{https://nodejs.org/}.\\
+Spolu s nodejs se nám nainstaluje i příkaz \texttt{npm}, ten ihned využijeme
+k nainstalování jeho lepšího \uv{dvojčete} a to sice \texttt{pnpm}, pomocí
+příkazu
+\begin{lstlisting}
+	npm install -g pnpm
+\end{lstlisting}
+
+\subsection{MongoDB}
+Databázový nástroj lze stáhnout ze stránky \url{https://www.mongodb.com},
+nebo využít službu \uv{MongoDB Atlas}, což je přednastavená databáze
+na serveru Googlu (nebo u Amazonu podle preference).\\
+Pro snazší konfiguraci je vhodná aplikace \textit{MongoDBCompass},
+poskytující oproti webové aplikaci i příkazový řádek.
+
+\subsection{Nginx}
+Webový server lze stáhnout z oficiální stránky vývojářů \url{https://www.nginx.com/}.
+Konfigurační soubor pak nalezneme dle cesty instalace:\\
+\texttt{.../ChocoInstallFolder/nginx-x.xx.x/conf/nginx.conf}\\
+do něj vložíme naši konfiguraci serveru (přizpůsobenou vůči místu instalace)
+\begin{lstlisting}[keywordstyle=\ttfamily]
+	server {
+		listen 80 default_server;
+		server_name _;
+
+		# React app & front-end files
+		location / {
+			root /var/www/naki/frontend/build/;
+			rewrite ^ /index.html break;
+		}
+		location /static/{ root /var/www/naki/frontend/build/; }
+		location /images/{ root /var/www/naki/frontend/build/; }
+		location /locales/{ root /var/www/naki/frontend/build/; }
+		location /public/{ root /var/www/naki/frontend/build/; }
+
+		location /modules/{ alias /var/www/naki/modules/; }
+		location /uploads/ { alias /var/www/naki/uploads/; }
+
+		# node API reverse proxy
+		location /api/ {
+			proxy_pass http://localhost:50081/;
+		}
+	}
+\end{lstlisting}
+
+
+\subsection{Powershell}
+Jelikož výchozí příkazová řádka od Windows má svá léta slávy za sebou, je
+vhodnější používat powershell, který se syntaxí více podobá linuxovému shellu.
+Pro multiplaformní účely je nejlepší jeho \uv{core} verze, kterou lze stáhnout
+z github repozitáře (v README.md je odkaz) \url{https://github.com/PowerShell/PowerShell}.
+
+\subsection{Chocolatey balík}
+Pro ty, kteří znají a mají nainstalovaný balíčkovací manager \uv{chocolatey} pro Windows, 
+stačí spustit tento jednoduchý kód pro snadnou instalaci.
+\begin{lstlisting}
+	choco install nodejs
+	choco install mongodb
+	choco install mongodb-compass
+	choco install nginx
+	choco install powershell-core
+	npm install -g pnpm
+\end{lstlisting}
+
+\section{Zdrojové soubory}
+Veškerá zdrojové soubory (kromě na platformě závislé konfiguraci Nginx)
+jsou uloženy na GitHubu \url{https://github.com/EbrithilNogare/PraK}
+
+\section{Instalace}
+Ve složce se zdrojovými soubory spustíme následující příkazy:
+\begin{lstlisting}[language=bash]
+	#####   frontend npm install
+	cd frontend
+	npm install
+
+	#####   frontend build
+	npm run build
+	
+	#####   backend npm install
+	cd ../backend
+	npm install
+	node server
+\end{lstlisting}

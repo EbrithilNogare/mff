@@ -1,0 +1,52 @@
+\chapter*{Závěr}
+\addcontentsline{toc}{chapter}{Závěr}
+
+Předmětem této práce byl návrh a vývoj softwarového řešení pro tématický
+digitální archiv. týkající se sběru, uchování a prezentaci dokumentů z oblasti
+Krkonoš. Výsledné softwarové řešení mělo agregovat databázi pro ukládání různých
+typů dokumentů (resp. objektů) a web pro prezentaci a úpravu těchto dat. - Přičemž
+rozhraní pro popis a evidenci dokumentů měl být navržen
+tak, aby byla oddělena vrstva pro běžné prohlížení dokumentů, vkládání záznamů o
+dokumentech a vrstva (prostředí) pro správu a editaci těchto záznamů.
+Navrhovaný software měl zohledňovat typologii dokumentů a zároveň reflektovat
+různé (oborové) normy pro bibliografický popis dokumentů. Při návrhu vkládacího
+modulu bylo třeba zohlednit normy knihovnické, muzejní i archivní. V tomto směru
+navržený software disponuje velkou inovativností v přístupu k popisu dokumentů.
+Zároveň bylo třeba při návrhu software (a jeho jednotlivých modulů)
+zohlednit požadavek historiků na vzájemnou provázanost jednotlivých vložených
+údajů. - Tj. vytvořit takovou strukturu vkládaných záznamů, aby mezi
+bibliografickými údaji a rejstříky bylo možné z různých polí vzájemně odkazovat
+na jiná pole, resp. aby bylo možno odkazovat mezi bibliografickým záznamem a
+rejstříkem, a taktéž mezi rejstříky navzájem.
+\\
+
+Výsledkem je webové rozhraní a serverová aplikace poskytující API pro komunikaci
+s jednotlivými moduly výsledného software. V práci je popsána jak implementace
+backendu, tak i implementace frontendu, ale i jejich vzájemné provázání
+prostřednictvím API. Dále jsou v práci popsány další přídavné moduly k
+výslednému software.
+\\
+
+Vedle hlavní frontend aplikace je možné si načíst i oddělené moduly.
+První modul poskytuje hologram 3D modelu, který se hodí zejména na výstavy.
+Druhý modul přináší interaktivní prohlížení 2D map z Krkonoš 19. století.
+\\
+
+
+Serverová aplikace poskytuje nejen samotnou webovou aplikaci, ale i
+moduly nezávislé na hlavní aplikaci. Ty pak komunikují se serverem pomocí API,
+které je dobře zdokumentováno a poskytuje tak přístup k datům i pro
+externí programátory a jejich programy.
+\\
+
+
+Beta verze systému byla testována reálnými uživateli a bylo do ní
+zadáno přes 35000 záznamů různých typů a velikostí.
+\\
+
+Během vývoje betaverze byl software testován \uv{ostrými} daty. Do systému bylo
+uživateli zadáno přes 35 000 záznamů různých typů, velikostí či úrovně
+kompletnosti. Na základě poznatků od uživatelů byl software laděn směrem k tomu,
+aby rozhraní pro vkládání dat a pro jejich editaci bylo uživatelsky co
+nejpřívětivější a co nejintuitivnější.
+\\

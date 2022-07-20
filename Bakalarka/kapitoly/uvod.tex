@@ -1,0 +1,42 @@
+\chapter*{Úvod}
+\addcontentsline{toc}{chapter}{Úvod}
+Knihovní systémy ve své podstatě dlouhodobě uchovávají data o naší historii a je důležité abychom
+tyto informace uchovali i pro další generace, ale bohužel tyto systémy stagnují v
+zastaralých verzích. Čím méně změn tyto systémy prodělají, tím spíše budou zpětně
+kompatibilní a uchovaná data se zachovají v co možná nejméně pozměněné verzi.
+Takovýto způsob je mezi programátory docela známý pod příslovím
+\uv{dokud to funguje, tak na to nešahej}, což na jednu stranu funguje, ale
+je důležité si uvědomit, že změna může přinést
+zvýšení efektivnosti pracovníků a pohodlí při práci.
+\\
+
+Motivací k napsání této práce byla participace na návrhu řešení
+pro projekt NAKI II - Prameny Krkonoš. Vývoj systému evidence,
+zpracování a prezentace pramenů k historii a kultuře Krkonoš a
+jeho využití ve výzkumu a edukaci. 
+\\
+
+Hlavním cílem práce je tedy nashromáždit nejnovější trendy v oblasti webových
+aplikací a zakomponovat je do fungující aplikace, principiálně podobné
+soudobým knihovním systémům. Nový systém chceme udělat řádově rychlejší,
+tak aby si frontend na většinu aktivit vystačil sám a nemusel se dotazovat
+na server, což je jeden z typických problému zastaralých systémů.
+K datům uloženým v databázi musí přistupovat efektivně, a to přes
+dobře zdokumentované API, nasazené na serveru tak, aby zbytečně
+neplýtvalo výkonem. Server by tak měl zvládnout pracovat na
+aktuálním hardware a zároveň obsluhovat požadavky rychleji a
+zvládnout jich větší množství, než soudobé knihovní systémy.
+\\
+
+Dalším cílem je zakomponování designového jazyka takového,
+který byl vyvinut pro přehlednost dat a efektivitu práce.
+Systém s dobrým popisem funkčnosti, který je pro uživatele 
+intuitivní a vnese do aplikace přehlednost a nadčasový vzhled.
+Uživatel se tak oprostí od jednotvárného a \uv{nahňácaného} vzhledu,
+ve kterém se špatně orientuje.
+\\
+
+Aby se dal systém dále rozvíjet i mimo hlavní projekt, musí
+podporovat systém modulů, které budou moci čerpat společná data přes
+API a přidat tak do systému novou funkcionalitu.
+

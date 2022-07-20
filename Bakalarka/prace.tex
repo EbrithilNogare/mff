@@ -1,0 +1,250 @@
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
+
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+\documentclass[12pt,a4paper]{report}
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{15mm}
+\setlength\evensidemargin{15mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+% \openright zařídí, aby následující text začínal na pravé straně knihy
+\let\openright=\clearpage
+
+%% Pokud tiskneme oboustranně:
+% \documentclass[12pt,a4paper,twoside,openright]{report}
+% \setlength\textwidth{145mm}
+% \setlength\textheight{247mm}
+% \setlength\oddsidemargin{14.2mm}
+% \setlength\evensidemargin{0mm}
+% \setlength\topmargin{0mm}
+% \setlength\headsep{0mm}
+% \setlength\headheight{0mm}
+% \let\openright=\cleardoublepage
+
+%% Vytváříme PDF/A-2u
+\usepackage[a-2u]{pdfx}
+
+%% Přepneme na českou sazbu a fonty Latin Modern
+\usepackage[czech]{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
+\usepackage{amsmath}        % rozšíření pro sazbu matematiky
+\usepackage{amsfonts}       % matematické fonty
+\usepackage{amsthm}         % sazba vět, definic apod.
+\usepackage{bbding}         % balíček s nejrůznějšími symboly
+			    			% (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
+\usepackage{bm}             % tučné symboly (příkaz \bm)
+\usepackage{graphicx}       % vkládání obrázků
+\usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
+\usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
+\usepackage{natbib}         % zajišťuje možnost odkazovat na literaturu
+							% stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
+\usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
+                            % obrázků a tabulek do obsahu
+\usepackage{icomma}         % inteligetní čárka v matematickém módu
+\usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
+\usepackage{booktabs}       % lepší vodorovné linky v tabulkách
+\usepackage{paralist}       % lepší enumerate a itemize
+\usepackage{xcolor}         % barevná sazba
+
+\usepackage{float}			% umístění figure bloků
+\usepackage{wrapfig}        % obrázek plující vedle textu
+\usepackage{multicol}       % sloupečky
+\usepackage{listings}		% highlighting kódu
+\usepackage{makecell}		% víceřádková buňka v tabulce
+
+
+\usepackage[font=scriptsize, skip=1pt]{caption}		% pro seznam obrázku a tabulek
+\DeclareCaptionLabelSeparator{bar}{\space\textbar\space}
+\captionsetup{labelsep=bar}
+\addto\captionsczech{\renewcommand{\figurename}{Obr.}}
+
+
+%\usepackage[light,scaled=0.85]{roboto-mono}
+
+
+
+
+% Zapne černé "slimáky" na koncích řádků, které přetekly, abychom si
+% jich lépe všimli.
+% \overfullrule=3mm % vypnout pro produkci TODO
+
+%%% Údaje o práci
+
+% Název práce v jazyce práce (přesně podle zadání)
+\def\NazevPrace{Softwarové řešení digitálních archivů}
+
+% Název práce v angličtině
+\def\NazevPraceEN{Software solution for digital archives}
+
+% Jméno autora
+\def\AutorPrace{David Nápravník}
+
+% Rok odevzdání
+\def\RokOdevzdani{2021}
+
+% Název katedry nebo ústavu, kde byla práce oficiálně zadána
+% (dle Organizační struktury MFF UK, případně plný název pracoviště mimo MFF)
+\def\Katedra{Katedra teoretické informatiky a matematické logiky}
+\def\KatedraEN{Department of Theoretical Computer Science and Mathematical Logic}
+
+% Jedná se o katedru (department) nebo o ústav (institute)?
+\def\TypPracoviste{Katedra}
+\def\TypPracovisteEN{Department}
+
+% Vedoucí práce: Jméno a příjmení s~tituly
+\def\Vedouci{Mgr. Kateřina Macková}
+
+% Pracoviště vedoucího (opět dle Organizační struktury MFF)
+\def\KatedraVedouciho{Katedra teoretické informatiky a matematické logiky}
+\def\KatedraVedoucihoEN{Department of Theoretical Computer Science and Mathematical Logic}
+
+% Studijní program a obor
+\def\StudijniProgram{Informatika (B1801)}
+\def\StudijniObor{IPSS (1801R048)}
+
+% Nepovinné poděkování (vedoucímu práce, konzultantovi, tomu, kdo
+% zapůjčil software, literaturu apod.)
+\def\Podekovani{
+	\section*{Poděkování}
+	Chtěl bych poděkovat Mgr. Kateřině Mackové za odborné vedení práce a
+	cenné rady, které mi pomohly tuto práci zkompletovat.
+	Anně Yaghobové a Monice Bošániové za pomoc a rady při zpracování této práce.
+	A mnoha dalším, jež mi pomáhali, a to i když jen jako \uv{gumové kachničky}.
+}
+
+% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
+\def\Abstrakt{
+Tato bakalářská práce se zabývá modernizací knihovních systémů.
+Zaměřuje se na technologie jako single-page application, která zefektivňuje
+síťovou komunikaci a snižuje vytížení serveru.
+Cílem bylo sepsat a zakomponovat moderní technologie do fungující aplikace,
+která poskytuje uživateli moderní, přehledné a rychlé prostředí pro zadávání 
+metadat s nadstavbou redakčního systému pro správu obsahu webu.
+Na serveru bylo vytvořeno přehledné API poskytující veškerá data nejen
+hlavní aplikaci, ale i souvisejícím modulům či dalším projektům.
+Součástí práce je též popis technologií, díky kterým k těmto
+zefektivnění došlo.
+}
+\def\AbstraktEN{
+This bachelor's thesis is on the modernisation of library systems.
+It focuses on technologies such as single-page application, which streamlines
+network communication and reduces server usage.
+The goal was to describe and use modern technologies into a working application,
+that provides the user with a modern, streamlined and fast input environment
+metadata with the addition of the system for managing web content.
+A clear API has been created on the server to provide all the data not only for the
+main application, but for the related modules or other projects as well.
+The work also describes the technologies that make these
+streamlinings possible.
+}
+
+% 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
+\def\KlicovaSlova{
+	{digitální archiv}, {webová aplikace}, {databáze}
+}
+\def\KlicovaSlovaEN{
+	{digital archive}, {web application}, {database}
+}
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% Většinu nastavítek přednastaví balíček pdfx.
+\hypersetup{unicode}
+\hypersetup{breaklinks=true}
+
+%% Definice různých užitečných maker (viz popis uvnitř souboru)
+\include{makra}
+
+%% Titulní strana a různé povinné informační strany
+\begin{document}
+\include{titulka}
+
+%%% Strana s automaticky generovaným obsahem bakalářské práce
+
+\tableofcontents
+
+%%% Jednotlivé kapitoly práce jsou pro přehlednost uloženy v samostatných souborech
+\include{kapitoly/uvod}
+\include{kapitoly/analyzaAPozadavky}
+\include{kapitoly/navrhProjektu}
+\include{kapitoly/implementaceBackendu}
+\include{kapitoly/implementaceFrontendu}
+\include{kapitoly/provazaniBaF,API}
+\include{kapitoly/moduly}
+\include{kapitoly/instalaceASpusteni}
+\include{kapitoly/reseni}
+\include{kapitoly/zaver}
+
+%%% Seznam použité literatury
+\include{literatura}
+
+%%% Obrázky v bakalářské práci
+%%% (pokud jich je malé množství, obvykle není třeba seznam uvádět)
+\listoffigures
+
+%%% Tabulky v bakalářské práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam tabulek na začátek práce.
+% \listoftables
+
+%%% Použité zkratky v bakalářské práci (opět nemusí být nutné uvádět)
+%%% U matematických prací může být lepší přemístit seznam zkratek na začátek práce.
+\chapwithtoc{Seznam použitých zkratek}
+
+\subsection*{Administrativní}
+\begin{tabular}{| c | c |}
+	\hline
+		MK ČR - NAKI & Ministerstvo kultury ČR - Národní Kulturní Identita \\
+	\hline
+		ČUZK & Český úřad zeměměřický a katastrální \\
+	\hline
+\end{tabular}
+
+\subsection*{Programátorské}
+\begin{tabular}{| c | c |}
+	\hline
+		API & Application Programming Interface \\
+	\hline
+		Regexp & \makecell{Regular expression, více zde:\\\url{https://en.wikipedia.org/wiki/Regular_expression}} \\
+	\hline
+	DB & Databáze \\
+	\hline
+	cors & \makecell{Cross-origin Resource Sharing,\\soubor pravidel pro komunikaci\\napříč rozdílnými doménami}\\
+	\hline
+	md5 & \makecell{message-digest algorithm,\\rodina hašovacích funkcí v kryptografii} \\
+	\hline
+	WYSIWYG & \makecell{What you see is what you get,\\neboli \uv{co vidíš, to dostaneš}} \\
+	\hline
+\end{tabular}
+
+%%% Přílohy k bakalářské práci, existují-li. Každá příloha musí být alespoň jednou
+%%% odkazována z vlastního textu práce. Přílohy se číslují.
+%%%
+%%% Do tištěné verze se spíše hodí přílohy, které lze číst a prohlížet (dodatečné
+%%% tabulky a grafy, různé textové doplňky, ukázky výstupů z počítačových programů,
+%%% apod.). Do elektronické verze se hodí přílohy, které budou spíše používány
+%%% v elektronické podobě než čteny (zdrojové kódy programů, datové soubory,
+%%% interaktivní grafy apod.). Elektronické přílohy se nahrávají do SISu a lze
+%%% je také do práce vložit na CD/DVD. Povolené formáty souborů specifikuje
+%%% opatření rektora č. 72/2017.
+%\appendix
+%\chapter{Přílohy}
+%\section{První příloha}
+%
+%\section{Druhá příloha}
+%
+%\section{Třetí příloha}
+%
+
+\openright
+\end{document}
