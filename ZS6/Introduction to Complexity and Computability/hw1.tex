@@ -1,0 +1,39 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\setlength{\parindent}{0in}
+\usepackage{fancyhdr}
+
+\begin{document}
+
+\pagestyle{fancy}
+\rhead{David Nápravník}
+
+\section*{1. HW}
+\subsection*{9}
+Mejme turinguv stroj $M$ s abecedou \{a..z\}, instrukcemi \{L, R\} a stavy \{stavA..stavZ\}.
+
+Pak $M'$ bude turinguc stroj s abecedou \{a..z\}, instrukcemi \{L, R\} a stavy \{stavA, stavA-L, stavA-R .. stavZ, stavZ-L, stavZ-R\}.  
+
+Neboli pronasobime stavy a instrukce, tim se pocet stavu ztrojnasobi a stav si bude pamatovat i nasledujici instrukci.  
+Pokud vydime stav s instrukci, tak instrukci vykoname a stav zmenime na totozny bez instrukce.
+Pokud vydime stav bez instrukce tak prepiseme znak na pasce a nastavime novy stav s instrukci, jenz bychom normalne vyzadovali.
+
+\subsection*{10}
+Prvne si vytvorime Turinguv stroj s polovicni paskou tak, ze smichame kladne a zaporne pozice.  
+.. -3 -2 -1 0 1 2 3 .. $\rightarrow$ -0 0 -1 1 -2 2 -3 3 ..  
+
+misto instrukce R v kladnnych a L v zapornych dame instrukci RR,  
+
+misto instrukce L v kladnnych a R v zapornych dame instrukci LL.
+
+Nuly pro nas budou obratniky, takze 
+0\_R $\rightarrow$ RR, 
+0\_L $\rightarrow$ R, 
+-0\_R $\rightarrow$ RRR, 
+-0\_L $\rightarrow$ RR, 
+
+
+\end{document}
