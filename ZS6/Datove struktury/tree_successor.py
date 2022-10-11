@@ -42,20 +42,19 @@ class Tree:
         Return None if there is no such node.
         If the argument is None, return the node with the smallest key.
         """
-        newNode = node
-        if newNode is None:
-            newNode = self.root
-            while newNode.left is not None:
-                newNode = newNode.left
-            return newNode
-        elif newNode.right is not None:
-            newNode = newNode.right
-            while newNode.left is not None:
-                newNode = newNode.left
-            return newNode
-        elif newNode.parent is not None:
-            while newNode.parent is not None and newNode.parent.key < newNode.key:
-                newNode = newNode.parent
-            return newNode.parent
+        if node is None:
+            node = self.root
+            while node.left is not None:
+                node = node.left
+            return node
+        elif node.right is not None:
+            node = node.right
+            while node.left is not None:
+                node = node.left
+            return node
+        elif node.parent is not None:
+            while node.parent is not None and node.parent.key < node.key:
+                node = node.parent
+            return node.parent
         else:
             return None
