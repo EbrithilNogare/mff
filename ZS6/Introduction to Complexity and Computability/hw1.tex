@@ -15,7 +15,7 @@
 \subsection*{9}
 Mejme turinguv stroj $M$ s abecedou \{a..z\}, instrukcemi \{L, R\} a stavy \{stavA..stavZ\}.
 
-Pak $M'$ bude turinguc stroj s abecedou \{a..z\}, instrukcemi \{L, R\} a stavy \{stavA, stavA-L, stavA-R .. stavZ, stavZ-L, stavZ-R\}.  
+Pak $M'$ bude turinguv stroj s abecedou \{a..z\}, instrukcemi \{L, R\} a stavy \{stavA, stavA-L, stavA-R .. stavZ, stavZ-L, stavZ-R\}.  
 
 Neboli pronasobime stavy a instrukce, tim se pocet stavu ztrojnasobi a stav si bude pamatovat i nasledujici instrukci.  
 Pokud vydime stav s instrukci, tak instrukci vykoname a stav zmenime na totozny bez instrukce.
@@ -25,15 +25,17 @@ Pokud vydime stav bez instrukce tak prepiseme znak na pasce a nastavime novy sta
 Prvne si vytvorime Turinguv stroj s polovicni paskou tak, ze smichame kladne a zaporne pozice.  
 .. -3 -2 -1 0 1 2 3 .. $\rightarrow$ -0 0 -1 1 -2 2 -3 3 ..  
 
-misto instrukce R v kladnnych a L v zapornych dame instrukci RR,  
+Misto instrukce R v kladnnych a L v zapornych dame instrukci RR (pohub doprava o 2),  
 
-misto instrukce L v kladnnych a R v zapornych dame instrukci LL.
+misto instrukce L v kladnnych a R v zapornych dame instrukci LL (pohub doleva o 2).
 
-Nuly pro nas budou obratniky, takze 
-0\_R $\rightarrow$ RR, 
-0\_L $\rightarrow$ R, 
--0\_R $\rightarrow$ RRR, 
--0\_L $\rightarrow$ RR, 
+Nuly pro nas budou obratniky, takze
+\begin{itemize}
+    \item 0\_R $\rightarrow$ RR,
+    \item 0\_L $\rightarrow$ R, 
+    \item -0\_R $\rightarrow$ RRR, 
+    \item -0\_L $\rightarrow$ RR, 
+\end{itemize}
 
 
 \end{document}
