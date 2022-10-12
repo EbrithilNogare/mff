@@ -1,3 +1,5 @@
+// expects variable data with json of midjourney chat export
+
 function search() {
   const text = document.getElementById("input").value;
   const result = data.messages
