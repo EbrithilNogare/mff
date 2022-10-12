@@ -1,5 +1,7 @@
 # 2.cviko
 
+amortizovanost znamena slozitost prumerne (zakon velkych cisel)
+
 ## agregacni metoda
 
 
