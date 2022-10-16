@@ -1,0 +1,83 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage[czech]{babel} % recommended if you write in Czech
+\usepackage[
+    left   = 1.0 in,
+    right  = 1.0 in,
+    top    = 1.5 in,
+    bottom = 1.5 in,
+]{geometry}
+\setlength{\parindent}{0in}
+
+%%% -------------------------------------------------
+%%% zpracovano Davidem Napravnikem pro potreby MFF UK
+%%% -------------------------------------------------
+
+\begin{document}
+
+\pagestyle{fancy}
+\rhead{Maxim Dokonaly}
+
+\section*{1. HW}
+\subsection*{1. priklad}
+
+\textbf{tucny text}
+
+\textit{kurziva}
+
+\begin{itemize}
+    \item necislovany seznam
+\end{itemize}
+
+\begin{enumerate}
+    \item cislovany seznam
+\end{enumerate}
+
+% poznaka co se nevygeneruje zacina procentem
+
+jeden radek
+lze prerusti
+
+prazdnym radkem \\
+nebo dvoj-lomitky
+
+matematicka rovnice v radku $a=3$ neboli inline
+
+Matematicka rovnice samostatne:
+$$a=3$$
+
+rychla url: \url{www.google.com}
+
+url s alternativnim textem (klikaci odkaz zmizi po vytisteni): \href{https://google.com}{\nolinkurl{google.com}}
+
+poznamka \footnote{pod carou}
+
+tabulky lze snadno vygenerovat zde: \url{https://www.tablesgenerator.com/}
+
+\begin{table}[h]
+    \begin{tabular}{|l|c|r|} % lcr znaci zarovani pro kazdy sloupec a svislitka ohraniceni
+    l jako vlevo & c jako uprostred & r jako vpravo \\
+    1 & 2 & 3 \\ \hline % hline pro horizontalni cary
+    4 & 5 & 6
+    \end{tabular}
+\end{table}
+
+pouze v matematickem mode muzeme pouzit dalsi symboly:
+$$\alpha+\beta-\pi=\forall<\emptyset$$
+$$a^2 \leftarrow b_2 \Leftarrow c^1_2 \neq d^{-1}_{-2}$$
+
+vetsi funkce, ktere vypadaji jinak inline: $\sum^{\infty}_{n=1} \frac{1}{n} = \infty$ 
+$$\sum^{\infty}_{n=1} \frac{1}{n} = \infty$$
+
+a na konci dukazu pouzijeme \hfill$\square$
+
+dost symbolu tu ma vyznam, tak je nezapomente \uv{escapovat}: \{ \} \# \% \$
+a jedna vyjimka na konec: $\backslash$
+
+
+\end{document}
