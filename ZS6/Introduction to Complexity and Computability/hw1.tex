@@ -3,8 +3,17 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{hyperref}
 \setlength{\parindent}{0in}
 \usepackage{fancyhdr}
+\usepackage[
+    left   = 1.0 in,
+    right  = 1.0 in,
+    top    = 1.5 in,
+    bottom = 1.5 in,
+]{geometry}
+
+\usepackage[czech]{babel} % recommended if you write in Czech
 
 \begin{document}
 
@@ -15,27 +24,36 @@
 \subsection*{9}
 Mejme turinguv stroj $M$ s abecedou \{a..z\}, instrukcemi \{L, R\} a stavy \{stavA..stavZ\}.
 
-Pak $M'$ bude turinguv stroj s abecedou \{a..z\}, instrukcemi \{L, R\} a stavy \{stavA, stavA-L, stavA-R .. stavZ, stavZ-L, stavZ-R\}.  
+Pak $M'$ bude turinguv stroj s abecedou \{a .. z\}, instrukcemi \{L, R\} a stavy \{stavA, stavA-L, stavA-R .. stavZ, stavZ-L, stavZ-R\}.  
 
 Neboli pronasobime stavy a instrukce, tim se pocet stavu ztrojnasobi a stav si bude pamatovat i nasledujici instrukci.  
 Pokud vydime stav s instrukci, tak instrukci vykoname a stav zmenime na totozny bez instrukce.
 Pokud vydime stav bez instrukce tak prepiseme znak na pasce a nastavime novy stav s instrukci, jenz bychom normalne vyzadovali.
 
 \subsection*{10}
-Prvne si vytvorime Turinguv stroj s polovicni paskou tak, ze smichame kladne a zaporne pozice.  
-.. -3 -2 -1 0 1 2 3 .. $\rightarrow$ -0 0 -1 1 -2 2 -3 3 ..  
+Mejme turinguv stroj $M$ s abecedou \{a .. z\}, instrukcemi \{L, R\} a stavy \{stavA..stavZ\}.
 
-Misto instrukce R v kladnnych a L v zapornych dame instrukci RR (pohub doprava o 2),  
+Pak $M'$ bude levy resetovaci turinguv stroj s abecedou
+\{a, a$\alpha$, a$\beta$ .. z, z$\alpha$, z$\beta$ \}
+(kde \# je placeholder pro symbol bez $\alpha$ nebo $\beta$. $\alpha$ bude zdrojova adresa a $\beta$ bude iterator),
+Instrukcemi \{R, 2R, RESET\} a stavy \{stavA .. stavZ\} $\times$ \{\_, searching, found, shifting\}.
 
-misto instrukce L v kladnnych a R v zapornych dame instrukci LL (pohub doleva o 2).
-
-Nuly pro nas budou obratniky, takze
+Instrukce R bude stejna jako v puvodnim TM. Instrukce L bude nahrazena touto funkci:
 \begin{itemize}
-    \item 0\_R $\rightarrow$ RR,
-    \item 0\_L $\rightarrow$ R, 
-    \item -0\_R $\rightarrow$ RRR, 
-    \item -0\_L $\rightarrow$ RR, 
+    \item L $\rightarrow$ zmen aktualni symbol na verzi s $\alpha$ (\# $\rightarrow$ \#$\alpha$), proved instrukci \textbf{RESET}, zmen stav na \textit{searching} a nastav symbol s $\beta$ (\# $\rightarrow$ \#$\beta$)
 \end{itemize}
+A pridame dalsi prechodove funkce:
+\begin{enumerate}
+    \item \textit{searching} \& \# $\rightarrow$\\proved instrukci \textbf{R}\\
+    (pokud nastane stav \textit{searching} a znak bude \#, tak proved instrukci \textbf{R})
+    \item \textit{searching} \& \#$\beta$ $\rightarrow$ odeber ze symbolu $\beta$, proved instrukci \textbf{2R} a zmen stav na \textit{shifting}
+    \item \textit{shifting} \& \# $\rightarrow$ pridej k symbolu $\beta$ a proved \textbf{RESET}
+    \item \textit{shifting} \& \#$\alpha$ $\rightarrow$ zmen stav na \textit{found}, odeber ze symbolu $\alpha$ a proved \textbf{RESET}
+    \item \textit{found} \& \# $\rightarrow$ proved instrukci \textbf{R}
+    \item \textit{found} \& \#$\beta$ $\rightarrow$ odeber ze symbolu $\beta$, (konec posunu vlevo,) pokracuj s puvodnim stavem \_
+\end{enumerate}
 
+Jelikoz se L da stabilne pouzit pouze od 3. indexu, tak se pridaji jeste specialni funkce na L, ktere je na druhem indexu.
+A pro L na prvnim indexu (cislovano od jedna) chovani TM nenadefinujeme, protoze doleva jiz jit nelze. 
 
 \end{document}
