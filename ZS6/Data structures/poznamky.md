@@ -32,3 +32,20 @@ pole nechame pretekat a az se potka konec se zacatkem tak budeme alokovat nove
 
 ### 4
 budeme si setrit tolik penizku jak dlouhe cislo zatim mame
+
+# 3.cviko
+## priklady
+### 1
+a) vznikne cesta
+b) slozitost n^2
+
+### 2
+
+### 3
+huffman tree
+
+### 4
+still huffman tree
+
+### 5
+nic mensiho nez `n log n` byt nemuze
