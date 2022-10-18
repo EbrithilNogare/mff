@@ -114,5 +114,10 @@ class Tree:
         If a single rotation needs to be performed, perform it as the last rotation
         (i.e., to move the splayed node to the root of the tree).
         """
+
+        if node is None:
+            return
+
+            
         # TODO: Implement
         raise NotImplementedError
