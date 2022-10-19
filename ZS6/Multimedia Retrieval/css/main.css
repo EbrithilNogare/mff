@@ -1,3 +1,12 @@
+html, body{
+    background: #c5d6f1;
+}
+
 #img{
     max-height: 95vh;
+}
+
+.row{
+    row-gap: 20px;
+    column-gap: 20px;
 }

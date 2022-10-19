@@ -15,12 +15,21 @@
 </head>
     <div class="row">
         <div class="col s8">
-            <img id="img" src="" alt="" class="responsive-img card-panel"/>
+            <img id="img" src="" alt="" class="blue lighten-3 responsive-img z-depth-2"/>
         </div>
         <div class="col s4">
             <div class="card-panel blue lighten-3 row">
                 <input id="input" class="input-field col s12" type="text"></input>
-                <button class="waves-effect blue darken-4 btn col s12" onclick="search()">search</button>
+                <button class="waves-effect blue darken-4 btn col s12" onclick="newSearch()">new search</button>
+                <div class="col s12"> &nbsp;</div>
+                <div class="waves-effect blue darken-4 btn col s5" onclick="prev()">
+                    Previous <br/>
+                    <img id="imgL" width="36" height="36" alt=""></img>
+                </div>
+                <div class="waves-effect blue darken-4 btn col offset-s2 s5" onclick="next()">
+                    Next <br/>
+                    <img  id="imgR" width="36" height="36" alt=""></img>    
+                </div>
             </div>
             <div class="card-panel blue lighten-3 row">
                 <div id="info" class="col s12""></div>
