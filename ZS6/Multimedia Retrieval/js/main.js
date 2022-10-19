@@ -49,15 +49,18 @@ function search() {
   document.getElementById("info").innerText =
     "match: " + (result[0].match * 100).toFixed(2) + "%";
   document.getElementById("result").innerHTML = result[0].text
-    .map((item) => (input.includes(item) ? `<b>${item}</b>` : item))
-    .join(", ");
+    .map((item) =>
+      input.includes(item) ? createChip(item, true) : createChip(item)
+    )
+    .join("");
 
   const imgDOM = document.getElementById("img");
 
   imgDOM.src = "";
-  imgDOM.src =
-    result[0].url.replace("cdn.discordapp.com", "media.discordapp.net") +
-    "?width=700&height=700";
+  imgDOM.src = result[0].url.replace(
+    "cdn.discordapp.com",
+    "media.discordapp.net"
+  ); // +"?width=700&height=700";
 }
 
 inputDOM.addEventListener("keypress", function (event) {
@@ -66,3 +69,9 @@ inputDOM.addEventListener("keypress", function (event) {
     search();
   }
 });
+
+function createChip(text, bold = false) {
+  return `<div class="chip ${
+    bold ? "green lighten-1" : "orange lighten-2"
+  }">${text}</div>`;
+}
