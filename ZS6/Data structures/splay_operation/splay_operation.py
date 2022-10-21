@@ -46,15 +46,19 @@ class Tree:
 
         Returns the node with the requested key or `None`.
         """
-        # TODO: Utilize splay suitably.
         node = self.root
+        lastNode = None
         while node is not None:
             if node.key == key:
+                self.splay(node)
                 return node
             if key < node.key:
+                lastNode = node
                 node = node.left
             else:
+                lastNode = node
                 node = node.right
+        self.splay(lastNode)
         return None
 
     def insert(self, key):
@@ -62,7 +66,6 @@ class Tree:
 
         If the key is already present, nothing happens.
         """
-        # TODO: Utilize splay suitably.
         if self.root is None:
             self.root = Node(key)
             return
@@ -71,25 +74,23 @@ class Tree:
         while node.key != key:
             if key < node.key:
                 if node.left is None:
-                    node.left = Node(key, parent=node)
+                    node.left = Node(key, parent = node)
                 node = node.left
-            else:
+            elif key > node.key:
                 if node.right is None:
-                    node.right = Node(key, parent=node)
+                    node.right = Node(key, parent = node)
                 node = node.right
+
+        # print(str(key) + " " + str(node.key))
+        self.splay(node)
+        
 
     def remove(self, key):
         """Remove given key from the tree.
 
         It the key is not present, nothing happens.
         """
-        # TODO: Utilize splay suitably.
-        node = self.root
-        while node is not None and node.key != key:
-            if key < node.key:
-                node = node.left
-            else:
-                node = node.right
+        node = self.lookup(key)
 
         if node is not None:
             if node.left is not None and node.right is not None:
@@ -107,6 +108,9 @@ class Tree:
                 self.root = replacement
             if replacement is not None:
                 replacement.parent = node.parent
+        
+            self.splay(replacement)
+
 
     def splay(self, node):
         """Splay the given node.
@@ -114,10 +118,28 @@ class Tree:
         If a single rotation needs to be performed, perform it as the last rotation
         (i.e., to move the splayed node to the root of the tree).
         """
+        while node is not None and node.parent is not None:
+            if node.parent.parent is None:
+                if node is node.parent.left:
+                    # zig rotation
+                    self.rotate(node)
+                else:
+                    # zag rotation
+                    self.rotate(node)
+            elif node is node.parent.left and node.parent is node.parent.parent.left:
+                # zig-zig rotation
+                self.rotate(node.parent)
+                self.rotate(node)
+            elif node is node.parent.right and node.parent is node.parent.parent.right:
+                # zag-zag rotation
+                self.rotate(node.parent)
+                self.rotate(node)
+            elif node is node.parent.right and node.parent is node.parent.parent.left:
+                # zig-zag rotation
+                self.rotate(node)
+                self.rotate(node)
+            else:
+                # zag-zig rotation
+                self.rotate(node)
+                self.rotate(node)
 
-        if node is None:
-            return
-
-            
-        # TODO: Implement
-        raise NotImplementedError
