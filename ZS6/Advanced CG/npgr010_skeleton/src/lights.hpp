@@ -70,13 +70,13 @@ public:
         mFrame.SetFromZ(normal);
     }
 
-    // todo SamplePointOnLight
     virtual std::tuple<Vec3f, Vec3f, float> SamplePointOnLight(const Vec3f& origin, Rng& rng) const override {
-        Vec3f outgoingDirection = p0 - origin;
+        auto rndTriangle = rng.GetRandomOnTriangle();
+        Vec3f randomPoint3D = e1 * rndTriangle.x + e2 * rndTriangle.y + p0;
+        Vec3f outgoingDirection = randomPoint3D - origin;
         float distanceSquared = outgoingDirection.LenSqr();
 
-        // todo add function that pick random on ones triangle and scale it by e1 and e2
-        return { p0, mRadiance / distanceSquared, 1.0f };
+        return { randomPoint3D, mRadiance / distanceSquared, 1.0f };
     }
 
 public:

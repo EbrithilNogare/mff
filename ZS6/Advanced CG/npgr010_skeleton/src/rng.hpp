@@ -51,6 +51,13 @@ public:
         return Vec3f(a, b, c);
     }
 
+    Vec2f GetRandomOnTriangle() {
+        auto out = GetVec2f();
+        if (out.x + out.y > 1)
+            out = Vec2f(1-out.x, 1-out.y); // todo
+        return out;
+    }
+
 private:
 
     std::mt19937_64 mRng;
