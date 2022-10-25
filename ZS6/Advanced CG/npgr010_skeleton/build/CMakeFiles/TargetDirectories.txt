@@ -1,0 +1,3 @@
+C:/dev/mff/ZS6/Advanced CG/npgr010_skeleton/build/CMakeFiles/NPGR010.dir
+C:/dev/mff/ZS6/Advanced CG/npgr010_skeleton/build/CMakeFiles/ALL_BUILD.dir
+C:/dev/mff/ZS6/Advanced CG/npgr010_skeleton/build/CMakeFiles/ZERO_CHECK.dir
