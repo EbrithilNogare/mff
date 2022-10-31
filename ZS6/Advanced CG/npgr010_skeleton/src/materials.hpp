@@ -56,12 +56,16 @@ public:
         if (incomingDirection.z <= 0 && outgoingDirection.z <= 0) {
 			return Vec3f(0);
         }
+        Vec3f normal = Vec3f(0, 0, 1);
 
-		Vec3f diffuseComponent = mDiffuseReflectance / PI_F; // complete it as phong from slides
+        Vec3f diffuseComponent = mDiffuseReflectance * Dot(normal, incomingDirection);
+        //Vec3f diffuseComponent = mDiffuseReflectance / PI_F;
+        
+        Vec3f r = 2 * Dot(normal, incomingDirection) * normal - incomingDirection;
+        Vec3f glossyComponent = mPhongReflectance * pow(Dot(r, outgoingDirection), mPhongExponent);
+        //glossyComponent *= 13; // random constant
 
-		// Vec3f glossyComponent = 
-
-		return diffuseComponent /* + glossyComponent */;
+		return diffuseComponent + glossyComponent;
     }
 
     Vec3f mDiffuseReflectance;

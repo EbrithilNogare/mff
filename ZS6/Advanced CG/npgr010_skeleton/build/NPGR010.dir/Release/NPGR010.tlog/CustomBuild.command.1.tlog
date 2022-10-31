@@ -1,0 +1,10 @@
+^C:\DEV\MFF\ZS6\ADVANCED CG\NPGR010_SKELETON\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/dev/mff/ZS6/Advanced CG/npgr010_skeleton" "-BC:/dev/mff/ZS6/Advanced CG/npgr010_skeleton/build" --check-stamp-file "C:/dev/mff/ZS6/Advanced CG/npgr010_skeleton/build/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

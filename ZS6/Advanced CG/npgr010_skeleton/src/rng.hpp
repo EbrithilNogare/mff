@@ -54,8 +54,12 @@ public:
     Vec2f GetRandomOnTriangle() {
         auto out = GetVec2f();
         if (out.x + out.y > 1)
-            out = Vec2f(1-out.x, 1-out.y); // todo
+            out = Vec2f(1 - out.x, 1 - out.y);
         return out;
+    }
+
+    Vec3f GetRandomOnSphere() {
+        return Normalize(GetVec3f()-.5);
     }
 
 private:

@@ -70,13 +70,18 @@ public:
         mFrame.SetFromZ(normal);
     }
 
-    virtual std::tuple<Vec3f, Vec3f, float> SamplePointOnLight(const Vec3f& origin, Rng& rng) const override {
+    std::tuple<Vec3f, Vec3f, float> SamplePointOnLight(const Vec3f& origin, Rng& rng) const override {
+        Vec3f normal = Cross(e1, e2);
         auto rndTriangle = rng.GetRandomOnTriangle();
         Vec3f randomPoint3D = e1 * rndTriangle.x + e2 * rndTriangle.y + p0;
-        Vec3f outgoingDirection = randomPoint3D - origin;
+        Vec3f outgoingDirection = origin - randomPoint3D;
         float distanceSquared = outgoingDirection.LenSqr();
-
-        return { randomPoint3D, mRadiance / distanceSquared, 1.0f };
+        float lambertCosineLaw = Dot(normal, outgoingDirection)/(normal.Length() * outgoingDirection.Length());
+        
+        return { randomPoint3D, mRadiance / distanceSquared,  mInvArea / lambertCosineLaw };
+    }
+    Vec3f Evaluate(const Vec3f& direction) const {
+        return mRadiance;
     }
 
 public:
@@ -96,11 +101,14 @@ public:
         mPosition = aPosition;
     }
 
-    virtual std::tuple<Vec3f, Vec3f, float> SamplePointOnLight(const Vec3f& origin, Rng& rng) const override {
-        Vec3f outgoingDirection = mPosition - origin;
+    std::tuple<Vec3f, Vec3f, float> SamplePointOnLight(const Vec3f& origin, Rng& rng) const override {
+        Vec3f outgoingDirection = origin - mPosition;
         float distanceSquared = outgoingDirection.LenSqr();
 
 		return {mPosition, mIntensity / distanceSquared, 1.0f};
+    }
+    Vec3f Evaluate(const Vec3f& direction) const {
+        return mIntensity;
     }
 
 public:
@@ -108,7 +116,6 @@ public:
     Vec3f mPosition;
     Vec3f mIntensity;
 };
-
 
 //////////////////////////////////////////////////////////////////////////
 class BackgroundLight : public AbstractLight
@@ -120,7 +127,15 @@ public:
         mRadius = 100.f; // a radius big enough to cover the whole scene
     }
 
-    // todo SamplePointOnLight
+    std::tuple<Vec3f, Vec3f, float> SamplePointOnLight(const Vec3f& origin, Rng& rng) const override {
+        auto rndSphere = rng.GetRandomOnSphere() * mRadius;
+        Vec3f outgoingDirection = origin - rndSphere;
+        float distanceSquared = outgoingDirection.LenSqr();
+        return { rndSphere, mBackgroundColor / distanceSquared, 1 / (4 * PI_F * pow(mRadius,2)) };
+    }
+    Vec3f Evaluate(const Vec3f& direction) const {
+        return mBackgroundColor;
+    }
 
 public:
 

@@ -1,2 +1,12 @@
 ﻿  pg3render.cpp
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(65,18): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\pathtracer.hpp(44,1): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
   NPGR010.vcxproj -> C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\build\Debug\NPGR010.exe
