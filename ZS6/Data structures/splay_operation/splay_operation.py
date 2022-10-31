@@ -13,9 +13,9 @@ class Node:
 
 class Tree:
     """A simple binary search tree"""
-
     def __init__(self, root=None):
         self.root = root
+
 
     def rotate(self, node):
         """ Rotate the given `node` up.
@@ -41,6 +41,7 @@ class Tree:
                 self.root = node
             node.parent.parent, node.parent = node, node.parent.parent
 
+
     def lookup(self, key):
         """Look up the given key in the tree.
 
@@ -58,6 +59,7 @@ class Tree:
             else:
                 lastNode = node
                 node = node.right
+
         self.splay(lastNode)
         return None
 
@@ -81,7 +83,6 @@ class Tree:
                     node.right = Node(key, parent = node)
                 node = node.right
 
-        # print(str(key) + " " + str(node.key))
         self.splay(node)
         
 
@@ -119,13 +120,12 @@ class Tree:
         (i.e., to move the splayed node to the root of the tree).
         """
         while node is not None and node.parent is not None:
-            if node.parent.parent is None:
-                if node is node.parent.left:
-                    # zig rotation
-                    self.rotate(node)
-                else:
-                    # zag rotation
-                    self.rotate(node)
+            if node.parent.parent is None and node is node.parent.left:
+                # zig rotation
+                self.rotate(node)
+            elif node.parent.parent is None and node is node.parent.right:
+                # zag rotation
+                self.rotate(node)
             elif node is node.parent.left and node.parent is node.parent.parent.left:
                 # zig-zig rotation
                 self.rotate(node.parent)
