@@ -1,0 +1,79 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\setlength{\parindent}{0in}
+\usepackage{fancyhdr}
+\usepackage[
+    left   = 1.0 in,
+    right  = 1.0 in,
+    top    = 1.5 in,
+    bottom = 1.5 in,
+]{geometry}
+
+\usepackage[czech]{babel} % recommended if you write in Czech
+
+\begin{document}
+
+\pagestyle{fancy}
+\rhead{David Nápravník}
+
+\section*{2. HW}
+\subsection*{7 a}
+
+Mejme kod turingova stroje M' jenz pridava k M tyto veci:
+\begin{itemize}
+    \item symboly \^{} (zacatek dat a pasce) a \$ (konec dat na pasce) do paskove abecedy
+\end{itemize}
+A nahradime
+\begin{itemize}
+    \item operaci L za prechodove funkce:  
+    \begin{itemize}
+        \item (\^{}, L, $\sum_i$) $\rightarrow$ zapis $\sum_i$ $\rightarrow$ proved L $\rightarrow$  zapis \^{} $\rightarrow$  proved R  
+        \item (\_, L, $\sum_i$) $\rightarrow$ zapis $\sum_i$  
+    \end{itemize} 
+    \item operaci R za prechodove funkce: 
+    \begin{itemize}
+        \item (\$, L, $\sum_i$) $\rightarrow$ zapis $\sum_i$ $\rightarrow$ proved R $\rightarrow$  zapis \$ $\rightarrow$  proved L 
+        \item (\_, L, $\sum_i$) $\rightarrow$ zapis $\sum_i$  
+    \end{itemize} 
+\end{itemize}
+    
+Zacneme simulovat vstup x na automatu M'.
+\begin{itemize}
+    \item Pokud se zastavi tak zkontrolujeme zda symboly \^{} a \$ jsou na pasce vedle sebe.
+    \begin{itemize}
+        \item Pokud jsou, tak paska po skonceni je prazdna a automat se ukocil $\downarrow$ se vstupem x.
+        \item Pokud nejsou, tak paska neni prazdna a automat se ukoncil $\downarrow$.
+    \end{itemize}
+    \item Pokud se nezastavi tak nic nevime.
+\end{itemize}
+
+Tudiz pokud se zastavi, tak vime zda paska je po skonceni prazdna, ale
+ne vzdy se automat zastavi, proto se jedna o castecne rozhodnutelny problem.
+
+
+\subsection*{7 b}
+
+Vezmeme automat M' z predchozi ulohy a vyvorime totozny automat M'' jen s rozdilem, ze M'' se zastavi po n krocich a neprijme.\\
+Udelame si matici kde radky jsou n (pocet kroku do zastaveni) a
+sloupce budou vsechny vstupni retezce (\textbf{shortlex}).\\
+pak matici prochazime cik-cak (kazdy 2D index je prevoditelny na 1D index).\\
+\begin{itemize}
+    \item Pokud se M'' zastavi a prijima, tak hledany vstup x existuje. (tez plati, ze pokud x automat zastavi).\\
+    \item Pokud se nezastavi, tak opet nevime nic. (proto se jedna pouze o castecne rozhodnutelny problem) 
+\end{itemize}
+
+
+\subsection*{8}
+
+Mejme jazyk $L_u$ a ukazme si, ze je prevoditelny na jazyk PP.\\
+Jakmile je jazyk $L_u$ prijimany v prijimajicim stavu, tak jeste do automatu pridame mazaci instrukce,
+ktere nam pasku vyprazdni (smerem vlevo i vpravo) a dostaneme tak jazyk PP.\\
+Avsak podle definic vime, ze $L_u$ je nerozhodnutelny a jelikoz je jazyk PP pouze podmnozina jazyka $L_u$, tak i jazyk PP musi byt nerozhodnutelny.
+
+
+
+\end{document}
