@@ -78,7 +78,7 @@ public:
         float distanceSquared = outgoingDirection.LenSqr();
         float lambertCosineLaw = Dot(normal, outgoingDirection)/(normal.Length() * outgoingDirection.Length());
         
-        return { randomPoint3D, mRadiance / distanceSquared,  mInvArea / lambertCosineLaw };
+        return { randomPoint3D, mRadiance / distanceSquared * lambertCosineLaw,  mInvArea };
     }
     Vec3f Evaluate(const Vec3f& direction) const {
         return mRadiance;

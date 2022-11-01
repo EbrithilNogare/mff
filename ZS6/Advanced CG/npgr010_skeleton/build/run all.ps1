@@ -1,4 +1,4 @@
-$iterations = 16
+$iterations = 1024
 $format = "bmp"
 .\Release\NPGR010.exe -s 0 -i $iterations -o .\images\0.$format
 .\Release\NPGR010.exe -s 1 -i $iterations -o .\images\1.$format

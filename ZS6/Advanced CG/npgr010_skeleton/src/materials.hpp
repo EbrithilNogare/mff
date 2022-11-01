@@ -56,16 +56,15 @@ public:
         if (incomingDirection.z <= 0 && outgoingDirection.z <= 0) {
 			return Vec3f(0);
         }
-        Vec3f normal = Vec3f(0, 0, 1);
+        Vec3f up = Vec3f(0, 0, 1);
 
-        Vec3f diffuseComponent = mDiffuseReflectance * Dot(normal, incomingDirection);
-        //Vec3f diffuseComponent = mDiffuseReflectance / PI_F;
+        Vec3f diffuseComponent = mDiffuseReflectance / PI_F;
         
-        Vec3f r = 2 * Dot(normal, incomingDirection) * normal - incomingDirection;
-        Vec3f glossyComponent = mPhongReflectance * pow(Dot(r, outgoingDirection), mPhongExponent);
-        //glossyComponent *= 13; // random constant
-
-		return diffuseComponent + glossyComponent;
+        // mDiffuseReflectance * Dot(up, incomingDirection);
+        Vec3f r = 2 * Dot(up, incomingDirection) * up - incomingDirection;
+        Vec3f glossyComponent = mPhongReflectance * (mPhongExponent+2)/ (2*PI_F) * pow(Dot(r, outgoingDirection), mPhongExponent);
+		
+        return diffuseComponent + glossyComponent;
     }
 
     Vec3f mDiffuseReflectance;

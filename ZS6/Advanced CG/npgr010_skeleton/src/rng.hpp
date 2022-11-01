@@ -59,7 +59,26 @@ public:
     }
 
     Vec3f GetRandomOnSphere() {
-        return Normalize(GetVec3f()-.5);
+        auto u = GetFloat();
+        auto v = GetFloat();
+        auto theta = u * 2.0 * PI_F;
+        auto phi = acos(2.0 * v - 1.0);
+        auto r = cbrt(GetFloat());
+        auto sinTheta = sin(theta);
+        auto cosTheta = cos(theta);
+        auto sinPhi = sin(phi);
+        auto cosPhi = cos(phi);
+        float x = r * sinPhi * cosTheta;
+        float y = r * sinPhi * sinTheta;
+        float z = r * cosPhi;
+        return Normalize(Vec3f(x, y, z));
+    }
+
+    Vec3f GetRandomOnHemiSphere(Vec3f direction) {
+        auto toReturn = GetRandomOnSphere();
+        if (Dot(toReturn - direction, toReturn) < 0)
+            toReturn = -toReturn;
+        return toReturn;
     }
 
 private:
