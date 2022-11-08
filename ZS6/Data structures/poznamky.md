@@ -49,3 +49,9 @@ still huffman tree
 
 ### 5
 nic mensiho nez `n log n` byt nemuze
+
+
+### 6
+## priklady
+# 1
+
