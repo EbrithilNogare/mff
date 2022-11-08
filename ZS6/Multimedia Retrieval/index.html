@@ -19,22 +19,32 @@
         </div>
         <div class="col s4">
             <div class="card-panel blue lighten-3 row">
-                <input id="input" class="input-field col s12" type="text"></input>
+                <input id="input" class="input-field col s12" placeholder="Search for imaginations" type="text"></input>
                 <button class="waves-effect blue darken-4 btn col s12" onclick="newSearch()">new search</button>
                 <div class="col s12"> &nbsp;</div>
-                <div class="waves-effect blue darken-4 btn col s5" onclick="prev()">
-                    Previous <br/>
-                    <img id="imgL" width="36" height="36" alt=""></img>
+                <div class="moveButtons waves-effect blue darken-4 col s5" onclick="prev()">
+                    PREVIOUS
+                    <img id="imgL" alt=""></img>
                 </div>
-                <div class="waves-effect blue darken-4 btn col offset-s2 s5" onclick="next()">
-                    Next <br/>
-                    <img  id="imgR" width="36" height="36" alt=""></img>    
+                <div class="moveButtons waves-effect blue darken-4 col offset-s2 s5" onclick="next()">
+                    NEXT
+                    <img  id="imgR" alt=""></img>    
                 </div>
             </div>
             <div class="card-panel blue lighten-3 row">
                 <div id="info" class="col s12""></div>
                 <div id="result" class="col s12""></div>
-                
+            </div>
+            <div class="canvasContainer card-panel blue lighten-3 row">
+                <canvas id="customDrawCanvas" width="16" height="16"></canvas>    
+                <div id="selectedColorDOM" style="background: black;"> </div>
+                <div class="drawingColorsMenu">
+                    <div onClick="setColor('red')" class="moveButtons waves-effect red" >Red</div>
+                    <div onClick="setColor('blue')" class="moveButtons waves-effect blue">Blue</div>
+                    <div onClick="setColor('green')" class="moveButtons waves-effect green">Green</div>
+                    <div onClick="setColor('white')" class="moveButtons waves-effect white">White</div>
+                    <div onClick="setColor('black')" class="moveButtons waves-effect black">Black</div>
+                </div>            
             </div>
         </div>
     </div>

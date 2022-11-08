@@ -21,6 +21,18 @@ if (data.messages) {
   console.log("dataset convert done: ", data);
 }
 
+let canvas,
+  ctx,
+  fillStyle = "black",
+  flag = false,
+  prevX = 0,
+  currX = 0,
+  prevY = 0,
+  currY = 0,
+  dot_flag = false;
+
+init();
+
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
 }
@@ -30,6 +42,8 @@ function prev() {
   search();
 }
 function next() {
+  const imgRDOM = document.getElementById("imgR");
+  if (imgRDOM.src == null) return;
   indexOfResult++;
   search();
 }
@@ -52,6 +66,7 @@ function search() {
         match: found / Math.max(input.length, item.text.length),
       };
     })
+    .filter((item) => item.match > 0)
     .sort((itemA, itemB) => {
       return itemB.match - itemA.match;
     });
@@ -71,21 +86,20 @@ function search() {
   const imgRDOM = document.getElementById("imgR");
 
   imgDOM.src = "";
-  imgDOM.src = result[indexOfResult].url.replace(
-    "cdn.discordapp.com",
-    "media.discordapp.net"
-  ); // +"?width=700&height=700";
+  imgDOM.src =
+    result[indexOfResult]?.url.replace(
+      "cdn.discordapp.com",
+      "media.discordapp.net"
+    ) ?? ""; // +"?width=700&height=700";
 
   imgRDOM.src =
-    result[indexOfResult + 1].url.replace(
-      "cdn.discordapp.com",
-      "media.discordapp.net"
-    ) + "?width=64&height=64";
+    result[indexOfResult + 1]?.url
+      .replace("cdn.discordapp.com", "media.discordapp.net")
+      .concat("?width=128&height=128") ?? "";
   imgLDOM.src =
-    result[indexOfResult - 1].url.replace(
-      "cdn.discordapp.com",
-      "media.discordapp.net"
-    ) + "?width=64&height=64";
+    result[indexOfResult - 1]?.url
+      .replace("cdn.discordapp.com", "media.discordapp.net")
+      .concat("?width=128&height=128") ?? "";
 }
 
 inputDOM.addEventListener("keypress", function (event) {
@@ -99,4 +113,83 @@ function createChip(text, bold = false) {
   return `<div class="chip ${
     bold ? "green lighten-1" : "orange lighten-2"
   }">${text}</div>`;
+}
+
+function init() {
+  canvas = document.getElementById("customDrawCanvas");
+  ctx = canvas.getContext("2d");
+  ctx.imageSmoothingQuality = "low";
+
+  canvas.addEventListener(
+    "mousemove",
+    function (e) {
+      findxy("move", e);
+    },
+    false
+  );
+  canvas.addEventListener(
+    "mousedown",
+    function (e) {
+      findxy("down", e);
+    },
+    false
+  );
+  canvas.addEventListener(
+    "mouseup",
+    function (e) {
+      findxy("up", e);
+    },
+    false
+  );
+  canvas.addEventListener(
+    "mouseout",
+    function (e) {
+      findxy("out", e);
+    },
+    false
+  );
+}
+
+function findxy(res, e) {
+  if (res == "down") {
+    prevX = currX;
+    prevY = currY;
+    currX = e.clientX - canvas.offsetLeft;
+    currY = e.clientY - canvas.offsetTop;
+
+    draw(currX, currY);
+
+    flag = true;
+    dot_flag = false;
+  }
+  if (res == "up" || res == "out") {
+    flag = false;
+  }
+  if (res == "move") {
+    if (flag) {
+      prevX = currX;
+      prevY = currY;
+      currX = e.clientX - canvas.offsetLeft;
+      currY = e.clientY - canvas.offsetTop;
+      draw(currX, currY);
+    }
+  }
+}
+
+function canvasScale(x, y) {
+  return [
+    (x * canvas.width) / canvas.offsetWidth,
+    (y * canvas.height) / canvas.offsetHeight,
+  ];
+}
+
+function draw(x, y) {
+  [x, y] = canvasScale(x, y);
+  ctx.fillStyle = fillStyle;
+  ctx.fillRect(x, y, 1, 1);
+}
+
+function setColor(color) {
+  document.getElementById("selectedColorDOM").style.background = color;
+  fillStyle = color;
 }
