@@ -5,20 +5,8 @@ const SEPARATOR_REGEXP = /[;, ]+/;
 const inputDOM = document.getElementById("input");
 let indexOfResult = 0;
 
-if (data.messages) {
-  data = data.messages.map(({ content, attachments }) => ({
-    text: content
-      .slice(2, content.lastIndexOf("**"))
-      .split(SEPARATOR_REGEXP)
-      .filter((item) => item[0] !== "<")
-      .filter((item) => item[0] !== "-")
-      .filter((item) => item[0] !== "—")
-      .filter((item) => item.length < 32)
-      .filter((item) => item !== "")
-      .filter(onlyUnique),
-    url: attachments[0]?.url,
-  }));
-  console.log("dataset convert done: ", data);
+if (!data || data.messages) {
+  alert("no data found");
 }
 
 let canvas,
