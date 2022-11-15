@@ -1,2 +1,4 @@
 data.js
 data.min.js
+*.json
+node_modules

@@ -21,10 +21,6 @@ let canvas,
 
 init();
 
-function onlyUnique(value, index, self) {
-  return self.indexOf(value) === index;
-}
-
 function prev() {
   indexOfResult = Math.max(0, indexOfResult - 1);
   search();
