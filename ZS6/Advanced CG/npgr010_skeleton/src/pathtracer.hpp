@@ -35,43 +35,52 @@ public:
 
             // Generating a ray with an origin in the camera with a direction corresponding to the pixel coordinates:
             Ray ray = mScene.mCamera.GenerateRay(sample);
+            Vec3f LoDirect = Vec3f(0);
 
             auto intersection = mScene.FindClosestIntersection(ray);
             if (intersection)
             {
                 if (intersection->lightID >= 0) {
                     const AbstractLight* light = mScene.GetLightPtr(intersection->lightID);
-                    mFramebuffer.AddColor(sample, Vec3f(light->Evaluate(ray.direction))); // todo magic number
+                    mFramebuffer.AddColor(sample, Vec3f(light->Evaluate(ray.direction)));
+                    continue;
                 }
-				const Vec3f surfacePoint = ray.origin + ray.direction * intersection->distance;
-				CoordinateFrame frame;
-				frame.SetFromZ(intersection->normal);
-				const Vec3f incomingDirection = frame.ToLocal(-ray.direction);
 
-				Vec3f LoDirect = Vec3f(0);
-				const Material& mat = mScene.GetMaterial(intersection->materialID);
+                const Vec3f surfacePoint = ray.origin + ray.direction * intersection->distance;
+                CoordinateFrame frame;
+                frame.SetFromZ(intersection->normal);
+                const Vec3f incomingDirection = frame.ToLocal(-ray.direction);
 
-                // Connect from the current surface point to every light source in the scene:
-				for (int i=0; i<mScene.GetLightCount(); i++)
-				{
-					const AbstractLight* light = mScene.GetLightPtr(i);
-					assert(light != 0);
+                const Material& mat = mScene.GetMaterial(intersection->materialID);
 
-                    auto [lightPoint, intensity, pdf] = light->SamplePointOnLight(surfacePoint, mRandomGenerator);
-                    Vec3f outgoingDirection = Normalize(lightPoint - surfacePoint);
-                    float lightDistance = sqrt((lightPoint - surfacePoint).LenSqr());
-                    float cosTheta = Dot(frame.mZ, outgoingDirection);
-					
-					if (cosTheta > 0 && intensity.Max() > 0)
-					{
-                        Ray rayToLight(surfacePoint, outgoingDirection, EPSILON_RAY); // Note! To prevent intersecting the same object we are already on, we need to offset the ray by EPSILON_RAY
-						if (!mScene.FindAnyIntersection(rayToLight, lightDistance)) { // Testing if the direction towards the light source is not occluded
-							LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(outgoingDirection), incomingDirection) * cosTheta / pdf;
+                auto newDir = mRandomGenerator.GetRandomOnHemiSphere(intersection->normal);
+                Ray ray2 = Ray(surfacePoint, newDir, EPSILON_RAY);
+
+                auto intersection2 = mScene.FindClosestIntersection(ray2);
+                if (intersection2){
+                    if (intersection2->lightID >= 0) {
+                        const AbstractLight* light = mScene.GetLightPtr(intersection2->lightID);
+
+                        float cosTheta = Dot(frame.mZ, newDir);
+                        auto intensity = light->Evaluate(ray2.direction);
+                        if (cosTheta > 0 && intensity.Max() > 0)
+                        {
+                            LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta;
                         }
-					}
-				}
-
-				mFramebuffer.AddColor(sample, LoDirect);
+                    }
+                    mFramebuffer.AddColor(sample, LoDirect);
+                }
+                else {
+                    auto background = mScene.GetBackground();
+                    if (!background)continue;
+                    float cosTheta = Dot(frame.mZ, newDir);
+                    auto intensity = background->Evaluate(ray2.direction);
+                    if (cosTheta > 0 && intensity.Max() > 0)
+                    {
+                        LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta;
+                    }
+                }
+                mFramebuffer.AddColor(sample, LoDirect);
             }
         }
 

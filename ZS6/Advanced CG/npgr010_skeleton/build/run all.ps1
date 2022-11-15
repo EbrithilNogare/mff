@@ -1,7 +1,7 @@
-$iterations = 1024
+$iterations = 10000
 $format = "bmp"
-.\Release\NPGR010.exe -s 0 -i $iterations -o .\images\0.$format
-.\Release\NPGR010.exe -s 1 -i $iterations -o .\images\1.$format
+.\Release\NPGR010.exe -s 0 -i 10 -o .\images\0.$format
+.\Release\NPGR010.exe -s 1 -i 10 -o .\images\1.$format
 .\Release\NPGR010.exe -s 2 -i $iterations -o .\images\2.$format
 .\Release\NPGR010.exe -s 3 -i $iterations -o .\images\3.$format
 .\Release\NPGR010.exe -s 4 -i $iterations -o .\images\4.$format

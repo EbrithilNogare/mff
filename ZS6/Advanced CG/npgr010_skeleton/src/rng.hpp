@@ -76,9 +76,9 @@ public:
 
     Vec3f GetRandomOnHemiSphere(Vec3f direction) {
         auto toReturn = GetRandomOnSphere();
-        if (Dot(toReturn - direction, toReturn) < 0)
+        if (Dot(direction, toReturn) < 0)
             toReturn = -toReturn;
-        return toReturn;
+        return Normalize(toReturn);
     }
 
 private:
