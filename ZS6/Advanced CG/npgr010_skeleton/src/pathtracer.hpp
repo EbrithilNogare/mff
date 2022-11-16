@@ -65,19 +65,19 @@ public:
                         auto intensity = light->Evaluate(ray2.direction);
                         if (cosTheta > 0 && intensity.Max() > 0)
                         {
-                            LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta;
+                            LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / PI_F * 2 * 9.9;
                         }
                     }
-                    mFramebuffer.AddColor(sample, LoDirect);
                 }
                 else {
                     auto background = mScene.GetBackground();
-                    if (!background)continue;
+                    if (!background)
+                        continue;
                     float cosTheta = Dot(frame.mZ, newDir);
                     auto intensity = background->Evaluate(ray2.direction);
                     if (cosTheta > 0 && intensity.Max() > 0)
                     {
-                        LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta;
+                        LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / PI_F * 2 * 10;
                     }
                 }
                 mFramebuffer.AddColor(sample, LoDirect);

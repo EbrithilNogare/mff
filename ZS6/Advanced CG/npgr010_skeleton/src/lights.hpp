@@ -128,7 +128,7 @@ public:
     }
 
     std::tuple<Vec3f, Vec3f, float> SamplePointOnLight(const Vec3f& origin, Rng& rng) const override {
-        auto rndSphere = rng.GetRandomOnSphere() * mRadius;
+        auto rndSphere = rng.UniformSampleSphere() * mRadius;
         Vec3f outgoingDirection = origin - rndSphere;
         float distanceSquared = outgoingDirection.LenSqr();
         return { rndSphere, mBackgroundColor / distanceSquared, 1 / (4 * PI_F * pow(mRadius,2)) };

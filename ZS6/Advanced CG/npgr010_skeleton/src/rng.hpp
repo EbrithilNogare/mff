@@ -58,28 +58,37 @@ public:
         return out;
     }
 
-    Vec3f GetRandomOnSphere() {
-        auto u = GetFloat();
-        auto v = GetFloat();
-        auto theta = u * 2.0 * PI_F;
-        auto phi = acos(2.0 * v - 1.0);
-        auto r = cbrt(GetFloat());
-        auto sinTheta = sin(theta);
-        auto cosTheta = cos(theta);
-        auto sinPhi = sin(phi);
-        auto cosPhi = cos(phi);
-        float x = r * sinPhi * cosTheta;
-        float y = r * sinPhi * sinTheta;
-        float z = r * cosPhi;
-        return Normalize(Vec3f(x, y, z));
+    Vec3f UniformSampleSphere() {
+        const Vec2f& u = GetVec2f();
+        float z = 1 - 2 * u.x;
+        float r = std::sqrt(std::max((float)0, (float)1 - z * z));
+        float phi = 2 * PI_F * u.y;
+        return Vec3f(r * std::cos(phi), r * std::sin(phi), z);
+    }
+
+    float UniformSpherePdf() {
+        return PI_F / 4;
     }
 
     Vec3f GetRandomOnHemiSphere(Vec3f direction) {
-        auto toReturn = GetRandomOnSphere();
+        auto toReturn = UniformSampleSphere();
         if (Dot(direction, toReturn) < 0)
             toReturn = -toReturn;
         return Normalize(toReturn);
     }
+
+    Vec3f UniformSampleHemisphere() {
+        const Vec2f& u = GetVec2f();
+        float z = u.x;
+        float r = std::sqrt(std::max((float)0, (float)1. - z * z));
+        float phi = 2 * PI_F * u.y;
+        return Vec3f(r * std::cos(phi), r * std::sin(phi), z);
+    }
+
+    float UniformHemispherePdf() {
+        return PI_F / 2;
+    }
+
 
 private:
 

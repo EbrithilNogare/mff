@@ -1,7 +1,5 @@
 ﻿  pg3render.cpp
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(71,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(72,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(73,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\config.hpp(165,36): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(158,47): warning C4244: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data
           with
           [
