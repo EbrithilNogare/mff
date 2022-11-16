@@ -1,5 +1,6 @@
 #include <limits>
 #include <vector>
+#include <stack>
 #include <tuple>
 #include <iostream>
 
@@ -39,6 +40,8 @@ class ab_node {
     {
         keys.insert(keys.begin() + i, key);
         children.insert(children.begin() + i + 1, child);
+        if(child != nullptr)
+            child->parent = this;
     }
 
     // An auxiliary function for displaying a sub-tree under this node.
@@ -124,12 +127,62 @@ class ab_tree {
     // Return the new node and the key separating n and the new node.
     virtual pair<ab_node*, int> split_node(ab_node* n, int size)
     {
-        // FIXME: Implement
+        ab_node *const m = new_node(nullptr);
+        std::move(n->keys.begin() + size, n->keys.end(), std::back_inserter(m->keys));
+        std::move(n->children.begin() + size, n->children.end(), std::back_inserter(m->children));
+
+        for (size_t i = 0; i < m->children.size(); i++)
+            if(m->children[i] != nullptr)
+                m->children[i]->parent = m;
+
+        n->keys.erase(n->keys.begin() + (size - 1), n->keys.end());
+        n->children.erase(n->children.begin() + size, n->children.end());
+
+        return pair<ab_node*, int>(m, 0);
     }
 
     // Insert: add key to the tree (unless it was already present).
     virtual void insert(int key)
     {
-        // FIXME: Implement
+        ab_node *n = root;
+        int size;
+
+        std::stack<std::pair<ab_node *const, std::size_t>> parents;
+
+        do
+        {
+            if (n->find_branch(key, size))
+                return;
+
+            parents.emplace(n, size);
+        } while (n->children[size] != nullptr && (n = n->children[size]));
+
+        n->insert_branch(size, key, nullptr);
+
+        while (n->keys.size() >= b)
+        {
+            size = n->keys.size() / 2 + 1;
+            const auto [m, _] = split_node(n, size);
+            key = n->keys[size - 1];
+            if (n == root)
+            {
+                root = new_node(nullptr);
+                root->children.emplace_back(n);
+                if(n != nullptr)
+                    n->parent = root;
+                root->children.emplace_back(m);
+                if(m != nullptr)
+                    m->parent = root;
+                root->keys.emplace_back(key);
+                return;
+            }
+            else
+            {
+                parents.pop();
+                const auto pair = parents.top();
+                pair.first->insert_branch(pair.second, key, m);
+                n = pair.first;
+            }
+        }
     }
 };
