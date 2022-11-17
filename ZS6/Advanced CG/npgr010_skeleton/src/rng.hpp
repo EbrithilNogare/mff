@@ -70,11 +70,11 @@ public:
         return PI_F / 4;
     }
 
-    Vec3f GetRandomOnHemiSphere(Vec3f direction) {
-        auto toReturn = UniformSampleSphere();
-        if (Dot(direction, toReturn) < 0)
-            toReturn = -toReturn;
-        return Normalize(toReturn);
+    Vec3f GetRandomOnHemiSphere(Vec3f direction) { // todo add pdf by angle
+        CoordinateFrame frame = CoordinateFrame(direction.x, direction.y, direction.z);
+        auto toReturn = CosineSampleHemisphere();
+        frame.ToLocal(toReturn);
+        return toReturn;
     }
 
     Vec3f UniformSampleHemisphere() {
@@ -87,6 +87,33 @@ public:
 
     float UniformHemispherePdf() {
         return PI_F / 2;
+    }
+
+    Vec2f ConcentricSampleDisk(const Vec2f& u) {
+        static const float PiOver2 = 1.57079632679489661923;
+        static const float PiOver4 = 0.78539816339744830961;
+        Vec2f uOffset = 2.f * u - Vec2f(1, 1);
+
+        if (uOffset.x == 0 && uOffset.y == 0)
+            return Vec2f(0, 0);
+
+        float theta, r;
+        if (std::abs(uOffset.x) > std::abs(uOffset.y)) {
+            r = uOffset.x;
+            theta = PiOver4 * (uOffset.y / uOffset.x);
+        }
+        else {
+            r = uOffset.y;
+            theta = PiOver2 - PiOver4 * (uOffset.x / uOffset.y);
+        }
+        return r * Vec2f(std::cos(theta), std::sin(theta));
+    }
+
+    inline Vec3f CosineSampleHemisphere() {
+        const Vec2f& u = GetVec2f();
+        Vec2f d = ConcentricSampleDisk(u);
+        float z = std::sqrt(std::max((float)0, 1 - d.x * d.x - d.y * d.y));
+        return Vec3f(d.x, d.y, z);
     }
 
 

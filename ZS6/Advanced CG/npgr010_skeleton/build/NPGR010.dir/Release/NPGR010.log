@@ -1,4 +1,11 @@
 ﻿  pg3render.cpp
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(93,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(94,1): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\pathtracer.hpp(68,1): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
 C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\config.hpp(165,36): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(158,47): warning C4244: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data
           with
