@@ -70,17 +70,14 @@ public:
         return PI_F / 4;
     }
 
-    Vec3f GetRandomOnHemiSphere(Vec3f direction) { // todo add pdf by angle
-        CoordinateFrame frame = CoordinateFrame(direction.x, direction.y, direction.z);
-        auto toReturn = CosineSampleHemisphere();
-        frame.ToLocal(toReturn);
-        return toReturn;
+    Vec3f GetRandomOnHemiSphere() {
+        return CosineSampleHemisphere();
     }
 
     Vec3f UniformSampleHemisphere() {
         const Vec2f& u = GetVec2f();
         float z = u.x;
-        float r = std::sqrt(std::max((float)0, (float)1. - z * z));
+        float r = std::sqrt(std::max(0.0, 1.0 - z * z));
         float phi = 2 * PI_F * u.y;
         return Vec3f(r * std::cos(phi), r * std::sin(phi), z);
     }
@@ -89,31 +86,17 @@ public:
         return PI_F / 2;
     }
 
-    Vec2f ConcentricSampleDisk(const Vec2f& u) {
-        static const float PiOver2 = 1.57079632679489661923;
-        static const float PiOver4 = 0.78539816339744830961;
-        Vec2f uOffset = 2.f * u - Vec2f(1, 1);
+    inline Vec3f CosineSampleHemisphere() {
+        const Vec2f& r = GetVec2f();
+        float x = cos(2 * PI_F * r.x) * sqrt(1 - r.y);
+        float y = sin(2 * PI_F * r.x) * sqrt(1 - r.y);
+        float z = sqrt(r.y);
 
-        if (uOffset.x == 0 && uOffset.y == 0)
-            return Vec2f(0, 0);
-
-        float theta, r;
-        if (std::abs(uOffset.x) > std::abs(uOffset.y)) {
-            r = uOffset.x;
-            theta = PiOver4 * (uOffset.y / uOffset.x);
-        }
-        else {
-            r = uOffset.y;
-            theta = PiOver2 - PiOver4 * (uOffset.x / uOffset.y);
-        }
-        return r * Vec2f(std::cos(theta), std::sin(theta));
+        return Vec3f(x, y, z);
     }
 
-    inline Vec3f CosineSampleHemisphere() {
-        const Vec2f& u = GetVec2f();
-        Vec2f d = ConcentricSampleDisk(u);
-        float z = std::sqrt(std::max((float)0, 1 - d.x * d.x - d.y * d.y));
-        return Vec3f(d.x, d.y, z);
+    inline float CosineHemispherePdf(float cosTheta) {
+        return cosTheta / PI_F;
     }
 
 

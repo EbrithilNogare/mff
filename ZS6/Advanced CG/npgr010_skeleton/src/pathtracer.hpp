@@ -36,10 +36,11 @@ public:
             // Generating a ray with an origin in the camera with a direction corresponding to the pixel coordinates:
             Ray ray = mScene.mCamera.GenerateRay(sample);
             Vec3f LoDirect = Vec3f(0);
-
+            
             auto intersection = mScene.FindClosestIntersection(ray);
             if (intersection)
             {
+
                 if (intersection->lightID >= 0) {
                     const AbstractLight* light = mScene.GetLightPtr(intersection->lightID);
                     mFramebuffer.AddColor(sample, Vec3f(light->Evaluate(ray.direction)));
@@ -53,7 +54,14 @@ public:
 
                 const Material& mat = mScene.GetMaterial(intersection->materialID);
 
-                auto newDir = mRandomGenerator.GetRandomOnHemiSphere(intersection->normal);
+                auto newDir = mRandomGenerator.GetRandomOnHemiSphere();
+                auto pdf = mRandomGenerator.CosineHemispherePdf(newDir.z);
+                newDir = rotateByAngle(newDir, intersection->normal, mRandomGenerator.GetVec3f());
+                /// for debugging sampling function
+                //mFramebuffer.AddColor(sample, Vec3f(abs(newDir.x), abs(newDir.y), abs(newDir.z)));
+                //mFramebuffer.AddColor(sample, newDir*Vec3f(1,-1,1));
+                //continue;
+                
                 Ray ray2 = Ray(surfacePoint, newDir, EPSILON_RAY);
 
                 auto intersection2 = mScene.FindClosestIntersection(ray2);
@@ -65,7 +73,7 @@ public:
                         auto intensity = light->Evaluate(ray2.direction);
                         if (cosTheta > 0 && intensity.Max() > 0)
                         {
-                            LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / PI_F * 2 * 9.9;
+                            LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / pdf;
                         }
                     }
                 }
@@ -77,7 +85,7 @@ public:
                     auto intensity = background->Evaluate(ray2.direction);
                     if (cosTheta > 0 && intensity.Max() > 0)
                     {
-                        LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / PI_F * 2 * 10;
+                        LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / pdf;
                     }
                 }
                 mFramebuffer.AddColor(sample, LoDirect);
