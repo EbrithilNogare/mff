@@ -56,7 +56,6 @@ public:
 
                 auto newDir = mRandomGenerator.GetRandomOnHemiSphere();
                 auto pdf = mRandomGenerator.CosineHemispherePdf(newDir.z);
-                newDir = rotateByAngle(newDir, intersection->normal, mRandomGenerator.GetVec3f());
                 /// for debugging sampling function
                 //mFramebuffer.AddColor(sample, Vec3f(abs(newDir.x), abs(newDir.y), abs(newDir.z)));
                 //mFramebuffer.AddColor(sample, newDir*Vec3f(1,-1,1));

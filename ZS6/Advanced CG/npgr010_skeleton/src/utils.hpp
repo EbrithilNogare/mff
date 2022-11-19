@@ -16,14 +16,6 @@ float Luminance(const Vec3f& aRGB)
         0.072169f * aRGB.z;
 }
 
-Vec3f rotateByAngle(Vec3f in, Vec3f up, Vec3f rnd) {
-    Vec3f tangent = Normalize(rnd * 2 - 1);
-    Vec3f bitangent = Cross(tangent, up);
-    tangent = Cross(bitangent, up);
-
-    return tangent * in.x + bitangent * in.y + up * in.z;
-}
-
 // reflect vector through (0,0,1)
 Vec3f ReflectLocal(const Vec3f& aVector)
 {

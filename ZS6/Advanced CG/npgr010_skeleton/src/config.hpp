@@ -162,7 +162,7 @@ void ParseCommandline(int argc, const char *argv[], Config &oConfig)
 
             std::istringstream iss(argv[i]);
             iss >> oConfig.mIterations;
-            oConfig.mIterations *= 2.7; // EDIT HERE BEFORE RECODEX COMMIT !!!!!!!!!!!!!!!!!!
+            oConfig.mIterations *= 1.0; // EDIT HERE BEFORE RECODEX COMMIT !!!!!!!!!!!!!!!!!!
             if(iss.fail() || oConfig.mIterations < 1)
             {
                 printf("Invalid <iterations> argument, please see help (-h)\n");
