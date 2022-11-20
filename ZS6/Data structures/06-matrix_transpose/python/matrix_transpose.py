@@ -17,8 +17,36 @@ class Matrix:
 
     def transpose(self):
         """Transpose the matrix."""
+        self.transpose_recurse(0,0,self.N)
 
-        # TODO: Implement more efficiently
-        for i in range(self.N):
-            for j in range(i):
-                self.swap(i, j, j, i)
+
+    def transpose_recurse(self, i, j, width):
+        """ recursive transpose function """
+        if width <= 1:
+            return
+
+        right_width = width // 2
+        left_width = width - right_width
+
+        self.transpose_recurse(i, j, left_width)
+        self.transpose_block(i + left_width, j, right_width, left_width)
+        self.transpose_recurse(i + left_width, j + left_width, right_width)
+
+    def transpose_block(self, i, j, height, width):
+        """ transpose on block """
+        if width == 1 and height == 1:
+            self.swap(i, j, j, i)
+            return
+
+        if height <= width:
+            right_width = width // 2
+            left_width = width - right_width
+
+            self.transpose_block(j, i, left_width, height)
+            self.transpose_block(j + left_width, i, right_width, height)
+        else:
+            right_height = height // 2
+            left_height = height - right_height
+
+            self.transpose_block(i, j, left_height, width)
+            self.transpose_block(i + left_height, j, right_height, width)
