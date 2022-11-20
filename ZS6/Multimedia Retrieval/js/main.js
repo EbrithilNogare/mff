@@ -5,6 +5,12 @@ const SEPARATOR_REGEXP = /[;, ]+/;
 const inputDOM = document.getElementById("input");
 let indexOfResult = 0;
 
+// data = {
+//     text: [string],
+//     url: string,
+//     smallImg: [8*8*3=192, int]
+// }
+
 if (!data || data.messages) {
   alert("no data found");
 }
@@ -17,7 +23,8 @@ let canvas,
   currX = 0,
   prevY = 0,
   currY = 0,
-  dot_flag = false;
+  dot_flag = false,
+  findByImg = false;
 
 init();
 
@@ -39,15 +46,32 @@ function newSearch() {
 
 function search() {
   const input = inputDOM.value.split(SEPARATOR_REGEXP);
+
+  const inputPicture = findByImg
+    ? Object.values(
+        ctx.getImageData(0, 0, canvas.width, canvas.height).data
+      ).filter((item, index) => index % 4 !== 3)
+    : [];
+
   const result = data
     .map((item) => {
-      let found = 0;
+      let foundScore = 0;
       input.forEach((word) => {
-        item.text.includes(word) ? (found += 1) : null;
+        item.text.includes(word) ? (foundScore += 1) : null;
       });
+      foundScore /= Math.max(Math.max(input.length, item.text.length), 1);
+
+      if (findByImg) {
+        imgScore = item.smallImg
+          .map((a, i) => 1 - Math.sqrt(Math.abs(a - inputPicture[i])) / 16)
+          .reduce((b, c) => b + c, 0);
+        imgScore /= inputPicture.length;
+        foundScore = (foundScore + imgScore) / 2;
+      }
+
       return {
         ...item,
-        match: found / Math.max(input.length, item.text.length),
+        match: foundScore,
       };
     })
     .filter((item) => item.match > 0)
@@ -138,8 +162,8 @@ function findxy(res, e) {
   if (res == "down") {
     prevX = currX;
     prevY = currY;
-    currX = e.clientX - canvas.offsetLeft;
-    currY = e.clientY - canvas.offsetTop;
+    currX = e.pageX - canvas.offsetLeft;
+    currY = e.pageY - canvas.offsetTop;
 
     draw(currX, currY);
 
@@ -153,8 +177,8 @@ function findxy(res, e) {
     if (flag) {
       prevX = currX;
       prevY = currY;
-      currX = e.clientX - canvas.offsetLeft;
-      currY = e.clientY - canvas.offsetTop;
+      currX = e.pageX - canvas.offsetLeft;
+      currY = e.pageY - canvas.offsetTop;
       draw(currX, currY);
     }
   }

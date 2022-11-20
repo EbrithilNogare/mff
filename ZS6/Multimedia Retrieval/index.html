@@ -11,7 +11,7 @@
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="css/main.css"/>
 
-    <script src="js/data.min.js"></script>
+    <script src="js/data.js"></script>
 </head>
     <div class="row">
         <div class="col s8">
@@ -36,9 +36,16 @@
                 <div id="result" class="col s12""></div>
             </div>
             <div class="canvasContainer card-panel blue lighten-3 row">
-                <canvas id="customDrawCanvas" width="16" height="16"></canvas>    
+                <canvas id="customDrawCanvas" width="8" height="8" style="background: black;"></canvas>    
                 <div id="selectedColorDOM" style="background: black;"> </div>
                 <div class="drawingColorsMenu">
+                    <div class="switch">
+                        <label style="color:black;">
+                            Search also by sketch
+                            <input type="checkbox" onChange="findByImg = !findByImg">
+                            <span class="lever"></span>
+                        </label>
+                    </div>
                     <div onClick="setColor('red')" class="moveButtons waves-effect red" >Red</div>
                     <div onClick="setColor('blue')" class="moveButtons waves-effect blue">Blue</div>
                     <div onClick="setColor('green')" class="moveButtons waves-effect green">Green</div>

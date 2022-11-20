@@ -5,8 +5,176 @@ const SEPARATOR_REGEXP = /[;, ]+/;
 const fileNameToParse = process.argv[2];
 const SAVE_EVERY_N_STEPS = 100;
 
-parseData();
-downloadImages();
+//parseData();
+//downloadImages();
+checkDataIntegrity();
+//concatenateJSONs();
+
+function concatenateJSONs() {
+  return; // code not needed anumore
+  let datas = [];
+  readFile(
+    "C:/Users/nogare/Downloads/midjourney export/dataset (1).json",
+    (err, data) => {
+      data = JSON.parse(data);
+      console.log("found: ", data.length);
+      datas = [...datas, ...data];
+      console.log("size of datas: ", datas.length);
+
+      readFile(
+        "C:/Users/nogare/Downloads/midjourney export/dataset (2).json",
+        (err, data) => {
+          data = JSON.parse(data);
+          console.log("found: ", data.length);
+          datas = [...datas, ...data];
+          console.log("size of datas: ", datas.length);
+
+          readFile(
+            "C:/Users/nogare/Downloads/midjourney export/dataset (3).json",
+            (err, data) => {
+              data = JSON.parse(data);
+              console.log("found: ", data.length);
+              datas = [...datas, ...data];
+              console.log("size of datas: ", datas.length);
+
+              readFile(
+                "C:/Users/nogare/Downloads/midjourney export/dataset (4).json",
+                (err, data) => {
+                  data = JSON.parse(data);
+                  console.log("found: ", data.length);
+                  datas = [...datas, ...data];
+                  console.log("size of datas: ", datas.length);
+
+                  readFile(
+                    "C:/Users/nogare/Downloads/midjourney export/dataset (5).json",
+                    (err, data) => {
+                      data = JSON.parse(data);
+                      console.log("found: ", data.length);
+                      datas = [...datas, ...data];
+                      console.log("size of datas: ", datas.length);
+
+                      readFile(
+                        "C:/Users/nogare/Downloads/midjourney export/dataset (6).json",
+                        (err, data) => {
+                          data = JSON.parse(data);
+                          console.log("found: ", data.length);
+                          datas = [...datas, ...data];
+                          console.log("size of datas: ", datas.length);
+
+                          readFile(
+                            "C:/Users/nogare/Downloads/midjourney export/dataset (7).json",
+                            (err, data) => {
+                              data = JSON.parse(data);
+                              console.log("found: ", data.length);
+                              datas = [...datas, ...data];
+                              console.log("size of datas: ", datas.length);
+
+                              readFile(
+                                "C:/Users/nogare/Downloads/midjourney export/dataset (8).json",
+                                (err, data) => {
+                                  data = JSON.parse(data);
+                                  console.log("found: ", data.length);
+                                  datas = [...datas, ...data];
+                                  console.log("size of datas: ", datas.length);
+
+                                  readFile(
+                                    "C:/Users/nogare/Downloads/midjourney export/dataset (10).json",
+                                    (err, data) => {
+                                      data = JSON.parse(data);
+                                      console.log("found: ", data.length);
+                                      datas = [...datas, ...data];
+                                      console.log(
+                                        "size of datas: ",
+                                        datas.length
+                                      );
+
+                                      readFile(
+                                        "C:/Users/nogare/Downloads/midjourney export/dataset (11).json",
+                                        (err, data) => {
+                                          data = JSON.parse(data);
+                                          console.log("found: ", data.length);
+                                          datas = [...datas, ...data];
+                                          console.log(
+                                            "size of datas: ",
+                                            datas.length
+                                          );
+
+                                          readFile(
+                                            "C:/Users/nogare/Downloads/midjourney export/dataset (12).json",
+                                            (err, data) => {
+                                              data = JSON.parse(data);
+                                              console.log(
+                                                "found: ",
+                                                data.length
+                                              );
+                                              datas = [...datas, ...data];
+                                              console.log(
+                                                "size of datas: ",
+                                                datas.length
+                                              );
+
+                                              readFile(
+                                                "C:/Users/nogare/Downloads/midjourney export/dataset (13).json",
+                                                (err, data) => {
+                                                  data = JSON.parse(data);
+                                                  console.log(
+                                                    "found: ",
+                                                    data.length
+                                                  );
+                                                  datas = [...datas, ...data];
+                                                  console.log(
+                                                    "size of datas: ",
+                                                    datas.length
+                                                  );
+
+                                                  readFile(
+                                                    "C:/Users/nogare/Downloads/midjourney export/dataset (14).json",
+                                                    (err, data) => {
+                                                      data = JSON.parse(data);
+                                                      console.log(
+                                                        "found: ",
+                                                        data.length
+                                                      );
+                                                      datas = [
+                                                        ...datas,
+                                                        ...data,
+                                                      ];
+                                                      console.log(
+                                                        "size of datas: ",
+                                                        datas.length
+                                                      );
+
+                                                      toFile(
+                                                        datas,
+                                                        fileNameToParse
+                                                      );
+                                                    }
+                                                  );
+                                                }
+                                              );
+                                            }
+                                          );
+                                        }
+                                      );
+                                    }
+                                  );
+                                }
+                              );
+                            }
+                          );
+                        }
+                      );
+                    }
+                  );
+                }
+              );
+            }
+          );
+        }
+      );
+    }
+  );
+}
 
 function parseData() {
   readFile(fileNameToParse, (err, data) => {
@@ -28,6 +196,26 @@ function parseData() {
       smallImg: null,
     }));
     toFile(toReturn, fileNameToParse);
+  });
+}
+
+function checkDataIntegrity() {
+  readFile(fileNameToParse, (err, data) => {
+    try {
+      data = JSON.parse(data);
+    } catch (err) {
+      console.log("something went wrong");
+      console.log(err.message);
+      return;
+    }
+
+    console.log("found " + data.length + " records");
+    let toReturn = data
+      .filter((item) => item.text?.length > 0)
+      .filter((item) => item.url?.length > 0)
+      .filter((item) => item.smallImg?.length === 8 * 8 * 3);
+    console.log("preserving " + toReturn.length + " records");
+    //toFile(toReturn, fileNameToParse);
   });
 }
 
