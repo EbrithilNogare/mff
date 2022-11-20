@@ -54,8 +54,35 @@ public:
 
                 const Material& mat = mScene.GetMaterial(intersection->materialID);
 
-                auto newDir = mRandomGenerator.GetRandomOnHemiSphere();
-                auto pdf = mRandomGenerator.CosineHemispherePdf(newDir.z);
+                Vec3f newDir;
+                float pdf;
+
+                float probDiffuse = mat.mDiffuseReflectance.Max();
+                float probSpecular = mat.mPhongReflectance.Max();
+                float normalization = 1.f / (probDiffuse + probSpecular);
+                probDiffuse *= normalization;
+                probSpecular *= normalization;
+
+                float uniformRand = mRandomGenerator.GetFloat();
+
+                Vec3f diffuseDirection = mRandomGenerator.GetRandomOnHemiSphere();
+                Vec3f specularDirection = mRandomGenerator.rndHemiCosN(mat.mPhongExponent);
+
+                if (uniformRand <= probDiffuse) { // diffuse
+                    CoordinateFrame lobeFrame;
+                    lobeFrame.SetFromZ(intersection->normal);
+                    newDir = lobeFrame.ToWorld(diffuseDirection);
+                    pdf = probDiffuse * mRandomGenerator.CosineHemispherePdf(diffuseDirection.z);
+                }
+                else { // specular
+                    CoordinateFrame lobeFrame = CoordinateFrame();
+                    Vec3f reflectedDir = ray.direction - 2 * (Dot(ray.direction, intersection->normal)) * intersection->normal;
+                    lobeFrame.SetFromZ(reflectedDir);
+                    newDir = lobeFrame.ToWorld(specularDirection);
+                    pdf = probSpecular * mRandomGenerator.rndHemiCosNPDF(reflectedDir, mat.mPhongExponent);
+                }
+                
+
                 /// for debugging sampling function
                 //mFramebuffer.AddColor(sample, Vec3f(abs(newDir.x), abs(newDir.y), abs(newDir.z)));
                 //mFramebuffer.AddColor(sample, newDir*Vec3f(1,-1,1));

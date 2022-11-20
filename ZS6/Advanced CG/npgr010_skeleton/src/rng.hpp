@@ -99,6 +99,18 @@ public:
         return cosTheta / PI_F;
     }
 
+    Vec3f rndHemiCosN(float n) {
+        Vec2f r = GetVec2f();
+        return Vec3f(
+            cos(2 * PI_F * r.x) * sqrt(1 - pow(r.y, 2 / (n + 1))),
+            sin(2 * PI_F * r.x) * sqrt(1 - pow(r.y, 2 / (n + 1))),
+            pow(r.y, 1 / (n + 1))
+        );
+    }
+
+    inline float rndHemiCosNPDF(Vec3f direction, float n) {
+        return (n + 1) / (2 * PI_F) / pow(direction.z, n);
+    }
 
 private:
 

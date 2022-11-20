@@ -44,6 +44,8 @@ public:
      */
     float PDF(const Vec3f& incomingDirection, const Vec3f& outgoingDirection) const {
         throw std::logic_error("Not implemented");
+        return mDiffuseReflectance.Max() * outgoingDirection.z +
+            mPhongReflectance.Max() * outgoingDirection.z;
     }
 
     /**
