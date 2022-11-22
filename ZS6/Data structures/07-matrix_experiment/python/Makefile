@@ -5,12 +5,12 @@ TESTFILES=$(addprefix out/t-sim-,$(TESTS))
 test: $(addsuffix -smart,$(TESTFILES)) $(addsuffix -naive,$(TESTFILES))
 
 out/t-sim-%-naive:
-	@mkdir -p out
-	./matrix_experiment_sim.py $* naive >$@
+	if not exist "out" mkdir out
+	python ./matrix_experiment_sim.py $* naive >$@
 
 out/t-sim-%-smart:
-	@mkdir -p out
-	./matrix_experiment_sim.py $* smart >$@
+	if not exist "out" mkdir out
+	python ./matrix_experiment_sim.py $* smart >$@
 
 .PHONY: clean
 clean::
