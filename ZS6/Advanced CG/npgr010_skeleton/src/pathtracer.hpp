@@ -54,6 +54,29 @@ public:
 
                 const Material& mat = mScene.GetMaterial(intersection->materialID);
 
+                /// Sample lights
+
+                for (int i = 0; i < mScene.GetLightCount(); i++)
+                {
+                    const AbstractLight* light = mScene.GetLightPtr(i);
+                    assert(light != 0);
+
+                    auto [lightPoint, intensity, pdf] = light->SamplePointOnLight(surfacePoint, mRandomGenerator);
+                    Vec3f outgoingDirection = Normalize(lightPoint - surfacePoint);
+                    float lightDistance = sqrt((lightPoint - surfacePoint).LenSqr());
+                    float cosTheta = Dot(frame.mZ, outgoingDirection);
+
+                    if (cosTheta > 0 && intensity.Max() > 0)
+                    {
+                        Ray rayToLight(surfacePoint, outgoingDirection, EPSILON_RAY);
+                        if (!mScene.FindAnyIntersection(rayToLight, lightDistance)) {
+                            LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(outgoingDirection), incomingDirection) * cosTheta / pdf;
+                        }
+                    }
+                }
+
+                /// Sample BRDF
+
                 Vec3f newDir;
                 float pdf;
 
@@ -82,12 +105,6 @@ public:
                     pdf = probSpecular * mRandomGenerator.rndHemiCosNPDF(reflectedDir, mat.mPhongExponent);
                 }
                 
-
-                /// for debugging sampling function
-                //mFramebuffer.AddColor(sample, Vec3f(abs(newDir.x), abs(newDir.y), abs(newDir.z)));
-                //mFramebuffer.AddColor(sample, newDir*Vec3f(1,-1,1));
-                //continue;
-                
                 Ray ray2 = Ray(surfacePoint, newDir, EPSILON_RAY);
 
                 auto intersection2 = mScene.FindClosestIntersection(ray2);
@@ -105,16 +122,16 @@ public:
                 }
                 else {
                     auto background = mScene.GetBackground();
-                    if (!background)
-                        continue;
-                    float cosTheta = Dot(frame.mZ, newDir);
-                    auto intensity = background->Evaluate(ray2.direction);
-                    if (cosTheta > 0 && intensity.Max() > 0)
-                    {
-                        LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / pdf;
+                    if (background){
+                        float cosTheta = Dot(frame.mZ, newDir);
+                        auto intensity = background->Evaluate(ray2.direction);
+                        if (cosTheta > 0 && intensity.Max() > 0)
+                        {
+                            LoDirect += intensity * mat.EvaluateBRDF(frame.ToLocal(newDir), incomingDirection) * cosTheta / pdf;
+                        }
                     }
                 }
-                mFramebuffer.AddColor(sample, LoDirect);
+                mFramebuffer.AddColor(sample, LoDirect/2);
             }
         }
 
