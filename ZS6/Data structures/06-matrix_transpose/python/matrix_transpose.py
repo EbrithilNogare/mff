@@ -15,36 +15,38 @@ class Matrix:
         # Overridden in subclasses
         raise NotImplementedError
 
-    def transpose(self, i=0, j=0, width=None):
+    def transpose(self):
         """Transpose the matrix."""
-        if width is None:
-            width = self.N
-        
-        if width == 1 or width == 0:
+        self.transpose_recurse(0,0,self.N)
+
+
+    def transpose_recurse(self, i, j, width):
+        """ recursive transpose function """
+        if width <= 1:
             return
 
-        first_half = width // 2
-        second_half = width - first_half
+        right_width = width // 2
+        left_width = width - right_width
 
-        self.transpose(i, j, second_half)
-        self.transpose_bounded(i + second_half, j, first_half, second_half)
-        self.transpose(i + second_half, j + second_half, first_half)
+        self.transpose_recurse(i, j, left_width)
+        self.transpose_block(i + left_width, j, right_width, left_width)
+        self.transpose_recurse(i + left_width, j + left_width, right_width)
 
-    def transpose_bounded(self, i1, j1, i2, j2):
+    def transpose_block(self, i, j, height, width):
         """ transpose on block """
-        if j2 * i2 == 1:
-            self.swap(i1, j1, j1, i1)
+        if width == 1 and height == 1:
+            self.swap(i, j, j, i)
             return
 
-        if i2 <= j2:
-            i2_half = j2 // 2
-            i2_rest = j2 - i2_half
+        if height <= width:
+            right_width = width // 2
+            left_width = width - right_width
 
-            self.transpose_bounded(j1, i1, i2_half, i2)
-            self.transpose_bounded(j1 + i2_half, i1, i2_rest, i2)
+            self.transpose_block(j, i, left_width, height)
+            self.transpose_block(j + left_width, i, right_width, height)
         else:
-            i2_half = i2 // 2
-            i2_rest = i2 - i2_half
+            right_height = height // 2
+            left_height = height - right_height
 
-            self.transpose_bounded(i1, j1, i2_half, j2)
-            self.transpose_bounded(i1 + i2_half, j1, i2_rest, j2)
+            self.transpose_block(i, j, left_height, width)
+            self.transpose_block(i + left_height, j, right_height, width)
