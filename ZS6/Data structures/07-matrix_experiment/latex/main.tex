@@ -67,20 +67,29 @@
 
 	První implementace ignoruje cache a šahá do paměti bez rozmýšlení.
 
+	Z grafu níže vidíme, že miss cache byla, u případů kdy cache byla menší než data,
+	cca 50\%.
+
 	\subsection{Chytrá cache friendly implementace}
 
 	Druhá implementace přistupuje do paměti tak, aby co nejefektivněji využila cache.
 	
+	Z grafu níže vidíme, že pro každou velikost cache a dat byla cache úspěšně využita
+	průměrně 90\% času. 
 
-	\section{Měření času}
+	Zajímavá je též oscilace testu "smart 1024 16" kde matice s velikosti dělitelnou
+	16ti pracují efektivněji, než ty s "nehezkou" velikostí.
+
+	\section{Měření času na reálném hardware}
 
   	Všechna měření probíhala na stejném zařízení.
 
-	Naivní implementace běžela 3 minuty a 1 sekund (na 16ti vláknech). 
+	Naivní implementace běžela 3 minuty a 1 sekund (na 4 vláknech). 
 
-	Chytrá implementace běžela 2 minuty a 58 sekund (na 16ti vláknech). 
+	Chytrá implementace běžela 2 minuty a 58 sekund (na 4 vláknech). 
 
 	Takže je jasně vidět, že python jakožto programovací jazyk je pomalý sám o sobě.
+	(přesně jak bylo předpokládáno)
 	
 	\subsection{Shrnutí}
 
