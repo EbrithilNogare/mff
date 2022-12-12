@@ -1,6 +1,0 @@
-\beamer@sectionintoc {1}{introduction}{2}{0}{1}
-\beamer@sectionintoc {2}{packages}{3}{0}{2}
-\beamer@sectionintoc {3}{syntax}{6}{0}{3}
-\beamer@sectionintoc {4}{write faster}{10}{0}{4}
-\beamer@sectionintoc {5}{after coding}{14}{0}{5}
-\beamer@sectionintoc {6}{end}{16}{0}{6}

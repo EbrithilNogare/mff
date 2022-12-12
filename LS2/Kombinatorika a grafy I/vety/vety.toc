@@ -1,6 +1,0 @@
-\babel@toc {czech}{}
-\contentsline {section}{\numberline {1}n! \& polynom n}{1}% 
-\contentsline {section}{\numberline {2}binomic \& polynom}{1}% 
-\contentsline {section}{\numberline {3}binomic \& odmocnina}{1}% 
-\contentsline {section}{\numberline {4}lat. \IeC {\v c}tverce}{1}% 
-\contentsline {section}{\numberline {5}lat. toky v s9ti}{1}% 

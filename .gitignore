@@ -1,3 +1,8 @@
 .vscode
 .Rproj.user
 .ipch
+.synctex.gz
+.aux
+.toc
+.nav
+.dvi
