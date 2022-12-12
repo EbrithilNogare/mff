@@ -48,6 +48,8 @@ public:
     }
 
     virtual ~AbstractLight() = default;
+
+    virtual bool hasVolume() const { throw std::logic_error("Not implemented"); }
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -84,6 +86,8 @@ public:
         return mRadiance;
     }
 
+    bool hasVolume() const override { return true; }
+
 public:
     Vec3f p0, e1, e2;
     CoordinateFrame mFrame;
@@ -111,6 +115,8 @@ public:
         return mIntensity;
     }
 
+    bool hasVolume() const override { return false; }
+
 public:
 
     Vec3f mPosition;
@@ -136,6 +142,8 @@ public:
     Vec3f Evaluate(const Vec3f& direction) const {
         return mBackgroundColor;
     }
+    
+    bool hasVolume() const override { return true; }
 
 public:
 

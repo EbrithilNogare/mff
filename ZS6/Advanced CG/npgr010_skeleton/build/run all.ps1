@@ -1,5 +1,5 @@
-$iterations = 5000
-$format = "hdr"
+$iterations = 100000
+$format = "bmp"
 .\Release\NPGR010.exe -s 0 -i $iterations -o .\images\0.$format
 .\Release\NPGR010.exe -s 1 -i $iterations -o .\images\1.$format
 .\Release\NPGR010.exe -s 2 -i $iterations -o .\images\2.$format

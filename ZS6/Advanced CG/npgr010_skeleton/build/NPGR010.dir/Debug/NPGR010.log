@@ -1,12 +1,79 @@
 ﻿  pg3render.cpp
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(65,18): warning C4244: 'argument': conversion from 'double' to 'T', possible loss of data
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(80,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\config.hpp(165,36): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(158,47): warning C4244: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data
           with
           [
-              T=float
+              _Ty=double
           ]
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\pathtracer.hpp(44,1): warning C4305: 'argument': truncation from 'double' to 'T'
+          and
+          [
+              _Ty=float
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(245): message : see reference to function template instantiation 'std::_Tuple_val<_This>::_Tuple_val<_Ty>(_Other &&)' being compiled
           with
           [
-              T=float
+              _This=float,
+              _Ty=double,
+              _Other=double
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(245): message : see reference to function template instantiation 'std::_Tuple_val<_This>::_Tuple_val<_Ty>(_Other &&)' being compiled
+          with
+          [
+              _This=float,
+              _Ty=double,
+              _Other=double
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(245): message : see reference to function template instantiation 'std::tuple<float>::tuple<std::_Exact_args_t,_Ty,,0>(_Tag,_This2 &&)' being compiled
+          with
+          [
+              _Ty=double,
+              _Tag=std::_Exact_args_t,
+              _This2=double
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(245): message : see reference to function template instantiation 'std::tuple<float>::tuple<std::_Exact_args_t,_Ty,,0>(_Tag,_This2 &&)' being compiled
+          with
+          [
+              _Ty=double,
+              _Tag=std::_Exact_args_t,
+              _This2=double
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(245): message : see reference to function template instantiation 'std::tuple<Vec3f,float>::tuple<std::_Exact_args_t,_Ty,double,0>(_Tag,_This2 &&,double &&)' being compiled
+          with
+          [
+              _Ty=Vec3x<float>,
+              _Tag=std::_Exact_args_t,
+              _This2=Vec3x<float>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(245): message : see reference to function template instantiation 'std::tuple<Vec3f,float>::tuple<std::_Exact_args_t,_Ty,double,0>(_Tag,_This2 &&,double &&)' being compiled
+          with
+          [
+              _Ty=Vec3x<float>,
+              _Tag=std::_Exact_args_t,
+              _This2=Vec3x<float>
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(327): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<std::_Exact_args_t,Vec3f&,_Ty,double,0>(_Tag,_This2,_Ty &&,double &&)' being compiled
+          with
+          [
+              _Ty=Vec3x<float>,
+              _Tag=std::_Exact_args_t,
+              _This2=Vec3f &
+          ]
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(327): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<std::_Exact_args_t,Vec3f&,_Ty,double,0>(_Tag,_This2,_Ty &&,double &&)' being compiled
+          with
+          [
+              _Ty=Vec3x<float>,
+              _Tag=std::_Exact_args_t,
+              _This2=Vec3f &
+          ]
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(141): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
+          with
+          [
+              _This2=Vec3x<float> &
+          ]
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(141): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
+          with
+          [
+              _This2=Vec3x<float> &
           ]
   NPGR010.vcxproj -> C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\build\Debug\NPGR010.exe

@@ -23,6 +23,15 @@ public:
         const int resolutionX = int(mScene.mCamera.mResolution.x);
         const int resolutionY = int(mScene.mCamera.mResolution.y);
 
+        bool noSolidLight = true;
+
+        for (int i = 0; i < mScene.GetLightCount(); i++)
+        {
+            const AbstractLight* light = mScene.GetLightPtr(i);
+            if (light->hasVolume())
+                noSolidLight = false;
+        }
+
         for (int pixelID = 0; pixelID < resolutionX * resolutionY; pixelID++)
         {
             // Current pixel coordinates (as integers):
@@ -57,7 +66,7 @@ public:
                 /// Sample lights
 
                 for (int i = 0; i < mScene.GetLightCount(); i++)
-                {
+                {   
                     const AbstractLight* light = mScene.GetLightPtr(i);
                     assert(light != 0);
 
@@ -131,7 +140,13 @@ public:
                         }
                     }
                 }
-                mFramebuffer.AddColor(sample, LoDirect/2);
+
+                if (noSolidLight) {
+                    mFramebuffer.AddColor(sample, LoDirect);
+                }
+                else {
+                    mFramebuffer.AddColor(sample, LoDirect / 2);
+                }
             }
         }
 

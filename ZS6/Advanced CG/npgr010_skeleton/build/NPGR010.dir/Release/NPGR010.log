@@ -66,12 +66,12 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.3132
               _Tag=std::_Exact_args_t,
               _This2=Vec3f &
           ]
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(134): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(140): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
           with
           [
               _This2=Vec3x<float> &
           ]
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(134): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(140): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
           with
           [
               _This2=Vec3x<float> &
