@@ -211,6 +211,6 @@ void ParseCommandline(int argc, const char *argv[], Config &oConfig)
         extension = oConfig.mOutputName.substr(
             oConfig.mOutputName.length() - 4, 4);
 
-    if(extension != ".bmp" && extension != ".hdr" && extension != ".pfm")
+    if(extension != ".bmp" && extension != ".hdr" && extension != ".pfm" && extension != ".all")
         oConfig.mOutputName += ".hdr";
 }

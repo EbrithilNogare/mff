@@ -14,6 +14,7 @@
 
 #include <omp.h>
 #include <string>
+#include <cstring>
 #include <set>
 #include <sstream>
 
@@ -167,6 +168,19 @@ int main(int argc, const char *argv[])
     else if (extension == "pfm")
     {
         fbuffer.SavePFM(config.mOutputName.c_str());
+        printf("done\n");
+    }
+    else if (extension == "all")
+    {
+        std::string hdrPath = config.mOutputName.substr(0, config.mOutputName.length() - 3) + "hdr";
+        std::string bmpPath = config.mOutputName.substr(0, config.mOutputName.length() - 3) + "bmp";
+        
+        const char* char_array_hdr = hdrPath.c_str();
+        fbuffer.SaveHDR(char_array_hdr);
+
+        const char* char_array_bmp =  bmpPath.c_str();
+        fbuffer.SaveBMP(char_array_bmp, 2.2f /*gamma*/);
+
         printf("done\n");
     }
     else
