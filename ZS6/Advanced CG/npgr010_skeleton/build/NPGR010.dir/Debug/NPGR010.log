@@ -1,5 +1,6 @@
 ﻿  pg3render.cpp
 C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(80,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\pathtracer.hpp(101,21): warning C4552: '/': result of expression not used
 C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\config.hpp(165,36): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
 C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.31326\include\tuple(158,47): warning C4244: 'initializing': conversion from '_Ty' to '_Ty', possible loss of data
           with
@@ -66,12 +67,12 @@ C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.32.3132
               _Tag=std::_Exact_args_t,
               _This2=Vec3f &
           ]
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(141): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(140): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
           with
           [
               _This2=Vec3x<float> &
           ]
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(141): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
+C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(140): message : see reference to function template instantiation 'std::tuple<Vec3f,Vec3f,float>::tuple<Vec3x<float>&,Vec3x<float>,double,0>(_This2,Vec3x<float> &&,double &&) noexcept' being compiled
           with
           [
               _This2=Vec3x<float> &

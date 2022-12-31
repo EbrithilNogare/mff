@@ -19,12 +19,12 @@ public:
         mRng(aSeed)
     {}
 
-    int GetInt()
+    inline int GetInt()
     {
         return mDistInt(mRng);
     }
 
-    uint GetUint()
+    inline uint GetUint()
     {
         return mDistUint(mRng);
     }
@@ -34,7 +34,7 @@ public:
         return mDistFloat(mRng);
     }
 
-    Vec2f GetVec2f()
+    inline Vec2f GetVec2f()
     {
         float a = GetFloat();
         float b = GetFloat();
@@ -42,7 +42,7 @@ public:
         return Vec2f(a, b);
     }
 
-    Vec3f GetVec3f()
+    inline Vec3f GetVec3f()
     {
         float a = GetFloat();
         float b = GetFloat();
@@ -51,14 +51,14 @@ public:
         return Vec3f(a, b, c);
     }
 
-    Vec2f GetRandomOnTriangle() {
+    inline Vec2f GetRandomOnTriangle() {
         auto out = GetVec2f();
         if (out.x + out.y > 1)
             out = Vec2f(1 - out.x, 1 - out.y);
         return out;
     }
 
-    Vec3f UniformSampleSphere() {
+    inline Vec3f UniformSampleSphere() {
         const Vec2f& u = GetVec2f();
         float z = 1 - 2 * u.x;
         float r = std::sqrt(std::max((float)0, (float)1 - z * z));
@@ -66,15 +66,11 @@ public:
         return Vec3f(r * std::cos(phi), r * std::sin(phi), z);
     }
 
-    float UniformSpherePdf() {
+    inline float UniformSpherePdf() {
         return PI_F / 4;
     }
 
-    Vec3f GetRandomOnHemiSphere() {
-        return CosineSampleHemisphere();
-    }
-
-    Vec3f UniformSampleHemisphere() {
+    inline Vec3f UniformSampleHemisphere() {
         const Vec2f& u = GetVec2f();
         float z = u.x;
         float r = std::sqrt(std::max(0.0, 1.0 - z * z));
@@ -82,7 +78,7 @@ public:
         return Vec3f(r * std::cos(phi), r * std::sin(phi), z);
     }
 
-    float UniformHemispherePdf() {
+    inline float UniformHemispherePdf() {
         return PI_F / 2;
     }
 
@@ -95,11 +91,11 @@ public:
         return Vec3f(x, y, z);
     }
 
-    inline float CosineHemispherePdf(float cosTheta) {
-        return cosTheta / PI_F;
+    inline float CosineHemispherePdf(Vec3f direction) {
+        return direction.z / PI_F;
     }
 
-    Vec3f rndHemiCosN(float n) {
+    inline Vec3f rndHemiCosN(float n) {
         Vec2f r = GetVec2f();
         return Vec3f(
             cos(2 * PI_F * r.x) * sqrt(1 - pow(r.y, 2 / (n + 1))),
@@ -109,7 +105,7 @@ public:
     }
 
     inline float rndHemiCosNPDF(Vec3f direction, float n) {
-        return (n + 1) / (2 * PI_F) / pow(direction.z, n);
+        return (n + 1) / (2 * PI_F) * pow(direction.z, n);
     }
 
 private:
