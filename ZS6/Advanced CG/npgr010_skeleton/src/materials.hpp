@@ -43,9 +43,23 @@ public:
      *  - outgoingDirection = the randomly sampled (normalized) outgoing direction
      */
     float PDF(const Vec3f& incomingDirection, const Vec3f& outgoingDirection) const {
-        throw std::logic_error("Not implemented");
-        return mDiffuseReflectance.Max() * outgoingDirection.z +
-            mPhongReflectance.Max() * outgoingDirection.z;
+        float diffuseProbability = mDiffuseReflectance.Max();
+        float specularProbability = mPhongReflectance.Max();
+        float normalization = 1.f / (diffuseProbability + specularProbability);
+        diffuseProbability *= normalization;
+        specularProbability *= normalization;
+
+        float diffusePDF = Rng::CosineHemispherePdf(outgoingDirection);
+        if (std::isnan(diffusePDF))diffusePDF = 0;
+
+        CoordinateFrame lobeFrame;
+        Vec3f reflectedDir = incomingDirection - 2 * (Dot(incomingDirection, Vec3f(0, 0, 1))) * Vec3f(0,0,1);
+        lobeFrame.SetFromZ(reflectedDir);
+        Vec3f fixedOutgoingDirection = lobeFrame.ToLocal(outgoingDirection);
+        float specularPDF = Rng::rndHemiCosNPDF(fixedOutgoingDirection, mPhongExponent);
+        if (std::isnan(specularPDF))specularPDF = 0;
+
+        return diffuseProbability * diffusePDF + specularProbability * specularPDF;
     }
 
     /**

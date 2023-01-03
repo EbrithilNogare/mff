@@ -78,13 +78,18 @@ public:
         Vec3f randomPoint3D = e1 * rndTriangle.x + e2 * rndTriangle.y + p0;
         Vec3f outgoingDirection = origin - randomPoint3D;
         float distanceSquared = outgoingDirection.LenSqr();
-        float lambertCosineLaw = Dot(normal, outgoingDirection) / (normal.Length() * outgoingDirection.Length());
         
-        return { randomPoint3D, mRadiance / distanceSquared * lambertCosineLaw,  PDF(origin, randomPoint3D)};
+        return { randomPoint3D, mRadiance,  PDF(origin, randomPoint3D)};
     }
 
     float PDF(const Vec3f& origin, const Vec3f& lightPoint) const {
-        return mInvArea;
+
+        Vec3f outgoingDirection = origin - lightPoint;
+        float distanceSquared = outgoingDirection.LenSqr();
+        Vec3f normal = Cross(e1, e2);
+        //float lambertCosineLaw = Dot(Normalize(normal), Normalize(outgoingDirection));
+        float lambertCosineLaw = Dot(normal, outgoingDirection) / (normal.Length() * outgoingDirection.Length());
+        return mInvArea * distanceSquared / lambertCosineLaw;
     }
 
 
@@ -152,7 +157,7 @@ public:
     }
 
     float PDF(const Vec3f& origin, const Vec3f& lightPoint) const {
-        return 1 / (4 * PI_F * pow(mRadius, 2));
+        return 1 / (4 * PI_F);
     }
 
     Vec3f Evaluate(const Vec3f& direction) const {

@@ -78,7 +78,7 @@ public:
         return Vec3f(r * std::cos(phi), r * std::sin(phi), z);
     }
 
-    inline float UniformHemispherePdf() {
+    inline static float UniformHemispherePdf() {
         return PI_F / 2;
     }
 
@@ -91,7 +91,7 @@ public:
         return Vec3f(x, y, z);
     }
 
-    inline float CosineHemispherePdf(Vec3f direction) {
+    inline static float CosineHemispherePdf(Vec3f direction) {
         return direction.z / PI_F;
     }
 
@@ -104,7 +104,7 @@ public:
         );
     }
 
-    inline float rndHemiCosNPDF(Vec3f direction, float n) {
+    inline static float rndHemiCosNPDF(Vec3f direction, float n) {
         return (n + 1) / (2 * PI_F) * pow(direction.z, n);
     }
 

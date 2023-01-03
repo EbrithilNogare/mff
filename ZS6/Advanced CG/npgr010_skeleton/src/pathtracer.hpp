@@ -55,7 +55,7 @@ public:
                 mFramebuffer.AddColor(sample, color);
             }
             else {
-                mFramebuffer.AddColor(sample, Vec3f(100,0,0));
+                mFramebuffer.AddColor(sample, Vec3f(1000,0,0));
             }
         }
 
@@ -105,7 +105,7 @@ public:
             int randomLightIndex = mRandomGenerator.GetInt() % mScene.GetLightCount();
             const AbstractLight* light = mScene.GetLightPtr(randomLightIndex);
             auto [lightPoint, intensity, lightPDF] = light->SamplePointOnLight(surfacePoint, mRandomGenerator);
-            lightPDF /= mScene.GetLightCount();
+            //lightPDF /= mScene.GetLightCount();
             Vec3f lightDirection = Normalize(lightPoint - surfacePoint);
             float lightDistance = (lightPoint - surfacePoint).Length();
 
@@ -124,55 +124,43 @@ public:
             specularProbability *= normalization;
 
             // diffuse direction
-            CoordinateFrame diffuseLobeFrame;
-            diffuseLobeFrame.SetFromZ(intersection->normal);
+            CoordinateFrame intersectionNormalLobe;
+            intersectionNormalLobe.SetFromZ(intersection->normal);
             Vec3f diffuseRandomDirection = mRandomGenerator.CosineSampleHemisphere();
-            Vec3f diffuseDirection = diffuseLobeFrame.ToWorld(diffuseRandomDirection);
-            float diffusePDF = mRandomGenerator.CosineHemispherePdf(diffuseRandomDirection);
+            Vec3f diffuseDirection = intersectionNormalLobe.ToWorld(diffuseRandomDirection);
 
             // specular direction
-            CoordinateFrame specularLobeFrame = CoordinateFrame();
             Vec3f reflectedDir = ray.direction - 2 * (Dot(ray.direction, intersection->normal)) * intersection->normal;
-            specularLobeFrame.SetFromZ(reflectedDir);
+            CoordinateFrame reflectedLobeFrame;
+            reflectedLobeFrame.SetFromZ(reflectedDir);
             Vec3f specularRandomDirection = mRandomGenerator.rndHemiCosN(mat.mPhongExponent);
-            Vec3f specularDirection = specularLobeFrame.ToWorld(specularRandomDirection);
-            float specularPDF = mRandomGenerator.rndHemiCosNPDF(specularRandomDirection, mat.mPhongExponent);
+            Vec3f specularDirection = reflectedLobeFrame.ToWorld(specularRandomDirection);
 
             // brdf direction
             Vec3f brdfDirection;
-            float brdfPDF;
             if (mRandomGenerator.GetFloat() <= diffuseProbability) {
                 brdfDirection = diffuseDirection;
-                brdfPDF = evalPDF(diffuseProbability, specularProbability, diffuseRandomDirection, mat.mPhongExponent);
             }
             else {
                 brdfDirection = specularDirection;
-                brdfPDF = evalPDF(diffuseProbability, specularProbability, specularRandomDirection, mat.mPhongExponent);
             }
+            float brdfPDF = mat.PDF(incomingDirection, intersectionNormalLobe.ToLocal(brdfDirection));
 
 
             if (solidLightInScene) {
                 // evaluate brdf color
-                Vec3f brdfColor = EvaluateColor(Ray(surfacePoint, brdfDirection, EPSILON_RAY));
+                auto [ brdfColor, hittedLightFromBRDF, hittedLightFromBRDFPos] = EvaluateColor(Ray(surfacePoint, brdfDirection, EPSILON_RAY));
                 brdfColor *= mat.EvaluateBRDF(hitLobeFrame.ToLocal(brdfDirection), incomingDirection) * std::max(0.0f, Dot(hitLobeFrame.mZ, brdfDirection)) / brdfPDF;
 
                 // MIS
-                float pdfAsFromBRDF = evalPDF(diffuseProbability,
-                                              specularProbability,
-                                              hitLobeFrame.ToLocal(lightDirection),
-                                              mat.mPhongExponent);
-                float pdfAsFromLight = PdfAtoW(brdfPDF,
-                                              (surfacePoint - lightPoint).Length(),
-                                               std::max(0.0f, Dot(hitLobeFrame.mZ,
-                                               lightDirection)));
+                float pdfAsFromBRDF = mat.PDF(incomingDirection, hitLobeFrame.ToLocal(lightDirection));
+                float pdfAsFromLight = !hittedLightFromBRDF ? 0.0f : hittedLightFromBRDF->PDF(surfacePoint, hittedLightFromBRDFPos);
+                if (std::isnan(pdfAsFromLight) || pdfAsFromLight < 0) pdfAsFromLight = 0;
                 float misWeightBRDF = brdfPDF / (brdfPDF + pdfAsFromLight);
                 float misWeightLight = lightPDF / (lightPDF + pdfAsFromBRDF);
-
-                //acum += throughput * brdfColor * misWeightBRDF;
-                //acum += throughput * colorFromLights * misWeightLight;
-                acum += throughput * brdfColor * misWeightLight;
-                acum += throughput * colorFromLights * misWeightBRDF;
-                //return Vec3f(misWeightBRDF, misWeightLight, 1);
+                
+                acum += throughput * brdfColor * misWeightBRDF;
+                acum += throughput * colorFromLights * misWeightLight;
             }
             else {
                 acum += throughput * colorFromLights;
@@ -189,11 +177,12 @@ public:
             /// next bounce
             Vec3f nextBounceDirection;
             float nextBouncePDF;
-            // <= switch between reuse ray and generate new onne
+            /*/ <= switch between reuse ray and generate new onne
             nextBounceDirection = brdfDirection;
             nextBouncePDF = brdfPDF;
             /*/
-            Vec3f nextBounceRandomDirection = mRandomGenerator.GetRandomOnHemiSphere();
+            // diffuse direction
+            Vec3f nextBounceRandomDirection = mRandomGenerator.CosineSampleHemisphere();
             nextBouncePDF = mRandomGenerator.CosineHemispherePdf(nextBounceRandomDirection);
             CoordinateFrame nextBounceLobeFrame;
             nextBounceLobeFrame.SetFromZ(intersection->normal);
@@ -210,26 +199,22 @@ public:
         return acum;
     }
 
-    Vec3f EvaluateColor(Ray ray) {
+    std::tuple<Vec3f, const AbstractLight*, Vec3f> EvaluateColor(Ray ray) {
         auto intersection = mScene.FindClosestIntersection(ray);
         if (intersection) {
+            const Vec3f surfacePoint = ray.origin + ray.direction * intersection->distance;
+
             if (intersection->lightID >= 0) {
                 const AbstractLight* light = mScene.GetLightPtr(intersection->lightID);
-                return Vec3f(light->Evaluate(ray.direction));
+                return { Vec3f(light->Evaluate(ray.direction)), light, surfacePoint };
             }
         }
         else {
             auto background = mScene.GetBackground();
             if (background) {
-                return background->Evaluate(ray.direction);
+                return { background->Evaluate(ray.direction), background, Vec3f(0)};
             }
         }
-        return Vec3f(0);
-    }
-
-    float evalPDF(float diffProb, float specProb, Vec3f dir, float phongConstant) {
-        float diffusePDF = mRandomGenerator.CosineHemispherePdf(dir);
-        float specularPDF = mRandomGenerator.rndHemiCosNPDF(dir, phongConstant);
-        return diffProb * diffusePDF + specProb * specularPDF;
+        return { Vec3f(0), nullptr, Vec3f(0) };
     }
 };

@@ -1,5 +1,4 @@
 ﻿  pg3render.cpp
 C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\rng.hpp(76,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\lights.hpp(155,18): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
 C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\src\config.hpp(165,36): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
   NPGR010.vcxproj -> C:\dev\mff\ZS6\Advanced CG\npgr010_skeleton\build\Release\NPGR010.exe
