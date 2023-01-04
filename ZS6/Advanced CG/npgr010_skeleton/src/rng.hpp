@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <cmath>
+#include "utils.hpp"
+#include "math.hpp"
 
 #if defined(_MSC_VER)
 #   if (_MSC_VER < 1600)

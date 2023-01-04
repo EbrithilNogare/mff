@@ -9,6 +9,7 @@
 #include "camera.hpp"
 #include "materials.hpp"
 #include "lights.hpp"
+#include "utils.hpp"
 
 class Scene
 {
