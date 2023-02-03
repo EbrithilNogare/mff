@@ -126,6 +126,7 @@ LCP:
 - (2,c)-nezavisly -> 2c universalni
 ## Vytvorte k-nezavisly hesovaci system.
 - pomoci poly-mod-prime
+- bude (k,2)-nezavisly pro p ≥ 2km
 # Napiste ruzne algoritmy na transpozici matic a analyzujte jejich slozitost.
 - trivialni
 - cache-aware
