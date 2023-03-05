@@ -29,7 +29,7 @@ Display "softshadow.tif" "file" "rgba"
 
 Sides 2
 
-Format 256 256 1
+Format 512 512 1
 PixelFilter "box" 1 1
 PixelSamples 1 1
 ShadingRate 2
@@ -47,8 +47,6 @@ WorldBegin
     AttributeBegin
       Translate  -3 4 0
       Scale .5 .5 .5 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
       TransformBegin
         Rotate -45 1 1 0
         PointsPolygons 
@@ -73,8 +71,6 @@ WorldBegin
     AttributeBegin
       Translate  0 4 0
       Scale 1 1 1 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
       TransformBegin
         Rotate 0 0 0 0
         PointsPolygons
@@ -101,8 +97,6 @@ WorldBegin
     AttributeBegin
       Translate  3 4 0
       Scale 1 1 1 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
       TransformBegin
         Rotate 0 0 0 0
         PointsPolygons [3 3 3 3 3 3 3 3]
@@ -134,8 +128,6 @@ WorldBegin
     AttributeBegin
       Translate  -3 6 3
       Scale 1 1 1 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
       TransformBegin
         Rotate 0 0 0 0
         PointsPolygons [5 5 5 5 5 5 5 5 5 5 5 5]
@@ -185,8 +177,6 @@ WorldBegin
     AttributeBegin
       Translate  0 6 3
       Scale .5 .5 .5 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
       TransformBegin
         Rotate -90 1 0 0
         Geometry "teapot"
@@ -198,8 +188,6 @@ WorldBegin
     AttributeBegin
       Translate  3 6 3
       Scale 1 1 1 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
       TransformBegin
         Rotate 0 0 0 0
         PointsPolygons [3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3]
@@ -246,10 +234,8 @@ WorldBegin
 
     # pedestrials
     AttributeBegin
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
       ObjectBegin 1
         AttributeBegin
-          Color [0.0 1.0 0.0]
             PointsPolygons
               [4 4 4 4 4 4]
               [0 1 2 3 3 2 4 5 6 5 4 7 0 6 7 1 1 7 4 2 0 3 5 6] 
@@ -259,7 +245,6 @@ WorldBegin
       
       ObjectBegin 2
         AttributeBegin
-          Color [0.0 1.0 0.0]
           Cylinder 1 -.5 .5 360
         AttributeEnd
       ObjectEnd
@@ -366,7 +351,7 @@ MakeShadow "softshadow.zfile" "softshadow.shad"
 
 ### Render
 FrameBegin 2
-  Display "simple.tif" "file" "rgba"
+  Display "hw2.tif" "file" "rgba"
   Format 2000 2000 1
   ShadingRate 1
   Projection "perspective" "fov" [40]
@@ -383,7 +368,7 @@ FrameBegin 2
 
   WorldBegin
 
-    LightSource "distantlight" 42 "intensity" 0.1
+    LightSource "distantlight" 42 "intensity" 0.2
 
     #Attribute "autoshadows" "string shadowmapname" ["autoshadow.shad"] "integer res" [600]
     LightSource "shadowspot" 1 "intensity" [2000] "from" [20 20 -20] "to" [0 0 0] "coneangle" [0.5] "shadowname" ["softshadow.shad"] "blur" [0.03]
@@ -482,8 +467,7 @@ FrameBegin 2
     AttributeBegin
       Translate  -3 6 3
       Scale 1 1 1 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
+      Surface "voronoi"
       TransformBegin
         Rotate 0 0 0 0
         PointsPolygons [5 5 5 5 5 5 5 5 5 5 5 5]
@@ -533,8 +517,7 @@ FrameBegin 2
     AttributeBegin
       Translate  0 6 3
       Scale .5 .5 .5 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
+      Surface "voronoi"
       TransformBegin
         Rotate -90 1 0 0
         Geometry "teapot"
@@ -546,8 +529,7 @@ FrameBegin 2
     AttributeBegin
       Translate  3 6 3
       Scale 1 1 1 
-      Color [1.0 0.0 0.0]
-      Surface "plastic" "Ka" [1] "Kd" [0.5] "Ks" 1 "roughness" 0.1
+      Surface "voronoi"
       TransformBegin
         Rotate 0 0 0 0
         PointsPolygons [3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3]
