@@ -1,0 +1,154 @@
+---
+title: "How Much Can We Trust Our Timers ?"
+author: David Napravnik
+output: html_document
+---
+
+
+```{r}
+if (!require("tidyverse")) install.packages("tidyverse")
+if (!require("ggplot2")) install.packages("ggplot2")
+```
+
+
+# PC specs:
+- OS: Windows Home 10.0.19045
+- Processor:	AMD Ryzen 7 5800HS, 3201 Mhz, 8 Core(s), 16 Logical Processor(s)
+- Installed Physical Memory (RAM):	24.0 GB
+
+# Browsers:
+- Chrome: Version 110.0.5481.178 (Official Build) (64-bit)
+- Firefox: 110.0 (64-bit)
+- Edge: Version 110.0.1587.63 (Official build) (64-bit)
+
+
+# Protection:
+Because of protection against timing attacks and fingerprinting,
+performance.now() is coarsened based on site isolation status.r
+
+url where `crossOriginIsolated=true`
+https://stackblitz.com/edit/cors-corp-origin-isolated?file=browsersync.config.js
+
+
+## Script to get `crossOriginIsolated`
+``` javasccript
+console.log({
+  crossOriginIsolated
+})
+```
+
+
+# The resolution and the granularity of the timers
+```{r}
+
+# Create data
+datagranularity <- data.frame(
+  method=c(
+    "Chrome: Date.now()",
+    "Firefox: Date.now()",
+    "Edge: Date.now()",
+    "Chrome: performance.now()",
+    "Firefox: performance.now()",
+    "Edge: performance.now()",
+    "Chrome: performance.now() + crossOriginIsolated",
+    "Firefox: performance.now() + crossOriginIsolated",
+    "Edge: performance.now() + crossOriginIsolated") ,  
+  resolution=c(
+    1, 1, 1,
+    0.1, 1.0, 0.1,
+    0.005, 0.02, 0.005
+    ),
+  fills=c("chrome", "firefox", "edge","chrome", "firefox", "edge","chrome", "firefox", "edge")
+  )
+
+
+# Barplot
+ggplot(datagranularity, aes(y=method, x=resolution, fill=fills)) + 
+  geom_bar(stat = "identity")+
+  xlab("Granuality in ms (lower is better)")+
+  ylab("Browser: method")+
+  geom_text(aes(x = .5, label = resolution)) +
+  ggtitle("Granuality of time measure methods across browsers")
+
+```
+
+Best resolution we can get is 0.005ms.
+
+## Script to measure increment size in timer method.
+
+``` javasccript
+let out = []
+let last = performance.now();
+while (true) {
+  const now = performance.now();
+  if (now === last) continue;
+  out.push(now - last)
+  last = now;
+  if (out.length >= 10) break;
+}
+console.log("resolution: ", out.sort((a, b)=>a-b).map((value) => Math.round(value * 10000) / 10000))
+```
+
+
+# The overhead of the timer access
+```{r}
+
+# Create data
+dataoverhead <- data.frame(
+  method=c(
+    "Chrome: performance.now()",
+    "Chrome: Date.now()",
+    "Firefox: performance.now()",
+    "Firefox: Date.now()",
+    "Edge: performance.now()",
+    "Edge: Date.now()"),
+  resolution=c(
+    239.21, 75.01,
+    203.92, 185.13,
+    203.82, 72.17
+    ),
+  fills=c("chrome", "firefox", "edge","chrome", "firefox", "edge")
+  )
+  
+
+# Barplot
+ggplot(dataoverhead, aes(y=method, x=resolution, fill=fills)) + 
+  geom_bar(stat = "identity")+
+  xlab("Overhead in ns (lower is better)")+
+  ylab("Browser: method")+
+  geom_text(aes(x = 100, label = resolution), position = position_dodge(.9)) +
+  ggtitle("Overhead of time measure methods across browsers")
+
+```
+
+## Script to measure increment size in timer method.
+
+``` javasccript
+const before2 = performance.now();
+for (let i = 0; i < 100 * 1000 * 1000; i++) {
+	const a = 0;
+}
+const before = performance.now();
+for (let i = 0; i < 100 * 1000 * 1000; i++) {
+  const a = performance.now();
+}
+const after = performance.now();
+for (let i = 0; i < 100 * 1000 * 1000; i++) {
+  const a = Date.now();
+}
+const after2 = performance.now();
+const overhead = Math.round(before - before2);
+
+console.log("performance.now: ", Math.round(after - before - overhead)/100 + " ns")
+console.log("Date.now: ", Math.round(after2 - after - overhead)/100 + " ns")
+```
+
+# The stability of the timer
+because resolution of timer is 1.000 times less than overhead,
+any meassurement of these methods must be repeated and cant be measured without warm up.
+
+
+
+
+
+
