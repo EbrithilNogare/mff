@@ -1,0 +1,75 @@
+---
+title: "How Accurate Is Sleeping ?"
+author: David Napravnik
+output: html_document
+---
+
+
+```{r}
+if (!require("tidyverse")) install.packages("tidyverse")
+if (!require("ggplot2")) install.packages("ggplot2")
+if (!require("readr")) install.packages("readr")
+```
+
+
+# PC specs:
+- OS: Windows Home 10.0.19045
+- Processor:	AMD Ryzen 7 5800HS, 3201 Mhz, 8 Core(s), 16 Logical Processor(s)
+- Installed Physical Memory (RAM):	24.0 GB
+
+# Browsers:
+- Chrome: Version 110.0.5481.178 (Official Build) (64-bit)
+
+
+
+## Script to test method setTimeout()
+
+In this document was used 25 repetitions.
+
+More repetitions were unstable as browser started some sleep mode and timers went up to 1 sec.
+
+``` javascript
+const round = (value) => Math.round(value * 10000) / 10000
+const step = 100;
+const out = [[]];
+for (i = 0; i < (1000+step); i += step) out[0].push(i);
+
+function meaure(time) {
+	time = Math.round(time)
+  if (time % (1000+step) === 0)
+    out.push([])
+  const before = performance.now()
+  setTimeout(() => {
+    const after = performance.now()
+    out[Math.floor(time / (1000+step)) + 1].push(Math.round((0 + after - before - (time % (1000+step))) * 1000) / 1000)
+    console.log(out.map(item=>item.join(",")))
+    meaure((time + step))
+  }, time % (1000+step))
+}
+
+meaure(0)
+```
+
+## Gathered data
+
+``` {R}
+
+data <- read.csv("data.csv", sep=",")
+
+means <- data.frame(x=c(as.numeric(substr(colnames(data),2,10))), y=c(colMeans(data)), ymin=c(sapply(data,min)), ymax=c(sapply(data,max)))
+
+ggplot(means, aes(x=x, y=y)) + geom_point() + geom_errorbar(aes(x=x, ymin=ymin, ymax=ymax)) + theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + xlab("timeout duration (ms)") + ylab("Time dellay (ms)") 
+```
+
+## Results
+
+
+From graph above we can see about better precision in < 50ms timeout.
+
+All timeouts had maximum of 20ms delay on top of required time.
+
+None timeout had fired before required time.
+
+Granularity is 1ms as browsers saves 32-bit signed integer internally.  [viz setTimeout documentation](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#maximum_delay_value)
+
+
