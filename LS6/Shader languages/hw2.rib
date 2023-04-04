@@ -29,7 +29,7 @@ Display "softshadow.tif" "file" "rgba"
 
 Sides 2
 
-Format 512 512 1
+Format 1024 1024 1
 PixelFilter "box" 1 1
 PixelSamples 1 1
 ShadingRate 2
@@ -347,13 +347,12 @@ FrameEnd
 
 MakeShadow "softshadow.zfile" "softshadow.shad"
 
-
-
 ### Render
 FrameBegin 2
   Display "hw2.tif" "file" "rgba"
   Format 2000 2000 1
   ShadingRate 1
+  PixelSamples 4 4
   Projection "perspective" "fov" [40]
   FrameAspectRatio 1
   
@@ -581,6 +580,7 @@ FrameBegin 2
       Scale 20 20 20
       Rotate 90 1 0 0
 	  	Surface "sticky_texture" "string texturename" ["water.png"]
+      Displacement "bumps"
       Rotate -90 1 0 0
       AttributeBegin
         PointsPolygons
