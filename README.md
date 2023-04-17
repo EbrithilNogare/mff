@@ -1,3 +1,5 @@
+![](https://img.shields.io/github/repo-size/EbrithilNogare/mff)
+
 My personal repository of study at Faculty of Mathematics and Physics of Charles University.
 
 Almost all notes are writen in czech language.
