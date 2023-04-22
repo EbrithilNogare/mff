@@ -1,10 +1,18 @@
 # Measure Method Duration without Nested Calls (with DiSL)
 
+## PC spec:
+- PC in LAB: u-pl4
+- OS: Linux
+- CPU: Intel(R) Core(TM) i7-6700 CPU @ 3.40GHz
+- java version: 11.0.18_p10
+
+## How it works
+I am inserting methods around interesting and non-interesting function.
+
+these methods starts / end timer and final time is printed out.
 
 
-
-
-
+### Program output:
 ```
 disl: subroutine took 4000 ms
 disl: subroutine took 3000 ms
