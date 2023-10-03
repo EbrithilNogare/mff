@@ -4,11 +4,10 @@ My personal repository of study at Faculty of Mathematics and Physics of Charles
 
 Almost all notes are writen in czech language.
 
-![mff logo](#gh-light-mode-only)
-![mff logo](https://github.com/EbrithilNogare/mff/assets/22661032/181e3564-314d-4fb8-99c2-d8a0b501c33e#gh-dark-mode-only)
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/EbrithilNogare/mff/assets/22661032/181e3564-314d-4fb8-99c2-d8a0b501c33e">
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/EbrithilNogare/mff/assets/22661032/78d12798-128e-4a51-9080-73a451075596">
+  <img alt="MFF Logo" src="https://github.com/EbrithilNogare/mff/assets/22661032/181e3564-314d-4fb8-99c2-d8a0b501c33e">
 </picture>
 
 ## License
