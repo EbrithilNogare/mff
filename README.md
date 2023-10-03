@@ -15,9 +15,9 @@ Almost all notes are writen in czech language.
 
 A license with no conditions whatsoever which dedicates works to the public domain. Unlicensed works, modifications, and larger works may be distributed under different terms and without source code.
 
-| Permissions      | Conditions | Limitations |
-|------------------|------------|-------------|
-| 🟢 Commercial use |            | 🔴 Liability   |
-| 🟢 Distribution     |            | 🔴 Warranty    |
-| 🟢 Modification     |            |             |
-| 🟢 Private use      |            |             |
+| Permissions       | Conditions | Limitations  |
+|-------------------|------------|--------------|
+| 🟢 Commercial use |            | 🔴 Liability |
+| 🟢 Distribution   |            | 🔴 Warranty  |
+| 🟢 Modification   |            |              |
+| 🟢 Private use    |            |              |
