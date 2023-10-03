@@ -1,4 +1,4 @@
-![](https://img.shields.io/github/repo-size/EbrithilNogare/mff)
+![](https://img.shields.io/github/repo-size/EbrithilNogare/mff?style=for-the-badge&logo=files&logoColor=white)
 
 My personal repository of study at Faculty of Mathematics and Physics of Charles University.
 
