@@ -1,0 +1,81 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\setlength{\parindent}{0in}
+\usepackage{fancyhdr}
+\usepackage[
+    left   = 1.0 in,
+    right  = 1.0 in,
+    top    = 1.5 in,
+    bottom = 1.5 in,
+]{geometry}
+
+\usepackage[czech]{babel} % recommended if you write in Czech
+
+\begin{document}
+
+\pagestyle{fancy}
+\rhead{David Nápravník}
+
+\section*{1. HW}
+\subsection*{9}
+Mejme turinguv stroj $M$ = (Q, $\sum$, $\delta$, $q_0$, F) takovy ze:
+\begin{itemize}
+	\item abeced $\sum$=\{a..z\}
+	\item instrukce Z=\{L, R\}
+	\item stavy Q=\{$\alpha ... \delta$\}
+\end{itemize}
+
+Pak $M'$ = (Q', $\sum$, $\delta$', $q_0$, F') bude turinguv stroj takovy ze:
+\begin{itemize}
+	\item abeceda $\sum$ zustava stejna
+	\item instrukce dostanou moznost nedelat nic: Z'=\{L, R, N\}
+	\item stavy ze prenasobenim instrukcemi ztrojnasobi na Q'=\{$\alpha$, $\alpha L$, $\alpha R$ ... $\delta$, $\delta L$, $\delta R$\}
+	\item prechodova $\delta$' funkce se zmeni z:
+	\begin{itemize}
+		\item q, c $\rightarrow$ q', c', Z
+		\item na:
+		\item q, c $\rightarrow$ qZ, c', \_
+		\item qZ, c' $\rightarrow$ q', \_, Z
+	\end{itemize}
+\end{itemize}
+
+
+
+
+\subsection*{10}
+Mejme turinguv stroj $M$ s abecedou \{a .. z\}, instrukcemi \{L, R\} a stavy \{stavA..stavZ\}.
+
+Pak $M'$ bude levy resetovaci turinguv stroj s abecedou
+\{a, a$\alpha$, a$\beta$ .. z, z$\alpha$, z$\beta$ \}
+(kde \# je placeholder pro symbol bez $\alpha$ nebo $\beta$. $\alpha$ bude zdrojova adresa a $\beta$ bude iterator),
+Instrukcemi \{R, 2R, RESET\} a stavy \{stavA .. stavZ\} $\times$ \{\_, searching, found, shifting\}.
+
+Instrukce R bude stejna jako v puvodnim TM. Instrukce L bude nahrazena touto posloupnosti funkci:
+\begin{itemize}
+    \item L $\rightarrow$ zmen aktualni symbol na verzi s $\alpha$ (\# $\rightarrow$ \#$\alpha$)
+    \item proved instrukci \textbf{RESET}
+    \item nastav symbol s $\beta$ (\# $\rightarrow$ \#$\beta$)
+    \item proved instrukci \textbf{R}
+    \item nastav symbol s $\beta$ (\# $\rightarrow$ \#$\beta$)
+    \item proved instrukci \textbf{RESET}
+    \item zmen stav na \textit{searching}
+\end{itemize}
+A pridame dalsi prechodove funkce:
+\begin{enumerate}
+    \item \textit{searching} \& \# $\rightarrow$ proved instrukci \textbf{R}\\
+    (pokud nastane stav \textit{searching} a znak bude \#, tak proved instrukci \textbf{R})
+    \item \textit{searching} \& \#$\beta$ $\rightarrow$ odeber ze symbolu $\beta$, proved instrukci \textbf{2R} a zmen stav na \textit{shifting}
+    \item \textit{shifting} \& \# $\rightarrow$ pridej k symbolu $\beta$ a proved \textbf{RESET}
+    \item \textit{shifting} \& \#$\alpha$ $\rightarrow$ zmen stav na \textit{found}, odeber ze symbolu $\alpha$ a proved \textbf{RESET}
+    \item \textit{found} \& \# $\rightarrow$ proved instrukci \textbf{R}
+    \item \textit{found} \& \#$\beta$ $\rightarrow$ odeber ze symbolu $\beta$, (konec posunu vlevo,) pokracuj s puvodnim stavem \_
+\end{enumerate}
+
+Jelikoz se L da stabilne pouzit pouze od 3. indexu, tak se pridaji jeste specialni funkce na L, ktere je na druhem indexu.
+A pro L na prvnim indexu (cislovano od jedna) chovani TM nenadefinujeme, protoze doleva jiz jit nelze. 
+
+\end{document}
