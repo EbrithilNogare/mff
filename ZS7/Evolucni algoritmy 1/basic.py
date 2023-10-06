@@ -1,13 +1,25 @@
 import random
+import numpy as np
 
 MAX_GEN = 100
 POP_SIZE = 50
 IND_SIZE = 10
-MUT_PROB = 1/IND_SIZE
+MUT_PROB = 1/IND_SIZE/POP_SIZE
 CROSS_PROB = .8
 
+evals = []
+best_fit = []
+
+
 def fitness(individual):
-	return sum(individual)
+	# return sum(individual)/IND_SIZE # OneMAX
+	return sum([1-g if i % 2 == 0 else g for i, g in enumerate(individual)])/IND_SIZE
+
+def getFitnessOfPopulation(population):
+    total = 0
+    for individual in population:
+            total += fitness(individual)
+    return total/POP_SIZE
 
 def evolution(population):
 	for _ in range(MAX_GEN):
@@ -23,6 +35,8 @@ def evolution(population):
 			offspring.append(o2)
 		population = offspring[:]
 		population[0] = best
+		evals.append(getFitnessOfPopulation(population));
+		best_fit.append(fitness(best));
 	return population
 
 def generate_population():
@@ -44,17 +58,23 @@ def mutation(individual):
 def selection(population, fitnesses, size):
 	return random.choices(population, fitnesses, k=size)
 
-def sum_2d_array(arr_2d):
-    total = 0
-    for row in arr_2d:
-        for element in row:
-            total += element
-    return total
 
 def main():
 	population = generate_population()
-	print(sum_2d_array(population))
+	print("before:", getFitnessOfPopulation(population))
 	population = evolution(population)
-	print(sum_2d_array(population))
+	print("after: ", getFitnessOfPopulation(population))
+	print("best: ", population[0])
 
 main()
+
+
+evals = np.array(evals)
+best_fit = np.array(best_fit)
+
+# plot the converegence graph and quartiles
+import matplotlib.pyplot as plt
+plt.plot(evals[0,:], np.median(best_fit, axis=0))
+plt.fill_between(evals[0,:], np.percentile(best_fit, q=25, axis=0),
+							np.percentile(best_fit, q=75, axis=0), alpha = 0.2)
+plt.show()
