@@ -5,12 +5,12 @@ import functools
 import utils
 
 K = 10 #number of piles
-POP_SIZE = 100 # population size
+POP_SIZE = 50 # population size
 MAX_GEN = 500 # maximum number of generations
 CX_PROB = 0.8 # crossover probability
 MUT_PROB = 0.2 # mutation probability
 MUT_FLIP_PROB = 0.1 # probability of chaninging value during mutation
-REPEATS = 10 # number of runs of algorithm (should be at least 10)
+REPEATS = 3 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'partition' # output directory for logs
 EXP_ID = 'default' # the ID of this experiment (used to create log names)
 
