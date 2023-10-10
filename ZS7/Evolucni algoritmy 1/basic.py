@@ -1,80 +1,131 @@
 import random
+import pprint
+import matplotlib.pyplot as plt
 import numpy as np
 
-MAX_GEN = 100
-POP_SIZE = 50
-IND_SIZE = 10
-MUT_PROB = 1/IND_SIZE/POP_SIZE
-CROSS_PROB = .8
+POP_SIZE = 100
+IND_LEN = 10
 
-evals = []
-best_fit = []
+CX_PROB = .95
+MUT_PROB = 0.05
+MUT_FLIP_PROB = 0.05
 
+# creates a single individual of lenght `lenght`
+def create_ind(length):
+    return [random.randint(0, 1) for _ in range(length)]
 
-def fitness(individual):
-	# return sum(individual)/IND_SIZE # OneMAX
-	return sum([1-g if i % 2 == 0 else g for i, g in enumerate(individual)])/IND_SIZE
+# creates a population of `size` individuals
+def create_population(size):
+    return [create_ind(IND_LEN) for _ in range(size)]
 
-def getFitnessOfPopulation(population):
-    total = 0
-    for individual in population:
-            total += fitness(individual)
-    return total/POP_SIZE
+# tournament selection
+# def selection(pop, fits):
+#     selected = []
+#     for _ in range(len(pop)):
+#         i1, i2 = random.randrange(0, len(pop)), random.randrange(0, len(pop))
+#         if fits[i1] > fits[i2]:
+#             selected.append(pop[i1])
+#         else: 
+#             selected.append(pop[i2])
+#     return selected
 
-def evolution(population):
-	for _ in range(MAX_GEN):
-		fitnesses = [fitness(x) for x in population]
-		best=max(population, key=fitness)
-		mating_pool = selection(population, fitnesses, len(population))
-		offspring = []
-		for p1, p2 in zip(mating_pool[::2], mating_pool[1::2]):
-			o1, o2 = crossover(p1, p2)
-			o1 = mutation(o1)
-			o2 = mutation(o2)
-			offspring.append(o1)
-			offspring.append(o2)
-		population = offspring[:]
-		population[0] = best
-		evals.append(getFitnessOfPopulation(population));
-		best_fit.append(fitness(best));
-	return population
+# roulette wheel selection
+def selection(pop, fits):
+    return random.choices(pop, fits, k=POP_SIZE)
 
-def generate_population():
-    return [[random.randint(0, 1) for _ in range(POP_SIZE)] for _ in range(IND_SIZE)]
+# one point crossover
+def cross(p1, p2):
+    point = random.randint(0, len(p1))
+    o1 = p1[:point] + p2[point:]
+    o2 = p2[:point] + p1[point:]
+    return o1, o2
 
-def crossover(parent1, parent2):
-	if random.random() < CROSS_PROB:
-		crossover_point = random.randrange(0, IND_SIZE)
-		child1 = parent1[:crossover_point] + parent2[crossover_point:]
-		child2 = parent2[:crossover_point] + parent1[crossover_point:]
-		return child1, child2
-	else:
-		return parent1, parent2
+# applies crossover to all individuals
+def crossover(pop):
+    off = []
+    for p1, p2 in zip(pop[0::2], pop[1::2]):
+        o1, o2 = p1[:], p2[:]
+        if random.random() < CX_PROB:
+            o1, o2 = cross(p1[:], p2[:])
+        off.append(o1)
+        off.append(o2)
+    return off
 
+# bit-flip mutation
+def mutate(p):
+    if random.random() < MUT_PROB:
+        return [1 - i if random.random() < MUT_FLIP_PROB else i for i in p]
+    return p[:]
+    
+# applies mutation to the whole population
+def mutation(pop):
+    return list(map(mutate, pop))
 
-def mutation(individual):
-	return [1-g if random.random() < MUT_PROB else g for g in individual]
+# applies crossover and mutation
+def operators(pop):
+    pop1 = crossover(pop)
+    return mutation(pop1)
 
-def selection(population, fitnesses, size):
-	return random.choices(population, fitnesses, k=size)
+# evaluates the fitness of the individual
+def fitness(ind):
+	return sum([1-g if i % 2 == 0 else g for i, g in enumerate(ind)])/IND_LEN # Oscilate
+    # return sum(ind)/IND_LEN # OneMAX
 
+# implements the whole EA
+def evolutionary_algorithm(fitness):
+    pop = create_population(POP_SIZE)
+    log = []
+    for G in range(100):
+        fits = list(map(fitness, pop))
+        log.append((G, max(fits), sum(fits)/100, G*POP_SIZE))
+        #print(G, sum(fits), max(fits)) # prints fitness to console
+        mating_pool = selection(pop, fits)
+        offspring = operators(mating_pool)
+        #pop = offspring[:-1]+[max(pop, key=fitness)] #SGA + elitism
+        pop = offspring[:] #SGA
 
+    return pop, log
+
+# i1, i2 = create_ind(10), create_ind(10)
+# print((i1, i2))
+# print(cross(i1, i2))
+# print(mutate(i1))
+
+# run the EA 10 times and aggregate the logs, show the last gen in last run
+for multiplePlotsIndex in range(10):
+    CX_PROB = multiplePlotsIndex/10
+    #MUT_PROB = multiplePlotsIndex/10
+    #MUT_FLIP_PROB = multiplePlotsIndex/10
+    
 def main():
-	population = generate_population()
-	print("before:", getFitnessOfPopulation(population))
-	population = evolution(population)
-	print("after: ", getFitnessOfPopulation(population))
-	print("best: ", population[0])
+    logs = []
+    for i in range(10):
+        random.seed(i)
+        pop,log = evolutionary_algorithm(fitness)
+        logs.append(log)
+    fits = list(map(fitness, pop))
+    # pprint.pprint(list(zip(fits, pop)))
+    # print(sum(fits), max(fits))
+    # pprint.pprint(log)
 
-main()
+    # extract fitness evaluations and best fitnesses from logs
+    evals = []
+    best_fit = []
+    for log in logs:
+        evals.append([l[3] for l in log])
+        best_fit.append([l[1] for l in log])
 
+    evals = np.array(evals)
+    best_fit = np.array(best_fit)
 
-evals = np.array(evals)
-best_fit = np.array(best_fit)
+    print("draw")
+    # plot the converegence graph and quartiles
+    label = "CX_PROB:"+str(CX_PROB)+" MUT_PROB:"+str(MUT_PROB)+" MUT_FLIP_PROB:"+str(MUT_FLIP_PROB)
+    plt.plot(evals[0,:], np.median(best_fit, axis=0), label=label)
+    #plt.fill_between(evals[0,:], np.percentile(best_fit, q=25, axis=0),
+    #                            np.percentile(best_fit, q=75, axis=0), alpha = 0.2)
 
-# plot the converegence graph and quartiles
-import matplotlib.pyplot as plt
-plt.plot(evals[0,:], np.median(best_fit, axis=0))
-plt.fill_between(evals[0,:], np.percentile(best_fit, q=25, axis=0),
-							np.percentile(best_fit, q=75, axis=0), alpha = 0.2)
+plt.legend()
 plt.show()
+
+# plt.savefig("./output/"+str(CX_PROB)+"-"+str(MUT_PROB)+"-"+str(MUT_FLIP_PROB)+".png")
