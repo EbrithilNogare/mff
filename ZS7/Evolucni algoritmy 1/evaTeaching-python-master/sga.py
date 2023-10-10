@@ -1,14 +1,13 @@
 import random
 import pprint
-import matplotlib.pyplot as plt
+
 import numpy as np
 
-POP_SIZE = 1000
-IND_LEN = 50
-
-CX_PROB = .95
+POP_SIZE = 100
+IND_LEN = 25
+CX_PROB = 0.8
 MUT_PROB = 0.05
-MUT_FLIP_PROB = 0.05
+MUT_FLIP_PROB = 0.1
 
 # creates a single individual of lenght `lenght`
 def create_ind(length):
@@ -68,8 +67,7 @@ def operators(pop):
 
 # evaluates the fitness of the individual
 def fitness(ind):
-	return sum([1-g if i % 2 == 0 else g for i, g in enumerate(ind)])/IND_LEN # Oscilate
-    # return sum(ind)/IND_LEN # OneMAX
+    return sum(ind)
 
 # implements the whole EA
 def evolutionary_algorithm(fitness):
@@ -92,39 +90,29 @@ def evolutionary_algorithm(fitness):
 # print(mutate(i1))
 
 # run the EA 10 times and aggregate the logs, show the last gen in last run
-for multiplePlotsIndex in range(10):
-    CX_PROB = multiplePlotsIndex/10
-    #MUT_PROB = multiplePlotsIndex/10
-    #MUT_FLIP_PROB = multiplePlotsIndex/10
-    
-    logs = []
-    for i in range(10):
-        random.seed(i)
-        pop,log = evolutionary_algorithm(fitness)
-        logs.append(log)
-    fits = list(map(fitness, pop))
-    # pprint.pprint(list(zip(fits, pop)))
-    # print(sum(fits), max(fits))
-    # pprint.pprint(log)
+logs = []
+for i in range(10):
+    random.seed(i)
+    pop,log = evolutionary_algorithm(fitness)
+    logs.append(log)
+fits = list(map(fitness, pop))
+# pprint.pprint(list(zip(fits, pop)))
+# print(sum(fits), max(fits))
+# pprint.pprint(log)
 
-    # extract fitness evaluations and best fitnesses from logs
-    evals = []
-    best_fit = []
-    for log in logs:
-        evals.append([l[3] for l in log])
-        best_fit.append([l[1] for l in log])
+# extract fitness evaluations and best fitnesses from logs
+evals = []
+best_fit = []
+for log in logs:
+    evals.append([l[3] for l in log])
+    best_fit.append([l[1] for l in log])
 
-    evals = np.array(evals)
-    best_fit = np.array(best_fit)
+evals = np.array(evals)
+best_fit = np.array(best_fit)
 
-    print("draw")
-    # plot the converegence graph and quartiles
-    label = "CX_PROB:"+str(CX_PROB)+" MUT_PROB:"+str(MUT_PROB)+" MUT_FLIP_PROB:"+str(MUT_FLIP_PROB)
-    plt.plot(evals[0,:], np.median(best_fit, axis=0), label=label)
-    #plt.fill_between(evals[0,:], np.percentile(best_fit, q=25, axis=0),
-    #                            np.percentile(best_fit, q=75, axis=0), alpha = 0.2)
-
-plt.legend()
+# plot the converegence graph and quartiles
+import matplotlib.pyplot as plt
+plt.plot(evals[0,:], np.median(best_fit, axis=0))
+plt.fill_between(evals[0,:], np.percentile(best_fit, q=25, axis=0),
+                             np.percentile(best_fit, q=75, axis=0), alpha = 0.2)
 plt.show()
-
-# plt.savefig("./output/"+str(CX_PROB)+"-"+str(MUT_PROB)+"-"+str(MUT_FLIP_PROB)+".png")
