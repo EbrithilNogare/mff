@@ -6,11 +6,11 @@ import utils
 
 K = 10 #number of piles
 POP_SIZE = 200 # population size
-MAX_GEN = 5000 # maximum number of generations
+MAX_GEN = 10000 # maximum number of generations
 CX_PROB = 0.2 # crossover probability
 MUT_PROB = .5 # mutation probability
 MUT_FLIP_PROB = 0.2 # probability of chaninging value during mutation
-REPEATS = 3 # number of runs of algorithm (should be at least 10)
+REPEATS = 5 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'partition' # output directory for logs
 EXP_ID = 'default' # the ID of this experiment (used to create log names)
 
@@ -145,7 +145,7 @@ def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn
 
 if __name__ == '__main__':
     # read the weights from input
-    weights = read_weights('inputs/partition-easy.txt')
+    weights = read_weights('inputs/partition-hard.txt')
 
     # use `functool.partial` to create fix some arguments of the functions 
     # and create functions with required signatures
