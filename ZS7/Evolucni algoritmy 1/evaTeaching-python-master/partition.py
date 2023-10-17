@@ -1,18 +1,20 @@
 import random
 import numpy as np
 import functools
-
+import math
 import utils
 
 K = 10 #number of piles
-POP_SIZE = 50 # population size
-MAX_GEN = 500 # maximum number of generations
-CX_PROB = 0.8 # crossover probability
-MUT_PROB = 0.2 # mutation probability
-MUT_FLIP_PROB = 0.1 # probability of chaninging value during mutation
+POP_SIZE = 200 # population size
+MAX_GEN = 5000 # maximum number of generations
+CX_PROB = 0.2 # crossover probability
+MUT_PROB = .5 # mutation probability
+MUT_FLIP_PROB = 0.2 # probability of chaninging value during mutation
 REPEATS = 3 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'partition' # output directory for logs
 EXP_ID = 'default' # the ID of this experiment (used to create log names)
+
+Decider = True;
 
 # reads the input set of values of objects
 def read_weights(filename):
@@ -45,6 +47,28 @@ def create_pop(pop_size, create_individual):
 def roulette_wheel_selection(pop, fits, k):
     return random.choices(pop, fits, k=k)
 
+# the roulette wheel selection
+def sus_selection(pop, fits, k):
+    n = 3
+    diff = random.randrange(0,n-1);
+    selected = []
+    for i in range(len(pop)):
+        selected.append(pop[(i*n+diff)%len(pop)]);
+    return selected
+
+# tournament selection
+def tournamentSelection(pop, fits, _k):
+     selected = []
+     for _ in range(len(pop)):
+        i1, i2, i3 = random.randrange(0, len(pop)), random.randrange(0, len(pop)), random.randrange(0, len(pop))
+        if fits[i1] >= fits[i2] and fits[i1] >= fits[i3]:
+            selected.append(pop[i1])
+        elif fits[i2] >= fits[i1] and fits[i2] >= fits[i3]:
+            selected.append(pop[i2])
+        else:
+            selected.append(pop[i3])
+     return selected
+
 # implements the one-point crossover of two individuals
 def one_pt_cross(p1, p2):
     point = random.randrange(1, len(p1))
@@ -54,7 +78,13 @@ def one_pt_cross(p1, p2):
 
 # implements the "bit-flip" mutation of one individual
 def flip_mutate(p, prob, upper):
-    return [random.randrange(0, upper) if random.random() < prob else i for i in p]
+    #while(random.random() < prob):
+    item1 = random.randrange(0,len(p)-1);
+    item2 = random.randrange(0,len(p)-1);
+    tmp = p[item1]
+    p[item1] = p[item2]
+    p[item2] = tmp
+    return p
 
 # applies a list of genetic operators (functions with 1 argument - population) 
 # to the population
@@ -107,7 +137,9 @@ def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn
 
         mating_pool = mate_sel(pop, fits, POP_SIZE)
         offspring = mate(mating_pool, operators)
-        pop = offspring[:]
+        #pop = offspring[:]
+        pop = offspring[:-1]+[max(pop, key=fitness)] #SGA + elitism
+        #pop = offspring[len(pop)//2:] + offspring[math.ceil(len(pop)/2):] #SGA + elitism
 
     return pop
 
@@ -133,13 +165,15 @@ if __name__ == '__main__':
     # last generations
     best_inds = []
     for run in range(REPEATS):
+        random.seed(run)
         # initialize the log structure
         log = utils.Log(OUT_DIR, EXP_ID, run, 
-                        write_immediately=True, print_frequency=5)
+                        write_immediately=True, print_frequency=20)
         # create population
         pop = create_pop(POP_SIZE, cr_ind)
         # run evolution - notice we use the pool.map as the map_fn
-        pop = evolutionary_algorithm(pop, MAX_GEN, fit, [xover, mut], roulette_wheel_selection, map_fn=pool.map, log=log)
+        mySelection = tournamentSelection if run < REPEATS/2 else sus_selection
+        pop = evolutionary_algorithm(pop, MAX_GEN, fit, [xover, mut], tournamentSelection, map_fn=pool.map, log=log)
         # remember the best individual from last generation, save it to file
         bi = max(pop, key=fit)
         best_inds.append(bi)
@@ -162,6 +196,7 @@ if __name__ == '__main__':
     # read the summary log and plot the experiment
     evals, lower, mean, upper = utils.get_plot_data(OUT_DIR, EXP_ID)
     plt.figure(figsize=(12, 8))
+    plt.yscale("log")
     utils.plot_experiment(evals, lower, mean, upper, legend_name = 'Default settings')
     plt.legend()
     plt.show()
