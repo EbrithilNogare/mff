@@ -5,14 +5,15 @@ import math
 import utils
 
 K = 10 #number of piles
-POP_SIZE = 200 # population size
+POP_SIZE = 100 # population size
 MAX_GEN = 10000 # maximum number of generations
 CX_PROB = 0.2 # crossover probability
 MUT_PROB = .5 # mutation probability
 MUT_FLIP_PROB = 0.2 # probability of chaninging value during mutation
-REPEATS = 5 # number of runs of algorithm (should be at least 10)
+REPEATS = 3 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'partition' # output directory for logs
 EXP_ID = 'default' # the ID of this experiment (used to create log names)
+TOURNAMENT_COMPETITOR_COUNT = 20
 
 Decider = True;
 
@@ -37,6 +38,7 @@ def fitness(ind, weights):
 
 # creates the individual
 def create_ind(ind_len):
+    #return [i % K for i in range(ind_len)]
     return [random.randrange(0, K) for _ in range(ind_len)]
 
 # creates the population using the create individual function
@@ -60,13 +62,8 @@ def sus_selection(pop, fits, k):
 def tournamentSelection(pop, fits, _k):
      selected = []
      for _ in range(len(pop)):
-        i1, i2, i3 = random.randrange(0, len(pop)), random.randrange(0, len(pop)), random.randrange(0, len(pop))
-        if fits[i1] >= fits[i2] and fits[i1] >= fits[i3]:
-            selected.append(pop[i1])
-        elif fits[i2] >= fits[i1] and fits[i2] >= fits[i3]:
-            selected.append(pop[i2])
-        else:
-            selected.append(pop[i3])
+        parents = [random.randrange(0, len(pop)) for _ in range(TOURNAMENT_COMPETITOR_COUNT)]
+        selected.append(pop[max(parents, key=lambda ind:fits[ind])])
      return selected
 
 # implements the one-point crossover of two individuals
@@ -95,7 +92,7 @@ def mate(pop, operators):
 
 # applies the cross function (implementing the crossover of two individuals)
 # to the whole population (with probability cx_prob)
-def crossover(pop, cross, cx_prob):
+def standard_crossover(pop, cross, cx_prob):
     off = []
     for p1, p2 in zip(pop[0::2], pop[1::2]):
         if random.random() < cx_prob:
@@ -105,6 +102,21 @@ def crossover(pop, cross, cx_prob):
         off.append(o1)
         off.append(o2)
     return off
+
+def uniform_crossover(pop, cross, cx_prob):
+    off = []
+    for p1, p2 in zip(pop[0::2], pop[1::2]):
+        if random.random() < cx_prob:
+            o1 = p1 if random.random() < .5 else p2
+            o2 = o1
+        else:
+            o1, o2 = p1, p2
+        off.append(o1)
+        off.append(o2)
+    return off
+
+def crossover(pop, cross, cx_prob):
+    return standard_crossover(pop, cross, cx_prob)
 
 # applies the mutate function (implementing the mutation of a single individual)
 # to the whole population with probability mut_prob)
@@ -161,43 +173,45 @@ if __name__ == '__main__':
 
     import matplotlib.pyplot as plt
 
-    # run the algorithm `REPEATS` times and remember the best solutions from 
-    # last generations
-    best_inds = []
-    for run in range(REPEATS):
-        random.seed(run)
-        # initialize the log structure
-        log = utils.Log(OUT_DIR, EXP_ID, run, 
-                        write_immediately=True, print_frequency=20)
-        # create population
-        pop = create_pop(POP_SIZE, cr_ind)
-        # run evolution - notice we use the pool.map as the map_fn
-        mySelection = tournamentSelection if run < REPEATS/2 else sus_selection
-        pop = evolutionary_algorithm(pop, MAX_GEN, fit, [xover, mut], tournamentSelection, map_fn=pool.map, log=log)
-        # remember the best individual from last generation, save it to file
-        bi = max(pop, key=fit)
-        best_inds.append(bi)
+    for parentCount in range (0, 1, 1):
+        # run the algorithm `REPEATS` times and remember the best solutions from 
+        # last generations
+        best_inds = []
+        for run in range(REPEATS):
+            random.seed(run)
+            # initialize the log structure
+            log = utils.Log(OUT_DIR, EXP_ID, run, 
+                            write_immediately=True, print_frequency=20)
+            # create population
+            pop = create_pop(POP_SIZE, cr_ind)
+            # run evolution - notice we use the pool.map as the map_fn
+            #mySelection = tournamentSelection if run < REPEATS/2 else sus_selection
+            pop = evolutionary_algorithm(pop, MAX_GEN, fit, [xover, mut], tournamentSelection, map_fn=pool.map, log=log)
+            # remember the best individual from last generation, save it to file
+            bi = max(pop, key=fit)
+            best_inds.append(bi)
 
-        with open(f'{OUT_DIR}/{EXP_ID}_{run}.best', 'w') as f:
-            for w, b in zip(weights, bi):
-                f.write(f'{w} {b}\n')
-        
-        # if we used write_immediately = False, we would need to save the 
-        # files now
-        # log.write_files()
+            with open(f'{OUT_DIR}/{EXP_ID}_{run}.best', 'w') as f:
+                for w, b in zip(weights, bi):
+                    f.write(f'{w} {b}\n')
+            
+            # if we used write_immediately = False, we would need to save the 
+            # files now
+            # log.write_files()
 
-    # print an overview of the best individuals from each run
-    for i, bi in enumerate(best_inds):
-        print(f'Run {i}: difference = {fit(bi).objective}, bin weights = {bin_weights(weights, bi)}')
+        # print an overview of the best individuals from each run
+        for i, bi in enumerate(best_inds):
+            print(f'Run {i}: difference = {fit(bi).objective}, bin weights = {bin_weights(weights, bi)}')
 
-    # write summary logs for the whole experiment
-    utils.summarize_experiment(OUT_DIR, EXP_ID)
+        # write summary logs for the whole experiment
+        utils.summarize_experiment(OUT_DIR, EXP_ID)
 
-    # read the summary log and plot the experiment
-    evals, lower, mean, upper = utils.get_plot_data(OUT_DIR, EXP_ID)
-    plt.figure(figsize=(12, 8))
+        # read the summary log and plot the experiment
+        evals, lower, mean, upper = utils.get_plot_data(OUT_DIR, EXP_ID)
+        utils.plot_experiment(evals, lower, mean, upper, legend_name = EXP_ID)
+    
+    #plt.figure(figsize=(12, 8))
     plt.yscale("log")
-    utils.plot_experiment(evals, lower, mean, upper, legend_name = 'Default settings')
     plt.legend()
     plt.show()
 
