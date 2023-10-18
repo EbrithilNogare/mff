@@ -6,14 +6,14 @@ import utils
 
 K = 10 #number of piles
 POP_SIZE = 100 # population size
-MAX_GEN = 10000 # maximum number of generations
+MAX_GEN = 1000 # maximum number of generations
 CX_PROB = 0.2 # crossover probability
 MUT_PROB = .5 # mutation probability
 MUT_FLIP_PROB = 0.2 # probability of chaninging value during mutation
 REPEATS = 3 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'partition' # output directory for logs
 EXP_ID = 'default' # the ID of this experiment (used to create log names)
-TOURNAMENT_COMPETITOR_COUNT = 20
+TOURNAMENT_COMPETITOR_COUNT = 3
 
 Decider = True;
 
@@ -173,7 +173,8 @@ if __name__ == '__main__':
 
     import matplotlib.pyplot as plt
 
-    for parentCount in range (0, 1, 1):
+    for optionComparator in range (1, 2, 1):
+        TOURNAMENT_COMPETITOR_COUNT = optionComparator
         # run the algorithm `REPEATS` times and remember the best solutions from 
         # last generations
         best_inds = []
@@ -208,7 +209,7 @@ if __name__ == '__main__':
 
         # read the summary log and plot the experiment
         evals, lower, mean, upper = utils.get_plot_data(OUT_DIR, EXP_ID)
-        utils.plot_experiment(evals, lower, mean, upper, legend_name = EXP_ID)
+        utils.plot_experiment(evals, lower, mean, upper, legend_name = optionComparator)
     
     #plt.figure(figsize=(12, 8))
     plt.yscale("log")
