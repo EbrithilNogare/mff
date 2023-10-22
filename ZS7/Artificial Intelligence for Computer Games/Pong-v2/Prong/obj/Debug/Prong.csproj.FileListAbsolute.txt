@@ -1,0 +1,12 @@
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\bin\Debug\Prong.exe.config
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\bin\Debug\Prong.exe
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\bin\Debug\Prong.pdb
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\bin\Debug\OpenTK.dll
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\bin\Debug\OpenTK.pdb
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\bin\Debug\OpenTK.xml
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\obj\Debug\Prong.csproj.AssemblyReference.cache
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\obj\Debug\Prong.csproj.SuggestedBindingRedirects.cache
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\obj\Debug\Prong.csproj.CoreCompileInputs.cache
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\obj\Debug\Prong.csproj.CopyComplete
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\obj\Debug\Prong.exe
+C:\dev\mff\ZS7\Artificial Intelligence for Computer Games\Pong-v2\Prong\obj\Debug\Prong.pdb
