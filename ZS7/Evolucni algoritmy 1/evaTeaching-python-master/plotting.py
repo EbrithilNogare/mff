@@ -6,6 +6,6 @@ import utils
 import matplotlib.pyplot as plt 
 
 plt.figure(figsize=(12,8))
-utils.plot_experiments('rules', ['default'])
+utils.plot_experiments('partition', ['defaultMutation', 'myMutation2', 'myMutation3', 'myMutation4'])
+plt.yscale("log")
 plt.show()
- 

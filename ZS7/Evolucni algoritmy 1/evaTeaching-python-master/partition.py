@@ -6,14 +6,14 @@ import utils
 
 K = 10 #number of piles
 POP_SIZE = 100 # population size
-MAX_GEN = 1000 # maximum number of generations
+MAX_GEN = 500 # maximum number of generations
 CX_PROB = 0.2 # crossover probability
 MUT_PROB = .5 # mutation probability
 MUT_FLIP_PROB = 0.2 # probability of chaninging value during mutation
-REPEATS = 3 # number of runs of algorithm (should be at least 10)
+REPEATS = 10 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'partition' # output directory for logs
-EXP_ID = 'default' # the ID of this experiment (used to create log names)
-TOURNAMENT_COMPETITOR_COUNT = 3
+EXP_ID = 'myEvolution' # the ID of this experiment (used to create log names)
+TOURNAMENT_COMPETITOR_COUNT = 5
 
 Decider = True;
 
@@ -75,7 +75,9 @@ def one_pt_cross(p1, p2):
 
 # implements the "bit-flip" mutation of one individual
 def flip_mutate(p, prob, upper):
-    #while(random.random() < prob):
+    return [random.randrange(0, upper) if random.random() < prob else i for i in p]
+
+def swap_mutate(p, prob, upper):
     item1 = random.randrange(0,len(p)-1);
     item2 = random.randrange(0,len(p)-1);
     tmp = p[item1]
@@ -165,7 +167,7 @@ if __name__ == '__main__':
     fit = functools.partial(fitness, weights=weights)
     xover = functools.partial(crossover, cross=one_pt_cross, cx_prob=CX_PROB)
     mut = functools.partial(mutation, mut_prob=MUT_PROB, 
-                            mutate=functools.partial(flip_mutate, prob=MUT_FLIP_PROB, upper=K))
+                            mutate=functools.partial(swap_mutate, prob=MUT_FLIP_PROB, upper=K))
 
     # we can use multiprocessing to evaluate fitness in parallel
     import multiprocessing
@@ -174,7 +176,7 @@ if __name__ == '__main__':
     import matplotlib.pyplot as plt
 
     for optionComparator in range (1, 2, 1):
-        TOURNAMENT_COMPETITOR_COUNT = optionComparator
+        # TOURNAMENT_COMPETITOR_COUNT = optionComparator
         # run the algorithm `REPEATS` times and remember the best solutions from 
         # last generations
         best_inds = []
