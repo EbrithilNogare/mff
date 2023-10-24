@@ -13,7 +13,7 @@ namespace Prong
         public int gridCellSize = 10;
         public int paddleWidthCells = 2;
         public int paddleHeightCells = 10;
-        public float ballSpeed = 500;
+        public float ballSpeed = 700;
         public float paddle1Speed = 500;
         public float paddle2Speed = 500;
 

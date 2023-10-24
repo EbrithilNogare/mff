@@ -124,9 +124,9 @@ namespace Prong
             int direction = state.ballVelocityX > 0 ? 1 : -1; // 1 == ball flying right
 
             if (player == 1)
-                return 1000 * score + ballToPaddle2Y - ballToPaddle1Y;
+                return 10000 * score + (direction == 1 ? 1000 : 0) + (direction == 1 ? ballToPaddle2Y - ballToPaddle2X : - ballToPaddle1Y);
             else
-                return 1000 * score - ballToPaddle2Y + ballToPaddle1Y;
+                return 10000 * score + (direction == 1 ? 0 : 1000) + (direction == 1 ? - ballToPaddle2Y :  ballToPaddle1Y - ballToPaddle1X);
         }
 
         private float simulateUntilBounceAndGetBallY(DynamicState staticState)
