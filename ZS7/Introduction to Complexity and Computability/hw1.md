@@ -6,20 +6,26 @@
 #### 1
 ##### a)
 Mejme turinguv stroj $M$ = (Q, $\sum$, $\delta$, $q_0$, F) takovy ze:
-- mnozina stavu Q
+- mnozina stavu Q = {*increase*, *DONE*}
 - abeceda $\sum$=\{0, 1, $\lambda$\}
 - prechodova funkce $\delta$
-- pocatecni stav $q_0$
-- mnozina koncovych stavu F = {*HOTOVO*}
+- pocatecni stav $q_0 =$ *increase*
+- mnozina koncovych stavu F = {*DONE*}
 
-Pouzijeme jednostranou nekonecnou pasku, jejiz krajni symbol je $\lambda$ a vpravo bude za cislem nekonecne nul.
-Po dokonceni programu ze slusnosti vratime hlavu na zacatek.
+Pouzijeme jednostranou nekonecnou pasku, jejiz pravy krajni symbol je $\lambda$ a vlevo bude pred cislem nekonecne nul.
 
 **Pro pricteni jednicky pouzijeme nasledujici princip:**
-- zacneme ve stavu *increase* s hlavou ukazujici na prvni bit cisla
-- pokud vidime 1 zapiseme 0 a jdeme doprava, ponechame stav *increase*
+- zacneme ve stavu *increase* s hlavou ukazujici na posledni bit cisla
+- pokud vidime 1 zapiseme 0 a jdeme doleva, ponechame stav *increase*
     - (tento krok opakujeme, dokud nezpropagujeme jednicku)
-- pokud vidime 0 zapiseme 1 a prejedeme hlavou na zacatek pasky, *HOTOVO*
+- pokud vidime 0 zapiseme 1 a prejdeme do stavu *DONE*
+
+**Ukazka:**
+| Vstup | 0 | 0 | 0 | 1 | [1] | $\lambda$ |
+| :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| Stav *increase* | 0 | 0 | 0 | [1] | 0 | $\lambda$ |
+| Stav *increase* | 0 | 0 | [0] | 0 | 0 | $\lambda$ |
+| Stav *DONE* | 0 | 0 | [1] | 0 | 0 | $\lambda$ |
 
 ##### b)
 - $q_0$ = *increase*
