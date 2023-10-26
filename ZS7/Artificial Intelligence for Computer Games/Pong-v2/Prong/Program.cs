@@ -57,6 +57,11 @@ namespace Prong
             DrawRectangle(engine.plr1PaddleBounceX(), state.plr1PaddleY, config.paddleWidth(), config.paddleHeight(), 1.0f, 0.0f, 0.0f);
             DrawRectangle(engine.plr2PaddleBounceX(), state.plr2PaddleY, config.paddleWidth(), config.paddleHeight(), 0.0f, 0.0f, 1.0f);
 
+            int redScore = state.plr1Score*5;
+            int blueScore = state.plr2Score*5;
+            DrawRectangle(-config.ClientSize_Width / 2 + redScore/2, config.ClientSize_Height / 2 - 2.5f, redScore, 5, .7f, 0, 0);
+            DrawRectangle(config.ClientSize_Width / 2 - blueScore/2, config.ClientSize_Height / 2 - 2.5f, -blueScore, 5, 0, 0, .7f);
+
             SwapBuffers();
         }
 

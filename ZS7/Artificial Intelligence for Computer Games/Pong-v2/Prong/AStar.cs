@@ -95,7 +95,7 @@ namespace Prong
                     }
                     List<PlayerAction> newActions = new List<PlayerAction>(actionsUntilNow);
                     newActions.Add(action);
-                    statesToGo.Add(GetHeuristic(nextState)+ newActions.Count()/1000, new stateAndActions(nextState, newActions));
+                    statesToGo.Add(GetHeuristic(nextState) + newActions.Count(isNoneAction), new stateAndActions(nextState, newActions));
                 }
             }
 
@@ -110,6 +110,11 @@ namespace Prong
             Console.Write("   last: {0, 12}", statesToGo.Last().Key.ToString("n2"));
             Console.WriteLine();
             return statesToGo.First().Value.actions[0];
+        }
+
+        private bool isNoneAction(PlayerAction action)
+        {
+            return action == PlayerAction.NONE;
         }
 
         // more is better
