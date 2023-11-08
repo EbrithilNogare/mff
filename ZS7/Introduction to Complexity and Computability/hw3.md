@@ -15,9 +15,9 @@ Pokud by tedy byl tento problem algoritmicky rozhodnutelny, pak by slo algoritmi
 
 Sestrojime funkci $ f: \sum^* \rightarrow \sum^*$ takovoum ze $\forall x \in \sum^*: x \in L_u \text{ iff } f(x) \in S$ 
 
-$f(\langle M,x\rangle ) = \langle N\rangle$, kde $N(y)$ ignoruje svuj vstup $y$ a jen simuluje $M(x)$.
+$f(\langle M,x\rangle ) = \langle N\rangle$, kde $N(y)$ ignoruje svuj vstup $y$ a jen simuluje $M(x)$, pokud prijme simuluje $M(x^r)$, pokud prijme i ten, tak prijima, jinak neprijima.
 Plati tedy, ze $L(N) = \sum^*$, pokud $x\in L(M)$, jinak $L(N) = \emptyset$
 
 #### 2. b)  Show that $L_u \leq_m \bar{S}$
 
-$f(\langle M,x\rangle ) = \langle N\rangle$, kde $N(y)$ ignoruje svuj vstup $y$ a jen simuluje $M(x)$, pokud se zastavi, pak $N$ neprijme, jinak $N$ prijme.
+$f(\langle M,x\rangle ) = \langle N\rangle$, kde $N(y)$ ignoruje svuj vstup $y$ a jen simuluje $M(x)$, pokud zastavi a neprijme pak $N$ prijme, jinak simulujeme $M(x^r)$, ktere pokud zastavi a neprijme, tak $N$ prijme, jinak $N$ neprijme.
