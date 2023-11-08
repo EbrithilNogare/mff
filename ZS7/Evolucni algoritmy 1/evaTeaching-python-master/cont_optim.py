@@ -53,6 +53,8 @@ class Mutation:
         self.step_size = step_size
 
     def __call__(self, ind):
+
+
         return ind + self.step_size*np.random.normal(size=ind.shape)
 
 # applies a list of genetic operators (functions with 1 argument - population) 
