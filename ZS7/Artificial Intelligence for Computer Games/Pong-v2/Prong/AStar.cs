@@ -1,10 +1,7 @@
-﻿using OpenTK.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Prong
 {
@@ -47,8 +44,6 @@ namespace Prong
 
     class AStar
     {
-        float timeSimulationConst = 1 / 30f;
-
         PlayerAction[] possibleMoves = {
             PlayerAction.UP,
             PlayerAction.DOWN,
@@ -68,15 +63,15 @@ namespace Prong
             this.otherPlayerMove = otherPlayerMove;
         }
 
-        public PlayerAction FindNextMove(DynamicState state, float timeToDie)
+        public PlayerAction FindNextMove(DynamicState state, float timeSimulationConst)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
             var statesToGo = new SortedList<float, stateAndActions>(new DuplicateKeyComparer<float>());
-            statesToGo.Add(GetHeuristic(state), new stateAndActions(state, new List<PlayerAction>()));
+            statesToGo.Add(GetHeuristic(state, timeSimulationConst), new stateAndActions(state, new List<PlayerAction>()));
 
-            while (statesToGo.Count > 0 && stopwatch.ElapsedMilliseconds < timeToDie)
+            while (statesToGo.Count > 0 && stopwatch.ElapsedMilliseconds < timeSimulationConst)
             {
                 DynamicState currentState = statesToGo.First().Value.state;
                 List<PlayerAction> actionsUntilNow = statesToGo.First().Value.actions;
@@ -95,7 +90,7 @@ namespace Prong
                     }
                     List<PlayerAction> newActions = new List<PlayerAction>(actionsUntilNow);
                     newActions.Add(action);
-                    statesToGo.Add(GetHeuristic(nextState) + newActions.Count(isNoneAction), new stateAndActions(nextState, newActions));
+                    statesToGo.Add(GetHeuristic(nextState, timeSimulationConst) + newActions.Count(isNoneAction), new stateAndActions(nextState, newActions));
                 }
             }
 
@@ -118,23 +113,23 @@ namespace Prong
         }
 
         // more is better
-        private float GetHeuristic(DynamicState state)
+        private float GetHeuristic(DynamicState state, float timeSimulationConst)
         {
-            float ballYAtHit = simulateUntilBounceAndGetBallY(state);
+            float ballYAtHit = simulateUntilBounceAndGetBallY(state, timeSimulationConst);
             float score = ((player == 1 ? -1 : 1) * (state.plr2Score - state.plr1Score));
             float ballToPaddle1Y = Math.Max(Math.Abs(state.plr1PaddleY - ballYAtHit) - config.paddleHeight() / 2, 0);
             float ballToPaddle2Y = Math.Max(Math.Abs(state.plr2PaddleY - ballYAtHit) - config.paddleHeight() / 2, 0);
             float ballToPaddle1X = Math.Abs(-config.ClientSize_Width / 2 - state.ballX);
-            float ballToPaddle2X = Math.Abs( config.ClientSize_Width / 2 - state.ballX);
+            float ballToPaddle2X = Math.Abs(config.ClientSize_Width / 2 - state.ballX);
             int direction = state.ballVelocityX > 0 ? 1 : -1; // 1 == ball flying right
 
             if (player == 1)
-                return 10000 * score + (direction == 1 ? 1000 : 0) + (direction == 1 ? ballToPaddle2Y - ballToPaddle2X : - ballToPaddle1Y);
+                return 10000 * score + (direction == 1 ? 1000 : 0) + (direction == 1 ? ballToPaddle2Y - ballToPaddle2X : -ballToPaddle1Y);
             else
-                return 10000 * score + (direction == 1 ? 0 : 1000) + (direction == 1 ? - ballToPaddle2Y :  ballToPaddle1Y - ballToPaddle1X);
+                return 10000 * score + (direction == 1 ? 0 : 1000) + (direction == 1 ? -ballToPaddle2Y : ballToPaddle1Y - ballToPaddle1X);
         }
 
-        private float simulateUntilBounceAndGetBallY(DynamicState staticState)
+        private float simulateUntilBounceAndGetBallY(DynamicState staticState, float timeSimulationConst)
         {
             DynamicState state = staticState.Clone();
             bool originalToTheRight = state.ballVelocityX > 0;
@@ -142,7 +137,7 @@ namespace Prong
             var result = TickResult.TICK;
             float lastBallY = 0;
 
-            while (result == TickResult.TICK&&toTheRight == originalToTheRight)
+            while (result == TickResult.TICK && toTheRight == originalToTheRight)
             {
                 lastBallY = state.ballY;
                 result = engine.Tick(state, PlayerAction.NONE, PlayerAction.NONE, timeSimulationConst);
