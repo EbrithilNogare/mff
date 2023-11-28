@@ -16,7 +16,7 @@ MUT_PROB = 0.2  # mutation probability
 MUT_STEP = 0.5  # size of the mutation steps
 REPEATS = 10  # number of runs of the algorithm (should be at least 10)
 OUT_DIR = 'differential'  # output directory for logs
-EXP_ID = 'default'  # the ID of this experiment (used to create log names)
+EXP_ID = 'mine'  # the ID of this experiment (used to create log names)
 TOURNAMENT_COMPETITOR_COUNT = 2
 
 def create_ind(ind_len):
@@ -98,7 +98,6 @@ def mate(pop, operators, generation):
         pop = o(pop, generation=generation)
     return pop
 
-    
 
 
 
@@ -113,27 +112,29 @@ def differential_evolution(pop, max_gen, fitness, operators, mate_sel, mutate_in
         evals += len(pop)
         if log:
             log.add_gen(fits_objs, evals)
-
         new_pop = []
-        for x in pop:
-            a, b, c = random.sample(pop, 3)
+        for x_index in range(POP_SIZE):
+            x = pop[x_index]
+            while True:
+                companions = [random.randrange(0, POP_SIZE) for _ in range(7)]
+                [a, b, c, d, e, f, g] = companions
+                companions.append(x_index)
+                unique = len(set(companions)) == 8
+                if unique:
+                    break
             randomIndex = random.randrange(0, DIMENSION)
-            y = x[::]
-            a = np.array(a)
-            b = np.array(b)
-            c = np.array(c)
+            y = [0 for i in range(DIMENSION)]
+            [a, b, c, d, e, f, g] = [pop[a], pop[b], pop[c], pop[d], pop[e], pop[f], pop[g]]
             for i in range(DIMENSION):
-                if i == randomIndex or random.random() > CR:
-                    y[i] = a[i] + F * (b[i] - c[i])
+                if i == randomIndex or random.random() < CR:
+                    y[i] = a[i] + F * (b[i] - c[i]) # + F * (d[i] - e[i]) + F * (f[i] - g[i])
                 else:
                     y[i] = x[i]
-            if fitness(y).fitness < fitness(x).fitness:
+            if fitness(y).fitness > fitness(x).fitness:
                 new_pop.append(y)
             else:
                 new_pop.append(x)
-
         pop = new_pop[::]
-
     return pop
 
 

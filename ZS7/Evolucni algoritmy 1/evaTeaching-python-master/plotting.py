@@ -5,15 +5,42 @@ import utils
 
 import matplotlib.pyplot as plt 
 
-#plt.figure(figsize=(12,8))
+plt.figure(figsize=(12,8))
 
-utils.plot_experiments('differential', ['default.f02'])
+plt.title('F')
+utils.plot_experiments('differential', ['testF-0.1.f02', 'testF-0.2.f02', 'testF-0.3.f02', 'testF-0.4.f02', 'testF-0.5.f02', 'testF-0.6.f02', 'testF-0.7.f02', 'testF-0.8.f02', 'testF-0.9.f02', 'testF-1.0.f02'])
 
 #plt.title('F01')
 #plt.rc('lines', linestyle='--', lw=5)
-#utils.plot_experiments('continuous', ['default.f01'])
+#utils.plot_experiments('differential', ['cont.f01'])
 #plt.rc('lines', linestyle='-', lw=1)
-#utils.plot_experiments('continuous', ['mutationWithDirection.f01', 'arithmetic_cross.f01', 'simulated_binary_crossover.f01', 'arithmetic_cross+mutationWithDirection.f01'])
+#utils.plot_experiments('differential', ['select-3.f01', 'select-5.f01', 'select-7.f01'])
+
+
+#plt.title('F02')
+#plt.rc('lines', linestyle='--', lw=5)
+#utils.plot_experiments('differential', ['cont.f02'])
+#plt.rc('lines', linestyle='-', lw=1)
+#utils.plot_experiments('differential', ['select-3.f02', 'select-5.f02', 'select-7.f02'])
+#
+#plt.title('F06')
+#plt.rc('lines', linestyle='--', lw=5)
+#utils.plot_experiments('differential', ['cont.f06'])
+#plt.rc('lines', linestyle='-', lw=1)
+#utils.plot_experiments('differential', ['select-3.f06', 'select-5.f06', 'select-7.f06'])
+#
+#plt.title('F08')
+#plt.rc('lines', linestyle='--', lw=5)
+#utils.plot_experiments('differential', ['cont.f08'])
+#plt.rc('lines', linestyle='-', lw=1)
+#utils.plot_experiments('differential', ['select-3.f08', 'select-5.f08', 'select-7.f08'])
+#
+#plt.title('F10')
+#plt.rc('lines', linestyle='--', lw=5)
+#utils.plot_experiments('differential', ['cont.f10'])
+#plt.rc('lines', linestyle='-', lw=1)
+#utils.plot_experiments('differential', ['select-3.f10', 'select-5.f10', 'select-7.f10'])
+#
 
 plt.yscale("log")
 plt.show()

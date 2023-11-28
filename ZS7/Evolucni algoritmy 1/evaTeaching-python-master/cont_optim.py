@@ -8,13 +8,13 @@ import utils
 
 DIMENSION = 10 # dimension of the problems
 POP_SIZE = 100 # population size
-MAX_GEN = 500 # maximum number of generations
+MAX_GEN = 2000 # maximum number of generations
 CX_PROB = 0.8 # crossover probability
 MUT_PROB = 0.2 # mutation probability
 MUT_STEP = 0.5 # size of the mutation steps
 REPEATS = 10 # number of runs of algorithm (should be at least 10)
-OUT_DIR = 'continuous' # output directory for logs
-EXP_ID = 'mine' # the ID of this experiment (used to create log names)
+OUT_DIR = 'differential' # output directory for logs
+EXP_ID = 'cont' # the ID of this experiment (used to create log names)
 TOURNAMENT_COMPETITOR_COUNT = 2
 
 # creates the individual
@@ -151,8 +151,8 @@ if __name__ == '__main__':
                       cf.make_f06_attractive_sector,
                       cf.make_f08_rosenbrock,
                       cf.make_f10_rotated_ellipsoidal]
-    fit_names = ['f02']
-    #fit_names = ['f01', 'f02', 'f06', 'f08', 'f10']
+    #fit_names = ['f02']
+    fit_names = ['f01', 'f02', 'f06', 'f08', 'f10']
 
     for fit_gen, fit_name in zip(fit_generators, fit_names):
         fit = fit_gen(DIMENSION)
