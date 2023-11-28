@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 #plt.figure(figsize=(12,8))
 
-utils.plot_experiments('differential', ['cont.f02', 'default.f02'])
+utils.plot_experiments('differential', ['default.f02'])
 
 #plt.title('F01')
 #plt.rc('lines', linestyle='--', lw=5)

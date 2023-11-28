@@ -101,7 +101,7 @@ def mate(pop, operators, generation):
     
 
 
-    
+
 def differential_evolution(pop, max_gen, fitness, operators, mate_sel, mutate_ind, *, map_fn=map, log=None):
     NP = POP_SIZE
     CR = 0.9
@@ -116,19 +116,22 @@ def differential_evolution(pop, max_gen, fitness, operators, mate_sel, mutate_in
 
         new_pop = []
         for x in pop:
-            a, b, c = random.sample(pop,3)
+            a, b, c = random.sample(pop, 3)
             randomIndex = random.randrange(0, DIMENSION)
             y = x[::]
+            a = np.array(a)
+            b = np.array(b)
+            c = np.array(c)
             for i in range(DIMENSION):
-                if i != randomIndex and random.random() < CR:
+                if i == randomIndex or random.random() > CR:
                     y[i] = a[i] + F * (b[i] - c[i])
                 else:
                     y[i] = x[i]
-            if fitness(y) > fitness(x):
+            if fitness(y).fitness < fitness(x).fitness:
                 new_pop.append(y)
             else:
                 new_pop.append(x)
-                
+
         pop = new_pop[::]
 
     return pop
@@ -173,10 +176,6 @@ if __name__ == '__main__':
             bi = max(pop, key=fit)
             best_inds.append(bi)
             
-            # if we used write_immediately = False, we would need to save the 
-            # files now
-            # log.write_files()
-
         # print an overview of the best individuals from each run
         for i, bi in enumerate(best_inds):
             print(f'Run {i}: objective = {fit(bi).objective}')
