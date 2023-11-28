@@ -13,8 +13,8 @@ CX_PROB = 0.8 # crossover probability
 MUT_PROB = 0.2 # mutation probability
 MUT_STEP = 0.5 # size of the mutation steps
 REPEATS = 10 # number of runs of algorithm (should be at least 10)
-OUT_DIR = 'continuous' # output directory for logs
-EXP_ID = 'mine' # the ID of this experiment (used to create log names)
+OUT_DIR = 'differencial' # output directory for logs
+EXP_ID = 'default' # the ID of this experiment (used to create log names)
 TOURNAMENT_COMPETITOR_COUNT = 2
 
 # creates the individual
@@ -139,6 +139,17 @@ def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, mutate_in
         pop = offspring[:]
 
     return pop
+
+# Differential Evolution Operator
+def differential_evolution(pop, _, generation, F=0.8, CR=0.9):
+    new_pop = []
+    for target in pop:
+        a, b, c = random.sample(pop, 3)
+        mutant = a + F * (b - c)
+        trial = np.array([x if random.random() < CR else y for x, y in zip(mutant, target)])
+        new_pop.append(trial)
+    return new_pop
+
 
 if __name__ == '__main__':
 
