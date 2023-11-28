@@ -19,17 +19,13 @@ OUT_DIR = 'differential'  # output directory for logs
 EXP_ID = 'default'  # the ID of this experiment (used to create log names)
 TOURNAMENT_COMPETITOR_COUNT = 2
 
-
-# creates the individual
 def create_ind(ind_len):
     return np.random.uniform(-5, 5, size=(ind_len,))
 
-# creates the population using the create individual function
 def create_pop(pop_size, create_individual):
     return [create_individual() for _ in range(pop_size)]
 
-# the tournament selection (roulette wheell would not work, because we can have 
-# negative fitness)
+# Selection
 def tournament_selection(pop, fits, _k):
      selected = []
      for _ in range(len(pop)):
@@ -37,14 +33,24 @@ def tournament_selection(pop, fits, _k):
         selected.append(pop[max(parents, key=lambda ind:fits[ind])])
      return selected
 
-# implements the one-point crossover of two individuals
+# Crossover
+def crossover(pop, cross, cx_prob, generation):
+    off = []
+    for p1, p2 in zip(pop[0::2], pop[1::2]):
+        if random.random() < cx_prob:
+            o1, o2 = cross(p1, p2, generation=generation)
+        else:
+            o1, o2 = p1[:], p2[:]
+        off.append(o1)
+        off.append(o2)
+    return off
+
 def one_pt_cross(p1, p2, generation):
     point = random.randrange(1, len(p1))
     o1 = np.append(p1[:point], p2[point:])
     o2 = np.append(p2[:point], p1[point:])
     return o1, o2
 
-# implements the one-point crossover of two individuals
 def arithmetic_cross(p1, p2, generation):
     alpha = random.random()
     o1 = alpha * p1 + (1 - alpha) * p2
@@ -66,8 +72,10 @@ def simulated_binary_crossover(p1, p2, generation):
         o2[i] = 0.5 * (((1 - beta) * x1) + ((1 + beta) * x2))
     return o1, o2
 
-# gaussian mutation - we need a class because we want to change the step
-# size of the mutation adaptively
+# Mutation
+def mutation(pop, mutate, mut_prob, generation):
+    return [mutate(p, pop, generation) if random.random() < mut_prob else p[:] for p in pop]
+
 class Mutation:
 
     def __init__(self, step_size):
@@ -85,31 +93,12 @@ class Mutation:
         return ind + self.step_size * direction_vector
 
 
-
-# applies a list of genetic operators (functions with 1 argument - population) 
-# to the population
 def mate(pop, operators, generation):
     for o in operators:
         pop = o(pop, generation=generation)
     return pop
 
-# applies the cross function (implementing the crossover of two individuals)
-# to the whole population (with probability cx_prob)
-def crossover(pop, cross, cx_prob, generation):
-    off = []
-    for p1, p2 in zip(pop[0::2], pop[1::2]):
-        if random.random() < cx_prob:
-            o1, o2 = cross(p1, p2, generation=generation)
-        else:
-            o1, o2 = p1[:], p2[:]
-        off.append(o1)
-        off.append(o2)
-    return off
-
-# applies the mutate function (implementing the mutation of a single individual)
-# to the whole population with probability mut_prob)
-def mutation(pop, mutate, mut_prob, generation):
-    return [mutate(p, pop, generation) if random.random() < mut_prob else p[:] for p in pop]
+    
 
 
     
@@ -143,14 +132,6 @@ def differential_evolution(pop, max_gen, fitness, operators, mate_sel, mutate_in
         pop = new_pop[::]
 
     return pop
-
-
-
-
-
-
-
-
 
 
 
