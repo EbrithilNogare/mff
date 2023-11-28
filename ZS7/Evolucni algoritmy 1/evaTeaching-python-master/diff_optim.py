@@ -13,7 +13,7 @@ CX_PROB = 0.8 # crossover probability
 MUT_PROB = 0.2 # mutation probability
 MUT_STEP = 0.5 # size of the mutation steps
 REPEATS = 10 # number of runs of algorithm (should be at least 10)
-OUT_DIR = 'differencial' # output directory for logs
+OUT_DIR = 'differential' # output directory for logs
 EXP_ID = 'default' # the ID of this experiment (used to create log names)
 TOURNAMENT_COMPETITOR_COUNT = 2
 
