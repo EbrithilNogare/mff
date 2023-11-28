@@ -6,27 +6,26 @@ import math
 import co_functions as cf
 import utils
 
-DIMENSION = 10 # dimension of the problems
-POP_SIZE = 100 # population size
-MAX_GEN = 500 # maximum number of generations
-CX_PROB = 0.8 # crossover probability
-MUT_PROB = 0.2 # mutation probability
-MUT_STEP = 0.5 # size of the mutation steps
-REPEATS = 10 # number of runs of algorithm (should be at least 10)
-OUT_DIR = 'differential' # output directory for logs
-EXP_ID = 'default' # the ID of this experiment (used to create log names)
+# pylint: disable=missing-function-docstring, invalid-name
+
+DIMENSION = 10  # dimension of the problems
+POP_SIZE = 100  # population size
+MAX_GEN = 500  # maximum number of generations
+CX_PROB = 0.8  # crossover probability
+MUT_PROB = 0.2  # mutation probability
+MUT_STEP = 0.5  # size of the mutation steps
+REPEATS = 10  # number of runs of the algorithm (should be at least 10)
+OUT_DIR = 'differential'  # output directory for logs
+EXP_ID = 'mine'  # the ID of this experiment (used to create log names)
 TOURNAMENT_COMPETITOR_COUNT = 2
 
-# creates the individual
 def create_ind(ind_len):
     return np.random.uniform(-5, 5, size=(ind_len,))
 
-# creates the population using the create individual function
 def create_pop(pop_size, create_individual):
     return [create_individual() for _ in range(pop_size)]
 
-# the tournament selection (roulette wheell would not work, because we can have 
-# negative fitness)
+# Selection
 def tournament_selection(pop, fits, _k):
      selected = []
      for _ in range(len(pop)):
@@ -34,14 +33,24 @@ def tournament_selection(pop, fits, _k):
         selected.append(pop[max(parents, key=lambda ind:fits[ind])])
      return selected
 
-# implements the one-point crossover of two individuals
+# Crossover
+def crossover(pop, cross, cx_prob, generation):
+    off = []
+    for p1, p2 in zip(pop[0::2], pop[1::2]):
+        if random.random() < cx_prob:
+            o1, o2 = cross(p1, p2, generation=generation)
+        else:
+            o1, o2 = p1[:], p2[:]
+        off.append(o1)
+        off.append(o2)
+    return off
+
 def one_pt_cross(p1, p2, generation):
     point = random.randrange(1, len(p1))
     o1 = np.append(p1[:point], p2[point:])
     o2 = np.append(p2[:point], p1[point:])
     return o1, o2
 
-# implements the one-point crossover of two individuals
 def arithmetic_cross(p1, p2, generation):
     alpha = random.random()
     o1 = alpha * p1 + (1 - alpha) * p2
@@ -63,8 +72,10 @@ def simulated_binary_crossover(p1, p2, generation):
         o2[i] = 0.5 * (((1 - beta) * x1) + ((1 + beta) * x2))
     return o1, o2
 
-# gaussian mutation - we need a class because we want to change the step
-# size of the mutation adaptively
+# Mutation
+def mutation(pop, mutate, mut_prob, generation):
+    return [mutate(p, pop, generation) if random.random() < mut_prob else p[:] for p in pop]
+
 class Mutation:
 
     def __init__(self, step_size):
@@ -82,73 +93,52 @@ class Mutation:
         return ind + self.step_size * direction_vector
 
 
-
-# applies a list of genetic operators (functions with 1 argument - population) 
-# to the population
 def mate(pop, operators, generation):
     for o in operators:
         pop = o(pop, generation=generation)
     return pop
 
-# applies the cross function (implementing the crossover of two individuals)
-# to the whole population (with probability cx_prob)
-def crossover(pop, cross, cx_prob, generation):
-    off = []
-    for p1, p2 in zip(pop[0::2], pop[1::2]):
-        if random.random() < cx_prob:
-            o1, o2 = cross(p1, p2, generation=generation)
-        else:
-            o1, o2 = p1[:], p2[:]
-        off.append(o1)
-        off.append(o2)
-    return off
 
-# applies the mutate function (implementing the mutation of a single individual)
-# to the whole population with probability mut_prob)
-def mutation(pop, mutate, mut_prob, generation):
-    return [mutate(p, pop, generation) if random.random() < mut_prob else p[:] for p in pop]
 
-# implements the evolutionary algorithm
-# arguments:
-#   pop_size  - the initial population
-#   max_gen   - maximum number of generation
-#   fitness   - fitness function (takes individual as argument and returns 
-#               FitObjPair)
-#   operators - list of genetic operators (functions with one arguments - 
-#               population; returning a population)
-#   mate_sel  - mating selection (funtion with three arguments - population, 
-#               fitness values, number of individuals to select; returning the 
-#               selected population)
-#   mutate_ind - reference to the class to mutate an individual - can be used to 
-#               change the mutation step adaptively
-#   map_fn    - function to use to map fitness evaluation over the whole 
-#               population (default `map`)
-#   log       - a utils.Log structure to log the evolution run
-def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, mutate_ind, *, map_fn=map, log=None):
+
+def differential_evolution(pop, max_gen, fitness, operators, mate_sel, mutate_ind, *, map_fn=map, log=None):
+    NP = POP_SIZE
+    CR = 0.9
+    F = 0.8
     evals = 0
+
     for G in range(max_gen):
         fits_objs = list(map_fn(fitness, pop))
         evals += len(pop)
         if log:
             log.add_gen(fits_objs, evals)
-        fits = [f.fitness for f in fits_objs]
-        objs = [f.objective for f in fits_objs]
-
-        mating_pool = mate_sel(pop, fits, POP_SIZE)
-        offspring = mate(mating_pool, operators, G)
-        pop = offspring[:]
-
+        new_pop = []
+        for x_index in range(POP_SIZE):
+            x = pop[x_index]
+            while True:
+                companions = [random.randrange(0, POP_SIZE) for _ in range(7)]
+                [a, b, c, d, e, f, g] = companions
+                companions.append(x_index)
+                unique = len(set(companions)) == 8
+                if unique:
+                    break
+            randomIndex = random.randrange(0, DIMENSION)
+            y = [0 for i in range(DIMENSION)]
+            [a, b, c, d, e, f, g] = [pop[a], pop[b], pop[c], pop[d], pop[e], pop[f], pop[g]]
+            for i in range(DIMENSION):
+                if i == randomIndex or random.random() < CR:
+                    y[i] = a[i] + F * (b[i] - c[i]) # + F * (d[i] - e[i]) + F * (f[i] - g[i])
+                else:
+                    y[i] = x[i]
+            if fitness(y).fitness > fitness(x).fitness:
+                new_pop.append(y)
+            else:
+                new_pop.append(x)
+        pop = new_pop[::]
     return pop
 
-# Differential Evolution Operator
-def differential_evolution(pop, _, generation, F=0.8, CR=0.9):
-    new_pop = []
-    for target in pop:
-        a, b, c = random.sample(pop, 3)
-        mutant = a + F * (b - c)
-        trial = np.array([x if random.random() < CR else y for x, y in zip(mutant, target)])
-        new_pop.append(trial)
-    return new_pop
+
+
 
 
 if __name__ == '__main__':
@@ -182,15 +172,11 @@ if __name__ == '__main__':
             # create population
             pop = create_pop(POP_SIZE, cr_ind)
             # run evolution - notice we use the pool.map as the map_fn
-            pop = evolutionary_algorithm(pop, MAX_GEN, fit, [xover, mut], tournament_selection, mutate_ind, map_fn=map, log=log)
+            pop = differential_evolution(pop, MAX_GEN, fit, [xover, mut], tournament_selection, mutate_ind, map_fn=map, log=log)
             # remember the best individual from last generation, save it to file
             bi = max(pop, key=fit)
             best_inds.append(bi)
             
-            # if we used write_immediately = False, we would need to save the 
-            # files now
-            # log.write_files()
-
         # print an overview of the best individuals from each run
         for i, bi in enumerate(best_inds):
             print(f'Run {i}: objective = {fit(bi).objective}')
