@@ -41,6 +41,14 @@ def one_pt_cross(p1, p2, generation):
     o2 = np.append(p2[:point], p1[point:])
     return o1, o2
 
+# implements the arithmetic crossover of two individuals
+def arithmetic_cross(p1, p2, generation):
+    alpha = random.random()
+    o1 = alpha * p1 + (1 - alpha) * p2
+    o2 = alpha * p2 + (1 - alpha) * p1
+    return o1, o2
+
+
 # differential evolution operator with adaptive parameters
 def differential_evolution(pop, _fits, generation, F=None, CR=None):
     if F is None:
@@ -84,6 +92,7 @@ class Mutation:
 
     def __call__(self, ind, pop, generation):
         return ind + self.step_size * np.random.normal(size=ind.shape)
+
 
 # applies a list of genetic operators (functions with 1 argument - population)
 # to the population
