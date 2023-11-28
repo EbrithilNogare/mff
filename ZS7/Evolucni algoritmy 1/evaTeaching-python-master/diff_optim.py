@@ -41,29 +41,6 @@ def one_pt_cross(p1, p2, generation):
     o2 = np.append(p2[:point], p1[point:])
     return o1, o2
 
-# implements the arithmetic crossover of two individuals
-def arithmetic_cross(p1, p2, generation):
-    alpha = random.random()
-    o1 = alpha * p1 + (1 - alpha) * p2
-    o2 = alpha * p2 + (1 - alpha) * p1
-    return o1, o2
-
-# implements the simulated binary crossover of two individuals
-def simulated_binary_crossover(p1, p2, generation):
-    eta = 20 + generation
-    o1 = p1[::]
-    o2 = p2[::]
-    for i, (x1, x2) in enumerate(zip(p1, p2)):
-        rand = random.random()
-        if rand <= 0.5:
-            beta = 2. * rand
-        else:
-            beta = 1. / (2. * (1. - rand))
-        beta **= 1. / (eta + 1.)
-        o1[i] = 0.5 * (((1 + beta) * x1) + ((1 - beta) * x2))
-        o2[i] = 0.5 * (((1 - beta) * x1) + ((1 + beta) * x2))
-    return o1, o2
-
 # differential evolution operator with adaptive parameters
 def differential_evolution(pop, _fits, generation, F=None, CR=None):
     if F is None:
@@ -108,22 +85,11 @@ class Mutation:
     def __call__(self, ind, pop, generation):
         return ind + self.step_size * np.random.normal(size=ind.shape)
 
-    def __call__2(self, ind, pop, generation):
-        random_ind = pop[np.random.randint(0, len(pop))]
-        direction_vector = random_ind - ind
-        if np.all(direction_vector == 0):
-            direction_vector = np.random.normal(size=ind.shape)
-        direction_vector /= np.linalg.norm(direction_vector)
-        return ind + self.step_size * direction_vector
-
 # applies a list of genetic operators (functions with 1 argument - population)
 # to the population
 def mate(pop, operators, generation, fits_objs):
     for o in operators:
-        if o.__name__ == 'crossover_operator':
-            pop = o(pop, crossover_operator, fits_objs, generation=generation)  # Pass fits_objs to crossover_operator
-        else:
-            pop = o(pop, fits_objs, generation=generation)  # Pass fits_objs to other operators
+        pop = o(pop, crossover_operator, fits_objs, generation=generation)  # Pass fits_objs to crossover_operator
     return pop
 
 # implements the evolutionary algorithm
