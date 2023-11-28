@@ -15,6 +15,7 @@ def arithmetic_cross(p1, p2):
 ```
 
 ### Simulated binary crossover
+Tady jsem nastavoval vsechni mozne jako eta, ale nic nefungovalo a *generace + 20* fungovala nejlepe, i kdyz stale byla horsi nez *arithmetic crossover*
 ```python
 def simulated_binary_crossover(p1, p2, generation):
     eta = 20 + generation
@@ -48,8 +49,11 @@ def __call__(self, ind, pop):
 
 
 ## Grafy
+Ackoliv se *arithmetic crossover* i mutacce chovali samostatne skvele, tak jejich kombinace, az tak skvele nedopadla.
+
 ![f01](./f01.png)
 ![f02](./f02.png)
 ![f06](./f06.png)
 ![f08](./f08.png)
 ![f10](./f10.png)
+
