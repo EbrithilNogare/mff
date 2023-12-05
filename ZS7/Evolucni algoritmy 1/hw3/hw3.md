@@ -119,7 +119,9 @@ Zde porovnavam continuous evoluci (`cont`) s differencialni (`select`) s ruznym 
 ![diff-f10](./diff-f10.png)
 
 ### Zmena parametru F a CR
+Sledovani vyvoje ruznych hodnot F a CR behem generaci.
 
 ![f](./f.png)
 ![cr](./cr.png)
 
+F jsem nechal na 0.8 a CR mi nejlepe vychazelo na 0.3. (predesle testy maji CR 0.9)

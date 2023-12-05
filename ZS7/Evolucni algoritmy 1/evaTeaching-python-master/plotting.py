@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 plt.figure(figsize=(12,8))
 
 plt.title('F')
-utils.plot_experiments('differential', ['testF-0.1.f02', 'testF-0.2.f02', 'testF-0.3.f02', 'testF-0.4.f02', 'testF-0.5.f02', 'testF-0.6.f02', 'testF-0.7.f02', 'testF-0.8.f02', 'testF-0.9.f02', 'testF-1.0.f02'])
+utils.plot_experiments('differential', ['f3cr1.f02', 'd8cr9.f02'])
 
 #plt.title('F01')
 #plt.rc('lines', linestyle='--', lw=5)
