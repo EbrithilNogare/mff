@@ -41,7 +41,6 @@ def one_pt_cross(p1, p2, generation):
     o2 = np.append(p2[:point], p1[point:])
     return o1, o2
 
-# implements the one-point crossover of two individuals
 def arithmetic_cross(p1, p2, generation):
     alpha = random.random()
     o1 = alpha * p1 + (1 - alpha) * p2

@@ -1,8 +1,8 @@
 import copy
 import functools
+import random
 import numpy as np
 import operator
-import random
 
 import moo_functions as mf
 import multi_utils as mu
@@ -16,7 +16,7 @@ MUT_PROB = 0.8 # mutation probability
 MUT_STEP = 0.05 # size of the mutation steps
 REPEATS = 10 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'multi' # output directory for logs
-EXP_ID = 'default' # the ID of this experiment (used to create log names)
+EXP_ID = 'tmp' # the ID of this experiment (used to create log names)
 
 class MultiIndividual:
 
@@ -81,6 +81,12 @@ def one_pt_cross(p1, p2):
     p1.x = o1
     p2.x = o2
     return p1, p2
+
+def arithmetic_cross(p1, p2):
+    alpha = random.random()
+    o1 = alpha * p1 + (1 - alpha) * p2
+    o2 = alpha * p2 + (1 - alpha) * p1
+    return o1, o2
 
 # gaussian mutation - we need a class because we want to change the step
 # size of the mutation adaptively
@@ -169,7 +175,7 @@ if __name__ == '__main__':
     # and create functions with required signatures
     cr_ind = functools.partial(create_ind, ind_len=DIMENSION)
     # we will run the experiment on a number of different functions
-    fit_names = ['ZDT1', 'ZDT2', 'ZDT3', 'ZDT4', 'ZDT6']
+    fit_names = ['ZDT1']#, 'ZDT2', 'ZDT3', 'ZDT4', 'ZDT6']
 
     for fit_name in fit_names:
         fit = mf.get_function_by_name(fit_name)
