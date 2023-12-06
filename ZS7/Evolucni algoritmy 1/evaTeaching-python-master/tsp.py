@@ -13,7 +13,7 @@ MUT_MAX_LEN = 10 # maximum lenght of the swapped part
 REPEATS = 10 # number of runs of algorithm (should be at least 10)
 INPUT = 'inputs/tsp_std.in' # the input file
 OUT_DIR = 'tsp' # output directory for logs
-EXP_ID = 'default' # the ID of this experiment (used to create log names)
+EXP_ID = 'tmp' # the ID of this experiment (used to create log names)
 
 # reads the input set of values of objects
 def read_locations(filename):
@@ -155,7 +155,8 @@ def mutation(pop, mutate, mut_prob):
 #   log       - a utils.Log structure to log the evolution run
 def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn=map, log=None):
     evals = 0
-    for G in range(max_gen):
+    #for G in range(max_gen):
+    while True:
         fits_objs = list(map_fn(fitness, pop))
         evals += len(pop)
         if log:
@@ -167,7 +168,8 @@ def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn
         offspring = mate(mating_pool, operators)
 
         pop = offspring[:-1] + [max(list(zip(fits, pop)), key = lambda x: x[0])[1]]
-
+        if max(fits_objs, key=lambda x: x.fitness).objective <= 158418:
+            break
     return pop
 
 if __name__ == '__main__':
@@ -227,11 +229,11 @@ if __name__ == '__main__':
     utils.summarize_experiment(OUT_DIR, EXP_ID)
 
     # read the summary log and plot the experiment
-    evals, lower, mean, upper = utils.get_plot_data(OUT_DIR, EXP_ID)
-    plt.figure(figsize=(12, 8))
-    utils.plot_experiment(evals, lower, mean, upper, legend_name = 'Default settings')
-    plt.legend()
-    plt.show()
+    #evals, lower, mean, upper = utils.get_plot_data(OUT_DIR, EXP_ID)
+    #plt.figure(figsize=(12, 8))
+    #utils.plot_experiment(evals, lower, mean, upper, legend_name = 'Default settings')
+    #plt.legend()
+    #plt.show()
 
     # you can also plot mutiple experiments at the same time using 
     # utils.plot_experiments, e.g. if you have two experiments 'default' and 
