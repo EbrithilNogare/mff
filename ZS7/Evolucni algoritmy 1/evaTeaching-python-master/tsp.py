@@ -6,11 +6,11 @@ import random
 import utils
 
 POP_SIZE = 100 # population size
-MAX_GEN = 500 # maximum number of generations
+MAX_GEN = 250 # maximum number of generations
 CX_PROB = 0.8 # crossover probability
 MUT_PROB = 0.2 # mutation probability
 MUT_MAX_LEN = 10 # maximum lenght of the swapped part
-REPEATS = 10 # number of runs of algorithm (should be at least 10)
+REPEATS = 3 # number of runs of algorithm (should be at least 10)
 INPUT = 'inputs/tsp_std.in' # the input file
 OUT_DIR = 'tsp' # output directory for logs
 EXP_ID = 'tmp' # the ID of this experiment (used to create log names)
@@ -56,9 +56,25 @@ def fitness(ind, cities):
                             objective=dist)
 
 # creates the individual (random permutation)
-def create_ind(ind_len):
+def create_ind(ind_len, cities):
     ind = list(range(ind_len))
     random.shuffle(ind)
+    return ind
+
+# creates the individual (random permutation)
+def create_short_ind(ind_len, cities):
+    ind = [-1 for _ in range(ind_len)]
+    ind[0] = random.randrange(0, ind_len)
+    for i in range(1, ind_len):
+        shortestIndex = -1
+        shortestValue = 1e6
+        for j in range(ind_len):
+            if j not in ind:
+                dist = distance(cities[ind[i-1]], cities[j])
+                if dist < shortestValue:
+                    shortestIndex = j
+                    shortestValue = dist
+        ind[i] = shortestIndex
     return ind
 
 # creates the population using the create individual function
@@ -97,6 +113,35 @@ def order_cross(p1, p2):
     o2 = restp2[-start:] + o2mid + restp2[:-start]
 
     return o1, o2
+
+
+def edge_recombination_cross(p1, p2):
+    neighbor_list = {}
+    for i in range(len(p1)):
+        neighbor_list[p1[i]] = set()
+        neighbor_list[p2[i]] = set()
+    for i in range(len(p1)):
+        neighbor_list[p1[i]].add(p1[(i + 1) % len(p1)])
+        neighbor_list[p1[i]].add(p1[(i - 1) % len(p1)])
+        neighbor_list[p2[i]].add(p2[(i + 1) % len(p2)])
+        neighbor_list[p2[i]].add(p2[(i - 1) % len(p2)])
+    child = []
+    x = random.choice([p1[0], p2[0]])
+    child.append(x)
+    for node in neighbor_list:
+        neighbor_list[node].discard(x)
+    while len(child) < len(p1):
+        if not neighbor_list[x]:
+            z = random.choice([node for node in neighbor_list if node not in child])
+        else:
+            min_neighbors = min(len(neighbor_list[node]) for node in neighbor_list[x])
+            neighbors_with_min = [node for node in neighbor_list[x] if len(neighbor_list[node]) == min_neighbors]
+            z = random.choice(neighbors_with_min)
+        child.append(z)
+        for node in neighbor_list:
+            neighbor_list[node].discard(z)
+        x = z
+    return [child, child]
 
 # implements the swapping mutation of one individual
 def swap_mutate(p, max_len):
@@ -155,8 +200,8 @@ def mutation(pop, mutate, mut_prob):
 #   log       - a utils.Log structure to log the evolution run
 def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn=map, log=None):
     evals = 0
-    #for G in range(max_gen):
-    while True:
+    for G in range(max_gen):
+    #while True:
         fits_objs = list(map_fn(fitness, pop))
         evals += len(pop)
         if log:
@@ -168,8 +213,8 @@ def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn
         offspring = mate(mating_pool, operators)
 
         pop = offspring[:-1] + [max(list(zip(fits, pop)), key = lambda x: x[0])[1]]
-        if max(fits_objs, key=lambda x: x.fitness).objective <= 158418:
-            break
+        #if max(fits_objs, key=lambda x: x.fitness).objective <= 158418:
+        #    break
     return pop
 
 if __name__ == '__main__':
@@ -178,9 +223,9 @@ if __name__ == '__main__':
 
     # use `functool.partial` to create fix some arguments of the functions 
     # and create functions with required signatures
-    cr_ind = functools.partial(create_ind, ind_len=len(locations))
+    cr_ind = functools.partial(create_ind, ind_len=len(locations), cities=locations)
     fit = functools.partial(fitness, cities=locations)
-    xover = functools.partial(crossover, cross=order_cross, cx_prob=CX_PROB)
+    xover = functools.partial(crossover, cross=edge_recombination_cross, cx_prob=CX_PROB)
     mut = functools.partial(mutation, mut_prob=MUT_PROB, 
                             mutate=functools.partial(swap_mutate, max_len=MUT_MAX_LEN))
 

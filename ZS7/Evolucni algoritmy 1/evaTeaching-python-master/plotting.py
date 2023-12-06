@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 plt.figure(figsize=(12,8))
 
-utils.plot_experiments('tsp', ['default', 'tmp'])
+utils.plot_experiments('tsp', ['default', 'create_short_ind', 'edge_recombination_cross', 'create_short_ind_+_edge_recombination_cross', 'tmp'])
 
 #plt.title('ZDT1')
 #plt.rc('lines', linestyle='--', lw=5)
