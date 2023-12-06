@@ -14,7 +14,7 @@ MAX_GEN = 50 # maximum number of generations
 CX_PROB = 0.2 # crossover probability
 MUT_PROB = 0.8 # mutation probability
 MUT_STEP = 0.05 # size of the mutation steps
-REPEATS = 10 # number of runs of algorithm (should be at least 10)
+REPEATS = 3 # number of runs of algorithm (should be at least 10)
 OUT_DIR = 'multi' # output directory for logs
 EXP_ID = 'tmp' # the ID of this experiment (used to create log names)
 
@@ -52,9 +52,10 @@ def nsga2_select(pop, k):
     fronts = mu.divide_fronts(pop)
     selected = []
     for i, f in enumerate(fronts):
-        mu.assign_crowding_distances(f)
+        mu.assign_hypervolume_contribution(f)
         for ind in f:
             ind.front = i
+
         if len(selected) + len(f) <= k:
             selected += f
         else:
@@ -84,9 +85,13 @@ def one_pt_cross(p1, p2):
 
 def arithmetic_cross(p1, p2):
     alpha = random.random()
-    o1 = alpha * p1 + (1 - alpha) * p2
-    o2 = alpha * p2 + (1 - alpha) * p1
-    return o1, o2
+    p1 = copy.deepcopy(p1)
+    p2 = copy.deepcopy(p2)
+    o1 = alpha * p1.x + (1 - alpha) * p2.x
+    o2 = alpha * p2.x + (1 - alpha) * p1.x
+    p1.x = o1
+    p2.x = o2
+    return p1, p2
 
 # gaussian mutation - we need a class because we want to change the step
 # size of the mutation adaptively
@@ -94,11 +99,34 @@ class Mutation:
 
     def __init__(self, step_size):
         self.step_size = step_size
-
-    def __call__(self, ind):
+        self.CR = 0.9
+        self.F = 0.8
+    
+    def __call__2(self, ind, pop):
         a = ind.x + self.step_size*np.random.normal(size=ind.x.shape)
         np.clip(a, 0, 1, ind.x)
         return ind
+        
+    def __call__(self, ind, pop):
+        x_index = pop.index(ind)
+        while True:
+            companions = [random.randrange(0, POP_SIZE) for _ in range(3)]
+            [a, b, c] = companions
+            companions.append(x_index)
+            unique = len(set(companions)) == 4
+            if unique:
+                break
+
+        randomIndex = random.randrange(0, DIMENSION)
+        y = copy.deepcopy(ind)
+        [a, b, c] = [pop[a], pop[b], pop[c]]
+        for i in range(DIMENSION):
+            if i == randomIndex or random.random() < self.CR:
+                y.x[i] = a.x[i] + self.F * (b.x[i] - c.x[i])
+            else:
+                y.x[i] = ind.x[i]
+        np.clip(y.x, 0, 1, y.x)
+        return y
 
 # applies a list of genetic operators (functions with 1 argument - population) 
 # to the population
@@ -123,7 +151,8 @@ def crossover(pop, cross, cx_prob):
 # applies the mutate function (implementing the mutation of a single individual)
 # to the whole population with probability mut_prob)
 def mutation(pop, mutate, mut_prob):
-    return [mutate(p) if random.random() < mut_prob else copy.deepcopy(p) for p in pop]
+    return [mutate(p, pop) if random.random() < mut_prob else copy.deepcopy(p) for p in pop]
+
 
 # implements the evolutionary algorithm
 # arguments:
@@ -152,7 +181,7 @@ def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, mutate_in
             evals += len(pop)
             fronts = mu.divide_fronts(pop)
             for i,f in enumerate(fronts):
-                mu.assign_crowding_distances(f)
+                mu.assign_hypervolume_contribution(f)
                 for ind in f:
                     ind.front = i
 

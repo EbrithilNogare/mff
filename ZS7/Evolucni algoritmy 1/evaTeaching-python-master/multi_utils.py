@@ -26,6 +26,16 @@ def assign_crowding_distances(front):
         front[i].ssc = (front[i + 1].fitness[0] - front[i - 1].fitness[0] +
                         front[i - 1].fitness[1] - front[i + 1].fitness[1])
 
+def assign_hypervolume_contribution(front):
+    front = list(sorted(front, key=operator.attrgetter('fitness')))
+    if len(front) < 3:
+        front[0].ssc = np.inf
+        front[-1].ssc = np.inf
+    else:
+        for i in range(0, len(front)):
+            front[i].ssc = hypervolume(front) - hypervolume(front[:i] + front[i + 1:])
+
+    
 # returns true if i1 dominates i2
 def dominates(fits1, fits2):
     return (all(map(lambda x: x[0] <= x[1], zip(fits1, fits2))) and 
