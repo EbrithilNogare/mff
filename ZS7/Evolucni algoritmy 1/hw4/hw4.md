@@ -1,4 +1,4 @@
-~David~ ~Napravnik~
+David Napravnik
 
 ---
 
