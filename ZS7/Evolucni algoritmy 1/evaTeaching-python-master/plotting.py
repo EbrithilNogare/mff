@@ -7,13 +7,14 @@ import matplotlib.pyplot as plt
 
 plt.figure(figsize=(12,8))
 
-utils.plot_experiments('tsp', ['default', 'create_short_ind', 'edge_recombination_cross', 'create_short_ind_+_edge_recombination_cross', 'tmp'])
+#utils.plot_experiments('tsp', ['default', 'create_short_ind', 'edge_recombination_cross', 'create_short_ind_+_edge_recombination_cross', 'tmp'])
 
-#plt.title('ZDT1')
-#plt.rc('lines', linestyle='--', lw=5)
-#utils.plot_experiments('tsp', ['default.ZDT1'])
-#plt.rc('lines', linestyle='-', lw=1)
-#utils.plot_experiments('tsp', ['arithmetic_cross.ZDT1', 'differential_mutation.ZDT1', 'assign_hypervolume_contribution.ZDT1'])
+plt.title('TSP')
+plt.rc('lines', linestyle='--', lw=5)
+utils.plot_experiments('tsp', ['default'])
+plt.rc('lines', linestyle='-', lw=1)
+utils.plot_experiments('tsp', ['create_short_ind', 'edge_recombination_cross', 'create_short_ind_+_edge_recombination_cross', 'opt2_mutate', 'create_short_ind_+_edge_recombination_cross_+_opt2_mutate', 'edge_recombination_cross_+_opt2_mutate'])
+#utils.plot_experiments('tsp', ['tmp'])
 #
 #plt.title('ZDT2')
 #plt.rc('lines', linestyle='--', lw=5)
@@ -40,5 +41,5 @@ utils.plot_experiments('tsp', ['default', 'create_short_ind', 'edge_recombinatio
 #utils.plot_experiments('tsp', ['arithmetic_cross.ZDT6', 'differential_mutation.ZDT6', 'assign_hypervolume_contribution.ZDT6'])
 
 
-plt.yscale("log")
+#plt.yscale("log")
 plt.show()

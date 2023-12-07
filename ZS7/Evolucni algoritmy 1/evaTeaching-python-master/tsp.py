@@ -6,11 +6,11 @@ import random
 import utils
 
 POP_SIZE = 100 # population size
-MAX_GEN = 250 # maximum number of generations
+MAX_GEN = 500 # maximum number of generations
 CX_PROB = 0.8 # crossover probability
 MUT_PROB = 0.2 # mutation probability
 MUT_MAX_LEN = 10 # maximum lenght of the swapped part
-REPEATS = 3 # number of runs of algorithm (should be at least 10)
+REPEATS = 1 # number of runs of algorithm (should be at least 10)
 INPUT = 'inputs/tsp_std.in' # the input file
 OUT_DIR = 'tsp' # output directory for logs
 EXP_ID = 'tmp' # the ID of this experiment (used to create log names)
@@ -61,7 +61,6 @@ def create_ind(ind_len, cities):
     random.shuffle(ind)
     return ind
 
-# creates the individual (random permutation)
 def create_short_ind(ind_len, cities):
     ind = [-1 for _ in range(ind_len)]
     ind[0] = random.randrange(0, ind_len)
@@ -114,13 +113,12 @@ def order_cross(p1, p2):
 
     return o1, o2
 
-
 def edge_recombination_cross(p1, p2):
     neighbor_list = {}
-    for i in range(len(p1)):
+    for i, _ in enumerate(p1):
         neighbor_list[p1[i]] = set()
         neighbor_list[p2[i]] = set()
-    for i in range(len(p1)):
+    for i, _ in enumerate(p1):
         neighbor_list[p1[i]].add(p1[(i + 1) % len(p1)])
         neighbor_list[p1[i]].add(p1[(i - 1) % len(p1)])
         neighbor_list[p2[i]].add(p2[(i + 1) % len(p2)])
@@ -144,20 +142,37 @@ def edge_recombination_cross(p1, p2):
     return [child, child]
 
 # implements the swapping mutation of one individual
-def swap_mutate(p, max_len):
+def swap_mutate(p, max_len, cities):
     source = random.randrange(1, len(p) - 1)
     dest = random.randrange(1, len(p))
     lenght = random.randrange(1, min(max_len, len(p) - source))
-
     o = p[:]
     move = p[source:source+lenght]
     o[source:source + lenght] = []
     if source < dest:
         dest = dest - lenght # we removed `lenght` items - need to recompute dest
-    
     o[dest:dest] = move
-    
     return o
+
+# implements the swapping mutation of one individual
+def opt2_mutate(p, max_len, cities):
+    o = p[:]
+    found_improvement = False
+    n = len(p)
+    for i in range(n - 1):
+        for j in range(i + 1, n):
+            length_delta = -distance(cities[o[i]], cities[o[(i + 1) % n]])
+            length_delta -= distance(cities[o[j]], cities[o[(j + 1) % n]])
+            length_delta += distance(cities[o[i]], cities[o[j]])
+            length_delta += distance(cities[o[(i + 1) % n]], cities[o[(j + 1) % n]])
+            if length_delta < 0:
+                o[i+1:j+1] = reversed(o[i+1:j+1])
+                found_improvement = True
+    if found_improvement:
+        return o
+    else:
+        return swap_mutate(p, max_len, cities)
+
 
 # applies a list of genetic operators (functions with 1 argument - population) 
 # to the population
@@ -200,8 +215,8 @@ def mutation(pop, mutate, mut_prob):
 #   log       - a utils.Log structure to log the evolution run
 def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn=map, log=None):
     evals = 0
-    for G in range(max_gen):
-    #while True:
+    #for G in range(max_gen):
+    while True:
         fits_objs = list(map_fn(fitness, pop))
         evals += len(pop)
         if log:
@@ -213,8 +228,8 @@ def evolutionary_algorithm(pop, max_gen, fitness, operators, mate_sel, *, map_fn
         offspring = mate(mating_pool, operators)
 
         pop = offspring[:-1] + [max(list(zip(fits, pop)), key = lambda x: x[0])[1]]
-        #if max(fits_objs, key=lambda x: x.fitness).objective <= 158418:
-        #    break
+        if max(fits_objs, key=lambda x: x.fitness).objective <= 158418:
+            break
     return pop
 
 if __name__ == '__main__':
@@ -225,9 +240,9 @@ if __name__ == '__main__':
     # and create functions with required signatures
     cr_ind = functools.partial(create_ind, ind_len=len(locations), cities=locations)
     fit = functools.partial(fitness, cities=locations)
-    xover = functools.partial(crossover, cross=edge_recombination_cross, cx_prob=CX_PROB)
+    xover = functools.partial(crossover, cross=order_cross, cx_prob=CX_PROB)
     mut = functools.partial(mutation, mut_prob=MUT_PROB, 
-                            mutate=functools.partial(swap_mutate, max_len=MUT_MAX_LEN))
+                            mutate=functools.partial(opt2_mutate, max_len=MUT_MAX_LEN, cities=locations))
 
     # we can use multiprocessing to evaluate fitness in parallel
     import multiprocessing
