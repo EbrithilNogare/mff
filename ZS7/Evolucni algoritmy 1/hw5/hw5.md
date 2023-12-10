@@ -11,8 +11,34 @@ David Napravnik
 - Vlatni crossover (`edge_recombination_cross`)
 - Chytra heuristika / mutace (`opt2_mutate`)
 
-- # todo nejlepsi beh
+## Nejlepsi beh
+TSP jsem pustil pres noc na 10'000 generaci a ono jelikoz bezi rychle, tak mi vydalo 60 behu, z toho 7 bylo 158418 km a **zadne lepsi**.
+Tady me vsak prekvapil **miniaturni rozdil** (3e-11), zpusobeny float aritmetikou (dukaz totoznosti cest v obrazku nize).
+Takze jsem vpodstate nasel pouze lepsi vychozi mesto. 
 
+``` javascript
+// best 1
+158418.84201141924
+[9, 12, 88, 57, 72, 13, 60, 76, 81, 78, 10, 14, 82, 84, 28, 85, 83, 2, 27, 0,
+42, 55, 64, 63, 39, 53, 17, 91, 58, 16, 54, 66, 87, 40, 92, 35, 29, 77, 25, 50,
+56, 65, 22, 32, 4, 38, 19, 3, 44, 90, 6, 33, 48, 21, 36, 47, 41, 79, 61, 5, 34,
+93, 20, 15, 95, 80, 8, 75, 46, 49, 74, 18, 94, 30, 43, 59, 52, 70, 24, 86, 62,
+7, 51, 98, 23, 1, 96, 73, 99, 31, 89, 37, 45, 71, 97, 68, 11, 67, 69, 26]
+```
+
+``` javascript
+// best 2
+158418.84201141927
+[72, 13, 60, 76, 81, 78, 10, 14, 82, 84, 28, 85, 83, 2, 27, 0, 42, 55, 64, 63,
+39, 53, 17, 91, 58, 16, 54, 66, 87, 40, 92, 35, 29, 77, 25, 50, 56, 65, 22, 32,
+4, 38, 19, 3, 44, 90, 6, 33, 48, 21, 36, 47, 41, 79, 61, 5, 34, 93, 20, 15, 95,
+80, 8, 75, 46, 49, 74, 18, 94, 30, 43, 59, 52, 70, 24, 86, 62, 7, 51, 98, 23,
+1, 96, 73, 99, 31, 89, 37, 45, 71, 97, 68, 11, 67, 69, 26, 9, 12, 88, 57]
+```
+
+
+Obe cesty pres sebe (prvni cesta je cerna cara s tloustkou 2px a druha cesta je bila cara s tloustkou 1px):
+![pathComparer](./pathComparer.svg)
 
 ## Code
 
@@ -86,6 +112,5 @@ def opt2_mutate(p, max_len, cities):
 ## Grafy
 
 ![TSP](./TSP.png)
-And zoom on bottom part:
+Priblizeni na y-ove ose, tak aby bylo videt i lepsi behy:
 ![TSP_zoom](./TSP_zoom.png)
-
