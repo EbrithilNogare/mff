@@ -1,12 +1,14 @@
 ~David~ ~Napravnik~
 
------
+---
+
 # 2. HW
 
 #### 1
+
 ##### a) Formulate the problem as a language ETx
 
-Jazyk ETx bude obsahovat dvojice *(M, x)*, kde *M* je turinguv stroj a *x* je jeho vstup.
+Jazyk ETx bude obsahovat dvojice _(M, x)_, kde _M_ je turinguv stroj a _x_ je jeho vstup.
 $ETx = \{M, x | M$ zastavi se vstupu x a na konci bude mit prazdnou pasku$\}$
 
 ##### b) Show that language ETx is partially decidable by describing a Turing machine accepting it
@@ -23,10 +25,9 @@ Predpokladejme ze ETx je rozhodnutelny.
 Zredukujeme ETx na univerzalni jazyk $L = \{M', x | x \in L(M)\}$.
 
 Jelikoz je rozhodnutelny, tak musi existovat algoritmus $A$, ktery rozhodne ETx.
-Dejme nasemu Turingovu stroji $M$ dvojici $\{M', x\}$, **pak se $M$ zastavi** a prijme / neprijme. 
+Dejme nasemu Turingovu stroji $M$ dvojici $\{M', x\}$, **pak se $M$ zastavi** a prijme / neprijme.
 
 Takze jsme ukazaly, ze jazyk $L$ je rozhodnutelny, coz je **spor** s tvrzeni "univerzalni jazyk $L$ neni rozhodnutelny" $\square$
-
 
 #### 2
 
@@ -38,6 +39,7 @@ $ET = \{M |$ $\exist x: M$ se vstupem $x$ se zastavi a bude mit na konci prazdou
 
 Mejme turinguv stroj $M$ (a pocatecni parametry ($i = k = 1$)).
 Pro kazdou kombinaci vstupu $x$ a omezenim na $k$ instrukci spustime simulaci stroje $M$ se vstupem $x_i$ a omezenim $k$:
+
 - Pokud simulace zastavi a ma na konci prazdnou pasku prijmeme $M$
 - Pokud simulace zastavi a nema na konci prazdnou pasku tak neprijmeme $M$
 - Pokud simulace nezastavi ... tak ji zastavime po $k$ krocich
