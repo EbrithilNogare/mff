@@ -6,6 +6,15 @@
 
 ## 1) Show that problem Vertex Cover is polynomial time reducible to problem Dominating Set.
 
+Musime upravit graf tak, ze:
+
+- Odebereme osamocene vrcholy
+- Kazdou hranu doplnime o novy vrchol a propojime jej s puvodnimi vrcholy dane hrany.
+
+Tudiz pokud existuje hrana, kterou vrcholove pokryti "nevydi", tak existuje vrchol (vytvoreny z teto hrany), takovy, ze neni sousedem vrcholu vmnozite $S$.
+
+![graphTransformation](./graphTransformation.svg)
+
 ## 2 a) Show that problem Partition is polynomial time reducible to the Knapsack problem.
 
 Vpodstate problem hledani dvou hromadek prevedeme na hledani jedne s tim, ze zbytek bude jakoby ta druha hromadka.
