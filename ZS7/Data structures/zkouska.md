@@ -129,3 +129,43 @@ Tabulkove hashovani
 ## Definujte vícerozměrné intervalové stromy. Rozeberte časovou a prostorovou složitost konstrukce a obdélníkových dotazů (včetně zrychlení kaskádováním).
 
 ## Definujte suffixové pole a LCP pole. Popište a analyzujte algoritmy na jejich konstrukci.
+
+---
+
+# Malé otázky
+
+## Popište „nafukovací pole“ se zvětšováním a zmenšováním. Analyzujte jeho amortizovanou složitost.
+
+## Popište vyhledávací stromy s líným vyvažováním (BB[α] stromy). Analyzujte jejich amortizovanou složitost.
+
+## Navrhněte operace Find, Insert a Delete na Splay stromu. Analyzujte jejich amortizovanou složitost.
+
+## Vyslovte a dokažte věty o amortizované složitosti operací Insert a Delete na (a,2a-1)-stromech a (a,2a)-stromech.
+
+## Analyzujte k-cestný Mergesort v cache-aware modelu. Jaká je optimální volba k?
+
+## Vyslovte a dokažte Sleatorovu-Tarjanovu větu o kompetitivnosti LRU.
+
+## Popište systém hešovacích funkcí odvozený ze skalárního součinu. Dokažte, že je to 1-univerzální systém ze Zpk do Zp.
+
+## Popište systém lineárních hešovacích funkcí. Dokažte, že je to 2-nezávislý systém ze Zp do [m].
+
+## Sestrojte k-nezávislý systém hešovacích funkcí ze Zp do [m].
+
+## Sestrojte 2-nezávislý systém hešovacích funkcí hešující řetězce délky nejvýše L nad abecedou [a] do [m].
+
+## Popište a analyzujte Bloomův filtr.
+
+## Ukažte, jak provádět 1-rozměrné intervalové dotazy na binárním vyhledávacím stromu.
+
+## Definujte k-d stromy a ukažte, že 2-d intervalové dotazy trvají Ω(sqrt(n)).
+
+## Ukažte, jak dynamizovat k-rozměrné intervalové stromy (stačí Insert).
+
+## Ukažte, jak použít suffixové pole a LCP pole na nalezení nejdelšího společného podřetězce dvou řetězců.
+
+## Ukažte, jak paralelizovat (a,b)-strom.
+
+## Navrhněte a analyzujte bezzámkovou implementaci zásobníku.
+
+## Popište atomická primitiva a jejich vlastnosti. Vysvětlete problém ABA a jeho řešení.
