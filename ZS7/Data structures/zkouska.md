@@ -1,0 +1,131 @@
+# Velke otazky
+
+## Definujte Splay strom. Vyslovte a dokažte větu o amortizované složitosti operace Splay.
+
+### Definice splay stromu
+
+- binarni vyhledavaci strom
+- samovyvazujici se
+- pouziva splay operace (zig/zag ...)
+
+### Amortizovana slozitost operace splay:
+
+- amortizovana cena je nejvyse 3( r'(v) - r(v) ) + 1
+- coz dava slozitost O(log n)
+
+#### Dukaz
+
+- Celkova cena je rovna sume jednotlivych kroku
+- Mejme hloubky x po 0 az k krocih: $r_0(x), ..., r_k(x)$
+- Cena jednoho kroku je $3r_i(x) - 3r_{i-1}(x)$, plus 1 pokud je to ZIG rotace
+- Amortizovana cena $≤ \sum^t_{i=1}(3r_i(x) - 3r_{i-1}(x)) + 1$
+- Amortizovana cena $≤ 3r_t(x) - 3r_0(x) + 1$
+
+## Definujte (a,b)-strom. Popište, jak na něm probíhají operace Find, Insert a Delete. Rozeberte jejich slozitost v nejhorším případě.
+
+### Definice
+
+- vyhledavaci strom
+- vsechny vrcholy krome korene maji pocet synu A az B
+- koren ma nejvyse B synu
+- Vsechny listy jsou ve stejne vysce
+- Plati a >= 2 & b >= 2a - 1
+
+### Find
+
+- V kazdem vrcholu najdeme nejmensi vetsi klic a do jeho ditete vstoupime
+- Koncime v listu
+
+### Insert
+
+- Najdeme spravneho otce
+- Pridame prvek
+- Pokud se nevejde rozdedlime deti na dve casti a pridame novy klic do rodice
+- Opakujeme dokud se klice nevejdou
+
+### Delete
+
+- Najdeme spravneho otce
+- Odebereme prvek
+- Pokud je klicu malo, presuneme klic z bratra, nebo se spojime s bratrem
+
+### Nejhorsi pripad - slozitost
+
+- vsechny $O(\log n)$
+
+## Formulujte cache-aware a cache-oblivious algoritmy pro transpozici čtvercové matice. Rozeberte jejich časovou složitost a I/O složitost.
+
+### Cache aware
+
+- Rekurzivne delime matice na ctvrtiny dokud nemame matice 1x1
+- $A = (\dfrac{A_{11}|A_{12}}{A_{21}|A_{22}})$
+- $A_{11}$ a $A_{22}$ se pouze transponuji
+- $A_{12}$ a $A_{21}$ se transponuji a prohodi navzajem
+
+### Cache oblivious
+
+- rozdelime matici na submtice $d*d$ tak ze $2d^2 \leq M$ (2 submatice se vejdou do cache naraz)
+- ztransponujeme obe submatice
+- prohodime je
+
+### Slozitost
+
+#### Cache aware
+
+- pocet podmatic je $\dfrac{k^2}{d^2}$
+- $O(\dfrac{k^2}{B})$
+- $k \times k$ je velikost matice
+- $d \times d$ je velikost podmatice
+- $B$ je velikost bloku pameti
+
+#### Cache oblivious
+
+- $\dfrac{k^2}{d^2} * 4d \leq \dfrac{8k^2}{B} = O(\dfrac{k^2}{B})$
+
+## Definujte c-univerzální a k-nezávislé rodiny hešovacích funkcí. Formulujte a dokažte větu o střední délce řetězce v hešování s řetězci. Ukažte příklady c-univerzálních a k-nezávislých rodin pro hešování přirozených čísel.
+
+### c-univerzální
+
+- pocet hesovacich funkci $h \in H$ takovych ze $h(x) = h(y)$ je nejvyse $\dfrac{c|H|}{m}$ , (pro vsechna $x \neq y$)
+- nahodne zvolena $h \in H$ splnuje $P[h(x) = h(y)] \leq \dfrac{c}{m}$
+
+### k-nezávislý
+
+- $k \in N; K = \{1, ..., k\}$ a $c \geq 1$
+- $P[h(x_i) = z_i \forall i \in K] \leq \dfrac{c}{m^k}$
+- pro vsechna po dvou ruzna $x_1, ...,  x_k \in U$ a vsechna $z_1, ..., z_k \in M$
+
+### věta o střední délce řetězce v hešování s řetězci
+
+TODO
+
+#### Dukaz
+
+TODO
+
+### příklady
+
+#### c-univerzální
+
+Multiply shift
+
+- $h_a(x) = (ax \mod 2^w) >> (w-l)$
+- 2-univerzalni
+
+Poly mod prime
+
+- $h_{a, b}(x) = ax + b \mod p$
+- d-univerzalnni
+
+#### k-nezávislý
+
+Tabulkove hashovani
+
+- $h(x) = T_1(x^1) \text{ XOR } ... \text{ XOR } T_d(x^d) $
+- 3-nezavisle
+
+## Popište a analyzujte hešování s lineárním přidáváním.
+
+## Definujte vícerozměrné intervalové stromy. Rozeberte časovou a prostorovou složitost konstrukce a obdélníkových dotazů (včetně zrychlení kaskádováním).
+
+## Definujte suffixové pole a LCP pole. Popište a analyzujte algoritmy na jejich konstrukci.
