@@ -11,7 +11,7 @@
 ### Amortizovana slozitost operace splay:
 
 - amortizovana cena je nejvyse 3( r'(v) - r(v) ) + 1
-- coz dava slozitost O(log n)
+- coz dava slozitost $O(\log n)$
 
 #### Dukaz
 
@@ -153,7 +153,34 @@ Tabulkove hashovani
 
 ## Vyslovte a dokažte věty o amortizované složitosti operací Insert a Delete na (a,2a-1)-stromech a (a,2a)-stromech.
 
+- Sekvence $m$ Insertu a Deletu na zezacatku prazdnem (a, 2a) stromu vykona $O(m)$ akci.
+
+### Dukaz
+
+- Cena = pocet zmenenych vrcholu
+- Ukazeme ze potencial je mensi roven nule
+- Mejme funkci $f(k)$ jakozto zmenu $k$ deti, ktera musi splnovat
+  - $|f(i) - f(i+1)| \leq c$, kde c je libovolna konstanta
+  - $f(2a)  \geq f(a) + f(a+1) + c + 1$
+  - $f(a-2) + f(a-1) \geq f(2a - 2) + c + 1$
+- nastavime $c=2$ a vykouzlime:
+  
+| k    | a-2 | a-1 | a   | ... | 2a-2 | 2a-1 | 2a  |
+| ---- | --- | --- | --- | --- | ---- | ---- | --- |
+| f(k) | 2   | 1   | 0   | 0   | 0    | 1    | 2   |
+
+- INSERT prida klic ($O(1)$), zmeni potencial o $O(1)$ a vykona  nekolik rozdeleni s amortizovanou slozitosti 0.
+- DELETE odebere klic ($O(1)$) a vykona sekvenci spojeni s amortizovanou slozitosti 0.
+  - Pripadne pokud si vezme dite bratra, coz ma slozitost $O(1)$ a muze se stat pouze jednou.
+
+Takze amortizovana cena je konstantni pro obe operace, jelikoz potencial je porad nezaporny a zacina v nule.
+Tudiz $m$ operaci Insert a Delete provede $O(m)$ modifikaci vrcholu.
+
 ## Analyzujte k-cestný Mergesort v cache-aware modelu. Jaká je optimální volba k?
+
+- Optimalni hodnota K = ⌊M/2B⌋
+- Pocet pruchodu klesne na $⌈\log_k N⌉$
+- Jeden pruchod vsak zabere $O(\log K)$ casu
 
 ## Vyslovte a dokažte Sleatorovu-Tarjanovu větu o kompetitivnosti LRU.
 
