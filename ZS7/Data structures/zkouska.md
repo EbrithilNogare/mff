@@ -136,9 +136,20 @@ Tabulkove hashovani
 
 ## Popište „nafukovací pole“ se zvětšováním a zmenšováním. Analyzujte jeho amortizovanou složitost.
 
+- zvetsi se na 2x pri zaplneni
+- zmensi se na 1/2 pri 1/4 zaplneni
+- Amortizovane $O(1)$
+
 ## Popište vyhledávací stromy s líným vyvažováním (BB[α] stromy). Analyzujte jejich amortizovanou složitost.
 
+- binarni vyhledavaci strom
+- kazdy podstrom syna musi byt velikosti maximalne $\alpha$ nasobek vsech deti jejich otce
+- $\dfrac{1}{2} \le \alpha \le 1$
+
 ## Navrhněte operace Find, Insert a Delete na Splay stromu. Analyzujte jejich amortizovanou složitost.
+
+- vse amortizovane v $O(\log n)$
+- zig / zag dvojrotace rotace krom korene
 
 ## Vyslovte a dokažte věty o amortizované složitosti operací Insert a Delete na (a,2a-1)-stromech a (a,2a)-stromech.
 
