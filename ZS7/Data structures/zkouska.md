@@ -1,6 +1,6 @@
 # Velke otazky
 
-## Definujte Splay strom. Vyslovte a dokažte větu o amortizované složitosti operace Splay.
+## 🟣Definujte Splay strom. Vyslovte a dokažte větu o amortizované složitosti operace Splay.
 
 ### Definice splay stromu
 
@@ -21,7 +21,7 @@
 - Amortizovana cena $≤ \sum^t_{i=1}(3r_i(x) - 3r_{i-1}(x)) + 1$
 - Amortizovana cena $≤ 3r_t(x) - 3r_0(x) + 1$
 
-## Definujte (a,b)-strom. Popište, jak na něm probíhají operace Find, Insert a Delete. Rozeberte jejich slozitost v nejhorším případě.
+## 🟣Definujte (a,b)-strom. Popište, jak na něm probíhají operace Find, Insert a Delete. Rozeberte jejich slozitost v nejhorším případě.
 
 ### Definice
 
@@ -53,7 +53,7 @@
 
 - vsechny $O(\log n)$
 
-## Formulujte cache-aware a cache-oblivious algoritmy pro transpozici čtvercové matice. Rozeberte jejich časovou složitost a I/O složitost.
+## 🟣Formulujte cache-aware a cache-oblivious algoritmy pro transpozici čtvercové matice. Rozeberte jejich časovou složitost a I/O složitost.
 
 ### Cache aware
 
@@ -82,7 +82,7 @@
 
 - $\dfrac{k^2}{d^2} * 4d \leq \dfrac{8k^2}{B} = O(\dfrac{k^2}{B})$
 
-## Definujte c-univerzální a k-nezávislé rodiny hešovacích funkcí. Formulujte a dokažte větu o střední délce řetězce v hešování s řetězci. Ukažte příklady c-univerzálních a k-nezávislých rodin pro hešování přirozených čísel.
+## 🟣Definujte c-univerzální a k-nezávislé rodiny hešovacích funkcí. Formulujte a dokažte větu o střední délce řetězce v hešování s řetězci. Ukažte příklady c-univerzálních a k-nezávislých rodin pro hešování přirozených čísel.
 
 ### c-univerzální
 
@@ -97,11 +97,11 @@
 
 ### věta o střední délce řetězce v hešování s řetězci
 
-TODO
+- Jestlize $H$ je c-univerzalni, pak ocekavany pocet prvku v prihradne $h(x)$ pro $x \in U$ je nejvyse $\dfrac{cn}{m}$
 
 #### Dukaz
 
-TODO
+- $E[|\{y \in S : h(x) = h(y)\}|] = \sum_{y \in S} P[h(x) = h(y)] \leq \dfrac{cn}{m}$
 
 ### příklady
 
@@ -124,34 +124,69 @@ Tabulkove hashovani
 - $h(x) = T_1(x^1) \text{ XOR } ... \text{ XOR } T_d(x^d) $
 - 3-nezavisle
 
-## Popište a analyzujte hešování s lineárním přidáváním.
+## 🟣Popište a analyzujte hešování s lineárním přidáváním. (Linear probing)
 
-## Definujte vícerozměrné intervalové stromy. Rozeberte časovou a prostorovou složitost konstrukce a obdélníkových dotazů (včetně zrychlení kaskádováním).
+- INSERT
+  - Vkladanou hodnotu zahesujeme a vlozime na index rovny jeho hashu
+  - Pokud tam uz neco je, tak pridame k indexu 1 a zkusime to znovu (opakujeme dokud prvek nevlozime)
+- DELETE
+  - nelze, pouze vytvorime pomnicek a obcas prehashujeme
+- Vytvari shluky, coz neni dobre
+- Pratelska na cache
+- poloprazda a bez velkych shluku se chova dobre
 
-## Definujte suffixové pole a LCP pole. Popište a analyzujte algoritmy na jejich konstrukci.
+## 🟣Definujte vícerozměrné intervalové stromy. Rozeberte časovou a prostorovou složitost konstrukce a obdélníkových dotazů (včetně zrychlení kaskádováním).
+
+- Vylepsene intervalove stromy (zlepsi slozitost dotazu)
+- Binarni vyhledavaci strom podle $x$
+
+  - Kazdy vrchol ma dalsi BVS podle $y$
+
+- Prostor: $O(n \log^{d-1} n)$
+- Cas:
+  - BUILD: $O(n \log^{d-1} n)$
+  - INSERT: $O(\log^d n)$
+  - DELETE: $O(\log^d n)$
+  - FIND RANGE: $O(\log^d n + p)$
+    - kaskadovani bude v $O(\log^{d-1} n + p)$
+    - vsem prvkum nahore predpocitame pozici ve stromu nize
+
+## 🟣Definujte suffixové pole a LCP pole. Popište a analyzujte algoritmy na jejich konstrukci.
+
+- Sufixove pole $S$
+
+  - pro retezec $\alpha$ delky $n$
+  - udava lexikograficke poradi sufixu daneho slova $\alpha$
+  - lze vybudovat v $O(n)$
+    - postavime sufixovy strom a pak jej sepiseme do pole
+
+- LCP pole
+  - LCP$(\alpha, \beta) =$ max$\{k | \alpha[:k] == \beta[:k]\}$
+  - udava delku nejdelsiho spolecneho prefixu $\alpha$ a $\beta$
+  - lze vybudovat v $O(n)$ se sufixovym polem
 
 ---
 
 # Malé otázky
 
-## Popište „nafukovací pole“ se zvětšováním a zmenšováním. Analyzujte jeho amortizovanou složitost.
+## 🟣Popište „nafukovací pole“ se zvětšováním a zmenšováním. Analyzujte jeho amortizovanou složitost.
 
 - zvetsi se na 2x pri zaplneni
 - zmensi se na 1/2 pri 1/4 zaplneni
 - Amortizovane $O(1)$
 
-## Popište vyhledávací stromy s líným vyvažováním (BB[α] stromy). Analyzujte jejich amortizovanou složitost.
+## 🟣Popište vyhledávací stromy s líným vyvažováním (BB[α] stromy). Analyzujte jejich amortizovanou složitost.
 
 - binarni vyhledavaci strom
 - kazdy podstrom syna musi byt velikosti maximalne $\alpha$ nasobek vsech deti jejich otce
 - $\dfrac{1}{2} \le \alpha \le 1$
 
-## Navrhněte operace Find, Insert a Delete na Splay stromu. Analyzujte jejich amortizovanou složitost.
+## 🟣Navrhněte operace Find, Insert a Delete na Splay stromu. Analyzujte jejich amortizovanou složitost.
 
 - vse amortizovane v $O(\log n)$
 - zig / zag dvojrotace rotace krom korene
 
-## Vyslovte a dokažte věty o amortizované složitosti operací Insert a Delete na (a,2a-1)-stromech a (a,2a)-stromech.
+## 🟣Vyslovte a dokažte věty o amortizované složitosti operací Insert a Delete na (a,2a-1)-stromech a (a,2a)-stromech.
 
 - Sekvence $m$ Insertu a Deletu na zezacatku prazdnem (a, 2a) stromu vykona $O(m)$ akci.
 
@@ -176,17 +211,34 @@ Tabulkove hashovani
 Takze amortizovana cena je konstantni pro obe operace, jelikoz potencial je porad nezaporny a zacina v nule.
 Tudiz $m$ operaci Insert a Delete provede $O(m)$ modifikaci vrcholu.
 
-## Analyzujte k-cestný Mergesort v cache-aware modelu. Jaká je optimální volba k?
+## 🟣Analyzujte k-cestný Mergesort v cache-aware modelu. Jaká je optimální volba k?
 
 - Optimalni hodnota K = ⌊M/2B⌋
 - Pocet pruchodu klesne na $⌈\log_k N⌉$
 - Jeden krok zabere $O(\log K)$ a cely mergesort $O(N \log N)$
 
-## Vyslovte a dokažte Sleatorovu-Tarjanovu větu o kompetitivnosti LRU.
+## 🟣Vyslovte a dokažte Sleatorovu-Tarjanovu větu o kompetitivnosti LRU.
 
-TODO
+- LRU = least-recently used
+- NEPLATI: LRU je k-kompetetivni, neboli $C_{LRU} \leq k*C_{OPT}$
 
-## Popište systém hešovacích funkcí odvozený ze skalárního součinu. Dokažte, že je to 1-univerzální systém ze $Z_p^k$ do $Z_p$.
+Veta:
+
+- $C_{LRU} \leq \dfrac{M_{LRU}}{M_{LRU} - M_{OPT}} * C_{OPT} + M_{OPT}$
+
+Dukaz:
+
+- mame epoxhy $E_0$ ... $E_k$
+- LRU zaplati v kazde epoche $M_{LRU}$ a v prvni maximalne $M_{LRU}$
+- v nenulove epoche $i$:
+  1. ruzne bloky: OPT plati alespon bloky ktere nemel v cachi ($M_{LRU} - M_{OPT}$)
+  2. LRU zaplati za blok 2x: alespon $M_{LRU}$ ruznych bloku
+- v nulove epoche:
+  1. LRU i OPT zacina s prazdnou cache: $C_{LRU} =$ # ruznych bloku = $C_{OPT}$
+  2. LRU zacina s neprazdnou oproti OPT: neuskodi LRU
+  3. LRU i OPT maji neprazdnou cache: to je ta $+ M_{OPT}$
+
+## 🟣Popište systém hešovacích funkcí odvozený ze skalárního součinu. Dokažte, že je to 1-univerzální systém ze $Z_p^k$ do $Z_p$.
 
 - Mejme d-dimenzionalni vektory nad telesem $Z_p$
 - $h_t(x) = t \times x$
@@ -197,7 +249,7 @@ TODO
 - Posledni krok rika, ze posledni iterace sumy by se musela presne trefit a na to ma pravdepodobnost $1/p$
 - Neboli existuje prave jedno $t_d$ takove aby rovnost platila a zaroven $t_d \in Z_p$
 
-## Popište systém lineárních hešovacích funkcí. Dokažte, že je to 2-nezávislý systém ze $Z_p$ do [m].
+## 🟣Popište systém lineárních hešovacích funkcí. Dokažte, že je to 2-nezávislý systém ze $Z_p$ do [m].
 
 - $h_{a,b}(x) = ((ax+b)\mod p) \mod m$
 - Mejme linearni system $L$, jez je (2,1)-nezavisly v $Z_p$ a po zmoduleni do $m$ je (2,4)-nezavisly podle dukazu nize
@@ -210,17 +262,20 @@ TODO
 - pravdepodobnost obou zaroven je maximalne $(2p/mp)^2 = 4/m^2$
 - tudiz je stale 2-nezavisly
 
-## Sestrojte k-nezávislý systém hešovacích funkcí ze $Z_p$ do [m].
+## 🟣Sestrojte k-nezávislý systém hešovacích funkcí ze $Z_p$ do [m].
 
 - Necht $H$ je (k,c)-nezavisla rodina hash funkci z $U$ do $[r]$
 
-TODO
+🔴 TODO
 
-## Sestrojte 2-nezávislý systém hešovacích funkcí hešující řetězce délky nejvýše L nad abecedou [a] do [m].
+## 🟣Sestrojte 2-nezávislý systém hešovacích funkcí hešující řetězce délky nejvýše L nad abecedou [a] do [m].
 
-TODO
+- pouzijeme poly-mod-prime
+  - $h_{a, b, c}(x_1, ... x_d) = (b + c*\sum^{d-1}_{i=0}x_{i+1}*a^i \mod p) \mod m$ , $(p > m)$
+- retezec doplnime zprava nulami do delky L
+- pri vypoctu hashe muzeme ignorovat prazdne znaky, nebot 0 \* cokoliv je 0 a sumu to nezmeni
 
-## Popište a analyzujte Bloomův filtr.
+## 🟣Popište a analyzujte Bloomův filtr.
 
 - Datova struktura
 - Umi insert, neumi deleate a find dava false-positive
@@ -231,12 +286,12 @@ TODO
   - $k = ⌈\log 1 / \epsilon⌉$, kde $\epsilon$ je pravdepodobnost false-positive
   - potrebna pamet je $m ⌈\log 1 / \epsilon⌉$ , ($m$ muze byt treba $2n$)
 
-## Ukažte, jak provádět 1-rozměrné intervalové dotazy na binárním vyhledávacím stromu.
+## 🟣Ukažte, jak provádět 1-rozměrné intervalové dotazy na binárním vyhledávacím stromu.
 
 - najdeme levy vrchol, najdeme pravy vrchol a vsechny vrcholi / podstromy mezi nimi vypiseme
 - $O(\log n + p)$, kde $p$ je pocet vracenych vrcholu
 
-## Definujte k-d stromy a ukažte, že 2-d intervalové dotazy trvají Ω($\sqrt{n}$).
+## 🟣Definujte k-d stromy a ukažte, že 2-d intervalové dotazy trvají Ω($\sqrt{n}$).
 
 - Binarni vyhledavaci strom
 - na i-te hladine porovnavame i-tou dimenzi
@@ -262,7 +317,7 @@ intervalovy dotaz maximalne $\sqrt n$:
 
 ```
 
-## Ukažte, jak dynamizovat k-rozměrné intervalové stromy (stačí Insert).
+## 🟣Ukažte, jak dynamizovat k-rozměrné intervalové stromy (stačí Insert).
 
 - amortizovane $O(\log^d n)$
 - jeden insert prida
@@ -274,10 +329,18 @@ intervalovy dotaz maximalne $\sqrt n$:
     - takze v 2. dimenzi mame celkovou slozitost $O(\log^2 n)$
   - ... v dalsich dimenzich
 
-## Ukažte, jak použít suffixové pole a LCP pole na nalezení nejdelšího společného podřetězce dvou řetězců.
+## 🟣Ukažte, jak použít suffixové pole a LCP pole na nalezení nejdelšího společného podřetězce dvou řetězců.
 
-## Ukažte, jak paralelizovat (a,b)-strom.
+🔴 TODO
 
-## Navrhněte a analyzujte bezzámkovou implementaci zásobníku.
+## 🟣Ukažte, jak paralelizovat (a,b)-strom.
 
-## Popište atomická primitiva a jejich vlastnosti. Vysvětlete problém ABA a jeho řešení.
+🔴 TODO
+
+## 🟣Navrhněte a analyzujte bezzámkovou implementaci zásobníku.
+
+🔴 TODO
+
+## 🟣Popište atomická primitiva a jejich vlastnosti. Vysvětlete problém ABA a jeho řešení.
+
+🔴 TODO
