@@ -160,16 +160,16 @@ Tabulkove hashovani
 - Cena = pocet zmenenych vrcholu
 - Ukazeme ze potencial je mensi roven nule
 - Mejme funkci $f(k)$ jakozto zmenu $k$ deti, ktera musi splnovat
-  - $|f(i) - f(i+1)| \leq c$, kde c je libovolna konstanta
+  - $|f(i) - f(i+1)| \leq c$, kde $c$ je libovolna konstanta
   - $f(2a)  \geq f(a) + f(a+1) + c + 1$
   - $f(a-2) + f(a-1) \geq f(2a - 2) + c + 1$
 - nastavime $c=2$ a vykouzlime:
-  
+
 | k    | a-2 | a-1 | a   | ... | 2a-2 | 2a-1 | 2a  |
 | ---- | --- | --- | --- | --- | ---- | ---- | --- |
 | f(k) | 2   | 1   | 0   | 0   | 0    | 1    | 2   |
 
-- INSERT prida klic ($O(1)$), zmeni potencial o $O(1)$ a vykona  nekolik rozdeleni s amortizovanou slozitosti 0.
+- INSERT prida klic ($O(1)$), zmeni potencial o $O(1)$ a vykona nekolik rozdeleni s amortizovanou slozitosti 0.
 - DELETE odebere klic ($O(1)$) a vykona sekvenci spojeni s amortizovanou slozitosti 0.
   - Pripadne pokud si vezme dite bratra, coz ma slozitost $O(1)$ a muze se stat pouze jednou.
 
@@ -180,25 +180,99 @@ Tudiz $m$ operaci Insert a Delete provede $O(m)$ modifikaci vrcholu.
 
 - Optimalni hodnota K = ⌊M/2B⌋
 - Pocet pruchodu klesne na $⌈\log_k N⌉$
-- Jeden pruchod vsak zabere $O(\log K)$ casu
+- Jeden krok zabere $O(\log K)$ a cely mergesort $O(N \log N)$
 
 ## Vyslovte a dokažte Sleatorovu-Tarjanovu větu o kompetitivnosti LRU.
 
-## Popište systém hešovacích funkcí odvozený ze skalárního součinu. Dokažte, že je to 1-univerzální systém ze Zpk do Zp.
+TODO
 
-## Popište systém lineárních hešovacích funkcí. Dokažte, že je to 2-nezávislý systém ze Zp do [m].
+## Popište systém hešovacích funkcí odvozený ze skalárního součinu. Dokažte, že je to 1-univerzální systém ze $Z_p^k$ do $Z_p$.
 
-## Sestrojte k-nezávislý systém hešovacích funkcí ze Zp do [m].
+- Mejme d-dimenzionalni vektory nad telesem $Z_p$
+- $h_t(x) = t \times x$
+
+### Dukaz
+
+- $P[h_t(x) = h_t(y)] = P[x \times t = y \times t] = P[(x-y)\times t = 0] = P[\sum^d_{i=1}(x_i - y_i)t_i = 0] = P[(x_d - y_d)t_d = - \sum^{d-1}_{i=1}(x_i - y_i)t_i]$
+- Posledni krok rika, ze posledni iterace sumy by se musela presne trefit a na to ma pravdepodobnost $1/p$
+- Neboli existuje prave jedno $t_d$ takove aby rovnost platila a zaroven $t_d \in Z_p$
+
+## Popište systém lineárních hešovacích funkcí. Dokažte, že je to 2-nezávislý systém ze $Z_p$ do [m].
+
+- $h_{a,b}(x) = ((ax+b)\mod p) \mod m$
+- Mejme linearni system $L$, jez je (2,1)-nezavisly v $Z_p$ a po zmoduleni do $m$ je (2,4)-nezavisly podle dukazu nize
+
+### Dukaz
+
+- snazime se dokazat $P[h_{a,b}(x) = i ∧ h_{a,b}(y) = j] \leq 4 / m^2$, kde $x,y \in [p]$ a $i, j \in [m]$ a nahodnou dvojici $(a,b)$
+- obe strany posoudime nezavisle a pak jejich pravdepodobnost pronasobime
+- pravdepodobnost jedne strany je maximalne $2p/mp$
+- pravdepodobnost obou zaroven je maximalne $(2p/mp)^2 = 4/m^2$
+- tudiz je stale 2-nezavisly
+
+## Sestrojte k-nezávislý systém hešovacích funkcí ze $Z_p$ do [m].
+
+- Necht $H$ je (k,c)-nezavisla rodina hash funkci z $U$ do $[r]$
+
+TODO
 
 ## Sestrojte 2-nezávislý systém hešovacích funkcí hešující řetězce délky nejvýše L nad abecedou [a] do [m].
 
+TODO
+
 ## Popište a analyzujte Bloomův filtr.
+
+- Datova struktura
+- Umi insert, neumi deleate a find dava false-positive
+- pametove usporty
+- Insert vklada na pozici zahashovane hodnoty
+- False positive je n/m (n je pocet prvku, m je velikost nasi datove struktury)
+- Multi-band (k hash funkci)
+  - $k = ⌈\log 1 / \epsilon⌉$, kde $\epsilon$ je pravdepodobnost false-positive
+  - potrebna pamet je $m ⌈\log 1 / \epsilon⌉$ , ($m$ muze byt treba $2n$)
 
 ## Ukažte, jak provádět 1-rozměrné intervalové dotazy na binárním vyhledávacím stromu.
 
-## Definujte k-d stromy a ukažte, že 2-d intervalové dotazy trvají Ω(sqrt(n)).
+- najdeme levy vrchol, najdeme pravy vrchol a vsechny vrcholi / podstromy mezi nimi vypiseme
+- $O(\log n + p)$, kde $p$ je pocet vracenych vrcholu
+
+## Definujte k-d stromy a ukažte, že 2-d intervalové dotazy trvají Ω($\sqrt{n}$).
+
+- Binarni vyhledavaci strom
+- na i-te hladine porovnavame i-tou dimenzi
+- Build trva $O(n \log n)$
+
+intervalovy dotaz maximalne $\sqrt n$:
+
+- varovny priklad:
+  - mame dotaz na 2d strom a hledame vsechny prvky na ose $y$
+  - na kazde sude urovni se musi prochazet oba synove
+  - pocet navstivenych listu je $2^{(\log n) / 2} = \sqrt n$
+
+```
+                              ⬤
+|      *             ┌────────┴─────────┐
+|     *              ⬤                 ◯
+|    *           ┌────┴────┐        ┌───┴────┐
+|   *            ⬤        ⬤       ◯       ◯
+|  *            / \       / \      / \      / \
+| *            ⬤   ◯   ⬤   ◯   ◯ ◯    ◯ ◯
+|*             /\       /\
+*            [⬤] ⬤     ⬤ ⬤
+
+```
 
 ## Ukažte, jak dynamizovat k-rozměrné intervalové stromy (stačí Insert).
+
+- amortizovane $O(\log^d n)$
+- jeden insert prida
+  - 1 vrchol v 1. dimenzi
+    - insert do stromu 1. dimenze trva $O(\log n)$, (vcetne lineho vyvazovani)
+    - bohuzel se obcas musi ppostavit cely strom v 2. dimenzi coz trva $O(n \log n)$
+  - $O(\log n)$ vrcholu v 2. dimenzi
+    - insert do stromu 2. dimenze trva $O(\log n)$
+    - takze v 2. dimenzi mame celkovou slozitost $O(\log^2 n)$
+  - ... v dalsich dimenzich
 
 ## Ukažte, jak použít suffixové pole a LCP pole na nalezení nejdelšího společného podřetězce dvou řetězců.
 
