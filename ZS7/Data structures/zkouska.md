@@ -331,15 +331,51 @@ intervalovy dotaz maximalne $\sqrt n$:
 
 ## 🟣Ukažte, jak použít suffixové pole a LCP pole na nalezení nejdelšího společného podřetězce dvou řetězců.
 
-🔴 TODO
+- spojime retezce $\alpha$, "#" a $\beta$, kde # je novy symbol do retezce $\alpha$#$\beta$
+- sestrojme pro tento retezec LCP
+- hledame dvojici po sobe jdoucich LCP indexu $i$ a $j$, takovou ze:
+  - $i$ je pred znakem # a $j$ je za znakem #, nebo presne obracene
+- vratime dvojici ktera bude mit nejvetsi spolecny podretezec
+- slozitost $O(n)$
 
 ## 🟣Ukažte, jak paralelizovat (a,b)-strom.
 
-🔴 TODO
+- pouzijeme top-down balancovani
+- INSERT:
+  - drzime zamek na aktualnim vrcholu a jeho rodici
+  - pokud je potreba tak vrchol rozdelime
+  - pote odemkneme rodice
+  - zamkneme dite ktere potrebujeme a pokracujeme tam
+- DELETE:
+  - stejne jako insert
+  - ale zamykame i bratra, kdyby nahodou bychom jej potrebovali pripojit
+    - tady muze nastat deadlock, tak musime vybirat systematicky, treba jen presne o jedna leveho bratra
+  - pro odstraneni ne-listu se muze stat, ze potrebujeme zamknout root pri hledani vhodneho potomka
+    - radeji vytvorit pomnik misto mazani
 
 ## 🟣Navrhněte a analyzujte bezzámkovou implementaci zásobníku.
 
-🔴 TODO
+- Mejme zasobnik, ktery ma hodnotu, atomicky ukazatel na naslednika a atomicky ukazatel na hlavu
+
+PUSH
+
+```{.c .numberLines}
+Repeat:
+  $h <- stack.head
+  n.next <- h
+  if CAS(stack.heead, h, n) = h: return
+```
+
+POP
+
+```{.c .numberLines}
+Repeat:
+  h <- stack.head
+  s <- h.next
+  if CAS(stack.heead, h, s) = h: return h.
+```
+
+- muze nastat _livelock_, ale velmi nepravdepodobne
 
 ## 🟣Popište atomická primitiva a jejich vlastnosti. Vysvětlete problém ABA a jeho řešení.
 
