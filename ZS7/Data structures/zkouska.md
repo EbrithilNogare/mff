@@ -258,9 +258,16 @@ Dukaz:
 
 ## 🟣Sestrojte k-nezávislý systém hešovacích funkcí ze $Z_p$ do [m].
 
-- Necht $H$ je (k,c)-nezavisla rodina hash funkci z $U$ do $[r]$
+- pouzijeme polynomialni hashovani (poly-mod-prime)
+- $h_a(x)=\sum^{k-1}_{i=0}a_ix^i$
+- $P_k = \{h_t | t\in Z^k_p\}$
+- takovyto system je (k,1)-nezavisly
 
-🔴 TODO
+Prevod do $m$
+
+- $P_k \mod m$
+- je (k,4)-nezavisly
+- pokud $p\geq 2km$, tak je (k,2)-nezavisly
 
 ## 🟣Sestrojte 2-nezávislý systém hešovacích funkcí hešující řetězce délky nejvýše L nad abecedou [a] do [m].
 
