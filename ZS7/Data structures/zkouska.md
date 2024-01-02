@@ -372,11 +372,48 @@ POP
 Repeat:
   h <- stack.head
   s <- h.next
-  if CAS(stack.heead, h, s) = h: return h.
+  if CAS(stack.heead, h, s) = h: return h
 ```
 
 - muze nastat _livelock_, ale velmi nepravdepodobne
 
 ## 🟣Popište atomická primitiva a jejich vlastnosti. Vysvětlete problém ABA a jeho řešení.
 
-🔴 TODO
+- Atomicita znamena, ze ostatni danou vec vydi jako nezapocatou, nebo dokoncenou
+- primitiva:
+  - Read and write - normalni pamet RAM
+  - Exchange - vymeni hodnoty atomickeho registru a lokalni pameti
+  - Test and set bit - nastavi bit na hodnotu a vrati puvodni
+  - Fetch and add - pripocte cislo a vrati puvodni hodnotu
+  - Compare and swap (CAS) - dostane old a new, pokud je v registru old, tak ho vymeni za new a puvodni hodnotu vrati
+  - Load linked and store conditional (LL/SC) - po precteni se prida watcher, ktery pri zapisu povoli zapsat jen pokud jej nikdo nemenil
+
+ABA
+
+- problem s bezzamkovym zasobnikem, kde muze nastat pridani do zasobniku
+- CAS sice uvidi tu samou hodnotu, ale ta byla 2x zmenena mezitim
+- vyresi se pouzitim LL/SC misto CAS
+  - nebo double CAS
+
+priklad:
+Program:
+
+```{.c .numberLines}
+x <- POP
+y <- POP
+PUSH(x)
+```
+
+Stav pred: `head -> A -> B -> C -> null`
+
+| Vlakno 1 | Vlakno 2 |         |
+| :------: | :------: | :-----: |
+| x <- POP |          |   x=A   |
+| y <- POP |          |   y=B   |
+|          | x <- POP |   x=C   |
+|          | y <- POP |   y=D   |
+| PUSH(x)  |          | push(A) |
+|          | PUSH(x)  | push(C) |
+
+Stav po: `head -> C -> A -> null`
+Seriove ma spravne byt: `head -> A -> D -> null`
