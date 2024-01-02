@@ -16,10 +16,10 @@
 #### Dukaz
 
 - Celkova cena je rovna sume jednotlivych kroku
-- Mejme hloubky x po 0 az k krocih: $r_0(x), ..., r_k(x)$
-- Cena jednoho kroku je $3r_i(x) - 3r_{i-1}(x)$, plus 1 pokud je to ZIG rotace
-- Amortizovana cena $≤ \sum^t_{i=1}(3r_i(x) - 3r_{i-1}(x)) + 1$
-- Amortizovana cena $≤ 3r_t(x) - 3r_0(x) + 1$
+- Mejme hloubky $x$ po $0$ az $k$ krocih: $r_0(x), ..., r_k(x)$
+- Cena i-teho kroku je $3r_i(x) - 3r_{i-1}(x)$, plus 1 pokud je to ZIG rotace
+- Amortizovana cena $\leq \sum^t_{i=1}(3r_i(x) - 3r_{i-1}(x)) + 1$
+- Amortizovana cena $\leq 3r_t(x) - 3r_0(x) + 1$
 
 ## 🟣Definujte (a,b)-strom. Popište, jak na něm probíhají operace Find, Insert a Delete. Rozeberte jejich slozitost v nejhorším případě.
 
@@ -57,16 +57,16 @@
 
 ### Cache aware
 
+- rozdelime matici na submtice $d*d$ tak ze $2d^2 \leq M$ (2 submatice se vejdou do cache naraz)
+- ztransponujeme obe submatice
+- prohodime je
+
+### Cache oblivious
+
 - Rekurzivne delime matice na ctvrtiny dokud nemame matice 1x1
 - $A = (\dfrac{A_{11}|A_{12}}{A_{21}|A_{22}})$
 - $A_{11}$ a $A_{22}$ se pouze transponuji
 - $A_{12}$ a $A_{21}$ se transponuji a prohodi navzajem
-
-### Cache oblivious
-
-- rozdelime matici na submtice $d*d$ tak ze $2d^2 \leq M$ (2 submatice se vejdou do cache naraz)
-- ztransponujeme obe submatice
-- prohodime je
 
 ### Slozitost
 
@@ -80,18 +80,20 @@
 
 #### Cache oblivious
 
+- predpoklad _tall cache_, neboli do cache se nam vejdou alespon 4 bloky
 - $\dfrac{k^2}{d^2} * 4d \leq \dfrac{8k^2}{B} = O(\dfrac{k^2}{B})$
 
 ## 🟣Definujte c-univerzální a k-nezávislé rodiny hešovacích funkcí. Formulujte a dokažte větu o střední délce řetězce v hešování s řetězci. Ukažte příklady c-univerzálních a k-nezávislých rodin pro hešování přirozených čísel.
 
 ### c-univerzální
 
-- pocet hesovacich funkci $h \in H$ takovych ze $h(x) = h(y)$ je nejvyse $\dfrac{c|H|}{m}$ , (pro vsechna $x \neq y$)
-- nahodne zvolena $h \in H$ splnuje $P[h(x) = h(y)] \leq \dfrac{c}{m}$
+- nahodne zvolena $h \in H$ splnuje $P[h(x) = h(y)] \leq \dfrac{c}{m}$ , (pro vsechny dvojice $x \neq y \in U$)
+- pocet hesovacich funkci $h \in H$ takovych ze $h(x) = h(y)$ je nejvyse $\dfrac{c|H|}{m}$ , (pro vsechny dvojice $x \neq y \in U$)
 
 ### k-nezávislý
 
 - $k \in N; K = \{1, ..., k\}$ a $c \geq 1$
+- nahodne zvolena $h \in H$ splnuje:
 - $P[h(x_i) = z_i \forall i \in K] \leq \dfrac{c}{m^k}$
 - pro vsechna po dvou ruzna $x_1, ...,  x_k \in U$ a vsechna $z_1, ..., z_k \in M$
 
@@ -105,19 +107,11 @@
 
 ### příklady
 
-#### c-univerzální
+Multiply mod prime
 
-Multiply shift
-
-- $h_a(x) = (ax \mod 2^w) >> (w-l)$
+- $h_{a, b}(x) = ax + b \mod p \mod m$
 - 2-univerzalni
-
-Poly mod prime
-
-- $h_{a, b}(x) = ax + b \mod p$
-- d-univerzalnni
-
-#### k-nezávislý
+- (2,4)-nezavisly
 
 Tabulkove hashovani
 
@@ -228,7 +222,7 @@ Veta:
 
 Dukaz:
 
-- mame epoxhy $E_0$ ... $E_k$
+- mame epochy $E_0$ ... $E_k$
 - LRU zaplati v kazde epoche $M_{LRU}$ a v prvni maximalne $M_{LRU}$
 - v nenulove epoche $i$:
   1. ruzne bloky: OPT plati alespon bloky ktere nemel v cachi ($M_{LRU} - M_{OPT}$)
@@ -277,9 +271,8 @@ Dukaz:
 
 ## 🟣Popište a analyzujte Bloomův filtr.
 
-- Datova struktura
 - Umi insert, neumi deleate a find dava false-positive
-- pametove usporty
+- pametove usporny
 - Insert vklada na pozici zahashovane hodnoty
 - False positive je n/m (n je pocet prvku, m je velikost nasi datove struktury)
 - Multi-band (k hash funkci)
@@ -332,10 +325,10 @@ intervalovy dotaz maximalne $\sqrt n$:
 ## 🟣Ukažte, jak použít suffixové pole a LCP pole na nalezení nejdelšího společného podřetězce dvou řetězců.
 
 - spojime retezce $\alpha$, "#" a $\beta$, kde # je novy symbol do retezce $\alpha$#$\beta$
-- sestrojme pro tento retezec LCP
-- hledame dvojici po sobe jdoucich LCP indexu $i$ a $j$, takovou ze:
+- sestrojme pro tento retezec sufixove pole a LCP
+- hledame dvojici po sobe jdoucich indexu $i$ a $j$, takovou ze:
   - $i$ je pred znakem # a $j$ je za znakem #, nebo presne obracene
-- vratime dvojici ktera bude mit nejvetsi spolecny podretezec
+- vratime dvojici ktera bude mit nejvetsi LCP
 - slozitost $O(n)$
 
 ## 🟣Ukažte, jak paralelizovat (a,b)-strom.
@@ -396,24 +389,19 @@ ABA
   - nebo double CAS
 
 priklad:
-Program:
 
-```{.c .numberLines}
-x <- POP
-y <- POP
-PUSH(x)
-```
+| Vlakno 1 |                Vlakno 2                 |                          |
+| :------: | :-------------------------------------: | :----------------------: |
+|          |                                         | `head -> A -> B -> null` |
+|          |             h <- stack.head             |           h=A            |
+|          |               s <- h.next               |           s=B            |
+| x <- POP |                                         |           x=A            |
+|          |                                         |   `head -> B -> null`    |
+| y <- POP |                                         |           y=B            |
+|          |                                         |      `head -> null`      |
+| PUSH(x)  |                                         |         PUSH(A)          |
+|          |                                         |   `head -> A -> null`    |
+|          | if CAS(stack.heead, h, s) = h: return h |           h=A            |
+|          |                                         |   `head -> B -> null`    |
 
-Stav pred: `head -> A -> B -> C -> null`
-
-| Vlakno 1 | Vlakno 2 |         |
-| :------: | :------: | :-----: |
-| x <- POP |          |   x=A   |
-| y <- POP |          |   y=B   |
-|          | x <- POP |   x=C   |
-|          | y <- POP |   y=D   |
-| PUSH(x)  |          | push(A) |
-|          | PUSH(x)  | push(C) |
-
-Stav po: `head -> C -> A -> null`
-Seriove ma spravne byt: `head -> A -> D -> null`
+chyba ... kde se nam vzalo B ???
