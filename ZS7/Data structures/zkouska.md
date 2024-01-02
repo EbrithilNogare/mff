@@ -20,6 +20,7 @@
 - Cena i-teho kroku je $3r_i(x) - 3r_{i-1}(x)$, plus 1 pokud je to ZIG rotace
 - Amortizovana cena $\leq \sum^t_{i=1}(3r_i(x) - 3r_{i-1}(x)) + 1$
 - Amortizovana cena $\leq 3r_t(x) - 3r_0(x) + 1$
+- Amortizovana cena $\leq 3 \log_n +1 = O(\log n)$
 
 ## 🟣Definujte (a,b)-strom. Popište, jak na něm probíhají operace Find, Insert a Delete. Rozeberte jejich slozitost v nejhorším případě.
 
@@ -57,9 +58,9 @@
 
 ### Cache aware
 
-- rozdelime matici na submtice $d*d$ tak ze $2d^2 \leq M$ (2 submatice se vejdou do cache naraz)
-- ztransponujeme obe submatice
-- prohodime je
+- rozdelime matici na submtice $d*d$ tak ze $2d^2 \leq B$ (2 submatice se vejdou do cache naraz)
+- transponujeme obe submatice
+- pokud nejsou na diagonale, tak je prohodime
 
 ### Cache oblivious
 
@@ -73,7 +74,8 @@
 #### Cache aware
 
 - pocet podmatic je $\dfrac{k^2}{d^2}$
-- $O(\dfrac{k^2}{B})$
+- I/O slozitost: $O(\dfrac{k^2}{B})$, ($+1$ pokud nebude cache zarovnana)
+- casova slozitost: $Ω(k^2)$
 - $k \times k$ je velikost matice
 - $d \times d$ je velikost podmatice
 - $B$ je velikost bloku pameti
@@ -81,7 +83,7 @@
 #### Cache oblivious
 
 - predpoklad _tall cache_, neboli do cache se nam vejdou alespon 4 bloky
-- $\dfrac{k^2}{d^2} * 4d \leq \dfrac{8k^2}{B} = O(\dfrac{k^2}{B})$
+- $\dfrac{k^2}{d^2} * 4d \leq \dfrac{8k^2}{B} = O(\dfrac{k^2}{B})$, ($+1$ pokud k neni mocninou dvojky)
 
 ## 🟣Definujte c-univerzální a k-nezávislé rodiny hešovacích funkcí. Formulujte a dokažte větu o střední délce řetězce v hešování s řetězci. Ukažte příklady c-univerzálních a k-nezávislých rodin pro hešování přirozených čísel.
 
