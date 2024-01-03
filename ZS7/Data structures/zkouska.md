@@ -176,6 +176,7 @@ Tabulkove hashovani
 - binarni vyhledavaci strom
 - kazdy podstrom syna musi byt velikosti maximalne $\alpha$ nasobek vsech deti jejich otce
 - $\dfrac{1}{2} \le \alpha \le 1$
+- hloubka je $\theta(\log n)$
 
 ## 🟣Navrhněte operace Find, Insert a Delete na Splay stromu. Analyzujte jejich amortizovanou složitost.
 
@@ -241,9 +242,9 @@ Dukaz:
 
 ### Dukaz
 
-- $P[h_t(x) = h_t(y)] = P[x \times t = y \times t] = P[(x-y)\times t = 0] = P[\sum^d_{i=1}(x_i - y_i)t_i = 0] = P[(x_d - y_d)t_d = - \sum^{d-1}_{i=1}(x_i - y_i)t_i]$
+- $P[h_t(x) = h_t(y)] = P[t \times x = t \times y] = P[t \times (x-y) = 0] = P[\sum^k_{i=1}(x_i - y_i)t_i = 0] = P[(x_k - y_k)t_k = - \sum^{k-1}_{i=1}(x_i - y_i)t_i]$
 - Posledni krok rika, ze posledni iterace sumy by se musela presne trefit a na to ma pravdepodobnost $1/p$
-- Neboli existuje prave jedno $t_d$ takove aby rovnost platila a zaroven $t_d \in Z_p$
+- Neboli existuje prave jedno $t_k$ takove aby rovnost platila a zaroven $t_k \in Z_p$
 
 ## 🟣Popište systém lineárních hešovacích funkcí. Dokažte, že je to 2-nezávislý systém ze $Z_p$ do [m].
 
