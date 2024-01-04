@@ -36,6 +36,7 @@
 
 - V kazdem vrcholu najdeme nejmensi vetsi klic a do jeho ditete vstoupime
 - Koncime v listu
+- $O(\log_b * \log_a n)$
 
 ### Insert
 
@@ -43,16 +44,14 @@
 - Pridame prvek
 - Pokud se nevejde rozdedlime deti na dve casti a pridame novy klic do rodice
 - Opakujeme dokud se klice nevejdou
+- $O(b * \log_a n)$
 
 ### Delete
 
 - Najdeme spravneho otce
 - Odebereme prvek
 - Pokud je klicu malo, presuneme klic z bratra, nebo se spojime s bratrem
-
-### Nejhorsi pripad - slozitost
-
-- vsechny $O(\log n)$
+- $O(b * \log_a n)$
 
 ## 🟣Formulujte cache-aware a cache-oblivious algoritmy pro transpozici čtvercové matice. Rozeberte jejich časovou složitost a I/O složitost.
 
@@ -181,11 +180,12 @@ Tabulkove hashovani
 ## 🟣Navrhněte operace Find, Insert a Delete na Splay stromu. Analyzujte jejich amortizovanou složitost.
 
 - vse amortizovane v $O(\log n)$
-- zig / zag dvojrotace rotace krom korene
+- zig / zag dvoj-rotace krome korene
 
 ## 🟣Vyslovte a dokažte věty o amortizované složitosti operací Insert a Delete na (a,2a-1)-stromech a (a,2a)-stromech.
 
 - Sekvence $m$ Insertu a Deletu na zezacatku prazdnem (a, 2a) stromu vykona $O(m)$ akci.
+- (a, 2a-1) stromu ale bude obcas "oscilovat" a bude mit slozitost $\Omega (\log n)$
 
 ### Dukaz
 
@@ -193,13 +193,13 @@ Tabulkove hashovani
 - Ukazeme ze potencial je mensi roven nule
 - Mejme funkci $f(k)$ jakozto zmenu $k$ deti, ktera musi splnovat
   - $|f(i) - f(i+1)| \leq c$, kde $c$ je libovolna konstanta
-  - $f(2a)  \geq f(a) + f(a+1) + c + 1$
+  - $f(2a)  \geq f(a) + f(a-1) + c + 1$
   - $f(a-2) + f(a-1) \geq f(2a - 2) + c + 1$
 - nastavime $c=2$ a vykouzlime:
 
 | k    | a-2 | a-1 | a   | ... | 2a-2 | 2a-1 | 2a  |
 | ---- | --- | --- | --- | --- | ---- | ---- | --- |
-| f(k) | 2   | 1   | 0   | 0   | 0    | 1    | 2   |
+| f(k) | 2   | 1   | 0   | 0   | 0    | 2    | 4   |
 
 - INSERT prida klic ($O(1)$), zmeni potencial o $O(1)$ a vykona nekolik rozdeleni s amortizovanou slozitosti 0.
 - DELETE odebere klic ($O(1)$) a vykona sekvenci spojeni s amortizovanou slozitosti 0.
