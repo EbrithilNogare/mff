@@ -113,23 +113,74 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ### Nerozhodnutelnost jazyka
 
-🔴 todo
+- univerzalni jazyk
+  - $L_u = {⟨M, x⟩ ∣ x \in L(M)}$
+- pouzijeme diagonalizaci
+  - radky jsou jazyky $L(m_i)$
+  - sloupce jsou binarni slova $w_i$
+- sestrojime diagonalni vektor, takovy ze nebude castecne rozhodnutelny (jinak by jeho radek v matici byl)
 
 ## 🟣 B2 RAM a ekvivalence s Turingovým strojem:
 
-🔴 todo
+- Nechť $L \sube Σ^*$ je jazyk a $f:\sum^* -> \sum^*$ je retezcova funkce.
+- Potom plati:
+  - Jazyk L je prijimany nejakym TM M, prave kdyz je prijimany nejakym RAM R.
+  - Funkce $f$ je turingovsky vycislitelna, prave kdyz je RAM vycislitelna.
 
 ## 🟣 B3 Vlastnosti (Turingovsky) rozhodnutelných a částečně rozhodnutelných jazyků (uzávěrové vlastnosti, Postova věta, enumeratory):
 
-🔴 todo
+### Obecne
+
+- jsou-li $L_1$ a $L_2$ (cast.) rozhodnutelne
+- pak i $L_1 \cup L_2, L_1 \cap L_2, L_1\cdot L_2, L_1^*$ jsou (cast.) rozhodnutelne
+
+### Rozhodnutelný
+
+- L je rozhodnutelne, pokud existuje M, ktery jej prijima (L=L(M)) a zastavi se s kazdym vstupem x
+
+### Částečně rozhodnutelný
+
+- L je castecne rozhodnutelne, pokud existuje M, ktery jej prijima (L=L(M))
+
+### Postova veta
+
+- Jazyk $L$ je rozhodnutelny prave kdyz $L$ i $\bar{L}$ jsou castecne rozhodnutelne jazyky
+
+### Enumeratory
+
+- Jazyk L je částečně rozhodnutelný, právě když pro něj existuje enumerátor E.
+- Jazyk L je rozhodnutelný, právě když pro něj existuje enumerátor E, který navíc vypisuje prvky L v lexikografickém pořadí.
 
 ## 🟣 B4 Definice zakladnich trid slozitosti a dukaz NTIME(f(n)) $\subseteq$ SPACE(f(n)):
 
-🔴 todo
+- Necht $f:N->N$
+- **TIME(f(n))**: Jazyk $L\sube \sum^*$ patri do $TIME(f(n))$ prave kdyz existuje DTM ktery jazyk L rozhoduje v case $O(f(n))$
+- **SPACE(f(n))**: Jazyk $L\sube \sum^*$ patri do $TIME(f(n))$ prave kdyz existuje NTM ktery jazyk L rozhoduje v prostoru $O(f(n))$
+- **NTIME(f(n))**: Jazyk $L\sube \sum^*$ patri do $TIME(f(n))$ prave kdyz existuje DTM ktery jazyk L rozhoduje v case $O(f(n))$
+- **NSPACE(f(n))**: Jazyk $L\sube \sum^*$ patri do $TIME(f(n))$ prave kdyz existuje NTM ktery jazyk L rozhoduje v prostoru $O(f(n))$
 
-## 🟣 B5 Definice zakladnich trid slozitosti a dukaz vety o vztahu a casu (($\forall L \in$ NSPACE(f(n)))($\exist c_L$)[L $\in$ TIME($2^{c_Lf(n)}$)]):
+### Dukaz
 
-🔴 todo
+- Mejme jazyk $L \in NTIME(f(n))$ a NTM M, ktery jazyk $L$ prijima v case $O(f(n))$
+- Vytvorime jednopaskovy M' prevodem z tripaskoveho DTM M''
+- prostor se zvetsuje jen konstantne nasobne s poctem pasek
+
+## 🟣 B5 Definice zakladnich trid slozitosti a dukaz vety o vztahu prostoru a casu
+
+=||= B4
+
+- $\forall L \in NSPACE(f(n)) => (\exist c_L \in N)[L \in TIME(2^{c_Lf(n)})]$:
+
+### Dukaz
+
+- Mejme $L \in NSPACE(f(n))$ a NTM M prijimajici jazyk $L$ v prostoru $O(f(n))$
+- Vyrobme DTM M' jakozto hledani cesty v grafu (cesta existuje == prijima $x$)
+- Plati ze L(M') = L(M) = L
+- M' pracuje v case $2^{C_Mf(n)}$, pro konstantu $C_M$ zavisici na implementaci
+- Pokud nemuzeme $f(n)$ vycislit, tak:
+  - Generujeme graf za behu
+  - Pokud najdeme cil prijmeme
+  - Pokud nemuzeme generovat graf tak neprijmeme
 
 ## 🟣 B6 Dvě definice třídy NP a jejich ekvivalence:
 
@@ -137,27 +188,45 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ## 🟣 B7 Polynomialní převod SAT na 3-SAT:
 
-🔴 todo
+- Necht $\alpha$ je formule v KNF
+- Vytvarime $\beta$ takovou, ze ma 3 literaly v kazde klauzuli
+- chceme $\alpha$ je splnitelna <=> $\beta$ je splnitelna
+- Kazdou klauzuli $A_i$ z $A_1 \wedge ... \wedge A_m $
+  - tvaru $A_i = (a_1 \vee ... \vee a_k)$
+  - pokud pocet literalu je 1: vytvorme 4 klauzule (a00, a01, a10, a11)
+  - pokud je 2 tak (ab0, ab1)
+  - pokud 3 tak (abc)
+  - pokud > 3: pridame promene a stavime bloky po 3
+    - (ab1, 0c1, 0d1, 0e1, 0fg) ... spojujeme je stejnymi literaly jen v negaci
+- Dokazat splnitelnost vsech pripadu
 
 ## 🟣 B8 Polynomialní převod 3-SAT na Vrcholové pokrytí:
 
-🔴 todo
+- klauzule jsou trojuhelniky dole
+- literaly spojene po dvojicich
+- propojeni mezi klauzulemi a literaly
+  ![](3sat-vp.png)
 
 ## 🟣 B9 Definice třídy FPT a kernelu a jejich souvislost. Kernelizace Vrcholového pokrytí:
 
 🔴 todo
 
-## 🟣 B10 Definice třídy $FPT$ a parametrizovaný algoritmus pro Vrcholové pokrytí založený na prohledávání s omezenou hloubkou (se složitostí menší než $O^*(2^k)$).
+## 🟣 B10 Definice třídy FPT a parametrizovaný algoritmus pro Vrcholové pokrytí založený na prohledávání s omezenou hloubkou (se složitostí menší než $O^*(2^k)$).
 
 🔴 todo
 
 ## 🟣 B11 Třída #P a #P-úplnost, důkaz těžkosti počítání cyklů v grafu.
 
-🔴 todo
+- funkce $f:\sum^* => N$ patri do tridy #P, pokud existuje polynom $p$ a polynomialni verifikator $V$ takove ze
+- $\forall x \in \sum^*$ plati: $f(x) = ∣\{y ∣ ∣y∣ ≤ p(∣x∣) a V(x, y) prijme\}∣$
+  .
+- Funkce $f$ je #P-uplna jeli #P-tezka a zaroven $f \in$ #P
+- Funkce $f∶\{0, 1\}^∗$ je #P-těžká, pokud je každá funkce $g \in$ #P polynomiálně převoditelná na f.
 
 ## 🟣 B12 Třída co-NP a co-NP-úplnost.
 
-🔴 todo
+- Jazyk $A \sube \{0, 1\}^*$ patri do **co-NP** pokud jeho doplnek $\bar A$ patri do NP
+- Jazyk $A$ je **co-NP-uplny** patri-li do tridy co-NP a pro libovolny jazyk $B \in$ co-NP plati, ze $B \leq^p_m A$
 
 ## 🟣 B13 Pseudonáhodné generátory, jednosměrné funkce a jejich souvislost s kryptografií (symetrické šifrování, bit-commitment).
 
