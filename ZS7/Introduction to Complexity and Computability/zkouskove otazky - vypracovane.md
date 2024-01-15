@@ -209,6 +209,14 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ## 🟣 B9 Definice třídy FPT a kernelu a jejich souvislost. Kernelizace Vrcholového pokrytí:
 
+- Paranetrizovany problem $L \sube \sum^* \times N$ je FPT (resitelny s pevnym parametrem)
+- prave kdyz jej lze rozhodnout algoritmem $\alpha$ kteru pracuje v case $O(f(k)\cdot |I|^c)$
+  .
+- A je kernel pro problem L, pokud
+  - A pracuje v polynomialnim case
+  - Pro instance $⟨I,k⟩$ a $⟨I', k'⟩ = A(I,k)$ plati: $⟨I,k⟩\in L$
+  - existuje vycislitelna funkce $g(k)$ takova, ze pro kazde instance $⟨I, k⟩$ a $⟨I', k'⟩ = A(I, k)$ plati $|I'|+k \leq g(k)$
+
 🔴 todo
 
 ## 🟣 B10 Definice třídy FPT a parametrizovaný algoritmus pro Vrcholové pokrytí založený na prohledávání s omezenou hloubkou (se složitostí menší než $O^*(2^k)$).
@@ -218,7 +226,7 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 ## 🟣 B11 Třída #P a #P-úplnost, důkaz těžkosti počítání cyklů v grafu.
 
 - funkce $f:\sum^* => N$ patri do tridy #P, pokud existuje polynom $p$ a polynomialni verifikator $V$ takove ze
-- $\forall x \in \sum^*$ plati: $f(x) = ∣\{y ∣ ∣y∣ ≤ p(∣x∣) a V(x, y) prijme\}∣$
+- $\forall x \in \sum^*$ plati: $f(x) = ∣\{y ∣ ∣y∣ ≤ p(∣x∣) a V(x, y)$ prijme $\}∣$
   .
 - Funkce $f$ je #P-uplna jeli #P-tezka a zaroven $f \in$ #P
 - Funkce $f∶\{0, 1\}^∗$ je #P-těžká, pokud je každá funkce $g \in$ #P polynomiálně převoditelná na f.
