@@ -1,11 +1,30 @@
-## 🟣 Riceova veta, dukaz pomoci m-prevoditelnosti:
+## 🟣 A1 Riceova veta, dukaz pomoci m-prevoditelnosti:
 
 Necht C je trida **castecne rozhodnutelnych jazyku**. Potom jazyk $L_C=\{\langle M\rangle |L(M)\in C\}$
 je **rozhodnutelny**, prave kdyz je trida $C$ **trivialni**, tj. bud je prazdna, nebo obsahuje vsechny castecne rozhodnutelne jazyky.
 
 ### Dukaz
 
-🔴 todo
+prava implikace:
+
+- Necht trida $C$ je prazdna
+  - $L_C$ je rozhodnutelny
+- Necht trida $C$ obsahuje vsechny castecne rozhodnutelne jazyky
+  - $L_C$ je rozhodnutelny
+
+leva implikace
+
+- Predpoklad: $C$ je netrivialni
+- Ukazeme ze $L_u \leq_m L_C$ pokud $C$ neobsahuje prazdny jazyk
+- Ukazeme ze $L_u \leq_m \overline{L_C}$ pokud $C$ obsahuje prazdny jazyk
+- Pro $C$ bez prazdneho jazyka:
+  - Mejme TM $M_1$ takovy ze $L(M_1) \in C$
+  - Sestrojime TM M':
+    - prijmi pokud $M(x)$ a $M_1(y)$ prijimaji jinak neprijimej
+- Ukazeme na $x \in L(M)$ a $x \notin L(M)$ ze to funguje
+- Dostavame $L_u \leq_m L_C$
+
+![](image-5.png)
 
 ## 🟣 A2 Savicova veta:
 
@@ -26,35 +45,39 @@ pro kazdou funkci $f(n)\geq \log_2 n$ plati, ze $NSPACE(f(n))\subseteq SPACE(f^2
 - a prostorove nam staci $O(f(n))$
 - Je-li $f(n)$ neznama tak zkousime $1, 2, 3 ... i$ dokud tu cestu nenajdeme.
 
+![](image.png)
+
 ## 🟣 A3 Deterministická prostorová hierarchie:
 
-Pro kazdou prostorove konstruovatelnou funkci $f:N->N$ existuje jazyk A, ktery je rozhodnutelny v prostoru $O(f(n))m$ nikoli vsak v prostoru $o(f(n))$.
+Pro kazdou prostorove konstruovatelnou funkci $f:N->N$ existuje jazyk A, ktery je rozhodnutelny v prostoru $O(f(n))$ nikoli vsak v prostoru $o(f(n))$.
 
 ### Dukaz
 
-- A definujeme popsanim stroje $D$, ktery rozhoduje $A$
+- $A$ definujeme popsanim stroje $D$, ktery rozhoduje $A$
 - $D$ pracuje v prostoru $O(f(n))$
 - Pro kazdy stroj $M$, ktery pracuje v prostoru $o(f(n))$ plati, ze $L(M) \neq L(D)$
 - Ukazeme ze neexistuje T', ktery by prijimal stejny jazyk v $o(f(n))$
 - Vyuzijeme diagonalizaci
 - Konstrukce D
-  - Simuluj $M(⟨M⟩)$ v prostoru $f(n)$
+  - Simuluj $M(⟨M⟩)$ v prostoru $f(n)$ s pocitanim kroku
   - Pokud $M$ odmitl, prijmi, jinak odmitni
   - Retezec musi byt vsech delek $⟨M⟩10^*$
   - vstup $x = ⟨M⟩10^{n_0}$
   - prostor $f(n)$ staci k simulaci $M(x)$
   - $D(x)$ prijme, prave kdyz $M(x)$ odmitne
   - Tedy $L(M) \neq L(D)$
-  - problem zasstaveni: zastav pokud simulace vyzaduje vice nez $2^{f(n)}$
+  - problem zastaveni: zastav pokud simulace vyzaduje vice nez $2^{f(n)}$
 - $g(n) = o(f(n)) => (\exist n_0 \in N)(\forall n \geq n_0)[c_M g(n)\leq f(n)]$
 - existuji konstanty $c_M$ a $n_0$, takove ze se vstupem $x$ delky $n \geq n_0$
   - $M(x)$ lze simulovat v prostoru $c_M g(n) \leq f(n)$
   - $M(x)$ skonci vypocet do $2^{C_Mg(n)} \leq 2^{f(n)}$ kroku
 - $L(D) \neq L(M)$
 
+![](image-1.png)
+
 ## 🟣 A4 Deterministická časová hierarchie:
 
-Pro kazdou casove konstruovatelnou funkci $f:N->N$ existuje jazyk A, ktery je rozhodnutelny v case $O(f(n))$, nikoli vsak v case $o(\frac{f(n)}{log f(n)})$
+Pro kazdou casove konstruovatelnou funkci $f:N->N$ existuje jazyk $A$, ktery je rozhodnutelny v case $O(f(n))$, nikoli vsak v case $o(\frac{f(n)}{log f(n)})$
 
 ### Dukaz
 
@@ -74,31 +97,27 @@ Pro kazdou casove konstruovatelnou funkci $f:N->N$ existuje jazyk A, ktery je ro
   - predpokladame ze takovy stroj existuje
   - Skrz simulaci na stroji N se odvodi spor a tedy takovy stroj $M$ existovat nemuze
 
+![](image-2.png)
+
 ## 🟣 A5 Cookova-Levinova věta (NP-úplnost SAT):
 
 Problem SAT je NP-uplny.
 
+NP-uplny = NP & NP-tezky
+NP-tezky = pokud kazdy jazyk A v NP je polynomialne prevoditelny na B
+
 ### Dukaz
 
-- SAT patri do NP
-  - Z definice, pokud dostaneme vektor $t \in \{0, 1\}^n$, muzeme spocitat hodnotu formule $\phi(t)$ v polynomialnim case.
-  - Certifikatem kladne odpovedi je splnujici ohodnoceni, coz potvrdi, ze SAT patri do NP.
-- NP-tezkost splnitelnosti:
-  - Ukazeme prevod z problemu Kachlikovani na SAT.
-  - Kachlikovani je specificky problem s barevnymi kachliky, jejichz umisteni na ctvercove siti se zkouma.
-  - Konstruujeme formuli ϕ v konjunktivni normalni forme (KNF), ktera je splnitelna, prave kdyz existuje pripustne vykachlikovani.
-- Konstrukce formule ϕ:
-  - Definujeme mnoziny urcujici nekompatibilni dvojice kachliku (V a H) podle barev.
-  - Pro kazdy sloupec a radek definujeme mnoziny Ui, Bi, Li a Ri pro okrajove barvy.
-  - Konstruujeme formuli ϕ pomoci klauzuli Ci,j, ai,j, Bi,j, yi,j, 6i,j, εu, εb, εl a εr.
-- Dukaz splnitelnosti:
-  - Ukazujeme, ze pokud existuje pripustne vykachlikovani S, lze vytvorit splnujici ohodnoceni formule ϕ.
-  - Opakovanym pouzitim ohodnoceni xi,j,k = 1 na odpovidajicich pozicich podle S vytvorime splnujici ohodnoceni.
-- Dukaz opacneho smeru:
-  - Ukazujeme, ze pokud existuje splnujici ohodnoceni formule ϕ, lze z nej vycist pripustne vykachlikovani S.
-  - Prirazujeme kachliky na zaklade hodnot v[i, j, k] v ohodnoceni.
-- Zaver:
-  - Dukaz ukazuje, ze problem SAT je NP-uplny, coz znamena, ze je NP-tezky a zaroven patri do tridy NP.
+- Zavedeme definici polynomiani prevoditelnosti
+- Ukazeme ze SAT patri do NP
+  - Pomoci polynomialniho verifikatoru $V(\phi, a)$
+  - overi ze ohodnoceni a splnuje $\phi$
+- Ukazeme ze je NP-tezky
+  - $A$ je prijiman nejakym NTM $M$ v polynomilanim case
+  - Modely $\phi$ popisuji prijimajici vypocty $M$ nad $w$
+
+![](image-3.png)
+![](image-4.png)
 
 ---
 
@@ -122,10 +141,22 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ## 🟣 B2 RAM a ekvivalence s Turingovým strojem:
 
+### RAM
+
+- sklada se z
+  - CPU prijimajici instrujce $I$ (LOAD, ADD, COPY, PRINT ...)
+  - Neomezene pameti rozdelene do registru $r_0, ..., r_i$
+
+### Ekvivalence
+
 - Nechť $L \sube Σ^*$ je jazyk a $f:\sum^* -> \sum^*$ je retezcova funkce.
 - Potom plati:
   - Jazyk L je prijimany nejakym TM M, prave kdyz je prijimany nejakym RAM R.
   - Funkce $f$ je turingovsky vycislitelna, prave kdyz je RAM vycislitelna.
+
+### Dukaz
+
+🔴 todo
 
 ## 🟣 B3 Vlastnosti (Turingovsky) rozhodnutelných a částečně rozhodnutelných jazyků (uzávěrové vlastnosti, Postova věta, enumeratory):
 
@@ -136,20 +167,20 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ### Rozhodnutelný
 
-- L je rozhodnutelne, pokud existuje M, ktery jej prijima (L=L(M)) a zastavi se s kazdym vstupem x
+- $L$ je rozhodnutelne, pokud existuje $M$, ktery jej prijima $(L=L(M))$ a zastavi se s kazdym vstupem $x$
 
 ### Částečně rozhodnutelný
 
-- L je castecne rozhodnutelne, pokud existuje M, ktery jej prijima (L=L(M))
+- $L$ je castecne rozhodnutelne, pokud existuje $M$, ktery jej prijima $(L=L(M))$
 
 ### Postova veta
 
-- Jazyk $L$ je rozhodnutelny prave kdyz $L$ i $\bar{L}$ jsou castecne rozhodnutelne jazyky
+- Jazyk $L$ je rozhodnutelny prave kdyz $L$ i $\overline{L}$ jsou castecne rozhodnutelne jazyky
 
 ### Enumeratory
 
-- Jazyk L je částečně rozhodnutelný, právě když pro něj existuje enumerátor E.
-- Jazyk L je rozhodnutelný, právě když pro něj existuje enumerátor E, který navíc vypisuje prvky L v lexikografickém pořadí.
+- Jazyk $L$ je částečně rozhodnutelný, právě když pro něj existuje enumerátor $E$.
+- Jazyk $L$ je rozhodnutelný, právě když pro něj existuje enumerátor $E$, který navíc vypisuje prvky $L$ v lexikografickém pořadí.
 
 ## 🟣 B4 Definice zakladnich trid slozitosti a dukaz NTIME(f(n)) $\subseteq$ SPACE(f(n)):
 
@@ -230,6 +261,8 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
   .
 - Funkce $f$ je #P-uplna jeli #P-tezka a zaroven $f \in$ #P
 - Funkce $f∶\{0, 1\}^∗$ je #P-těžká, pokud je každá funkce $g \in$ #P polynomiálně převoditelná na f.
+
+🔴 todo
 
 ## 🟣 B12 Třída co-NP a co-NP-úplnost.
 
