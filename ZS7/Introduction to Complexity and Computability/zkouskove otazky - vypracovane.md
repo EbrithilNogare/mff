@@ -156,7 +156,11 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ### Dukaz
 
-🔴 todo
+- Turinguv stroj => RAM
+  - prechodova funkce na `if (stav == X & cteme = Y) then`
+- RAM => Turinguv stroj
+  - 4 pasky (vstup, vystup, pamet, mezivysledky)
+  - instrukce RAMu jsou jen binarni retezce
 
 ## 🟣 B3 Vlastnosti (Turingovsky) rozhodnutelných a částečně rozhodnutelných jazyků (uzávěrové vlastnosti, Postova věta, enumeratory):
 
@@ -215,7 +219,8 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ## 🟣 B6 Dvě definice třídy NP a jejich ekvivalence:
 
-🔴 todo
+- NP je mnozina rozhodovacich problemu, resitelna v polynomialnim case NTM
+- NP je mnozina rozhodovacich problemu, overitelna v polynomialnim case DTM
 
 ## 🟣 B7 Polynomialní převod SAT na 3-SAT:
 
@@ -240,9 +245,9 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ## 🟣 B9 Definice třídy FPT a kernelu a jejich souvislost. Kernelizace Vrcholového pokrytí:
 
-- Paranetrizovany problem $L \sube \sum^* \times N$ je FPT (resitelny s pevnym parametrem)
+- Parametrizovany problem $L \sube \sum^* \times N$ je FPT (resitelny s pevnym parametrem)
 - prave kdyz jej lze rozhodnout algoritmem $\alpha$ kteru pracuje v case $O(f(k)\cdot |I|^c)$
-  .
+
 - A je kernel pro problem L, pokud
   - A pracuje v polynomialnim case
   - Pro instance $⟨I,k⟩$ a $⟨I', k'⟩ = A(I,k)$ plati: $⟨I,k⟩\in L$
@@ -252,7 +257,11 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 
 ## 🟣 B10 Definice třídy FPT a parametrizovaný algoritmus pro Vrcholové pokrytí založený na prohledávání s omezenou hloubkou (se složitostí menší než $O^*(2^k)$).
 
-🔴 todo
+=||=
+
+- parametrem dokazeme orezat velikost problemu
+- zvolme $k$ takove, ze pokud vrcholove pokryti existuje, bude velikosti maximalne $k$
+- dokazeme v $O(1.28^k +kn)$
 
 ## 🟣 B11 Třída #P a #P-úplnost, důkaz těžkosti počítání cyklů v grafu.
 
@@ -261,8 +270,8 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
   .
 - Funkce $f$ je #P-uplna jeli #P-tezka a zaroven $f \in$ #P
 - Funkce $f∶\{0, 1\}^∗$ je #P-těžká, pokud je každá funkce $g \in$ #P polynomiálně převoditelná na f.
-
-🔴 todo
+  .
+- dukaz prevodem z problemu Hamiltonovske kruznice
 
 ## 🟣 B12 Třída co-NP a co-NP-úplnost.
 
@@ -274,5 +283,8 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 🔴 todo
 
 ## 🟣 B14 Příklad zjemnělé redukce (redukce SETH na OV nebo OV na hledání regulárního výrazu v textu).
+
+- SETH = Silna hypoteza o exponencialnim case
+- OV = ortogonalni vrcholy
 
 🔴 todo
