@@ -60,7 +60,7 @@ Pro kazdou prostorove konstruovatelnou funkci $f:N->N$ existuje jazyk A, ktery j
 - Vyuzijeme diagonalizaci
 - Konstrukce D
   - Simuluj $M(⟨M⟩)$ v prostoru $f(n)$ s pocitanim kroku
-  - Pokud $M$ odmitl, prijmi, jinak odmitni
+  - Pokud $M$ zastavi a odmitne, tak prijmi, jinak odmitni
   - Retezec musi byt vsech delek $⟨M⟩10^*$
   - vstup $x = ⟨M⟩10^{n_0}$
   - prostor $f(n)$ staci k simulaci $M(x)$
@@ -266,7 +266,7 @@ $U(⟨M,x⟩)↓$ prave kdyz $M(x)↓$ a $U(⟨M,x⟩)$ prijme prave kdyz $M(x)$
 ## 🟣 B11 Třída #P a #P-úplnost, důkaz těžkosti počítání cyklů v grafu.
 
 - funkce $f:\sum^* => N$ patri do tridy #P, pokud existuje polynom $p$ a polynomialni verifikator $V$ takove ze
-- $\forall x \in \sum^*$ plati: $f(x) = ∣\{y ∣ ∣y∣ ≤ p(∣x∣) a V(x, y)$ prijme $\}∣$
+- $\forall x \in \sum^*$ plati: $f(x) = ∣\{y ∣ ∣y∣ ≤ p(∣x∣) \text{a} V(x, y) \text{ prijme } \}∣$
   .
 - Funkce $f$ je #P-uplna jeli #P-tezka a zaroven $f \in$ #P
 - Funkce $f∶\{0, 1\}^∗$ je #P-těžká, pokud je každá funkce $g \in$ #P polynomiálně převoditelná na f.
