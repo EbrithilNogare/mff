@@ -1,9 +1,8 @@
 ## Huffmanův strom
 
-- délka kódového slova max. 16b.
-- Jaká je maximální možná velikost vstupu, při níž zaručeně nedojde k přetečení?
+- Jaká je maximální možná velikost vstupu, při níž zaručeně nedojde k přetečení? (délka kódového slova max. 16b.)
 - Ktorý z nasledujúcich kódov nemôže byť Huffmanov? {0, 10, 01} {01, 10} {00, 01, 10, 110}
-- otpimálnosť
+- Vysvetlite otpimálnosť Huffmanovho kódovania
 - Je najeké lepšie kódovanie pre lossless compression?
 
 ## Aritmetické kódování
@@ -31,6 +30,8 @@
 ## Libovolný ztrátový algoritmus pro kompresi zvuku.
 
 ## K čemu je DCT u JPG?
+
+- DCT = discrete cosine transform
 
 ## Jaké typy obrázků jsou využívány ve video formátu MPEG, doplňující k této otázke pak bylo, na jakém principu funguje predikce dalších obrázků ve videu
 
