@@ -1,0 +1,1 @@
+strategyParamGlobal = 2.0
