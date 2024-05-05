@@ -6,3 +6,4 @@
 .toc
 .nav
 .dvi
+__pycache__
