@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ch0qbnawcqjk0"]
+
+[ext_resource type="PackedScene" uid="uid://bmd8675l1kdou" path="res://scenes/CoinsSmall.tscn" id="1"]
+
+[node name="CoinsLarge" instance=ExtResource("1")]
+
+[node name="Sprite2D" parent="." index="0"]
+region_rect = Rect2(731, 187, 16, 16)

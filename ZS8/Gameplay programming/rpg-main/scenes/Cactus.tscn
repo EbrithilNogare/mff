@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvq2c55s607ee"]
+
+[ext_resource type="Texture2D" uid="uid://cwgsnyy8ditkf" path="res://sprites/pack/roguelikeSheet_transparent.png" id="1"]
+
+[sub_resource type="CircleShape2D" id="1"]
+radius = 7.0
+
+[node name="Cactus" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1")
+region_enabled = true
+region_rect = Rect2(374, 153, 16, 16)

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bn1nuedl8yvma"]
+
+[ext_resource type="TileSet" uid="uid://wims2spvuw0l" path="res://WorldTileset.tres" id="1"]
+[ext_resource type="PackedScene" uid="uid://b4t40w81b266p" path="res://scenes/Camera.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://cnly8rx3dgsy4" path="res://scenes/Player.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://h0pjed41lu5b" path="res://scenes/Teleport.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://ch0qbnawcqjk0" path="res://scenes/CoinsLarge.tscn" id="5"]
+
+[node name="House" type="Node2D"]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="BottomLayer" type="TileMap" parent="Environment"]
+tile_set = ExtResource("1")
+format = 2
+
+[node name="MiddleLayer" type="TileMap" parent="Environment"]
+tile_set = ExtResource("1")
+format = 2
+
+[node name="Decorations" type="TileMap" parent="Environment"]
+tile_set = ExtResource("1")
+format = 2
+
+[node name="TeleportFromHouse" parent="Environment" instance=ExtResource("4")]
+position = Vector2(480, 432)
+next_scene = "res://scenes/World.tscn"
+message = "Press SPACE to leave."
+
+[node name="CoinsLarge" parent="Environment" instance=ExtResource("5")]
+position = Vector2(504, 376)
+
+[node name="Player" parent="." instance=ExtResource("3")]
+position = Vector2(472, 424)
+
+[node name="Camera3D" parent="." instance=ExtResource("2")]
+position = Vector2(472, 424)
+zoom = Vector2(0.4, 0.4)

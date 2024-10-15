@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dv56awnyt3ei5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fihxs"]
+bg_color = Color(0.878431, 0.717647, 0, 1)
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 1080.0
+offset_top = 8.0
+offset_right = 1141.0
+offset_bottom = 34.0
+text = "Coins: 0"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 408.0
+offset_bottom = 35.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_fihxs")
+value = 100.0
+show_percentage = false

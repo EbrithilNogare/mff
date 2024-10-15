@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://h0pjed41lu5b"]
+
+[ext_resource type="Script" path="res://scripts/Teleport.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://mpe86homv2rs" path="res://fonts/kenvector_future.ttf" id="2"]
+
+[sub_resource type="CircleShape2D" id="1"]
+radius = 16.0
+
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("2")])
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[node name="Teleport" type="Area2D"]
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -75.0
+theme_override_fonts/font = SubResource("2")
+text = "Press SPACE to enter."
+
+[connection signal="area_entered" from="." to="." method="_on_Teleport_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_Teleport_area_exited"]
