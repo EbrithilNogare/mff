@@ -23,7 +23,7 @@ func _ready():
 	position.y = int(position.y / TILE_SIZE) * TILE_SIZE
 	position += Vector2.ONE * TILE_SIZE/2
 	# set timer interval according to the speed
-	$MoveTimer.wait_time = 1.0/speed
+	$MoveTimer.wait_time = 0.4/speed
 
 func _unhandled_input(event):
 	for action in inputs:

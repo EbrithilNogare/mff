@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bmd8675l1kdou" path="res://scenes/CoinsSmall.tscn" id="1"]
 
 [node name="CoinsMedium" instance=ExtResource("1")]
+amount = 2
 
 [node name="Sprite2D" parent="." index="0"]
 region_rect = Rect2(714, 187, 16, 16)

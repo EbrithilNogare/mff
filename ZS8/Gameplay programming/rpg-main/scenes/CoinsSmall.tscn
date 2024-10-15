@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bmd8675l1kdou"]
+[gd_scene load_steps=4 format=3 uid="uid://bmd8675l1kdou"]
 
 [ext_resource type="Texture2D" uid="uid://cwgsnyy8ditkf" path="res://sprites/pack/roguelikeSheet_transparent.png" id="1"]
+[ext_resource type="Script" path="res://scripts/coin.gd" id="1_dwnkr"]
 
 [sub_resource type="CircleShape2D" id="1"]
 radius = 7.0
 
 [node name="CoinsSmall" type="Area2D"]
+script = ExtResource("1_dwnkr")
+amount = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1")
@@ -14,3 +17,5 @@ region_rect = Rect2(697, 187, 16, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1")
+
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]

@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dv56awnyt3ei5"]
+[gd_scene load_steps=3 format=3 uid="uid://dv56awnyt3ei5"]
+
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_p8cww"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fihxs"]
 bg_color = Color(0.878431, 0.717647, 0, 1)
 
-[node name="HUD" type="CanvasLayer"]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("label")]
+script = ExtResource("1_p8cww")
+label = NodePath("Label")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 1080.0
