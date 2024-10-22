@@ -5,9 +5,10 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fihxs"]
 bg_color = Color(0.878431, 0.717647, 0, 1)
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("label")]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("label", "healthBar")]
 script = ExtResource("1_p8cww")
 label = NodePath("Label")
+healthBar = NodePath("ProgressBar")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 1080.0

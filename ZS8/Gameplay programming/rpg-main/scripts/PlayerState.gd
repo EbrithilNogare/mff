@@ -6,6 +6,7 @@ const MAX_HEALTH = 100
 
 var health = 100
 var coins = 0
+var lastPosition = Vector2(INF, INF)
 
 
 func increase_health(value: int):

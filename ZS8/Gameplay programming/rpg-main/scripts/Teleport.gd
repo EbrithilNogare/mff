@@ -3,7 +3,7 @@ extends Area2D
 
 @export var next_scene: String = "res://scenes/House.tscn"
 @export var message: String = "Press SPACE to enter."
-
+@export var player: Area2D
 
 var is_active = false
 
@@ -14,6 +14,8 @@ func _ready():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("Action") and is_active:
+		if next_scene != "res://scenes/World.tscn":
+			PlayerState.lastPosition = player.position
 		get_tree().change_scene_to_file(next_scene)
 
 

@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dvq2c55s607ee"]
+[gd_scene load_steps=4 format=3 uid="uid://dvq2c55s607ee"]
 
 [ext_resource type="Texture2D" uid="uid://cwgsnyy8ditkf" path="res://sprites/pack/roguelikeSheet_transparent.png" id="1"]
+[ext_resource type="Script" path="res://scripts/cactus.gd" id="1_8fwrm"]
 
 [sub_resource type="CircleShape2D" id="1"]
 radius = 7.0
 
 [node name="Cactus" type="StaticBody2D"]
+script = ExtResource("1_8fwrm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("1")

@@ -16,8 +16,12 @@ const inputs = {
 var last_dir = Vector2.ZERO
 var last_action = ""
 
+func _enter_tree():
+	if(get_tree().get_current_scene().get_name() == "World" && PlayerState.lastPosition.length() < 10000):
+		position = PlayerState.lastPosition
 
 func _ready():
+	
 	# align position to the middle of a tile
 	position.x = int(position.x / TILE_SIZE) * TILE_SIZE
 	position.y = int(position.y / TILE_SIZE) * TILE_SIZE
@@ -38,7 +42,11 @@ func _unhandled_input(event):
 func move_tile(direction: Vector2):
 	$RayCast2D.target_position = direction * TILE_SIZE
 	$RayCast2D.force_raycast_update()
-	if !$RayCast2D.is_colliding():
+	if $RayCast2D.is_colliding():
+		var other = $RayCast2D.get_collider()
+		if other.has_method("on_collide"):
+			other.on_collide(self)
+	else:
 		position += direction * TILE_SIZE
 		moved.emit()
 		return true
@@ -52,9 +60,6 @@ func _on_MoveTimer_timeout():
 	last_action = ""
 	last_dir = Vector2.ZERO
 	$MoveTimer.stop()
-
-func get_hurt(value):
-	PlayerState.decrease_health(value)
 
 func collect_coins(value):
 	PlayerState.add_coins(value)

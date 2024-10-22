@@ -2,6 +2,10 @@ extends Camera2D
 
 @export var player: Node2D
 
+func _ready():
+	if player:
+		global_position = player.global_position
+	
 func _process(_delta):
 	if player:
 		global_position = global_position.lerp(player.global_position, 0.05)
