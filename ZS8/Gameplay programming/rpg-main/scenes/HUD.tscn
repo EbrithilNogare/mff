@@ -5,10 +5,11 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fihxs"]
 bg_color = Color(0.878431, 0.717647, 0, 1)
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("label", "healthBar")]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("coinsLabel", "healthBar", "inventoryLabel")]
 script = ExtResource("1_p8cww")
-label = NodePath("Label")
+coinsLabel = NodePath("Label")
 healthBar = NodePath("ProgressBar")
+inventoryLabel = NodePath("InventoryLabel")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 1080.0
@@ -25,3 +26,18 @@ offset_bottom = 35.0
 theme_override_styles/fill = SubResource("StyleBoxFlat_fihxs")
 value = 100.0
 show_percentage = false
+
+[node name="InventoryLabel" type="RichTextLabel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1139.0
+offset_top = 61.0
+offset_right = -939.0
+offset_bottom = 561.0
+grow_horizontal = 0
+bbcode_enabled = true
+text = "[b]Inventory[/b]
+
+1	Cactus spike"
+tab_size = 8
