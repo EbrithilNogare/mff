@@ -15,17 +15,18 @@ const inputs = {
 
 var last_dir = Vector2.ZERO
 var last_action = ""
+var finalPosition = Vector2.ZERO
 
 func _enter_tree():
 	if(get_tree().get_current_scene().get_name() == "World" && PlayerState.lastPosition.length() < 10000):
 		position = PlayerState.lastPosition
 
 func _ready():
-	
 	# align position to the middle of a tile
 	position.x = int(position.x / TILE_SIZE) * TILE_SIZE
 	position.y = int(position.y / TILE_SIZE) * TILE_SIZE
 	position += Vector2.ONE * TILE_SIZE/2
+	finalPosition = position
 	# set timer interval according to the speed
 	$MoveTimer.wait_time = 0.4/speed
 
@@ -47,7 +48,9 @@ func move_tile(direction: Vector2):
 		if other.has_method("on_collide"):
 			other.on_collide(self)
 	else:
-		position += direction * TILE_SIZE
+		var tween = get_tree().create_tween()
+		finalPosition = finalPosition + direction * TILE_SIZE
+		tween.tween_property(self, "position", finalPosition, 0.4/speed)
 		moved.emit()
 		return true
 	return false

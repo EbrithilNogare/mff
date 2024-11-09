@@ -6,6 +6,8 @@ var inCloseRange: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	while currentStory != "" && PlayerState.story[currentStory].finished && PlayerState.story[currentStory].next != null:
+		currentStory = PlayerState.story[currentStory].next
 	pass # Replace with function body.
 
 
@@ -35,11 +37,15 @@ func _on_close_area_area_shape_exited(_area_rid: RID, area: Area2D, _area_shape_
 func _input(event: InputEvent) -> void:
 	if inCloseRange && currentStory != "" && event.is_action_pressed("ui_accept"):
 		if PlayerState.story[currentStory].itemToFinish == null || PlayerState.inventory[PlayerState.story[currentStory].itemToFinish] > 0: 
+			PlayerState.story[currentStory].finished = true
 			currentStory = PlayerState.story[currentStory].next if PlayerState.story[currentStory].next != null else currentStory
 		_show_story_text()
 
 func _show_story_text() -> void:
-	$TextureRect/Label.text = PlayerState.story[currentStory].text
+	var newText = PlayerState.story[currentStory].text
+	if $TextureRect.visible and $TextureRect/Label.text == newText:
+		return
+	$TextureRect/Label.text = newText
 	$TextureRect.scale = Vector2(0, 0)
 	var tween = get_tree().create_tween()
 	tween.tween_property($TextureRect, "scale", Vector2(1, 1), 0.5).set_trans(Tween.TRANS_SINE)
