@@ -19,11 +19,11 @@ func inventoryChange(itemName, deltaValue):
 
 func increase_health(value: int):
 	health = clamp(health + value, 0, MAX_HEALTH)
-	Hud.update_health()
+	Hud.update_health(value)
 
 func decrease_health(value: int):
 	health = clamp(health - value, 0, MAX_HEALTH)
-	Hud.update_health()
+	Hud.update_health(-value)
 	
 func add_coins(value: int):
 	coins += value

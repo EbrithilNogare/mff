@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2tt426v7asq7"]
+
+[ext_resource type="Script" path="res://scripts/transition.gd" id="1_ttolj"]
+
+[sub_resource type="Gradient" id="Gradient_wvjj8"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(1, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5681f"]
+gradient = SubResource("Gradient_wvjj8")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="Animation" id="Animation_fvhul"]
+resource_name = "transitionFadeInOut"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/TextureRect:texture:gradient:offsets")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [PackedFloat32Array(1, 2), PackedFloat32Array(0, 1), PackedFloat32Array(-1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ucr8k"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/TextureRect:texture:gradient:offsets")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [PackedFloat32Array(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n8t3f"]
+_data = {
+"RESET": SubResource("Animation_ucr8k"),
+"transitionFadeInOut": SubResource("Animation_fvhul")
+}
+
+[node name="Transition" type="Node2D" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("1_ttolj")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = SubResource("GradientTexture2D_5681f")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_n8t3f")
+}

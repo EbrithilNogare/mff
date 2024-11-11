@@ -2,6 +2,7 @@ extends Area2D
 
 
 @export var speed: float = 4
+
 signal moved
 
 const TILE_SIZE = 16

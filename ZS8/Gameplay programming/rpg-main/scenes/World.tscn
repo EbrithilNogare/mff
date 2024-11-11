@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://ds8leq4e402x"]
+[gd_scene load_steps=14 format=4 uid="uid://ds8leq4e402x"]
 
 [ext_resource type="TileSet" uid="uid://wims2spvuw0l" path="res://WorldTileset.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://cnly8rx3dgsy4" path="res://scenes/Player.tscn" id="2"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://h0pjed41lu5b" path="res://scenes/Teleport.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://dvq2c55s607ee" path="res://scenes/Cactus.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://bmdeddq4vad76" path="res://scenes/InfoPanel.tscn" id="6"]
+[ext_resource type="Curve" uid="uid://bcdc7xpdbpj14" path="res://values/coin_size_curve_small.tres" id="6_du07s"]
+[ext_resource type="Curve" uid="uid://gy6cktyh83as" path="res://values/coin_size_curve_large.tres" id="6_i1a7m"]
+[ext_resource type="Curve" uid="uid://c2vvw8o3etwh5" path="res://values/coin_size_curve_medium.tres" id="6_rwnar"]
 [ext_resource type="PackedScene" uid="uid://bmd8675l1kdou" path="res://scenes/CoinsSmall.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://dfbg52xushje0" path="res://scenes/CoinsMedium.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://ch0qbnawcqjk0" path="res://scenes/CoinsLarge.tscn" id="9"]
@@ -85,21 +88,27 @@ message = "The yellow blobs are coins. You can collect them."
 
 [node name="CoinsSmall" parent="Environment/Coins" instance=ExtResource("7")]
 position = Vector2(296, 296)
+sizeAnimation = ExtResource("6_du07s")
 
 [node name="CoinsSmall2" parent="Environment/Coins" instance=ExtResource("7")]
 position = Vector2(392, 216)
+sizeAnimation = ExtResource("6_du07s")
 
 [node name="CoinsMedium" parent="Environment/Coins" instance=ExtResource("8")]
 position = Vector2(360, 248)
+sizeAnimation = ExtResource("6_rwnar")
 
 [node name="CoinsMedium2" parent="Environment/Coins" instance=ExtResource("8")]
 position = Vector2(280, 200)
+sizeAnimation = ExtResource("6_i1a7m")
 
 [node name="CoinsLarge" parent="Environment/Coins" instance=ExtResource("9")]
 position = Vector2(312, 216)
+sizeAnimation = ExtResource("6_i1a7m")
 
 [node name="CoinsLarge2" parent="Environment/Coins" instance=ExtResource("9")]
 position = Vector2(200, 344)
+sizeAnimation = ExtResource("6_i1a7m")
 
 [node name="Player" parent="." instance=ExtResource("2")]
 z_index = 20

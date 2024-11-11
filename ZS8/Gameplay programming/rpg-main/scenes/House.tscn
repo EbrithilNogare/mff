@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://bn1nuedl8yvma"]
+[gd_scene load_steps=10 format=4 uid="uid://bn1nuedl8yvma"]
 
 [ext_resource type="TileSet" uid="uid://wims2spvuw0l" path="res://WorldTileset.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://b4t40w81b266p" path="res://scenes/Camera.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cnly8rx3dgsy4" path="res://scenes/Player.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://h0pjed41lu5b" path="res://scenes/Teleport.tscn" id="4"]
+[ext_resource type="Curve" uid="uid://gy6cktyh83as" path="res://values/coin_size_curve_large.tres" id="4_c1pdk"]
 [ext_resource type="PackedScene" uid="uid://ch0qbnawcqjk0" path="res://scenes/CoinsLarge.tscn" id="5"]
 [ext_resource type="Script" path="res://scripts/cameraFollower.gd" id="6_bwebg"]
 [ext_resource type="Texture2D" uid="uid://dlo360g163kto" path="res://sprites/characters/roguelikeChar_transparent.png" id="7_burbe"]
@@ -36,6 +37,7 @@ player = NodePath("../../Player")
 
 [node name="CoinsLarge" parent="Environment" instance=ExtResource("5")]
 position = Vector2(675, 338)
+sizeAnimation = ExtResource("4_c1pdk")
 
 [node name="Player" parent="." instance=ExtResource("3")]
 position = Vector2(472, 424)
