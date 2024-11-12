@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://cthtot2jpjbg3"]
+
+[ext_resource type="PackedScene" path="res://homework/Ship.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://edrp8kc1llfw" path="res://homework/sprites/playerShip1_green.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://b6qrxtf5gm304" path="res://homework/sprites/playerShip3_orange.png" id="3"]
+[ext_resource type="Texture2D" uid="uid://e76dfkk2eajw" path="res://homework/sprites/enemyBlack1.png" id="4"]
+[ext_resource type="Script" path="res://homework/scripts/Tweening.gd" id="5"]
+
+[node name="Tweening" type="Node2D"]
+script = ExtResource("5")
+
+[node name="Ship1" parent="." instance=ExtResource("1")]
+position = Vector2(160, 120)
+
+[node name="Ship2" parent="." instance=ExtResource("1")]
+position = Vector2(480, 120)
+texture = ExtResource("2")
+
+[node name="Ship3" parent="." instance=ExtResource("1")]
+position = Vector2(160, 360)
+texture = ExtResource("3")
+
+[node name="Ship4" parent="." instance=ExtResource("1")]
+position = Vector2(480, 360)
+texture = ExtResource("4")
