@@ -18,7 +18,7 @@ func _process(delta):
 			i += 1
 
 
-func tween():  # (t: CustomTween) => void
-	var tween = CustomTween.new()
+func tween(targetObject, property, startValue, endValue, duration, easeType = 0, on_end_callback = null):  # (t: CustomTween) => void
+	var tween = CustomTween.new(targetObject, property, startValue, endValue, duration, easeType, on_end_callback)
 	tweens.append(tween)
 	return tween

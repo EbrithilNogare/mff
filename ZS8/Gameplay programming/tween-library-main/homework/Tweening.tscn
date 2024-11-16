@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cthtot2jpjbg3"]
 
-[ext_resource type="PackedScene" path="res://homework/Ship.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://cvy3xh7cnyr6" path="res://homework/Ship.tscn" id="1"]
 [ext_resource type="Texture2D" uid="uid://edrp8kc1llfw" path="res://homework/sprites/playerShip1_green.png" id="2"]
 [ext_resource type="Texture2D" uid="uid://b6qrxtf5gm304" path="res://homework/sprites/playerShip3_orange.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://e76dfkk2eajw" path="res://homework/sprites/enemyBlack1.png" id="4"]

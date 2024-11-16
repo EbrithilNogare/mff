@@ -56,7 +56,7 @@ func button1():
 	
 	# Version 9
 	# can follow a path
-	# Tweens.tween($Sprite2D, "position", Vector2(320, 240), Vector2(500, 100), 2, EaseType.EASE_IN_OUT_CUBIC).then_to(Vector2(480, 360))
+	Tweens.tween($Sprite2D, "position", Vector2(320, 240), Vector2(500, 100), 2, EaseType.EASE_IN_OUT_CUBIC).then_to(Vector2(480, 360))
 
 
 # Restart the scene
@@ -67,5 +67,5 @@ func restart():
 	
 # Version 8
 func on_end_callback(tween: CustomTween):
-	# Tweens.tween(tween._target, "position", tween._target_value, tween._initial_value, 1)
+	Tweens.tween(tween._target, "position", tween._target_value, tween._initial_value, 1)
 	pass
