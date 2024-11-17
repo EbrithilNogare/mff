@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bihgrtny0hm5"]
+
+[ext_resource type="FontFile" uid="uid://c1p8j8vy4poea" path="res://fonts/kenvector_future_thin.ttf" id="1_bmtcp"]
+[ext_resource type="Script" path="res://scripts/floating_text.gd" id="2_rfb1u"]
+
+[node name="FloatingText" type="Label"]
+z_index = 64
+offset_left = -11.0
+offset_top = -13.0
+offset_right = 12.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_bmtcp")
+theme_override_font_sizes/font_size = 11
+text = "00"
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("2_rfb1u")

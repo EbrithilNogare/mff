@@ -1,7 +1,7 @@
 extends Area2D
 
-
 @export var speed: float = 4
+@onready var FloatingText = preload("res://scenes/FloatingText.tscn")
 
 signal moved
 
@@ -23,12 +23,10 @@ func _enter_tree():
 		position = PlayerState.lastPosition
 
 func _ready():
-	# align position to the middle of a tile
 	position.x = int(position.x / TILE_SIZE) * TILE_SIZE
 	position.y = int(position.y / TILE_SIZE) * TILE_SIZE
 	position += Vector2.ONE * TILE_SIZE/2
 	finalPosition = position
-	# set timer interval according to the speed
 	$MoveTimer.wait_time = 0.4/speed
 
 func _unhandled_input(event):
@@ -67,3 +65,10 @@ func _on_MoveTimer_timeout():
 
 func collect_coins(value):
 	PlayerState.add_coins(value)
+
+func get_hurt(value):
+	var floatingText = FloatingText.instantiate()
+	get_tree().root.add_child(floatingText)
+	floatingText.show_value(global_position + Vector2(-10,-20), str(value), Color(1, 0, 0))
+
+	PlayerState.decrease_health(value)

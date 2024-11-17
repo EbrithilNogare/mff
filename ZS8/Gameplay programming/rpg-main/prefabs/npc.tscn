@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bf7pilbhx8utg"]
+[gd_scene load_steps=8 format=3 uid="uid://bf7pilbhx8utg"]
 
 [ext_resource type="Script" path="res://scripts/npc.gd" id="1_h25af"]
 [ext_resource type="Texture2D" uid="uid://dlo360g163kto" path="res://sprites/characters/roguelikeChar_transparent.png" id="2_jg8yo"]
@@ -9,21 +9,21 @@
 size = Vector2(16, 16)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ndxrd"]
-radius = 17.0
+radius = 18.1108
 
-[sub_resource type="FontFile" id="FontFile_pgs2p"]
-fallbacks = Array[Font]([ExtResource("4_7j7ge")])
-subpixel_positioning = 0
-msdf_pixel_range = 14
-msdf_size = 128
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
-
-[sub_resource type="LabelSettings" id="LabelSettings_o515d"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fxmeo"]
+texture = ExtResource("3_mipig")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+expand_margin_left = 20.0
+expand_margin_top = 20.0
+expand_margin_right = 20.0
+expand_margin_bottom = 20.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.760784, 0.662745, 0.623529, 1)
 
 [node name="NPC" type="StaticBody2D"]
 script = ExtResource("1_h25af")
@@ -43,41 +43,6 @@ region_rect = Rect2(0, 85, 16, 16)
 position = Vector2(0, 4)
 shape = SubResource("CircleShape2D_ndxrd")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-self_modulate = Color(0.760784, 0.662745, 0.623529, 1)
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -32.86
-offset_top = -29.45
-offset_right = 33.14
-offset_bottom = -14.45
-grow_horizontal = 2
-pivot_offset = Vector2(33, 7.5)
-texture = ExtResource("3_mipig")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="TextureRect"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = 1.0
-offset_right = 143.0
-offset_bottom = 29.0
-grow_horizontal = 2
-scale = Vector2(0.3, 0.3)
-theme_override_fonts/font = SubResource("FontFile_pgs2p")
-theme_override_font_sizes/font_size = 1
-text = "-----"
-label_settings = SubResource("LabelSettings_o515d")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 visible = false
 
@@ -91,6 +56,40 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_outline_size = 4
 theme_override_fonts/font = ExtResource("4_7j7ge")
 text = "Press \"Space\" to interact"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-19, -21)
+scale = Vector2(0.1, 0.1)
+
+[node name="PanelContainer" type="PanelContainer" parent="Node2D"]
+visible = false
+texture_filter = 1
+custom_minimum_size = Vector2(400, 120)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_right = 400.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(200, 120)
+theme_override_styles/panel = SubResource("StyleBoxTexture_fxmeo")
+
+[node name="Label" type="Label" parent="Node2D/PanelContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_fonts/font = ExtResource("4_7j7ge")
+theme_override_font_sizes/font_size = 50
+text = "Go find trap and cheese,
+then catch that damn mouse
+in the basement"
 horizontal_alignment = 1
 vertical_alignment = 1
 

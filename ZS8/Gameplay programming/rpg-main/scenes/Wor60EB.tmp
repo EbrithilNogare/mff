@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://ds8leq4e402x"]
+[gd_scene load_steps=25 format=4 uid="uid://ds8leq4e402x"]
 
 [ext_resource type="TileSet" uid="uid://wims2spvuw0l" path="res://WorldTileset.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://cnly8rx3dgsy4" path="res://scenes/Player.tscn" id="2"]
@@ -19,7 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://btmgh5ontub1u" path="res://sprites/bear.png" id="13_s42su"]
 [ext_resource type="Script" path="res://scripts/bear.gd" id="13_vu3rd"]
 [ext_resource type="FontFile" uid="uid://mpe86homv2rs" path="res://fonts/kenvector_future.ttf" id="15_jkpry"]
-[ext_resource type="AudioStream" uid="uid://bnlxgv0by3vw4" path="res://audio/sword.mp3" id="16_p2dkx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xo064"]
 radius = 19.0263
@@ -146,11 +145,9 @@ region_rect = Rect2(80, 0, 16, 16)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Trap"]
 shape = SubResource("CircleShape2D_xo064")
 
-[node name="Bear" type="StaticBody2D" parent="Environment" node_paths=PackedStringArray("player", "swordAudio")]
+[node name="Bear" type="StaticBody2D" parent="Environment"]
 position = Vector2(72, 376)
 script = ExtResource("13_vu3rd")
-player = NodePath("../../Player")
-swordAudio = NodePath("AudioStreamPlayer2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="Environment/Bear"]
 texture = ExtResource("13_s42su")
@@ -191,9 +188,6 @@ text = "Press   SPACE   to  attack."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Environment/Bear"]
-stream = ExtResource("16_p2dkx")
-
 [node name="NPC - trader" parent="Environment" instance=ExtResource("4_wbj82")]
 z_index = 8
 position = Vector2(328, 202)
@@ -201,9 +195,6 @@ currentStory = "trader_1"
 
 [node name="Sprite2D" parent="Environment/NPC - trader" index="1"]
 region_rect = Rect2(17, 103, 16, 16)
-
-[node name="CollisionShape2D" parent="Environment/NPC - trader/CloseArea" index="0"]
-position = Vector2(0, 19)
 
 [node name="Player" parent="." instance=ExtResource("2")]
 z_index = 20

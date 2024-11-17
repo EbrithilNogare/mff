@@ -19,7 +19,7 @@ gradient = SubResource("Gradient_asaix")
 fill = 2
 fill_from = Vector2(0.5, 0.5)
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("coinsLabel", "healthBarBack", "healthBarFront", "inventoryLabel", "hurtOverlay")]
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("coinsLabel", "healthBarBack", "healthBarFront", "inventoryLabel", "hurtOverlay", "questsManager")]
 script = ExtResource("1_p8cww")
 coinsLabel = NodePath("Label")
 healthBarBack = NodePath("ProgressBarBack")
@@ -27,14 +27,16 @@ healthBarFront = NodePath("ProgressBarFront")
 inventoryLabel = NodePath("InventoryLabel")
 hurtOverlay = NodePath("HurtOverlay")
 shakePositions = Array[Vector2]([Vector2(-3, 4), Vector2(-1, -5), Vector2(5, 2), Vector2(3, -4), Vector2(5, 2), Vector2(-3, -4), Vector2(5, -1), Vector2(-1, 5), Vector2(-5, -1), Vector2(0, 0)])
+questsManager = NodePath("QuestManager")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 1080.0
-offset_top = 8.0
-offset_right = 1141.0
-offset_bottom = 34.0
+offset_left = 1034.0
+offset_top = 11.0
+offset_right = 1142.0
+offset_bottom = 37.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.533333)
 theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("3_ak843")
 text = "Coins: 0"
 
 [node name="ProgressBarBack" type="ProgressBar" parent="."]
@@ -82,3 +84,27 @@ offset_top = -17.0
 offset_right = 1166.0
 offset_bottom = 668.0
 texture = SubResource("GradientTexture2D_0rjth")
+
+[node name="QuestManager" type="RichTextLabel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -343.0
+offset_top = 61.0
+offset_right = -20.0
+offset_bottom = 561.0
+grow_horizontal = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.470588)
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/normal_font = ExtResource("2_sag7x")
+theme_override_fonts/bold_font = ExtResource("3_ak843")
+theme_override_font_sizes/bold_font_size = 26
+bbcode_enabled = true
+text = "[center][b]Quests[/b][/center][ul]
+Go home and talk to you mom
+Something else
+sdaklfjalskdjf;laksjdf;lkasjdf;lkasjdf;lkajsfd
+ksadljfa;lskdjf
+aslkdfja;sldfj
+[/ul]"
+tab_size = 8

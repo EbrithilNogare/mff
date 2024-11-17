@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://by8qdo8l2yeyo"]
+[gd_scene load_steps=8 format=3 uid="uid://by8qdo8l2yeyo"]
 
 [ext_resource type="Script" path="res://scripts/death_scene.gd" id="1_2oic0"]
-[ext_resource type="Texture2D" uid="uid://by2iix0wgp1hx" path="res://sprites/deathScreen.png" id="1_yv64y"]
+[ext_resource type="Texture2D" uid="uid://by2iix0wgp1hx" path="res://sprites/deathScreen_cactus.png" id="1_yv64y"]
 [ext_resource type="FontFile" uid="uid://mpe86homv2rs" path="res://fonts/kenvector_future.ttf" id="2_ve63e"]
+[ext_resource type="Texture2D" uid="uid://d3w3uap7w61id" path="res://sprites/deathScreen_bear.png" id="3_fy6g3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fkn6"]
 bg_color = Color(0.527344, 0.527344, 0.527344, 1)
@@ -18,14 +19,29 @@ script = ExtResource("1_2oic0")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 100
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+[node name="Backgrounds" type="Node" parent="CanvasLayer"]
+
+[node name="Cactus" type="TextureRect" parent="CanvasLayer/Backgrounds"]
+visible = false
 modulate = Color(0.640625, 0.477966, 0.477966, 1)
 anchors_preset = -1
 anchor_right = 1.028
 anchor_bottom = 1.025
 offset_right = -0.255981
-offset_bottom = -0.200073
+offset_bottom = -0.200012
 texture = ExtResource("1_yv64y")
+stretch_mode = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Bear" type="TextureRect" parent="CanvasLayer/Backgrounds"]
+visible = false
+modulate = Color(0.640625, 0.477966, 0.477966, 1)
+anchors_preset = -1
+anchor_right = 1.028
+anchor_bottom = 1.025
+offset_right = -0.255981
+offset_bottom = -0.200012
+texture = ExtResource("3_fy6g3")
 stretch_mode = 6
 metadata/_edit_use_anchors_ = true
 

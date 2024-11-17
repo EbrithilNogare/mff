@@ -6,6 +6,7 @@ extends CanvasLayer
 @export var inventoryLabel: RichTextLabel
 @export var hurtOverlay: TextureRect
 @export var shakePositions: Array[Vector2]
+@export var questsManager: RichTextLabel
 
 func update_coins(withAnimation) -> void:
 	if withAnimation:
@@ -16,6 +17,12 @@ func update_coins(withAnimation) -> void:
 
 		tween.tween_method(setCoinsText, start_value, end_value, 0.5)
 		await tween.finished
+
+func update_quests() -> void:
+	questsManager.text = "[center][b]Quests[/b][/center][ul]"
+	for questKey in PlayerState.quests:
+		questsManager.text += "\n" + PlayerState.quests[questKey]
+	questsManager.text += "[/ul]"
 
 func update_health(healthDelta: int) -> void:
 	healthBarFront.value = PlayerState.health
@@ -50,3 +57,4 @@ func _ready() -> void:
 	update_coins(false)
 	update_health(0)
 	update_inventory()
+	update_quests()
