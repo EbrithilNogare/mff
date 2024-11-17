@@ -46,6 +46,9 @@ func _input(event: InputEvent) -> void:
 				PlayerState.quests.erase(currentStory)
 				Hud.update_quests()
 			currentStory = PlayerState.story[currentStory].next if PlayerState.story[currentStory].next != null else currentStory
+			if currentStory == "end":
+				Transition.changeScene("res://scenes/EndScene.tscn")
+				return
 			if PlayerState.story[currentStory].next != null and PlayerState.story[currentStory].has("questText"):
 				PlayerState.quests[currentStory] = PlayerState.story[currentStory].questText
 				Hud.update_quests()

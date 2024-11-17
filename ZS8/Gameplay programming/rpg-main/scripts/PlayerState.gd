@@ -14,9 +14,9 @@ var attackStrength = 30
 var inventory = {
 	"cactusSpike": 0,
 	"cheese": 0,
+	"sword": 0,
 	"trap": 0,
 	"deadMouse": 0,
-	"sword": 0,
 }
 var quests = {
 	"mama_1": "Go home and talk to you mom",
@@ -123,7 +123,7 @@ var story = {
 	"mama_9": {
 		"text": "Thank you\nthat's everything for now",
 		"itemToFinish": null,
-		"next": null,
+		"next": "end",
 		"finished": false,
 	},
 	"trader_1": {

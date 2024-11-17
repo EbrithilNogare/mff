@@ -37,7 +37,7 @@ func _on_area_entered(area: Area2D) -> void:
 
 func _on_area_exited(area: Area2D) -> void:
 	if area.is_in_group("Player"):
-		if trapObject.is_visible():
+		if trapObject.is_visible() and trapObject.get_node("CollisionShape2D").disabled:
 			activate_mouse()
 		$CanvasLayer/Label.hide()
 		is_active = false
