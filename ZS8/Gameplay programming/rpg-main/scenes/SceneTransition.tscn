@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://c21n7uv8qpj14"]
-
-[node name="SceneTransition" type="Node2D"]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]

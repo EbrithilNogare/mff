@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://ds8leq4e402x"]
+[gd_scene load_steps=17 format=4 uid="uid://ds8leq4e402x"]
 
 [ext_resource type="TileSet" uid="uid://wims2spvuw0l" path="res://WorldTileset.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://cnly8rx3dgsy4" path="res://scenes/Player.tscn" id="2"]
@@ -13,6 +13,11 @@
 [ext_resource type="PackedScene" uid="uid://dfbg52xushje0" path="res://scenes/CoinsMedium.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://ch0qbnawcqjk0" path="res://scenes/CoinsLarge.tscn" id="9"]
 [ext_resource type="Script" path="res://scripts/cameraFollower.gd" id="10_e2jwd"]
+[ext_resource type="Script" path="res://scripts/pickable.gd" id="11_41p14"]
+[ext_resource type="Texture2D" uid="uid://bi4o064vhdedj" path="res://sprites/mouse.png" id="12_hqbwj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xo064"]
+radius = 19.0263
 
 [node name="World" type="Node2D"]
 texture_filter = 1
@@ -107,8 +112,22 @@ position = Vector2(312, 216)
 sizeAnimation = ExtResource("6_i1a7m")
 
 [node name="CoinsLarge2" parent="Environment/Coins" instance=ExtResource("9")]
-position = Vector2(200, 344)
+position = Vector2(760, 598)
 sizeAnimation = ExtResource("6_i1a7m")
+
+[node name="Trap" type="Area2D" parent="Environment"]
+position = Vector2(200, 329)
+script = ExtResource("11_41p14")
+itemName = "trap"
+count = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/Trap"]
+texture = ExtResource("12_hqbwj")
+region_enabled = true
+region_rect = Rect2(80, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Trap"]
+shape = SubResource("CircleShape2D_xo064")
 
 [node name="Player" parent="." instance=ExtResource("2")]
 z_index = 20
@@ -124,3 +143,4 @@ player = NodePath("../Player")
 [connection signal="area_entered" from="Environment/Coins/CoinsMedium2" to="Environment/Coins/CoinsMedium2" method="_on_area_entered"]
 [connection signal="area_entered" from="Environment/Coins/CoinsLarge" to="Environment/Coins/CoinsLarge" method="_on_area_entered"]
 [connection signal="area_entered" from="Environment/Coins/CoinsLarge2" to="Environment/Coins/CoinsLarge2" method="_on_area_entered"]
+[connection signal="area_shape_entered" from="Environment/Trap" to="Environment/Trap" method="_on_area_shape_entered"]

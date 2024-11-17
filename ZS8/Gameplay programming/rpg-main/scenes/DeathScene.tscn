@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://by8qdo8l2yeyo"]
+
+[ext_resource type="Script" path="res://scripts/death_scene.gd" id="1_2oic0"]
+[ext_resource type="Texture2D" uid="uid://by2iix0wgp1hx" path="res://sprites/deathScreen.png" id="1_yv64y"]
+[ext_resource type="FontFile" uid="uid://mpe86homv2rs" path="res://fonts/kenvector_future.ttf" id="2_ve63e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8fkn6"]
+bg_color = Color(0.527344, 0.527344, 0.527344, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dt18e"]
+bg_color = Color(0.292969, 0.292969, 0.292969, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8kh2"]
+
+[node name="DeathScene" type="Node2D"]
+script = ExtResource("1_2oic0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+modulate = Color(0.640625, 0.477966, 0.477966, 1)
+anchors_preset = -1
+anchor_right = 1.028
+anchor_bottom = 1.025
+offset_right = -0.255981
+offset_bottom = -0.200073
+texture = ExtResource("1_yv64y")
+stretch_mode = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 21.0
+offset_top = 491.0
+offset_right = 566.0
+offset_bottom = 616.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_ve63e")
+theme_override_font_sizes/font_size = 110
+theme_override_styles/hover = SubResource("StyleBoxFlat_8fkn6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_dt18e")
+theme_override_styles/normal = SubResource("StyleBoxFlat_n8kh2")
+text = "REVIVE"
+icon_alignment = 1
+expand_icon = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 105.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(1, 0, 0, 1)
+theme_override_constants/shadow_outline_size = 26
+theme_override_fonts/normal_font = ExtResource("2_ve63e")
+theme_override_font_sizes/normal_font_size = 86
+bbcode_enabled = true
+text = "[center]GAME  KONEC[/center]"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer"]
+offset_left = 36.0
+offset_top = 617.0
+offset_right = 547.0
+offset_bottom = 645.0
+bbcode_enabled = true
+text = "[center]By pressing this button you agree not to die the same way again[/center]"
+
+[connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_button_pressed"]

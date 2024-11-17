@@ -9,31 +9,39 @@ var coins = 0
 var lastPosition = Vector2(INF, INF)
 var inventory = {
 	"cactusSpike": 0,
+	"cheese": 0,
+	"trap": 0,
+	"deadMouse": 0,
 }
-var alreadyTakenCoins = []
+var alreadyTakenItems = []
 
 func inventoryChange(itemName, deltaValue):
-	inventory[itemName] += deltaValue
+	inventory[itemName] = clamp(inventory[itemName] + deltaValue, 0, 999)
 	Hud.update_inventory()
-
 
 func increase_health(value: int):
 	health = clamp(health + value, 0, MAX_HEALTH)
 	Hud.update_health(value)
 
-func decrease_health(value: int):
+func decrease_health(value: int):		
 	health = clamp(health - value, 0, MAX_HEALTH)
 	Hud.update_health(-value)
+	
+	if(health == 0):
+		health = MAX_HEALTH;
+		var death_scene: String = "res://scenes/DeathScene.tscn"
+		Transition.changeScene(death_scene)
+		return
 	
 func add_coins(value: int):
 	coins += value
 	Hud.update_coins(true)
 
-func setCoinTaken(coinHash: int):
-	alreadyTakenCoins.append(coinHash)
+func setItemTaken(coinHash: int):
+	alreadyTakenItems.append(coinHash)
 
-func checkIfCoinWasTaken(coinHash: int):
-	return alreadyTakenCoins.find(coinHash) != -1
+func checkIfItemWasTaken(coinHash: int):
+	return alreadyTakenItems.find(coinHash) != -1
 
 
 ##########

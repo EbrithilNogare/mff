@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://bn1nuedl8yvma"]
+[gd_scene load_steps=14 format=4 uid="uid://bn1nuedl8yvma"]
 
 [ext_resource type="TileSet" uid="uid://wims2spvuw0l" path="res://WorldTileset.tres" id="1"]
 [ext_resource type="PackedScene" uid="uid://b4t40w81b266p" path="res://scenes/Camera.tscn" id="2"]
@@ -6,9 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://h0pjed41lu5b" path="res://scenes/Teleport.tscn" id="4"]
 [ext_resource type="Curve" uid="uid://gy6cktyh83as" path="res://values/coin_size_curve_large.tres" id="4_c1pdk"]
 [ext_resource type="PackedScene" uid="uid://ch0qbnawcqjk0" path="res://scenes/CoinsLarge.tscn" id="5"]
+[ext_resource type="Script" path="res://scripts/pickable.gd" id="5_rpxd5"]
+[ext_resource type="Texture2D" uid="uid://bi4o064vhdedj" path="res://sprites/mouse.png" id="5_u488o"]
 [ext_resource type="Script" path="res://scripts/cameraFollower.gd" id="6_bwebg"]
 [ext_resource type="Texture2D" uid="uid://dlo360g163kto" path="res://sprites/characters/roguelikeChar_transparent.png" id="7_burbe"]
 [ext_resource type="PackedScene" uid="uid://bf7pilbhx8utg" path="res://prefabs/npc.tscn" id="8_dag6f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sciyh"]
+radius = 19.0263
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w0r4v"]
+size = Vector2(270.5, 158)
 
 [node name="House" type="Node2D"]
 texture_filter = 1
@@ -36,8 +44,29 @@ message = "Press SPACE to leave."
 player = NodePath("../../Player")
 
 [node name="CoinsLarge" parent="Environment" instance=ExtResource("5")]
-position = Vector2(675, 338)
+position = Vector2(678, 342)
 sizeAnimation = ExtResource("4_c1pdk")
+
+[node name="Cheese" type="Area2D" parent="Environment"]
+position = Vector2(520, 193)
+script = ExtResource("5_rpxd5")
+itemName = "cheese"
+count = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Environment/Cheese"]
+texture = ExtResource("5_u488o")
+region_enabled = true
+region_rect = Rect2(64, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Cheese"]
+shape = SubResource("CircleShape2D_sciyh")
+
+[node name="Basement" type="Area2D" parent="Environment"]
+position = Vector2(552, 579)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Environment/Basement"]
+position = Vector2(-0.25, -3)
+shape = SubResource("RectangleShape2D_w0r4v")
 
 [node name="Player" parent="." instance=ExtResource("3")]
 position = Vector2(472, 424)
@@ -62,3 +91,5 @@ region_rect = Rect2(0, 102, 16, 16)
 [node name="NPC - mama" parent="NPCs" instance=ExtResource("8_dag6f")]
 position = Vector2(456, 312)
 currentStory = "mama_1"
+
+[connection signal="area_shape_entered" from="Environment/Cheese" to="Environment/Cheese" method="_on_area_shape_entered"]
