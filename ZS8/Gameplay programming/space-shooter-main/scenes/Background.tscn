@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3ny63wwg17mg"]
+
+[ext_resource type="Texture2D" uid="uid://cfjrugh84feck" path="res://sprites/Backgrounds/darkPurple.png" id="1"]
+[ext_resource type="Script" path="res://scripts/Background.gd" id="2"]
+
+[node name="Background" type="ParallaxBackground"]
+script = ExtResource("2")
+velocity = Vector2(0, 150)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0, 1)
+motion_mirroring = Vector2(0, 896)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+position = Vector2(448, 448)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("1")
