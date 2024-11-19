@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://y5xjg0md3wfi"]
+
+[ext_resource type="Texture2D" uid="uid://dicnoocrsl23j" path="res://sprites/Ships/enemyRed2.png" id="1_7xp1i"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_l7xir"]
+
+[node name="Enemy" type="Area2D"]
+script = ExtResource("1_l7xir")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_7xp1i")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(1, -48, 54, -16, 25, 45, -24, 46, -54, -14)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

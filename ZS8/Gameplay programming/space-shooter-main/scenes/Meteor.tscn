@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cro4rfq0jy26i"]
+
+[ext_resource type="Script" path="res://scripts/meteor.gd" id="1_vbwpr"]
+[ext_resource type="Texture2D" uid="uid://04muatt7fde6" path="res://sprites/Meteoroids/meteorBrown_big4.png" id="1_w26sb"]
+
+[node name="Meteor" type="Area2D"]
+script = ExtResource("1_vbwpr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_w26sb")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-36, -36, 17, -49, 50, -12, 33, 43, -20, 51, -51, 12)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(2, 5.54323e-06)
+scale = Vector2(5.4, 4.9)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
