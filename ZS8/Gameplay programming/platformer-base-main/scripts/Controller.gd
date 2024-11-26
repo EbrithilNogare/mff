@@ -49,7 +49,7 @@ func _physics_process(delta):
 	timeFromLastJumpPressed += delta;
 
 	move_and_slide()
-	ScreenWrap.wrap_x_cbody(self)
+	# ScreenWrap.wrap_x_cbody(self)
 		
 
 func move_left():
