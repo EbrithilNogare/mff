@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://urydr0rqxuxr"]
+[gd_scene load_steps=5 format=3 uid="uid://urydr0rqxuxr"]
 
 [ext_resource type="Script" path="res://scripts/Controller.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://4gma43mbbufu" path="res://sprites/characters/player_stand.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhb0y"]
 size = Vector2(15.8099, 23.8324)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3ahgg"]
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(517, 325)
@@ -20,3 +22,12 @@ position = Vector2(0.499939, 5.99997)
 rotation = -3.14159
 scale = Vector2(1.45478, -2.1819)
 shape = SubResource("RectangleShape2D_xhb0y")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 32)
+shape = SubResource("CircleShape2D_3ahgg")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_ground_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_ground_area_exited"]
