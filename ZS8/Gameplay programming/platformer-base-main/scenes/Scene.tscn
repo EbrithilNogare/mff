@@ -7,15 +7,15 @@
 
 [node name="Scene" type="Node2D"]
 
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("4_rfxiu")
+player = NodePath("../Player")
+
 [node name="Environment" parent="." instance=ExtResource("1")]
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(572, 271)
 
 [node name="Crate" parent="." instance=ExtResource("3")]
-
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("4_rfxiu")
-player = NodePath("../Player")
 
 [editable path="Player"]

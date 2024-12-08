@@ -10,7 +10,7 @@ func _ready() -> void:
 	position = player.get_global_position()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var playerSpeed = player.get("velocity").x
 	var virtualPosition = player.get_global_position() + Vector2(playerSpeed * forwardStrength, 0)
 	var cameraPosition = lerp(get_global_position(), virtualPosition, lerpSpeed)
