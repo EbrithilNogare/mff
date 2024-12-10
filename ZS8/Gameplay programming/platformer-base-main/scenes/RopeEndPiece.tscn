@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7fmwlxesdjkr"]
+
+[ext_resource type="Texture2D" uid="uid://dberi77buuq7o" path="res://sprites/rope_piece.png" id="1_122wh"]
+[ext_resource type="Script" path="res://scripts/RopeEndPiece.gd" id="1_q4edk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ux6m"]
+size = Vector2(12.655, 12.655)
+
+[node name="RopeEndPiece" type="StaticBody2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_q4edk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_8ux6m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_122wh")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)

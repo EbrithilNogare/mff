@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxswifor3k7mb"]
+
+[ext_resource type="Script" path="res://scripts/rope.gd" id="1_npdwv"]
+[ext_resource type="PackedScene" uid="uid://b7fmwlxesdjkr" path="res://scenes/RopeEndPiece.tscn" id="1_vw4f2"]
+[ext_resource type="PackedScene" uid="uid://be45vfh2vm2rp" path="res://scenes/RopePiece.tscn" id="2_ycyjm"]
+
+[node name="Rope" type="Node2D"]
+script = ExtResource("1_npdwv")
+
+[node name="RopeEndPiece" parent="." instance=ExtResource("1_vw4f2")]
+
+[node name="RopePiece" parent="." node_paths=PackedStringArray("previousChunk") instance=ExtResource("2_ycyjm")]
+previousChunk = NodePath("../RopeEndPiece")
+
+[node name="RopePiece2" parent="." node_paths=PackedStringArray("previousChunk") instance=ExtResource("2_ycyjm")]
+position = Vector2(0, 38)
+previousChunk = NodePath("../RopePiece")
+
+[node name="RopePiece3" parent="." node_paths=PackedStringArray("previousChunk") instance=ExtResource("2_ycyjm")]
+position = Vector2(0, 76)
+previousChunk = NodePath("../RopePiece2")
+
+[node name="RopePiece4" parent="." node_paths=PackedStringArray("previousChunk") instance=ExtResource("2_ycyjm")]
+position = Vector2(0, 114)
+previousChunk = NodePath("../RopePiece3")
