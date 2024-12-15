@@ -1,13 +1,10 @@
-extends Node
-
-@export var previousChunk: Node
+extends RigidBody2D
+class_name RopePiece
 
 func _ready() -> void:
-	if previousChunk != null:
-		var joint = $PinJoint2D
-		joint.node_b = previousChunk.get_path()
-	pass
+	var joint = $PinJoint2D
+	joint.node_a = get_path()
 
-
-func _process(_delta: float) -> void:
-	pass
+func _set_previousChunk(previousChunk: Node) -> void:
+	var joint = $PinJoint2D
+	joint.node_b = previousChunk.get_path()

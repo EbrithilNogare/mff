@@ -3,25 +3,32 @@
 [ext_resource type="Script" path="res://scripts/RopePiece.gd" id="1_s6gn8"]
 [ext_resource type="Texture2D" uid="uid://dberi77buuq7o" path="res://sprites/rope_piece.png" id="1_xbu4v"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fdf0"]
-size = Vector2(12.655, 50.785)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5thlv"]
+radius = 5.0
+height = 38.0
 
 [node name="RopePiece" type="RigidBody2D"]
 collision_layer = 4
 collision_mask = 2
-mass = 0.1
-linear_damp = 0.1
-angular_damp = 0.1
+mass = 0.01
+center_of_mass_mode = 1
+center_of_mass = Vector2(10, 0)
+linear_damp = 0.5
+angular_damp = 0.5
 script = ExtResource("1_s6gn8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 20)
-shape = SubResource("RectangleShape2D_4fdf0")
+position = Vector2(15, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_5thlv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 20)
-scale = Vector2(0.2, 0.2)
+position = Vector2(15, 0)
+rotation = 1.5708
+scale = Vector2(0.15, 0.15)
 texture = ExtResource("1_xbu4v")
 
 [node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2(30, 0)
+rotation = 1.5708
 node_a = NodePath("..")
