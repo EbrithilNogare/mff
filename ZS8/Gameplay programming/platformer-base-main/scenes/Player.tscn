@@ -99,6 +99,9 @@ shape = SubResource("CircleShape2D_3ahgg")
 collision_mask = 2
 collide_with_areas = true
 
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+node_a = NodePath("..")
+
 [connection signal="area_entered" from="GroundArea2D" to="." method="_on_ground_area_entered"]
 [connection signal="area_exited" from="GroundArea2D" to="." method="_on_ground_area_exited"]
 [connection signal="area_entered" from="RopeArea2D" to="." method="_on_rope_area_2d_area_entered"]

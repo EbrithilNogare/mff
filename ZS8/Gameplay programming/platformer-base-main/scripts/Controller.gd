@@ -1,17 +1,13 @@
-# Simple movement and jump
-# Wrapping around the edges of the screen
-
 extends CharacterBody2D
 
 @export var maxSpeed: int = 400
 @export var jump_force: int = 650
-
 @export var coyoteTime: float = 0.2
 @export var jumpWithDelay: float = 0.2
 @export var velocitySpeedup: float = 50
+@export var velocitySpeedupOnRope: float = 10
 @export var velocitySlowdown: float = 25
 @export var jumpDurationProlong: float = .15
-
 @export var ropeSpawner: Node2D
 
 var timeFromLastOnFloor: float = coyoteTime + 1
@@ -19,6 +15,7 @@ var timeFromLastJumpPressed: float = jumpWithDelay + 1
 var hangingOnRope: bool = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * 2
 var attached_rope_piece_index: int = -1
+var canAttachToRope: bool = true # resets on ground touch
 
 
 func _physics_process(delta):
@@ -31,7 +28,6 @@ func _physics_process(delta):
 
 
 func processPhysicsOnGround(delta):
-	# Rope controlls
 	if(Input.is_action_just_pressed("Q")):
 		trySpawnRope(true)
 	elif(Input.is_action_just_pressed("E")):
@@ -41,9 +37,9 @@ func processPhysicsOnGround(delta):
 	elif(Input.is_action_just_pressed("R")):
 		ropeSpawner.removePieceOfRope()
 
-
 	if is_on_floor():
 		timeFromLastOnFloor = 0
+		canAttachToRope = true
 	else:
 		timeFromLastOnFloor += delta
 
@@ -53,7 +49,7 @@ func processPhysicsOnGround(delta):
 		move_right()
 	else:
 		move_stop()
-		
+
 	if Input.is_action_just_pressed("Jump"):
 		if timeFromLastOnFloor < coyoteTime:
 			jump()
@@ -61,56 +57,59 @@ func processPhysicsOnGround(delta):
 			timeFromLastJumpPressed = 0
 	elif Input.is_action_pressed("Jump"):
 		keepJumping()
-		
+
 	if !is_on_floor():
 		if velocity.y < 0:
 			$AnimatedSprite2D.play("jump")
 		else :
 			$AnimatedSprite2D.play("fall")
-	
+
 	if timeFromLastJumpPressed <= jumpWithDelay && timeFromLastOnFloor < coyoteTime:
 		jump()
 	timeFromLastJumpPressed += delta;
 	move_and_slide()
-		
+
 
 func processPhysicsOnRope(_delta):
+	var rope_piece = ropeSpawner.rope_pieces[attached_rope_piece_index]
+
 	if Input.is_action_just_pressed("Jump"):
 		hangingOnRope = false
+		jump()
 		return
 
 	if Input.is_action_pressed("Left"):
-		move_left()
+		rope_piece.apply_force(Vector2(-velocitySpeedupOnRope, 0))
 	elif Input.is_action_pressed("Right"):
-		move_right()
+		rope_piece.apply_force(Vector2(velocitySpeedupOnRope, 0))
 	else:
 		move_stop()
 
 	if Input.is_action_just_pressed("Up"):
 		if attached_rope_piece_index > 1:
 			attached_rope_piece_index -= 1
-			var new_rope_piece = ropeSpawner.rope_pieces[attached_rope_piece_index]
-			global_position = new_rope_piece.global_position
+			rope_piece = ropeSpawner.rope_pieces[attached_rope_piece_index]
 	elif Input.is_action_just_pressed("Down"):
 		if attached_rope_piece_index < ropeSpawner.rope_pieces.size() - 1:
 			attached_rope_piece_index += 1
-			var new_rope_piece = ropeSpawner.rope_pieces[attached_rope_piece_index]
-			global_position = new_rope_piece.global_position
+			rope_piece = ropeSpawner.rope_pieces[attached_rope_piece_index]
 	else:
 		pass
+
+	global_position = rope_piece.global_position
 
 
 func move_left():
 	velocity.x = clamp(velocity.x - velocitySpeedup, -maxSpeed, maxSpeed)
 	$AnimatedSprite2D.play("walk")
 	$AnimatedSprite2D.flip_h = true  # face left
-	
+
 
 func move_right():
 	velocity.x = clamp(velocity.x + velocitySpeedup, -maxSpeed, maxSpeed)
 	$AnimatedSprite2D.play("walk")
 	$AnimatedSprite2D.flip_h = false  # face right
-	
+
 
 func move_stop():
 	if velocity.x > 0:
@@ -147,11 +146,10 @@ func trySpawnRope(left: bool = true):
 
 
 func _on_rope_area_2d_body_entered(body: RopePiece) -> void:
-
-	if hangingOnRope:
+	if !canAttachToRope || hangingOnRope:
 		return
 
 	hangingOnRope = true
+	canAttachToRope = false
 	velocity = Vector2()
 	attached_rope_piece_index = ropeSpawner.rope_pieces.find(body)
-	print("Hanging on rope: ", attached_rope_piece_index)

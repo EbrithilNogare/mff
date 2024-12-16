@@ -17,11 +17,10 @@ func spawnNewRope(_startPosition: Vector2, _endPosition: Vector2) -> void:
 	endPosition = _endPosition
 	rope_pieces = []
 	
-	var rope_length = startPosition.distance_to(endPosition)
-	var number_of_pieces = int(rope_length / rope_piece_length)
-	
 	addAnchor()
 	
+	var rope_length = startPosition.distance_to(endPosition)
+	var number_of_pieces = int(rope_length / rope_piece_length)
 	for i in range(number_of_pieces):
 		addPieceOfRope()
 
