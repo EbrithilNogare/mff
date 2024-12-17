@@ -16,7 +16,10 @@ var hangingOnRope: bool = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * 2
 var attached_rope_piece_index: int = -1
 var canAttachToRope: bool = true # resets on ground touch
+var animator: AnimationPlayer
 
+func _ready():
+	animator = $GBot.get_node("AnimationPlayer")
 
 func _physics_process(delta):
 	if hangingOnRope:
@@ -116,7 +119,7 @@ func move_stop():
 		velocity.x = max(0, velocity.x - velocitySlowdown)
 	elif velocity.x < 0:
 		velocity.x = min(0, velocity.x + velocitySlowdown)
-	$AnimatedSprite2D.play("idle")
+	animator.play("idle")
 
 
 func jump():

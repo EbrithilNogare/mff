@@ -1,3 +1,346 @@
-[gd_scene format=3 uid="uid://npr8dx3qcujr"]
+[gd_scene load_steps=26 format=3 uid="uid://npr8dx3qcujr"]
 
-[node name="GBot" type="Node"]
+[ext_resource type="Texture2D" uid="uid://bt3sqtuhfk7jv" path="res://sprites/characters/gbot/gBot_arm_l.png" id="1_82gyk"]
+[ext_resource type="Texture2D" uid="uid://bghms1jnujtr5" path="res://sprites/characters/gbot/gBot_arm_r.png" id="2_m4d0l"]
+[ext_resource type="Texture2D" uid="uid://d0nmei3vq2or8" path="res://sprites/characters/gbot/gBot_body.png" id="3_nkwt7"]
+[ext_resource type="Texture2D" uid="uid://druhkuspvywab" path="res://sprites/characters/gbot/gBot_complete.png" id="4_kxv36"]
+[ext_resource type="Texture2D" uid="uid://djaqq8mrjy3yq" path="res://sprites/characters/gbot/gBot_foot_l.png" id="5_uuc8q"]
+[ext_resource type="Texture2D" uid="uid://bkl27tqjhggoo" path="res://sprites/characters/gbot/gBot_foot_r.png" id="6_r8lht"]
+[ext_resource type="Texture2D" uid="uid://cxcf3pp57ixq0" path="res://sprites/characters/gbot/gBot_forearm_l.png" id="7_d2r76"]
+[ext_resource type="Texture2D" uid="uid://dr0fj2e14wc7g" path="res://sprites/characters/gbot/gBot_forearm_r.png" id="8_1a5dl"]
+[ext_resource type="Texture2D" uid="uid://qfw4w7c4c0of" path="res://sprites/characters/gbot/gBot_head.png" id="9_sc5yj"]
+[ext_resource type="Texture2D" uid="uid://ceabgmll4i8rs" path="res://sprites/characters/gbot/gBot_hip.png" id="10_jqx0j"]
+[ext_resource type="Texture2D" uid="uid://23her8wrcshe" path="res://sprites/characters/gbot/gBot_jaw.png" id="11_h2r3w"]
+[ext_resource type="Texture2D" uid="uid://dttln08lsyosv" path="res://sprites/characters/gbot/gBot_leg_l.png" id="12_mufh0"]
+[ext_resource type="Texture2D" uid="uid://1hdcov2ubssy" path="res://sprites/characters/gbot/gBot_leg_r.png" id="13_8687q"]
+[ext_resource type="Texture2D" uid="uid://c5ibgl7b8pj4q" path="res://sprites/characters/gbot/gBot_shin_l.png" id="15_8l354"]
+[ext_resource type="Texture2D" uid="uid://yvn7pe5i7jo1" path="res://sprites/characters/gbot/gBot_shin_r.png" id="16_h1p84"]
+[ext_resource type="Texture2D" uid="uid://dn28b4x6n7qc" path="res://sprites/characters/player.png" id="17_sqy6k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu3y3"]
+atlas = ExtResource("17_sqy6k")
+region = Rect2(0, 330, 80, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7omgm"]
+atlas = ExtResource("17_sqy6k")
+region = Rect2(0, 110, 80, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olf1h"]
+atlas = ExtResource("17_sqy6k")
+region = Rect2(0, 220, 80, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex7cy"]
+atlas = ExtResource("17_sqy6k")
+region = Rect2(0, 0, 80, 110)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhkub"]
+atlas = ExtResource("17_sqy6k")
+region = Rect2(80, 0, 80, 110)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wxnmt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eu3y3")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7omgm")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olf1h")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex7cy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhkub")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_jpdj6"]
+resource_name = "idle"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GBotHead:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, -17.09), Vector2(1, -15.2), Vector2(1, -17.09)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GBotJaw:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(2, -7), Vector2(2, -5.11), Vector2(2, -7)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GBotArmR:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-6.49, 2.58), Vector2(-6.49, 4.47), Vector2(-6.49, 2.58)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("GBotForearmR:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(-7.05, 13.5), Vector2(-7.05, 15.39), Vector2(-7.05, 13.5)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GBotBody:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.0200005, 2.65), Vector2(0.02, 3.595), Vector2(0.0200005, 2.65)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("GBotArmL:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(5.62, 2.65), Vector2(5.62, 4.54), Vector2(5.62, 2.65)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("GBotForearmL:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(6.04, 12.66), Vector2(6.04, 14.55), Vector2(6.04, 12.66)]
+}
+
+[sub_resource type="Animation" id="Animation_fj4ks"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GBotHead:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, -17.09)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GBotJaw:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, -7)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("GBotArmR:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-6.49, 2.58)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("GBotForearmR:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-7.05, 13.5)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GBotBody:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.0200005, 2.65)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("GBotArmL:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(5.62, 2.65)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("GBotForearmL:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(6.04, 12.66)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y1erm"]
+_data = {
+"RESET": SubResource("Animation_fj4ks"),
+"idle": SubResource("Animation_jpdj6")
+}
+
+[node name="GBot" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_wxnmt")
+animation = &"walk"
+
+[node name="GBotComplete" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(31, 3)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("4_kxv36")
+
+[node name="GBotArmL" type="Sprite2D" parent="."]
+position = Vector2(5.62, 2.65)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("1_82gyk")
+
+[node name="GBotForearmL" type="Sprite2D" parent="."]
+position = Vector2(6.04, 12.66)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("7_d2r76")
+
+[node name="GBotLegL" type="Sprite2D" parent="."]
+position = Vector2(2.4, 17.7)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("12_mufh0")
+
+[node name="GBotShinL" type="Sprite2D" parent="."]
+position = Vector2(2.96, 24.14)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("15_8l354")
+
+[node name="GBotFootL" type="Sprite2D" parent="."]
+position = Vector2(4.29, 29.18)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("5_uuc8q")
+
+[node name="GBotHip" type="Sprite2D" parent="."]
+position = Vector2(-0.26, 13.5)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("10_jqx0j")
+
+[node name="GBotBody" type="Sprite2D" parent="."]
+position = Vector2(0.0200005, 2.65)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("3_nkwt7")
+
+[node name="GBotHead" type="Sprite2D" parent="."]
+position = Vector2(1, -17.09)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("9_sc5yj")
+
+[node name="GBotJaw" type="Sprite2D" parent="."]
+position = Vector2(2, -7)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("11_h2r3w")
+
+[node name="GBotLegR" type="Sprite2D" parent="."]
+position = Vector2(-4.53, 18.47)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("13_8687q")
+
+[node name="GBotShinR" type="Sprite2D" parent="."]
+position = Vector2(-3.97, 24.77)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("16_h1p84")
+
+[node name="GBotFootR" type="Sprite2D" parent="."]
+position = Vector2(-2.57, 30.02)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("6_r8lht")
+
+[node name="GBotArmR" type="Sprite2D" parent="."]
+position = Vector2(-6.49, 2.58)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("2_m4d0l")
+
+[node name="GBotForearmR" type="Sprite2D" parent="."]
+position = Vector2(-7.05, 13.5)
+scale = Vector2(0.07, 0.07)
+texture = ExtResource("8_1a5dl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_y1erm")
+}
