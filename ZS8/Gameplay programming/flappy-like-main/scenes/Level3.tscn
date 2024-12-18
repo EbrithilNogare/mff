@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://ceoxrv572dyyq"]
+
+[ext_resource type="PackedScene" uid="uid://bumdpcgkiuwot" path="res://scenes/LevelTemplate.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/Wall.tscn" id="2"]
+
+[node name="Level3" instance=ExtResource("1")]
+next_scene = "res://scenes/MainMenu.tscn"
+
+[node name="EndZone" parent="ScrollingLayer" index="0"]
+position = Vector2(2500, 300)
+
+[node name="Wall" parent="ScrollingLayer" index="1" instance=ExtResource("2")]
+position = Vector2(1080, 410)
+
+[node name="Wall2" parent="ScrollingLayer" index="2" instance=ExtResource("2")]
+position = Vector2(1340, 234)
+
+[node name="Wall3" parent="ScrollingLayer" index="3" instance=ExtResource("2")]
+position = Vector2(1620, 310)
+
+[node name="Wall4" parent="ScrollingLayer" index="4" instance=ExtResource("2")]
+position = Vector2(1880, 239)
+
+[node name="Wall5" parent="ScrollingLayer" index="5" instance=ExtResource("2")]
+position = Vector2(2170, 410)
+
+[node name="Label" parent="LevelLabel" index="0"]
+text = "Level: 3"

@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://sprites/rockSnow.png" type="Texture2D" id=1]
+
+[node name="Wall" type="StaticBody2D" groups=["Wall"]]
+scale = Vector2( 1, 1.3 )
+
+[node name="Lower" type="Sprite2D" parent="."]
+position = Vector2( 0, 200 )
+texture = ExtResource( 1 )
+
+[node name="LowerCollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0, 200 )
+polygon = PackedVector2Array( -55, 120, 10, -120, 15, -120, 55, 120 )
+
+[node name="Upper" type="Sprite2D" parent="."]
+position = Vector2( 0, -200 )
+scale = Vector2( 1, -1 )
+texture = ExtResource( 1 )
+
+[node name="UpperCollisionPolygon2D2" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0, -200 )
+scale = Vector2( 1, -1 )
+polygon = PackedVector2Array( -55, 120, 10, -120, 15, -120, 55, 120 )

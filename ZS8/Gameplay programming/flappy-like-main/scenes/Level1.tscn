@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c24xt85eteni3"]
+
+[ext_resource type="PackedScene" uid="uid://bumdpcgkiuwot" path="res://scenes/LevelTemplate.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/Wall.tscn" id="5"]
+
+[node name="Level1" instance=ExtResource("1")]
+
+[node name="EndZone" parent="ScrollingLayer" index="0"]
+position = Vector2(1400, 300)
+
+[node name="Wall" parent="ScrollingLayer" index="1" instance=ExtResource("5")]
+position = Vector2(1066, 300)

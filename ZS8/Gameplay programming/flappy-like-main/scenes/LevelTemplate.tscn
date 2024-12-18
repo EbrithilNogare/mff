@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://bumdpcgkiuwot"]
+
+[ext_resource type="PackedScene" path="res://scenes/Plane.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/ScrollingLayer.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/ScrollingBackground.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://1t3kddida8ww" path="res://sprites/background.png" id="4"]
+[ext_resource type="Script" path="res://scripts/Level.gd" id="5"]
+[ext_resource type="FontFile" path="res://fonts/futuro_dynamicfont.tres" id="6"]
+[ext_resource type="Texture2D" uid="uid://dkicc5yiwm1bc" path="res://sprites/UIbg.png" id="7"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(512, 20)
+
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(30, 300)
+
+[node name="LevelTemplate" type="Node2D"]
+script = ExtResource("5")
+
+[node name="Borders" type="StaticBody2D" parent="."]
+
+[node name="Top" type="CollisionShape2D" parent="Borders"]
+position = Vector2(512, -20)
+shape = SubResource("1")
+
+[node name="Bottom" type="CollisionShape2D" parent="Borders"]
+position = Vector2(512, 670)
+shape = SubResource("1")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = -1
+offset = Vector2(0, -33.69)
+scale = Vector2(1.15, 1.15)
+transform = Transform2D(1.15, 0, 0, 1.15, 0, -33.69)
+script = ExtResource("3")
+scrolling_speed = 1.5
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(100, 1)
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(520, 312)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("4")
+
+[node name="ScrollingLayer" type="Node2D" parent="."]
+script = ExtResource("2")
+scrolling_speed = 150.0
+
+[node name="EndZone" type="Area2D" parent="ScrollingLayer"]
+position = Vector2(2000, 300)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScrollingLayer/EndZone"]
+shape = SubResource("2")
+
+[node name="Sprite2D" type="Sprite2D" parent="ScrollingLayer/EndZone"]
+modulate = Color(1, 0, 0, 0.278431)
+scale = Vector2(0.2, 3)
+texture = ExtResource("7")
+
+[node name="Plane" parent="." instance=ExtResource("1")]
+position = Vector2(512, 300)
+
+[node name="LevelLabel" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="LevelLabel"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 179.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("6")
+theme_override_font_sizes/font_size = 25
+text = "Level: 1"
+
+[connection signal="body_entered" from="ScrollingLayer/EndZone" to="." method="_on_EndZone_body_entered"]

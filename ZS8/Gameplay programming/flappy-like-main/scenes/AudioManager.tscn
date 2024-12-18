@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://bbnkxlrr856pj"]
+
+[ext_resource type="AudioStream" uid="uid://bf1v1si7nb255" path="res://sounds/sound_effects/phaseJump1-cut.ogg" id="2_0wlc5"]
+[ext_resource type="AudioStream" uid="uid://cdg4spyrra5pk" path="res://sounds/sound_effects/click1.ogg" id="2_h35qv"]
+[ext_resource type="AudioStream" uid="uid://c5ul0rfrrol1l" path="res://sounds/music/624395__josefpres__8-bit-game-loop-003-simple-mix-1-long-120-bpm.wav" id="3_4eu4m"]
+
+[sub_resource type="GDScript" id="GDScript_llky2"]
+script/source = "extends Node
+
+@export var sounds: Dictionary
+@export var num_players: int = 8
+var _players: Array[AudioStreamPlayer] = []
+var bus = \"master\"
+
+func _ready() -> void:
+	for i in num_players:
+		var player = AudioStreamPlayer.new()
+		player.bus = bus
+		add_child(player)
+		_players.append(player)
+	play(\"music\")
+
+func play(sound_name):
+	print(\"Playing sound \" + sound_name)
+	var sound = sounds[sound_name]
+	# Find free player
+	for player in _players:
+		if not player.playing:
+			player.stream = sound
+			player.play()
+			break
+
+func set_volume(bus, volume_db):
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index(bus), volume_db)
+
+
+func _on_h_slider_value_changed(value: float) -> void:
+	print(\"Set volume to \", value)
+	set_volume(\"Master\", value)
+"
+
+[node name="AudioManager" type="Node"]
+script = SubResource("GDScript_llky2")
+sounds = {
+"jump": ExtResource("2_h35qv"),
+"music": ExtResource("3_4eu4m"),
+"tap": ExtResource("2_0wlc5")
+}
+
+[node name="HSlider" type="HSlider" parent="."]
+offset_left = 910.0
+offset_top = 19.0
+offset_right = 1137.0
+offset_bottom = 36.0
+min_value = -45.0
+max_value = 20.0
+
+[connection signal="value_changed" from="HSlider" to="." method="_on_h_slider_value_changed"]
