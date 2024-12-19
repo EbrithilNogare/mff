@@ -16,10 +16,7 @@ var hangingOnRope: bool = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * 2
 var attached_rope_piece_index: int = -1
 var canAttachToRope: bool = true # resets on ground touch
-var animator: AnimationPlayer
 
-func _ready():
-	animator = $GBot.get_node("AnimationPlayer")
 
 func _physics_process(delta):
 	if hangingOnRope:
@@ -63,9 +60,9 @@ func processPhysicsOnGround(delta):
 
 	if !is_on_floor():
 		if velocity.y < 0:
-			$AnimatedSprite2D.play("jump")
+			$GBot/AnimationPlayer.play("jump")
 		else :
-			$AnimatedSprite2D.play("fall")
+			$GBot/AnimationPlayer.play("fall")
 
 	if timeFromLastJumpPressed <= jumpWithDelay && timeFromLastOnFloor < coyoteTime:
 		jump()
@@ -75,6 +72,15 @@ func processPhysicsOnGround(delta):
 
 func processPhysicsOnRope(_delta):
 	var rope_piece = ropeSpawner.rope_pieces[attached_rope_piece_index]
+
+	if(Input.is_action_just_pressed("F")):
+		ropeSpawner.addPieceOfRope()
+	elif(Input.is_action_just_pressed("R")):
+		if attached_rope_piece_index < ropeSpawner.rope_pieces.size() - 1:
+			ropeSpawner.removePieceOfRope()
+		else:
+			hangingOnRope = false
+			ropeSpawner.removePieceOfRope()
 
 	if Input.is_action_just_pressed("Jump"):
 		hangingOnRope = false
@@ -104,14 +110,14 @@ func processPhysicsOnRope(_delta):
 
 func move_left():
 	velocity.x = clamp(velocity.x - velocitySpeedup, -maxSpeed, maxSpeed)
-	$AnimatedSprite2D.play("walk")
-	$AnimatedSprite2D.flip_h = true  # face left
+	$GBot/AnimationPlayer.play("walk")
+	$GBot.scale.x = -1  # face left
 
 
 func move_right():
 	velocity.x = clamp(velocity.x + velocitySpeedup, -maxSpeed, maxSpeed)
-	$AnimatedSprite2D.play("walk")
-	$AnimatedSprite2D.flip_h = false  # face right
+	$GBot/AnimationPlayer.play("walk")
+	$GBot.scale.x = 1  # face right
 
 
 func move_stop():
@@ -119,7 +125,7 @@ func move_stop():
 		velocity.x = max(0, velocity.x - velocitySlowdown)
 	elif velocity.x < 0:
 		velocity.x = min(0, velocity.x + velocitySlowdown)
-	animator.play("idle")
+	$GBot/AnimationPlayer.play("idle")
 
 
 func jump():

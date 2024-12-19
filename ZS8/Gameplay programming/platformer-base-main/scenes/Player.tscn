@@ -63,7 +63,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhb0y"]
-size = Vector2(15.81, 26.5823)
+size = Vector2(13.7478, 26.5823)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3ahgg"]
 
@@ -81,7 +81,7 @@ animation = &"walk"
 [node name="GBot" parent="." instance=ExtResource("3_py8kq")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, 2.99994)
+position = Vector2(0, 2.99994)
 rotation = -3.14159
 scale = Vector2(1.45478, -2.1819)
 shape = SubResource("RectangleShape2D_xhb0y")
@@ -110,3 +110,5 @@ node_a = NodePath("..")
 [connection signal="area_exited" from="GroundArea2D" to="." method="_on_ground_area_exited"]
 [connection signal="area_entered" from="RopeArea2D" to="." method="_on_rope_area_2d_area_entered"]
 [connection signal="body_entered" from="RopeArea2D" to="." method="_on_rope_area_2d_body_entered"]
+
+[editable path="GBot"]

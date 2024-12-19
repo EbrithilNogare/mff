@@ -15,7 +15,7 @@ player = NodePath("../Player")
 [node name="Environment" parent="." instance=ExtResource("1")]
 
 [node name="Player" parent="." node_paths=PackedStringArray("ropeSpawner") instance=ExtResource("2")]
-position = Vector2(1258, -250)
+position = Vector2(-1604, -445)
 platform_floor_layers = 4294967291
 ropeSpawner = NodePath("../RopeSpawner")
 
@@ -24,3 +24,4 @@ ropeSpawner = NodePath("../RopeSpawner")
 [node name="RopeSpawner" parent="." instance=ExtResource("5_8hwvk")]
 
 [editable path="Player"]
+[editable path="Player/GBot"]
