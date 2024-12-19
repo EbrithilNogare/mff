@@ -51,20 +51,20 @@ bbcode_enabled = true
 text = "[center][b]A   S[/b]   to move"
 
 [node name="RichTextLabel7" type="RichTextLabel" parent="."]
-offset_left = 204.0
-offset_top = 394.0
-offset_right = 416.0
-offset_bottom = 455.0
+offset_left = 184.0
+offset_top = 393.0
+offset_right = 396.0
+offset_bottom = 454.0
 bbcode_enabled = true
-text = "[center]hold  [b]W[/b]  to jump higher"
+text = "[center]hold  [b]Space[/b]  to jump higher"
 
 [node name="RichTextLabel8" type="RichTextLabel" parent="."]
-offset_left = 186.0
-offset_top = 244.0
-offset_right = 398.0
-offset_bottom = 305.0
+offset_left = 188.0
+offset_top = 243.0
+offset_right = 400.0
+offset_bottom = 304.0
 bbcode_enabled = true
-text = "[center][b]W[/b]  +  [b]A[/b]   to control flight"
+text = "[center][b]Space[/b] + [b]A[/b]   to control flight"
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
 offset_left = 1194.0
