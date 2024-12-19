@@ -3,7 +3,7 @@ extends Camera2D
 @export var player: Node2D
 @export var paralaxLayers: Array = []
 
-@export var lerpSpeed: float = 0.1
+@export var lerpSpeed: float = 0.01
 @export var forwardStrength: float = .2
 
 func _ready() -> void:

@@ -16,7 +16,7 @@ var hangingOnRope: bool = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * 2
 var attached_rope_piece_index: int = -1
 var canAttachToRope: bool = true # resets on ground touch
-
+var hasRope: bool = false
 
 func _physics_process(delta):
 	if hangingOnRope:
@@ -28,9 +28,9 @@ func _physics_process(delta):
 
 
 func processPhysicsOnGround(delta):
-	if(Input.is_action_just_pressed("Q")):
+	if(hasRope && Input.is_action_just_pressed("Q")):
 		trySpawnRope(true)
-	elif(Input.is_action_just_pressed("E")):
+	elif(hasRope && Input.is_action_just_pressed("E")):
 		trySpawnRope(false)
 	elif(Input.is_action_just_pressed("F")):
 		ropeSpawner.addPieceOfRope()
@@ -162,3 +162,6 @@ func _on_rope_area_2d_body_entered(body: RopePiece) -> void:
 	canAttachToRope = false
 	velocity = Vector2()
 	attached_rope_piece_index = ropeSpawner.rope_pieces.find(body)
+
+func getRope():
+	hasRope = true

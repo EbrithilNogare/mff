@@ -1,10 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://dk1ctt8lufi7j"]
+[gd_scene load_steps=9 format=3 uid="uid://dk1ctt8lufi7j"]
 
 [ext_resource type="PackedScene" uid="uid://fhk26kw5alwx" path="res://scenes/Environment.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://urydr0rqxuxr" path="res://scenes/Player.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://o6guho11r4et" path="res://scenes/Crate.tscn" id="3"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="4_rfxiu"]
 [ext_resource type="PackedScene" uid="uid://dxswifor3k7mb" path="res://scenes/Rope.tscn" id="5_8hwvk"]
+[ext_resource type="Texture2D" uid="uid://cyhdlne3ch2ua" path="res://sprites/characters/gbot/ladyGBot_complete.png" id="6_2jy2o"]
+[ext_resource type="Script" path="res://scripts/finish.gd" id="7_f2l6q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qp3xj"]
+size = Vector2(124, 68)
 
 [node name="Scene" type="Node2D"]
 
@@ -15,13 +20,123 @@ player = NodePath("../Player")
 [node name="Environment" parent="." instance=ExtResource("1")]
 
 [node name="Player" parent="." node_paths=PackedStringArray("ropeSpawner") instance=ExtResource("2")]
-position = Vector2(-1604, -445)
+position = Vector2(556, 299)
 platform_floor_layers = 4294967291
 ropeSpawner = NodePath("../RopeSpawner")
 
 [node name="Crate" parent="." instance=ExtResource("3")]
+position = Vector2(1268, -210)
 
 [node name="RopeSpawner" parent="." instance=ExtResource("5_8hwvk")]
+
+[node name="LadyGBotComplete" type="Sprite2D" parent="."]
+position = Vector2(1364, -1837)
+scale = Vector2(-0.075, 0.075)
+texture = ExtResource("6_2jy2o")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1260, -1842)
+script = ExtResource("7_f2l6q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(6, 5)
+shape = SubResource("RectangleShape2D_qp3xj")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 468.0
+offset_top = 360.0
+offset_right = 680.0
+offset_bottom = 421.0
+bbcode_enabled = true
+text = "[center][b]A   S[/b]   to move"
+
+[node name="RichTextLabel7" type="RichTextLabel" parent="."]
+offset_left = 204.0
+offset_top = 394.0
+offset_right = 416.0
+offset_bottom = 455.0
+bbcode_enabled = true
+text = "[center]hold  [b]W[/b]  to jump higher"
+
+[node name="RichTextLabel8" type="RichTextLabel" parent="."]
+offset_left = 186.0
+offset_top = 244.0
+offset_right = 398.0
+offset_bottom = 305.0
+bbcode_enabled = true
+text = "[center][b]W[/b]  +  [b]A[/b]   to control flight"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="."]
+offset_left = 1194.0
+offset_top = -171.0
+offset_right = 1406.0
+offset_bottom = -110.0
+bbcode_enabled = true
+text = "[center]Take a rope
+Spawn it with  [b]Q[/b]  or  [b]E[/b]"
+
+[node name="RichTextLabel9" type="RichTextLabel" parent="."]
+offset_left = 953.0
+offset_top = -503.0
+offset_right = 1165.0
+offset_bottom = -425.0
+bbcode_enabled = true
+text = "[center]  Swing with   [b]A[/b]   and   [b]D[/b]
+  Climp with   [b]W[/b]   and   [b]S[/b]
+Jump away with   [b]Space[/b]"
+
+[node name="RichTextLabel3" type="RichTextLabel" parent="."]
+offset_left = -1150.0
+offset_top = -876.0
+offset_right = -909.0
+offset_bottom = -845.0
+bbcode_enabled = true
+text = "[center]don't forget to use the [b]rope[/b]"
+
+[node name="RichTextLabel10" type="RichTextLabel" parent="."]
+offset_left = -1449.0
+offset_top = -587.0
+offset_right = -1161.0
+offset_bottom = -511.0
+bbcode_enabled = true
+text = "[center]hang down the rope
+    prolong it with    [b]F[/b]
+or shorten it with    [b]R[/b]"
+
+[node name="RichTextLabel4" type="RichTextLabel" parent="."]
+offset_left = -263.0
+offset_top = -943.0
+offset_right = 27.0
+offset_bottom = -903.0
+bbcode_enabled = true
+text = "[center]again ...  don't forget to use the [b]rope[/b]"
+
+[node name="RichTextLabel5" type="RichTextLabel" parent="."]
+offset_left = -1965.0
+offset_top = -511.0
+offset_right = -1753.0
+offset_bottom = -450.0
+bbcode_enabled = true
+text = "[center]don't miss the elevator"
+
+[node name="RichTextLabel6" type="RichTextLabel" parent="."]
+offset_left = 1177.0
+offset_top = -1404.0
+offset_right = 1401.0
+offset_bottom = -1343.0
+bbcode_enabled = true
+text = "[center]You are so close,
+don't  give up now"
+
+[node name="RichTextLabel11" type="RichTextLabel" parent="."]
+offset_left = -898.0
+offset_top = -1452.0
+offset_right = -743.0
+offset_bottom = -1421.0
+bbcode_enabled = true
+text = "[center]watch your head"
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
 
 [editable path="Player"]
 [editable path="Player/GBot"]

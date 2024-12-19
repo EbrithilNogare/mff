@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://o6guho11r4et"]
+[gd_scene load_steps=6 format=3 uid="uid://o6guho11r4et"]
 
 [ext_resource type="Script" path="res://scripts/Crate.gd" id="1_rlkib"]
 [ext_resource type="Texture2D" uid="uid://b0vhuf0ephu81" path="res://sprites/crate.png" id="2"]
@@ -9,10 +9,13 @@ rough = true
 [sub_resource type="RectangleShape2D" id="15"]
 size = Vector2(30, 30)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eekag"]
+size = Vector2(28, 28)
+
 [node name="Crate" type="RigidBody2D"]
 position = Vector2(207, 445)
-collision_layer = 4
-collision_mask = 3
+collision_layer = 8
+collision_mask = 2
 mass = 2.0
 physics_material_override = SubResource("16")
 script = ExtResource("1_rlkib")
@@ -23,3 +26,10 @@ texture = ExtResource("2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("15")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_eekag")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
