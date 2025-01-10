@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4jxamsehrqyg"]
+
+[ext_resource type="Texture2D" uid="uid://cn50rjs2qb301" path="res://sprites/characters/Untitled-1.png" id="1_706q2"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-54, 23)
+scale = Vector2(0.15, 0.15)
+skew = 0.785398
+texture = ExtResource("1_706q2")
