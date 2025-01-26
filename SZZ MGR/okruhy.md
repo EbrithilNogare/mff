@@ -162,12 +162,14 @@ Kubicka bezierovka: Lerp mezi 2 kvadratickymi bezierovkami
 
 Vychazi z Cubic Hermit spline.
 2 body a 2 vektory (vstupni a vystupni)
+
 ![](img/catmulRom.png)
 
 ### B-spliny
 
 B-spliny jsou zobecněním Bézierových křivek, umožňují lokální kontrolu nad tvarem křivky.
 Jsou vhodné pro modelování složitých tvarů v CAD systémech.
+
 ![](img/bspliny.png)
 
 ## Textury
@@ -298,6 +300,7 @@ Je to vlastne diffuzni slozka environment mapy.
 
 Predpocitani env mapy pres sfericke harmonicke funkce do paaraametru rovnice.
 Staci ji mit jako rovnici a parametry, textura by byla moc velka a ochylka je < 3%.
+
 ![](img/radiosityBake.png)
 
 ## Animace postav
@@ -357,6 +360,7 @@ Bezeztrátová komprese zachovává původní obraz, ztrátová redukuje kvalitu
 ### Standard JPEG
 
 JPEG je ztrátový kompresní formát, který využívá DCT (diskrétní kosinovou transformaci) a quantizaci (v zavislosti na urovni DCT) na submatici 8x8.
+
 ![](img/DCT.png)
 
 ### Komprese videosignálu
