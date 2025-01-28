@@ -380,124 +380,277 @@ Příkladem je H.264 nebo H.265.
 
 ## Architektura autonomního agenta
 
-### percepce
+### Percepce
 
-### mechanismus výběru akcí
+Percepce představuje schopnost agenta získávat informace o prostředí.
+Agent využívá senzory (virtuální nebo fyzické) ke sledování okolního světa.
+Například v počítačových hrách může agent "vidět" objekty v dosahu viditelnosti nebo slyšet zvuky generované hráčem.
+Tyto informace agent využívá k rozhodování a adaptaci na změny prostředí.
 
-### paměť
+### Mechanismus výběru akcí
 
-## psychologické inspirace.
+Mechanismus výběru akcí určuje, jak agent reaguje na vnímané podněty.
+Může jít o jednoduché přístupy, jako jsou předdefinované if-then pravidla, nebo složitější algoritmy zahrnující stromy rozhodování či neuronové sítě.
+Například NPC v RPG hrách může reagovat na hráčovo přiblížení útokem, útěkem nebo zahájením dialogu.
+
+### Paměť
+
+Paměť umožňuje agentovi uchovávat informace o předchozích stavech nebo událostech.
+Napr. informace o jiz sebranych zbranich, nebo dlouhodobe cile.
+
+## Psychologické inspirace
+
+Psychologické inspirace vycházejí z modelování lidského nebo zvířecího chování.
+Tyto přístupy zahrnují simulaci emocí, potřeb nebo motivačních modelů, například pomocí Maslowovy pyramidy.
+Herní postava může například vykazovat chování závislé na hladině "strachu", "hladu" nebo "odvahy".
 
 ## Metody pro řízení agentů
 
-### symbolické a~konekcionistické reaktivní plánování
+### Symbolické a konekcionistické reaktivní plánování
 
-### hybridní přístupy
+Symbolické plánování využívá logické reprezentace a algoritmy.
+Konekcionistické (sub-symbolic) se opírá o neuronové sítě, automaty a if-then pravidla.
 
-### prostor rozhodování
+Symbolické přístupy jsou přesnější, zatímco konekcionistické jsou flexibilnější v dynamických prostředích.
 
-### if-then pravidla
+### Hybridní přístupy
 
-### skriptování
+Planovai cast pouziva symbolicke planovani pro vytvareni planu.
+Reaktivni cast rychle reaguje, bez vetsich vypoctu ci planovani.
 
-### sekvenční konečný automat
+Například může agent využívat logiku pro dlouhodobé plánování a neuronové sítě pro rychlé reakce.
 
-### stromy chování
+### Prostor rozhodování
+
+Prostor rozhodování popisuje všechny možné akce, které může agent provést.
+Optimalizace tohoto prostoru je klíčová pro rychlé a efektivní rozhodování.
+
+### If-then pravidla
+
+Tato pravidla definují jednoduché reakce na konkrétní podmínky.
+Například "Pokud hráč zaútočí, agent se brání".
+
+### Skriptování
+
+Skriptování umožňuje tvůrcům her ručně definovat chování agentů pomocí programovacích skriptů.
+
+### Sekvenční konečný automat
+
+Sekvenční konečné automaty reprezentují chování agenta jako množinu stavů a přechodů mezi nimi.
+Typický příklad je hlídkující stráž v stealth hrách.
+
+### Stromy chování
+
+Stromy chování představují hierarchické struktury, které organizují rozhodování agenta.
+Jsou snadno čitelné a flexibilní pro komplexní chování.
 
 ## Problém hledání cesty
 
-### lokální navigační pravidla (Raynoldsovy steeringy, VO, RVO, Context steering)
+### Lokální navigační pravidla
 
-### hledání cesty (A*, JPS+, goal bounding, RRT, RRT*, LPA*, MPAA*, obousměrné prohledávání)
+Řeší lokální pohyb agenta v prostředí
+Metody:
 
-### reprezentace prostoru (geometrie, viditelnost)
+- Reynoldsovy steeringy
+- VO (Velocity Obstacle)
+- RVO
+- Context Steering
 
-## Komunikace a~znalosti v~multiagentních systémech
+Například obcházení překážek nebo spolupráce více agentů.
 
-### ontologie
+### Hledání cesty
 
-### řečové akty
+Algoritmy:
+
+- A\*
+- JPS+
+- goal bounding
+- RRT
+- RRT\*
+- LPA\*
+- MPAA\*
+- bidirectional search
+
+### Reprezentace prostoru
+
+Prostor může být reprezentován pomocí geometrie (trojúhelníkové sítě), viditelnosti (viditelné grafy) nebo mřížek.
+Správná volba ovlivňuje efektivitu navigace.
+
+## Komunikace a znalosti v multiagentních systémech
+
+### Ontologie
+
+Ontologie popisují společnou strukturu znalostí, kterou agenti sdílejí.
+Například definují, co je nepřítel, zbraň nebo úkryt.
+
+### Řečové akty
+
+Řečové akty jsou modely komunikace mezi agenty, které zahrnují požadavky, nabídky, příkazy nebo dotazy.
 
 ### FIPA-ACL
 
-### protokoly
+Standardní jazyk pro komunikaci agentů umožňující interoperabilitu mezi různými systémy.
+
+### Protokoly
+
+Komunikační protokoly definují, jak agenti spolupracují.
+Například protokol aukce pro alokaci zdrojů.
 
 ## Distribuované řešení problémů
 
-### kooperace
+### Kooperace
+
+Agenti spolupracují na dosažení společného cíle, například na rozdělení úkolů při stavbě herního světa.
 
 ### Nashova ekvilibria
 
+Rovnovážný stav, kdy žádný agent nemá motivaci měnit své rozhodnutí.
+
 ### Paretova efektivita
 
-### alokace zdrojů
+Stav, kdy nelze zlepšit situaci jednoho agenta bez zhoršení situace jiného.
 
-### aukce
+### Alokace zdrojů
+
+Distribuce omezených zdrojů mezi agenty.
+
+### Aukce
+
+Mechanismus, kde agenti soutěží o zdroje na základě nabídky a poptávky.
 
 ## Metody pro učení agentů
 
-### zpětnovazební učení
+### Zpětnovazební učení
 
-### základní formy učení zvířat
+Agenti se učí na základě zpětné vazby z prostředí, například pomocí metody reinforcement learning.
 
-## Procedurální modelování stavového prostoru (forward model) a~jeho prohledávání
+### Základní formy učení zvířat
+
+Inspirace přichází z učení zvířat, jako je klasické podmiňování nebo observační učení.
+
+## Procedurální modelování stavového prostoru (forward model) a jeho prohledávání
 
 ### A\*
 
+```
+while fronta  is  not empty
+	odeber hlavu
+	pridej deti hlavy do fronty tak, ze:
+		pokud tam neni, jakozto vzdalenost + heuristika
+		pokud tam je, tak jen upravit odhad vzdalenosti
+		a pokud se prida / zmeni, upravit akci ktera do nej vede
+	pokud timeout (omezeny cas a stale nemame nejlepsi cestu)
+		vrat zacatek fronty
+```
+
 ### ABCD
+
+Alpha Beta Considering Durations
+
+Rekurzivni depth-first iterativni prohledavani pro simultalni tahy s apha-beta pruningem.
 
 ### MCTS
 
+Monte-carlo tree search
+
+- Select
+- Expand
+- Simulate
+- Backpropagate
+
 ### UCB
+
+Upper confidence bounds
+
+UCB = Exploitace + c \* Explorace
+
+Musime se rozhodnout, jestli vybrat zarucenou vyhru, nebo prozkoumat horsi cestu (ktera mozna povede k vetsi vyhre).
 
 ### PGS
 
-### PGS-II
+Portfolio Greedy Search
 
-### prostor skriptů
+- Aplikuj defaultni skript na vsechny jednotky
+- Najdi nejvyhodnejsi skript pro vsechny jednotky spolecne
+- Najdi nejpravdepodobnejsi nepriteluv skript pro vsechny jednotky spolecne
+- Dokud mame zdroje
+  - Najdi lepsi skript pro nepratelskou jednotku
+  - Najdi lepsi skript pro svou jednotku
 
-#### Kiting
+Oproti minmaxu (kteremu se podoba) nemusi najit nejvhodnejsi reseni
 
-#### AV
+Napr. mam jednotku a chci kazdymu vojaku priradit ukol (skript z portfolia), tak abych zabil co nejvice nepratel
 
-#### NOK-AV
+### Portfolio skriptů
 
-### efektivní implementace
+- Attack Closest
+- Attack Weakest
+- Kiting (Move away)
+- Attack Value
+- No OverkKill Attack Value
 
 ## Klasifikace metod procedurálního generování
 
+Procedurální generování lze klasifikovat podle generovaného obsahu, jako jsou terény, objekty nebo hudba.
+
 ## Přístupy pro generování
 
-### terénu
+### Terénu
 
-### vizuálních efektů
+Generování realistických nebo stylizovaných krajin pomocí šumových funkcí.
 
-### hudby
+### Vizuálních efektů
 
-### předmětů
+Procedurální vytváření efektů, jako jsou kouř nebo exploze.
 
-### bludišť
+### Hudby
 
-### dungeonů
+Generování melodie nebo rytmu na základě algoritmů.
+
+### Předmětů
+
+Automatické vytváření unikátních zbraní nebo předmětů.
+
+### Bludišť a dungeonů
+
+Algoritmy pro vytváření komplexních herních map.
 
 ## Šumové funkce
 
 ### Perlin
 
+Generuje plynulé a realistické šumy.
+
 ### Simplex
 
+Efektivnější varianta Perlinova šumu.
+
 ### Worley
+
+Šum vhodný pro generování buněčných struktur.
 
 ## Celulární automaty
 
 ### L-systémy
 
-### grafové
+Modelování růstu rostlin.
 
-### tvarové gramatiky
+### Grafové
+
+Reprezentace vztahů mezi prvky.
+
+### Tvarové gramatiky
+
+Definují pravidla pro generování struktur.
 
 ## Answer set programming
 
+Technika pro logické modelování a řešení problémů.
+
 ## Algoritmus kolapsu vlnové funkce
 
+Procedurální generování na základě omezení podobných pravidlům sodoku.
+
 ## Metody smíšené iniciativy
+
+Kombinují lidský a algoritmický přístup pro tvorbu obsahu, například herních map nebo questů.
