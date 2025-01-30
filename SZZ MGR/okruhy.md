@@ -10,8 +10,12 @@
 
 ### herní návrhové vzory
 
-- Singleton: jedna instance
-- Factory: generator veci
+- v kodu
+  - Singleton: jedna instance
+  - Factory: generator veci
+- v organizaci objektu
+  - Komponentový systém
+  - Skriptovaci model
 
 ### skriptování her
 
@@ -21,6 +25,12 @@
 ## Architektura herních engine
 
 ### vrstvy architektur
+
+- Vstupní vrstva: Zpracování vstupů hráče
+- Logická vrstva: Herní pravidla a simulace
+- Grafická vrstva: Rendering objektů
+- Zvuková vrstva: Zvukové efekty a hudba
+- Síťová vrstva: Multiplayer komunikace
 
 ### výpočetní modely
 
@@ -32,7 +42,8 @@
     - upravit rychlosti a pozice
   - vyrenderovat svet
   - prehrat zvuky
-  -
+
+Single-thread vs Multi-thread
 
 ### entity-component system
 
@@ -40,72 +51,121 @@ Zpusob jak reprezentovat GameObjecty.
 Objekt ma komponenty, kazda zarucujici nejakou funkcionalitu
 Efektivnejsi pro pamet, protoze to je struct v zasobniku a ne classa na halde
 
-- Entity: GameObject ID
-- Komponenty: Data a komu patri
-- Systemy: Spousti komponenty na entitach
-
 ### správa paměti
 
-Je dulezite spravne vyuzivat cache
-Tudiz je efektivnejsi mit data v zasobniku jako strukty, nez pohazene na halde
+Cache locality – Organizace dat ve hře, ovlivňuje výkon procesoru
+Přidělování a uvolňování paměti – Optimalizace pro snížení fragmentace
 
 ### příklady konkrétních instancí architektur
+
+Unity – Používá GameObject-Component model.
+Unreal Engine – Využívá Actor-based model.
+Godot – Node-based systém.
 
 ## Herní design
 
 ### kdo je herní designér
 
+Herní designér vytváří:
+
+- Pravidla a mechaniky hry.
+- Level design – Rozložení mapy a prostředí.
+- User experience (UX) – Jak hráč vnímá hru.
+
 ### osy herního designu
+
+- Systémová osa: Mechaniky, pravidla, AI.
+- Estetická osa: Grafika, zvuk, atmosféra.
+- Narativní osa: Příběh, dialogy, mise.
 
 ### herní žánry
 
+- FPS: First person shooter
+- RPG: Role play game
+- RTS: realt-time strategy
+- MMO: massive multiplayer online
+- Indie: amaterske hry, odvozenina od slova Indie, protoze jsou tam pouze amatersti softwarovy vyvojari
+
 ### specifika herních platforem
+
+Ruzne vstupy, vykon a monetizace
+
+- PC
+- Mobilni
+- Konzole
+- Handheld
 
 ### game design dokument
 
-#### vlastnosti
-
-#### struktura
-
-#### UML diagramy pro popis herních mechanismů
-
-#### herní prostor
-
-#### postavy
-
-#### specifikace dialogů
+- Vlastnosti: Kompletní dokumentace mechanik, postav, UI, příběhu
+- Struktura: Přehledná hierarchie s UML diagramy
+- Herní prostor: Prostředí, levely
+- Postavy: AI, NPC, hráč
+- Specifikace dialogů: Stromové dialogy pro RPG
 
 ### historie herního trhu
+
+Arcade era -> PC era -> Mobilní revoluce -> Vývoj monetizačních modelů
 
 ## Vývojový cyklus počítačové hry
 
 ### fáze vývojového cyklu
 
+- Předprodukce: Koncept, prototypy
+- Produkce: Programování, design, testování
+- Postprodukce: Opravy bugů, DLC
+
 ### herní design řízený daty
+
+A/B testování, telemetrie – Analýza chování hráčů pro optimalizaci herních mechanik​
 
 ### správa dat
 
+Cloudové ukládání, verzování
+
 ### testování počítačových her
+
+Unit testy, beta testy, QA
 
 ### vývojářské role
 
+Programátor, designér, tester, producent
+
 ### herní analytiky
 
-### vodopádový model a~agilní metodiky návrhu her
+Analýza chování hráčů, monetizace
+
+### vodopádový model a agilní metodiky návrhu her
+
+![](img/scrumVsKanban.png)
 
 ### obchodní modely komercializace her
 
-## Narativita a~hry
+Premium, F2P, Subscription, Ad-based
 
-### rozdíl mezi games of emergence a~games of progression
+## Narativita a hry
 
-### chtěná a~nechtěná emergence
+### rozdíl mezi games of emergence a games of progression
+
+Emergence – Hráč vytváří příběh (sandbox hry).
+Progression – Lineární příběh (RPG, FPS).
+
+### chtěná a nechtěná emergence
+
+Chtěná – Např. sandbox mechaniky Minecraftu.
+Nechtěná – Bugy způsobující neplánované interakce.
 
 ### environmentální storytelling
 
+Vyprávění příběhu skrze prostředí (např. Dark Souls, Bioshock)
+
 ### procedurální rétorika
 
+Hra jako argument – Např. Papers, Please ukazuje politické dilema
+
 ### ludonarativní disonance
+
+Konflikt mezi příběhem a mechanikou – Např. Nathan Drake jako vrah v Uncharted, ale sympatický v cutscénách
 
 # Počítačová grafika pro hry
 
