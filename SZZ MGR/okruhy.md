@@ -220,10 +220,10 @@ Kubicka bezierovka: Lerp mezi 2 kvadratickymi bezierovkami
 
 ### Catmull-Rom spliny
 
+![alt >](img/catmulRom.png)
+
 Vychazi z Cubic Hermit spline.
 2 body a 2 vektory (vstupni a vystupni)
-
-![](img/catmulRom.png)
 
 ### B-spliny
 
@@ -358,10 +358,10 @@ Je to vlastne diffuzni slozka environment mapy.
 
 ### Předpočítaný přenos radiance
 
+![alt >](img/radiosityBake.png)
+
 Predpocitani env mapy pres sfericke harmonicke funkce do paaraametru rovnice.
 Staci ji mit jako rovnici a parametry, textura by byla moc velka a ochylka je < 3%.
-
-![](img/radiosityBake.png)
 
 ## Animace postav
 
@@ -419,9 +419,9 @@ Bezeztrátová komprese zachovává původní obraz, ztrátová redukuje kvalitu
 
 ### Standard JPEG
 
-JPEG je ztrátový kompresní formát, který využívá DCT (diskrétní kosinovou transformaci) a quantizaci (v zavislosti na urovni DCT) na submatici 8x8.
+![alt >](img/DCT.png)
 
-![](img/DCT.png)
+JPEG je ztrátový kompresní formát, který využívá DCT (diskrétní kosinovou transformaci) a quantizaci (v zavislosti na urovni DCT) na submatici 8x8.
 
 ### Komprese videosignálu
 
@@ -651,66 +651,117 @@ Napr. mam jednotku a chci kazdymu vojaku priradit ukol (skript z portfolia), tak
 
 ## Klasifikace metod procedurálního generování
 
-Procedurální generování lze klasifikovat podle generovaného obsahu, jako jsou terény, objekty nebo hudba.
+- Terén: Generování realistických či stylizovaných krajin.
+- Vizuální efekty: Kouř, exploze, oheň.
+- Hudba: Automatické skládání melodií a rytmů.
+- Předměty: Generování unikátních zbraní, nástrojů.
+- Bludiště a dungeony: Algoritmické vytváření herních map a úrovní.
 
 ## Přístupy pro generování
 
 ### Terénu
 
-Generování realistických nebo stylizovaných krajin pomocí šumových funkcí.
+- Šumové funkce (např. Perlin, Simplex, Worley) pro vytváření organických tvarů.
+- Výškové mapy pro interpolaci terénu.
+- Fraktální metody jako Diamond-square algoritmus.
+- Simulační modely jako eroze a tektonické pohyby
 
 ### Vizuálních efektů
 
-Procedurální vytváření efektů, jako jsou kouř nebo exploze.
+- Particle systémy (např. pro simulaci kouře a ohně).
+- Fluid simulace pro realistické proudění vody a plynů.
+- Fraktálové generování tvarů (např. L-systémy pro stromy).
 
 ### Hudby
 
-Generování melodie nebo rytmu na základě algoritmů.
+- Nahodne prochazky
+- Opakovani pasazi
+- Markov-chain: kazda nota je zavisla na n predchozich notach
+- Automaty
+- Neuralni site
 
 ### Předmětů
 
-Automatické vytváření unikátních zbraní nebo předmětů.
+- Randomizace vlastností: např. Borderlands generuje zbraně s náhodnými statistikami.
+- Kombinace modelů: různé části zbraní, brnění či nástrojů se skládají dynamicky.
+- Modulární design: sestavení z částí s předem definovanými pravidly.
 
 ### Bludišť a dungeonů
 
-Algoritmy pro vytváření komplexních herních map.
+![alt >](img/wfc.png)
+
+- Celulární automaty: například Game of Life pro tvorbu jeskyní.
+- Wave Function Collapse (WFC): pravidlové generování rozložení dlaždic.
+- Grafové algoritmy: vytváření propojených místností pomocí grafových struktur.
+- BSP (Binary Space Partitioning): rozdělování prostoru na sekce.
 
 ## Šumové funkce
 
 ### Perlin
 
 Generuje plynulé a realistické šumy.
+Ma directional artefakty (horizontalni a vertikalni).
+
+![](img/perlin.png)
 
 ### Simplex
 
 Efektivnější varianta Perlinova šumu.
+Funguje ve vice dimenzich.
+Nema directional artefakty.
 
-### Worley
+### Worley / Voronoi
 
 Šum vhodný pro generování buněčných struktur.
+
+![](img/voronoi.png)
 
 ## Celulární automaty
 
 ### L-systémy
 
-Modelování růstu rostlin.
+Používány pro modelování růstu rostlin.
+Reprezentovány gramatikou s rekurzivními pravidly.
 
 ### Grafové
 
-Reprezentace vztahů mezi prvky.
+Vhodné pro generování vztahů mezi prvky, například sociálních sítí NPC.
 
 ### Tvarové gramatiky
 
-Definují pravidla pro generování struktur.
+Používají se k generování budov a architektury na základě pravidel.
 
 ## Answer set programming
 
-Technika pro logické modelování a řešení problémů.
+Technika logického modelování problému:
+
+- Používá omezení a pravidla k nalezení optimálního řešení.
+- Vhodné pro tvorbu hádanek, map a questů.
+- Používá se například v generování herních pravidel.
+
+```
+reasoning program / rules:
+sprinklers OR raining
+NOT blue <- raining
+
+answer set:
+{sprinklers}, {raining, NOT blue}
+```
 
 ## Algoritmus kolapsu vlnové funkce
 
-Procedurální generování na základě omezení podobných pravidlům sodoku.
+Procedurální generování pomocí omezení podobných pravidlům sudoku.
+Použití:
+
+- Mapy a dungeony (Caves of Qud, Bad North).
+- Textury a dlaždicové sady.
 
 ## Metody smíšené iniciativy
 
-Kombinují lidský a algoritmický přístup pro tvorbu obsahu, například herních map nebo questů.
+Kombinace lidské a algoritmické tvorby:
+
+- Level design + algoritmické generování: např. ruční návrh kostry úrovně a automatická výplň detailů.
+- Procedurální generování s editorem: např. No Man’s Sky používá ručně navržené prvky zkombinované s PCG.
+- AI asistenti: návrh úrovní s lidským dohledem
+
+<style> img[alt$=">"] { float: right; } </style>
