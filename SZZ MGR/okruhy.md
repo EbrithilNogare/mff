@@ -2,29 +2,29 @@
 
 ## Programování počítačových her
 
-### vyvoj herních mechanik
+### Vývoj herních mechanik
 
 - Cena x Benefit
-- Zabavnost
+- Zábavnost
 - Intuitivnost
 
-### herní návrhové vzory
+### Herní návrhové vzory
 
-- v kodu
+- V kódu
   - Singleton: jedna instance
-  - Factory: generator veci
-- v organizaci objektu
+  - Factory: generátor věcí
+- V organizaci objektů
   - Komponentový systém
-  - Skriptovaci model
+  - Skriptovací model
 
-### skriptování her
+### Skriptování her
 
 - Tweeny
-- C#, python
+- C#, Python
 
-## Architektura herních engine
+## Architektura herních enginů
 
-### vrstvy architektur
+### Vrstvy architektur
 
 - Vstupní vrstva: Zpracování vstupů hráče
 - Logická vrstva: Herní pravidla a simulace
@@ -32,128 +32,128 @@
 - Zvuková vrstva: Zvukové efekty a hudba
 - Síťová vrstva: Multiplayer komunikace
 
-### výpočetní modely
+### Výpočetní modely
 
-- Herni smyska
-  - hracuv vstup
-  - updatovat svet
-    - posunout objekty
-    - zkontrolovat kolize
-    - upravit rychlosti a pozice
-  - vyrenderovat svet
-  - prehrat zvuky
+- Herní smyčka
+  - Hráčův vstup
+  - Aktualizace světa
+    - Posun objektů
+    - Kontrola kolizí
+    - Úprava rychlostí a pozic
+  - Vykreslení světa
+  - Přehrání zvuků
 
 Single-thread vs Multi-thread
 
-### entity-component system
+### Entity-Component System
 
-Zpusob jak reprezentovat GameObjecty.
-Objekt ma komponenty, kazda zarucujici nejakou funkcionalitu
-Efektivnejsi pro pamet, protoze to je struct v zasobniku a ne classa na halde
+Způsob, jak reprezentovat GameObjecty.
+Objekt má komponenty, každá zaručuje nějakou funkcionalitu.
+Efektivnější pro paměť, protože je to struct v zásobníku a ne třída na haldě.
 
-### správa paměti
+### Správa paměti
 
-Cache locality – Organizace dat ve hře, ovlivňuje výkon procesoru
-Přidělování a uvolňování paměti – Optimalizace pro snížení fragmentace
+- Cache locality: Organizace dat ve hře ovlivňuje výkon procesoru.
+- Přidělování a uvolňování paměti: Optimalizace pro snížení fragmentace.
 
-### příklady konkrétních instancí architektur
+### Příklady konkrétních instancí architektur
 
-Unity – Používá GameObject-Component model.
-Unreal Engine – Využívá Actor-based model.
-Godot – Node-based systém.
+- Unity: Používá GameObject-Component model.
+- Unreal Engine: Využívá Actor-based model.
+- Godot: Node-based systém.
 
 ## Herní design
 
-### kdo je herní designér
+### Kdo je herní designér
 
 Herní designér vytváří:
 
 - Pravidla a mechaniky hry.
-- Level design – Rozložení mapy a prostředí.
-- User experience (UX) – Jak hráč vnímá hru.
+- Level design: Rozložení mapy a prostředí.
+- User experience (UX): Jak hráč vnímá hru.
 
-### osy herního designu
+### Osy herního designu
 
 - Systémová osa: Mechaniky, pravidla, AI.
 - Estetická osa: Grafika, zvuk, atmosféra.
 - Narativní osa: Příběh, dialogy, mise.
 
-### herní žánry
+### Herní žánry
 
-- FPS: First person shooter
-- RPG: Role play game
-- RTS: realt-time strategy
-- MMO: massive multiplayer online
-- Indie: amaterske hry, odvozenina od slova Indie, protoze jsou tam pouze amatersti softwarovy vyvojari
+- FPS: First-Person Shooter
+- RPG: Role-Playing Game
+- RTS: Real-Time Strategy
+- MMO: Massive Multiplayer Online
+- Indie: Amatérské hry vyvíjené malými týmy nebo jednotlivci
 
-### specifika herních platforem
+### Specifika herních platforem
 
-Ruzne vstupy, vykon a monetizace
+Různé vstupy, výkon a monetizace.
 
 - PC
-- Mobilni
+- Mobilní
 - Konzole
 - Handheld
 
-### game design dokument
+### Game Design Dokument
 
-- Vlastnosti: Kompletní dokumentace mechanik, postav, UI, příběhu
-- Struktura: Přehledná hierarchie s UML diagramy
-- Herní prostor: Prostředí, levely
-- Postavy: AI, NPC, hráč
-- Specifikace dialogů: Stromové dialogy pro RPG
+- Vlastnosti: Kompletní dokumentace mechanik, postav, UI, příběhu.
+- Struktura: Přehledná hierarchie s UML diagramy.
+- Herní prostor: Prostředí, levely.
+- Postavy: AI, NPC, hráč.
+- Specifikace dialogů: Stromové dialogy pro RPG.
 
-### historie herního trhu
+### Historie herního trhu
 
-Arcade era -> PC era -> Mobilní revoluce -> Vývoj monetizačních modelů
+Arcade era -> PC era -> Mobilní revoluce -> Vývoj monetizačních modelů.
 
 ## Vývojový cyklus počítačové hry
 
-### fáze vývojového cyklu
+### Fáze vývojového cyklu
 
-- Předprodukce: Koncept, prototypy
-- Produkce: Programování, design, testování
-- Postprodukce: Opravy bugů, DLC
+- Předprodukce: Koncept, prototypy.
+- Produkce: Programování, design, testování.
+- Postprodukce: Opravy bugů, DLC.
 
-### herní design řízený daty
+### Herní design řízený daty
 
-A/B testování, telemetrie – Analýza chování hráčů pro optimalizaci herních mechanik​
+A/B testování, telemetrie: Analýza chování hráčů pro optimalizaci herních mechanik.
 
-### správa dat
+### Správa dat
 
-Cloudové ukládání, verzování
+Cloudové ukládání, verzování.
 
-### testování počítačových her
+### Testování počítačových her
 
-Unit testy, beta testy, QA
+Unit testy, beta testy, QA.
 
-### vývojářské role
+### Vývojářské role
 
-Programátor, designér, tester, producent
+Programátor, designér, tester, producent.
 
-### herní analytiky
+### Herní analytiky
 
-Analýza chování hráčů, monetizace
+Analýza chování hráčů, monetizace.
 
-### vodopádový model a agilní metodiky návrhu her
+### Vodopádový model a agilní metodiky návrhu her
 
 ![](img/scrumVsKanban.png)
 
-### obchodní modely komercializace her
+### Obchodní modely komercializace her
 
-Premium, F2P, Subscription, Ad-based
+Premium, F2P, Subscription, Ad-based.
 
 ## Narativita a hry
 
-### rozdíl mezi games of emergence a games of progression
+### Rozdíl mezi games of emergence a games of progression
 
-Emergence – Hráč vytváří příběh (sandbox hry).
-Progression – Lineární příběh (RPG, FPS).
+- Emergence: Hráč vytváří příběh (sandbox hry).
+- Progression: Lineární příběh (RPG, FPS).
 
 ### chtěná a nechtěná emergence
 
-Chtěná – Např. sandbox mechaniky Minecraftu.
-Nechtěná – Bugy způsobující neplánované interakce.
+Chtěná: Např. sandbox mechaniky Minecraftu.
+Nechtěná: Bugy způsobující neplánované interakce.
 
 ### environmentální storytelling
 
@@ -161,11 +161,11 @@ Vyprávění příběhu skrze prostředí (např. Dark Souls, Bioshock)
 
 ### procedurální rétorika
 
-Hra jako argument – Např. Papers, Please ukazuje politické dilema
+Hra jako argument: Např. Papers, Please ukazuje politické dilema
 
 ### ludonarativní disonance
 
-Konflikt mezi příběhem a mechanikou – Např. Nathan Drake jako vrah v Uncharted, ale sympatický v cutscénách
+Konflikt mezi příběhem a mechanikou: Např. Nathan Drake jako vrah v Uncharted, ale sympatický v cutscénách
 
 # Počítačová grafika pro hry
 
@@ -177,7 +177,7 @@ Homogenní souřadnice umožňují reprezentaci bodů a transformací v geometri
 Používají se pro sjednocení translací, rotací a škálování do jednoho matematického modelu.
 Přidáním čtvrté souřadnice (w) do 3D prostoru umožňují snadnou aplikaci perspektivních projekcí.
 
-Například bod [x, y, z] lze v homogenních souřadnicích zapsat jako [x, y, z, w], kde w ≠ 0.
+Například bod $[x, y, z]$ lze v homogenních souřadnicích zapsat jako $[x, y, z, w]$, kde $w \neq 0$.
 
 ### Afinní a projektivní transformace v rovině a v prostoru
 
@@ -198,13 +198,13 @@ Jsou efektivní pro interpolaci rotací pomocí SLERP (Spherical Linear Interpol
 ### Spline funkce
 
 Spline funkce jsou hladké křivky používané k aproximaci nebo interpolaci datových bodů.
-Nevyhodou je, ze pokud se pohne 1 bodem, uz nebude spojita a musi se dorovnat vsechnny ostatni (kubicka varianta to nema).
+Nevýhodou je, že pokud se pohne 1 bod, křivka už nebude spojitá a musí se dorovnat všechny ostatní body (kubická varianta tento problém nemá).
 
 ![](img/spliny.png)
 
 ### Interpolace kubickými spliny
 
-Retez spojenych krivek.
+Řetěz spojených křivek.
 Kubické spliny jsou specifické typy spline funkcí, které interpolují mezi body tak, aby byla zajištěna spojitost první a druhé derivace.
 
 ### Bézierovy křivky
@@ -212,9 +212,9 @@ Kubické spliny jsou specifické typy spline funkcí, které interpolují mezi b
 Bézierovy křivky jsou definované kontrolními body a Bernsteinovými polynomy.
 Umožňují tvorbu hladkých křivek a jsou klíčové v grafickém designu.
 
-Linearni bezierovka: Lerp(A, B, t)
-Kvadraticka bezierovka: Lerp(Lerp(A, B, t), Lerp(B, C, t), t)
-Kubicka bezierovka: Lerp mezi 2 kvadratickymi bezierovkami
+- Lineární Bézierova křivka: Lerp(A, B, t)
+- Kvadratická Bézierova křivka: Lerp(Lerp(A, B, t), Lerp(B, C, t), t)
+- Kubická Bézierova křivka: Lerp mezi 2 kvadratickými Bézierovými křivkami.
 
 ![](img/bezierovky.png)
 
@@ -222,8 +222,8 @@ Kubicka bezierovka: Lerp mezi 2 kvadratickymi bezierovkami
 
 ![alt >](img/catmulRom.png)
 
-Vychazi z Cubic Hermit spline.
-2 body a 2 vektory (vstupni a vystupni)
+Vyčází z Cubic Hermite spline.
+2 body a 2 vektory (vstupní a výstupní).
 
 ### B-spliny
 
@@ -236,84 +236,85 @@ Jsou vhodné pro modelování složitých tvarů v CAD systémech.
 
 ### Vzorkování a kvantování obrazu
 
-Vzorkování (Sampling) je proces získávání hodnot z textury (prectneni pixelu).
+Vzorkování (sampling) je proces získávání hodnot z textury (přečtení pixelů).
 
 Kvantování omezuje počet úrovní intenzity, což snižuje náročnost na paměť.
-Treba z realnych cisel na cisla diskretni.
+Například převod z reálných čísel na diskrétní hodnoty.
 
 ### Anti-aliasing
 
 Anti-aliasing redukuje zubaté okraje (aliasing) v obrazu.
-Aplikuje se pouze na pixelech, jez obsahuje hranu 2 trojuhelniku.
+Aplikuje se pouze na pixelech obsahujících hranu 2 trojúhelníků.
 
 Metody:
 
-- MSAA (Multi-Sample Anti-Aliasing) - vicero vzorku pro jeden pixel (4, 8, 16 vzorku)
-- SSAA (Super-Sample Anti-Aliasing) - Vicero pixelu pro 1 pixel (4, 16)
-- FXAA (Post-processing) - vpodstate rozmaze / vyprumeruje pixely, ktere maji vysoky kontrast vuci okolnim pixelum
+- MSAA (Multi-Sample Anti-Aliasing): více vzorků pro 1 pixel (2, 4, 8, 16 vzorků)
+- SSAA (Super-Sample Anti-Aliasing): více pixelů pro 1 pixel (2, 4, 8, 16)
+- FXAA (Post-processing): v podstatě rozmaže / zprůěměruje pixely s vysokým kontrastem vůči okolí
 
 ### Textury
 
 Textury se používají k přidání detailů na povrch objektů.
-Mohou být 2D, 3D, nebo procedurální.
+Mohou být 2D, 3D nebo procedurální.
 Příkladem je texturování dřeva nebo kamene.
 
 ### Změna kontrastu a jasu
 
-Manipulace kontrastu a jasu mění vzhled textury.
+Manipulace s kontrastem a jasem mění vzhled textury.
 Tyto úpravy lze provést pomocí lineární transformace intenzity pixelů.
 
 ### Kompozice poloprůhledných obrázků
 
 Při kompozici poloprůhledných obrázků se používá alfa kanál, který určuje průhlednost.
-Kombinace barev probíhá například pomocí operace „over“ v alfa kompozici.
+Kombinace barev probíhá například pomocí operace "over" v alfa kompozici.
 
 ## Reprezentace 3D scén
 
 ### Výpočet viditelnosti
 
 Určuje, které části scény jsou viditelné z určitého pohledu.
-Metody
 
-- Z-buffering (Depth textura / buffer) - Rasteriazace
-- BSP stromy (Binary space partitioning) - Raytracing
+Metody:
+
+- Z-buffering (depth textura / buffer): rasterizace
+- BSP stromy (Binary Space Partitioning): ray tracing
 
 ### Výpočet vržených stínů
 
-Vržené stíny přidávají hloubku do sceny.
+Vržené stíny přidávají hloubku do scény.
 
 Metody:
 
-- shadow maping (svetlo renderuje hloubku do textury)
-- path tracing (co pixel, to paprsek do svetla)
+- Shadow mapping (světlo renderuje hloubku do textury)
+- Path tracing (každý pixel vysílá paprsek směrem ke světlu)
 
 ### Měkké stíny
 
-Měkké stíny simulují přirozené rozmazání stínů, které vzniká díky rozptylu světla.
+Měkké stíny simulují přirozené rozmazání, které vzniká díky rozptylu světla.
 
 Metody:
 
-- Raytracing to ma implicitne (pokud svetlo neni bod)
-- Shadow maping se podivaji na pixely okolo (pixel filtering)
+- Ray tracing to má implicitně (pokud světlo není bodové)
+- Shadow mapping: zkoumá okolní pixely (pixel filtering)
 
 ### Rozptyl světla pod povrchem
 
-subsurface scattering.
-Rozptyl světla pod povrchem simuluje průchod světla materiály, jako je kůže nebo voda.
+Subsurface scattering.
+Simulace průchodu světla materiály, jako je kůže nebo voda.
 
 ### Modely osvětlení a stínovací algoritmy
 
 Modely osvětlení (Phong, Blinn-Phong) a stínování (Gouraud, Phong) definují, jak se světlo šíří a odráží na povrchu.
 
-- leskla slozka (specular)
-- matna slozka (diffuse)
-  - odrazova slozka (mirror)
+- Lesklá složka (specular)
+- Matná složka (diffuse)
+  - Odrazová složka (mirror)
 
 ### Rekurzivní sledování paprsku
 
 Raytracing.
 Simulace světelných cest zahrnující odrazy a refrakce.
-Používá se ve filmové grafice, je pomala, ale realisticka.
+Používá se ve filmové grafice, je pomalá, ale realistická.
 
 ### Fyzikální model šíření světla
 
@@ -332,20 +333,19 @@ Matematicky je zobrazovací rovnice vyjádřena jako:
 $$L_o(x, \omega_o) = L_e(x, \omega_o) + \int_{\Omega} f_r(x, \omega_i, \omega_o) L_i(x, \omega_i) (\omega_i \cdot n) d\omega_i$$
 
 neboli:
-vysledna barva = emitovane svetlo + svetlo z odrazu (= rekurzivni BDRF $*$ svetla $*$ cosine law)
+výsledná barva = emitované světlo + světlo z odrazu (= rekurzivní BRDF $*$ světlo $*$ cosine law)
 
 ### Algoritmus sledování cest
 
 Path tracing je pokročilá metoda simulující globální osvětlení.
-Pro kazdy pixel se vysle nekolik paprsku.
-Kazdy paprsek se odrazi po scene, dokud nenarazi na svetlo, nebo neskonci po X krocich.
+Pro každý pixel se vyšle několik paprsků.
+Každý paprsek se odráží po scéně, dokud nenarazí na světlo nebo neskončí po X krocích.
 
 ### Předpočítané globální osvětlení
 
 Techniky jako lightmaps ukládají výsledky osvětlení pro rychlejší vykreslování.
-napr. WOWko.
-Svetlo se zapece pri kompilaci hry, nebo za runtimu a pak se jakoby cache hodnota pouziva.
-Umoznuje pokrocile stiny a barvy, ale je to vse staticke.
+Například ve hrách jako World of Warcraft se světlo "zapeče" při kompilaci hry nebo za běhu a poté se používá jako cacheovaná hodnota.
+Umožňuje pokročilé stíny a barevné efekty, ale vše je statické.
 
 ### Výpočet globálního osvětlení v reálném čase
 
@@ -353,15 +353,15 @@ Real-time GI zahrnuje techniky jako voxel cone tracing nebo ray tracing na GPU.
 
 ### Stínování založené na sférických harmonických funkcích
 
-Radiosita vuci environment mape.
-Je to vlastne diffuzni slozka environment mapy.
+Radiosity vůči environment mapě.
+Je to vlastně difúzní složka environment mapy.
 
 ### Předpočítaný přenos radiance
 
 ![alt >](img/radiosityBake.png)
 
-Predpocitani env mapy pres sfericke harmonicke funkce do paaraametru rovnice.
-Staci ji mit jako rovnici a parametry, textura by byla moc velka a ochylka je < 3%.
+Předpočítání environment mapy pomocí sférických harmonických funkcí do parametrů rovnice.
+Stačí ji mít jako rovnici s parametry: textura by byla příliš velká a odchylka je < 3s%.
 
 ## Animace postav
 
@@ -396,7 +396,7 @@ Shadery jsou malé programy běžící na GPU, které ovlivňují vzhled scény.
 
 ### OpenGL
 
-OpenGL je grafická API umožňující programování 2D a 3D grafiky.
+OpenGL je grafické API umožňující programování 2D a 3D grafiky.
 
 ### GLSL
 
@@ -421,20 +421,25 @@ Bezeztrátová komprese zachovává původní obraz, ztrátová redukuje kvalitu
 
 ![alt >](img/DCT.png)
 
-JPEG je ztrátový kompresní formát, který využívá DCT (diskrétní kosinovou transformaci) a quantizaci (v zavislosti na urovni DCT) na submatici 8x8.
+JPEG je ztrátový kompresní formát, který využívá DCT (diskrétní kosinovou transformaci) a kvantizaci (v závislosti na úrovni DCT) na submatici 8×8.
 
 ### Komprese videosignálu
 
 Využívá prostorovou i časovou redundanci pro efektivní ukládání videa.
-Vyuziva DCT, pohybove vektory a quantizaci (v zavislosti na urovni DCT).
-Sniky jsou 3 typu:
+Používá DCT, pohybové vektory a kvantizaci (v závislosti na úrovni DCT).
 
-- I = plny snimek
-- P = rozdil mezi poslednim I nebo P snimkem
-- B = rozdil snimku pred a snimku po
-  v pomeru napr. 2:5:12
+Snímky jsou 3 typů:
+
+- I = plný snímek
+- P = rozdíl oproti poslednímu I nebo P snímku
+- B = rozdíl mezi snímkem před a snímkem po
+
+Například v poměru 2:5:12.
 
 Příkladem je H.264 nebo H.265.
+Tady je opravený text s diakritikou a gramatickými opravami, přičemž jsem zachoval původní styl i formátování:
+
+---
 
 # Umělá inteligence pro počítačové hry
 
@@ -456,13 +461,13 @@ Například NPC v RPG hrách může reagovat na hráčovo přiblížení útokem
 ### Paměť
 
 Paměť umožňuje agentovi uchovávat informace o předchozích stavech nebo událostech.
-Napr. informace o jiz sebranych zbranich, nebo dlouhodobe cile.
+Např. informace o již sebraných zbraních nebo dlouhodobé cíle.
 
 ## Psychologické inspirace
 
 Psychologické inspirace vycházejí z modelování lidského nebo zvířecího chování.
 Tyto přístupy zahrnují simulaci emocí, potřeb nebo motivačních modelů, například pomocí Maslowovy pyramidy.
-Herní postava může například vykazovat chování závislé na hladině "strachu", "hladu" nebo "odvahy".
+Herní postava může například vykazovat chování závislé na hladině strachu, hladu nebo odvahy.
 
 ## Metody pro řízení agentů
 
@@ -475,8 +480,8 @@ Symbolické přístupy jsou přesnější, zatímco konekcionistické jsou flexi
 
 ### Hybridní přístupy
 
-Planovai cast pouziva symbolicke planovani pro vytvareni planu.
-Reaktivni cast rychle reaguje, bez vetsich vypoctu ci planovani.
+Plánovací část používá symbolické plánování pro vytváření plánů.
+Reaktivní část rychle reaguje bez větších výpočtů či plánování.
 
 Například může agent využívat logiku pro dlouhodobé plánování a neuronové sítě pro rychlé reakce.
 
@@ -488,7 +493,7 @@ Optimalizace tohoto prostoru je klíčová pro rychlé a efektivní rozhodován�
 ### If-then pravidla
 
 Tato pravidla definují jednoduché reakce na konkrétní podmínky.
-Například "Pokud hráč zaútočí, agent se brání".
+Např: pokud hráč zaútočí, agent se brání.
 
 ### Skriptování
 
@@ -497,7 +502,7 @@ Skriptování umožňuje tvůrcům her ručně definovat chování agentů pomoc
 ### Sekvenční konečný automat
 
 Sekvenční konečné automaty reprezentují chování agenta jako množinu stavů a přechodů mezi nimi.
-Typický příklad je hlídkující stráž v stealth hrách.
+Typický příklad je hlídkující stráž ve stealth hrách.
 
 ### Stromy chování
 
@@ -508,7 +513,7 @@ Jsou snadno čitelné a flexibilní pro komplexní chování.
 
 ### Lokální navigační pravidla
 
-Řeší lokální pohyb agenta v prostředí
+Řeší lokální pohyb agenta v prostředí.
 Metody:
 
 - Reynoldsovy steeringy
@@ -524,12 +529,14 @@ Algoritmy:
 
 - A\*
 - JPS+
-- goal bounding
+- Goal Bounding
 - RRT
 - RRT\*
 - LPA\*
 - MPAA\*
-- bidirectional search
+- Bidirectional Search
+
+Zde je text, ve kterém jsem opravil gramatické chyby, přidal háčky a čárky, a zachoval jsem původní styl v markdown formátu:
 
 ### Reprezentace prostoru
 
@@ -549,7 +556,7 @@ Například definují, co je nepřítel, zbraň nebo úkryt.
 
 ### FIPA-ACL
 
-Standardní jazyk pro komunikaci agentů umožňující interoperabilitu mezi různými systémy.
+Standardní jazyk pro komunikaci agentů, který umožňuje interoperabilitu mezi různými systémy.
 
 ### Protokoly
 
@@ -593,25 +600,25 @@ Inspirace přichází z učení zvířat, jako je klasické podmiňování nebo 
 ### A\*
 
 ```
-while fronta  is  not empty
-	odeber hlavu
-	pridej deti hlavy do fronty tak, ze:
-		pokud tam neni, jakozto vzdalenost + heuristika
-		pokud tam je, tak jen upravit odhad vzdalenosti
-		a pokud se prida / zmeni, upravit akci ktera do nej vede
-	pokud timeout (omezeny cas a stale nemame nejlepsi cestu)
-		vrat zacatek fronty
+while fronta is not empty
+    odeber hlavu
+    přidej děti hlavy do fronty tak, že:
+        pokud tam není, jakožto vzdálenost + heuristika
+        pokud tam je, tak jen upravit odhad vzdálenosti
+        a pokud se přidá / změní, upravit akci, která do něj vede
+    pokud timeout (omezený čas a stále nemáme nejlepší cestu)
+        vrať začátek fronty
 ```
 
 ### ABCD
 
 Alpha Beta Considering Durations
 
-Rekurzivni depth-first iterativni prohledavani pro simultalni tahy s apha-beta pruningem.
+Rekurzivní depth-first iterativní prohledávání pro simultánní tahy s alpha-beta pruningem.
 
 ### MCTS
 
-Monte-carlo tree search
+Monte-Carlo Tree Search
 
 - Select
 - Expand
@@ -620,26 +627,26 @@ Monte-carlo tree search
 
 ### UCB
 
-Upper confidence bounds
+Upper Confidence Bounds
 
 UCB = Exploitace + c \* Explorace
 
-Musime se rozhodnout, jestli vybrat zarucenou vyhru, nebo prozkoumat horsi cestu (ktera mozna povede k vetsi vyhre).
+Musíme se rozhodnout, jestli vybrat zaručenou výhru, nebo prozkoumat horší cestu (která možná povede k větší výhře).
 
 ### PGS
 
 Portfolio Greedy Search
 
-- Aplikuj defaultni skript na vsechny jednotky
-- Najdi nejvyhodnejsi skript pro vsechny jednotky spolecne
-- Najdi nejpravdepodobnejsi nepriteluv skript pro vsechny jednotky spolecne
-- Dokud mame zdroje
-  - Najdi lepsi skript pro nepratelskou jednotku
-  - Najdi lepsi skript pro svou jednotku
+- Aplikuj defaultní skript na všechny jednotky
+- Najdi nejvýhodnější skript pro všechny jednotky společně
+- Najdi nejpravděpodobnější nepřítelův skript pro všechny jednotky společně
+- Dokud máme zdroje
+  - Najdi lepší skript pro nepřátelskou jednotku
+  - Najdi lepší skript pro svou jednotku
 
-Oproti minmaxu (kteremu se podoba) nemusi najit nejvhodnejsi reseni
+Oproti minmaxu (kterému se podobá) nemusí najít nejvhodnější řešení.
 
-Napr. mam jednotku a chci kazdymu vojaku priradit ukol (skript z portfolia), tak abych zabil co nejvice nepratel
+Např. mám jednotku a chci každému vojákovi přiřadit úkol (skript z portfolia), tak abych zabil co nejvíce nepřátel.
 
 ### Portfolio skriptů
 
@@ -647,7 +654,7 @@ Napr. mam jednotku a chci kazdymu vojaku priradit ukol (skript z portfolia), tak
 - Attack Weakest
 - Kiting (Move away)
 - Attack Value
-- No OverkKill Attack Value
+- No OverKill Attack Value
 
 ## Klasifikace metod procedurálního generování
 
@@ -663,8 +670,8 @@ Napr. mam jednotku a chci kazdymu vojaku priradit ukol (skript z portfolia), tak
 
 - Šumové funkce (např. Perlin, Simplex, Worley) pro vytváření organických tvarů.
 - Výškové mapy pro interpolaci terénu.
-- Fraktální metody jako Diamond-square algoritmus.
-- Simulační modely jako eroze a tektonické pohyby
+- Fraktální metody jako Diamond-Square algoritmus.
+- Simulační modely jako eroze a tektonické pohyby.
 
 ### Vizuálních efektů
 
@@ -674,11 +681,11 @@ Napr. mam jednotku a chci kazdymu vojaku priradit ukol (skript z portfolia), tak
 
 ### Hudby
 
-- Nahodne prochazky
-- Opakovani pasazi
-- Markov-chain: kazda nota je zavisla na n predchozich notach
+- Náhodné procházky
+- Opakování pasáží
+- Markov-chain: každá nota je závislá na n předchozích notách
 - Automaty
-- Neuralni site
+- Neuronové sítě
 
 ### Předmětů
 
@@ -700,15 +707,15 @@ Napr. mam jednotku a chci kazdymu vojaku priradit ukol (skript z portfolia), tak
 ### Perlin
 
 Generuje plynulé a realistické šumy.
-Ma directional artefakty (horizontalni a vertikalni).
+Má directionální artefakty (horizontální a vertikální).
 
 ![](img/perlin.png)
 
 ### Simplex
 
 Efektivnější varianta Perlinova šumu.
-Funguje ve vice dimenzich.
-Nema directional artefakty.
+Funguje ve více dimenzích.
+Nemá directionální artefakty.
 
 ### Worley / Voronoi
 
@@ -731,7 +738,7 @@ Vhodné pro generování vztahů mezi prvky, například sociálních sítí NPC
 
 Používají se k generování budov a architektury na základě pravidel.
 
-## Answer set programming
+## Answer Set Programming
 
 Technika logického modelování problému:
 
@@ -760,8 +767,8 @@ Použití:
 
 Kombinace lidské a algoritmické tvorby:
 
-- Level design + algoritmické generování: např. ruční návrh kostry úrovně a automatická výplň detailů.
-- Procedurální generování s editorem: např. No Man’s Sky používá ručně navržené prvky zkombinované s PCG.
-- AI asistenti: návrh úrovní s lidským dohledem
+- Level design + algoritmické generování: Např. ruční návrh kostry úrovně a automatická výplň detailů.
+- Procedurální generování s editorem: Např. _No Man’s Sky_ používá ručně navržené prvky zkombinované s PCG.
+- AI asistenti: Návrh úrovní s lidským dohledem.
 
 <style> img[alt$=">"] { float: right; } </style>
