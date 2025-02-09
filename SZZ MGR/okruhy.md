@@ -333,7 +333,7 @@ Matematicky je zobrazovací rovnice vyjádřena jako:
 $$L_o(x, \omega_o) = L_e(x, \omega_o) + \int_{\Omega} f_r(x, \omega_i, \omega_o) L_i(x, \omega_i) (\omega_i \cdot n) d\omega_i$$
 
 neboli:
-výsledná barva = emitované světlo + světlo z odrazu (= rekurzivní BRDF $*$ světlo $*$ cosine law)
+výsledná barva = emitované světlo + světlo z odrazu (= rekurzivní BRDF x světlo x cosine law)
 
 ### Algoritmus sledování cest
 
@@ -344,8 +344,8 @@ Každý paprsek se odráží po scéně, dokud nenarazí na světlo nebo neskon�
 ### Předpočítané globální osvětlení
 
 Techniky jako lightmaps ukládají výsledky osvětlení pro rychlejší vykreslování.
-Například ve hrách jako World of Warcraft se světlo "zapeče" při kompilaci hry nebo za běhu a poté se používá jako cacheovaná hodnota.
-Umožňuje pokročilé stíny a barevné efekty, ale vše je statické.
+Například ve hrách jako World of Warcraft se světlo "zapeče" při kompilaci hry nebo za běhu a poté se používá jeho zacacheovaná hodnota.
+Umožňuje pokročilé stíny a barevné efekty, ale jen pro statické objekty.
 
 ### Výpočet globálního osvětlení v reálném čase
 
@@ -437,9 +437,6 @@ Snímky jsou 3 typů:
 Například v poměru 2:5:12.
 
 Příkladem je H.264 nebo H.265.
-Tady je opravený text s diakritikou a gramatickými opravami, přičemž jsem zachoval původní styl i formátování:
-
----
 
 # Umělá inteligence pro počítačové hry
 
@@ -447,36 +444,52 @@ Tady je opravený text s diakritikou a gramatickými opravami, přičemž jsem z
 
 ### Percepce
 
-Percepce představuje schopnost agenta získávat informace o prostředí.
-Agent využívá senzory (virtuální nebo fyzické) ke sledování okolního světa.
-Například v počítačových hrách může agent "vidět" objekty v dosahu viditelnosti nebo slyšet zvuky generované hráčem.
-Tyto informace agent využívá k rozhodování a adaptaci na změny prostředí.
+- Ziskavani informace z prostredi
+- Pomoci senzoru
+
+Prostredi muze byt:
+
+- Plne pozorovatelne X castecne pozorovatelne
+- Staticke X dynamicke (dynamicke se meni i bez agenta)
+- Single-agent X Multi-agent
+- Deterministicke X Stochasticke (Kazda akce ma / nema jeden vysledek)
+- Diskretni X spojite
+- Turn-based X real-time
+- Noiseless X Noisy (jestli senzory produkuji nepresna pozorovani)
 
 ### Mechanismus výběru akcí
 
-Mechanismus výběru akcí určuje, jak agent reaguje na vnímané podněty.
-Může jít o jednoduché přístupy, jako jsou předdefinované if-then pravidla, nebo složitější algoritmy zahrnující stromy rozhodování či neuronové sítě.
-Například NPC v RPG hrách může reagovat na hráčovo přiblížení útokem, útěkem nebo zahájením dialogu.
+Vezme vjemy a vnistri stavy / pamet.
+Vyprodukuje akci cimz zmeni stav (svuj i sveta).
 
 ### Paměť
 
-Paměť umožňuje agentovi uchovávat informace o předchozích stavech nebo událostech.
-Např. informace o již sebraných zbraních nebo dlouhodobé cíle.
+- Reaktivni agenti nemaji pamet
+- Stavovi agenti pamet maji / stav
+
+Perceptual aliasing problem = Reakcni agent vnima stejny vjem na 2 ruznych stavech
 
 ## Psychologické inspirace
 
-Psychologické inspirace vycházejí z modelování lidského nebo zvířecího chování.
-Tyto přístupy zahrnují simulaci emocí, potřeb nebo motivačních modelů, například pomocí Maslowovy pyramidy.
-Herní postava může například vykazovat chování závislé na hladině strachu, hladu nebo odvahy.
+Vycházejí z:
+
+- lidského
+- zvířecího chování.
+
+Model BDI:
+
+- Believes: Vnimani sveta
+- Desires: Cilovy stav
+- Intentions: Akce pro dosazeni cile
 
 ## Metody pro řízení agentů
 
 ### Symbolické a konekcionistické reaktivní plánování
 
-Symbolické plánování využívá logické reprezentace a algoritmy.
-Konekcionistické (sub-symbolic) se opírá o neuronové sítě, automaty a if-then pravidla.
-
-Symbolické přístupy jsou přesnější, zatímco konekcionistické jsou flexibilnější v dynamických prostředích.
+- Symbolické: logické reprezentace a algoritmy
+  - přesnější
+- Konekcionistické (sub-symbolic): neuronové sítě, automaty a if-then pravidla
+  - flexibilnější v dynamických prostředích
 
 ### Hybridní přístupy
 
@@ -492,12 +505,18 @@ Optimalizace tohoto prostoru je klíčová pro rychlé a efektivní rozhodován�
 
 ### If-then pravidla
 
-Tato pravidla definují jednoduché reakce na konkrétní podmínky.
-Např: pokud hráč zaútočí, agent se brání.
+Jednoduché reakce na konkrétní podmínky.
+Musime vyresit konflikt vicero pravidel naraz, treba tak, ze jim dame priority.
+Např: pokud hráč zaútočí, agent se brání, coz je dulezitejsi, nez ze chce spat.
 
 ### Skriptování
 
 Skriptování umožňuje tvůrcům her ručně definovat chování agentů pomocí programovacích skriptů.
+
+Behavior oriented design (BOD):
+
+- pripravit uzitecne funkce (`isHungry()`, `hasFood()`)
+- ty nasledne pouzivat v scriptu
 
 ### Sekvenční konečný automat
 
@@ -514,26 +533,56 @@ Jsou snadno čitelné a flexibilní pro komplexní chování.
 ### Lokální navigační pravidla
 
 Řeší lokální pohyb agenta v prostředí.
-Metody:
+Metody (aditivne):
 
-- Reynoldsovy steeringy
+- Reynoldsovy steeringy (suma vsech nize vyda vysledny smer)
+  - Seek / Flee: miri k / od cile
+  - Pursue / Evade: miri k / od pohybliveho cile
+  - Wander: nahodny
+  - Arrival: zpomalujici se priblizovani k cily
+  - Obstacle avoidance: Smer od nejblizsi prekazky
+  - Path / Wall following: Sila pritahujici agenta k objektu
 - VO (Velocity Obstacle)
+  - Zmeri jake rychlosti & smery vedou ke kolizi s pohybujicim se objektem
+  - Pak pouzit takovy smer & rychlost, ktera co nejefektivneji vede do cile, ale neni tam kolize
 - RVO
+  - VO, ale agenti spolupracuji a kazdy se vyhyba jen polovicni intenzitou
 - Context Steering
+  - Bere vpotaz vsechny cile
 
-Například obcházení překážek nebo spolupráce více agentů.
+Princip:
+
+- pole zajimavych smeru (cile, podle vzdalenosti a smeru)
+- pole nebezpecnych smeru (stena)
+- pak se pole sectou a vybere se nejlepsi smer
+
+Například obcházení překážek pro dosazeni nejblizsiho cile.
 
 ### Hledání cesty
 
 Algoritmy:
 
 - A\*
-- JPS+
+- JPS+ (jump point search)
+  - vyuziva pruning na A\*
+  - vytvari z vicero cest se stejnym cilem a vzdalenosti jedinou
+  - vytvori jump point tam, kde se zataci kolem rohu steny
 - Goal Bounding
-- RRT
+  - Predpocita pro kazdy node bounding box smerem z jeho sousedu
+- RRT (Rapidly exploring random tree)
+  - Nahodne stavime strom:
+  - vezmeme nahodny bod na mape
+  - najdeme nejblizsi node k nemu
+  - pridame z nej node, ktery bude vzdaleny nejakou konstantni vzdalenost
 - RRT\*
+  - RRT, ale pridava optimalizacni krok
+  - node nepridavame z predchoziho, ale nejoptimalnejsiho (rovna cesta k nodu co nejblize koreni)
 - LPA\*
-- MPAA\*
+  - RRT\* pri pouziti v robotice
+  - prostredi se meni a strom take
+  - znovupouzivani predchoziho stromu pri preplanovani
+- MPAA\* (MultiPath Adaptive A\*)
+  - prida k A\* i mapu rodicu a nasledovniku pro nasledujici behy, kdy muzeme skakat po starych cestach dokud se nezmeni
 - Bidirectional Search
 
 Zde je text, ve kterém jsem opravil gramatické chyby, přidal háčky a čárky, a zachoval jsem původní styl v markdown formátu:
@@ -552,11 +601,30 @@ Například definují, co je nepřítel, zbraň nebo úkryt.
 
 ### Řečové akty
 
-Řečové akty jsou modely komunikace mezi agenty, které zahrnují požadavky, nabídky, příkazy nebo dotazy.
+Řečové akty jsou modely komunikace mezi agenty.
+
+Zahrnují:
+
+- Požadavky
+- Nabídky
+- Příkazy
+- Dotazy
 
 ### FIPA-ACL
 
-Standardní jazyk pro komunikaci agentů, který umožňuje interoperabilitu mezi různými systémy.
+Komunikani protokol pro komunikaic vicero agentů.
+
+Zakladni ukony / schopnosti:
+
+- Informovat
+- Ptat se
+- Pozadovat
+- Subscribe
+- Slibovat
+- Prijmout
+- Odmitnout
+- Potvrdit
+- Failure
 
 ### Protokoly
 
@@ -567,7 +635,10 @@ Například protokol aukce pro alokaci zdrojů.
 
 ### Kooperace
 
-Agenti spolupracují na dosažení společného cíle, například na rozdělení úkolů při stavbě herního světa.
+Agenti spolupracují na dosažení společného cíle.
+
+- Coherence: Jak dobře si systém vede jako celek.
+- Coordination: Jak dobře agenti minimalizují overhead akcí spojených se synchronizací.
 
 ### Nashova ekvilibria
 
@@ -585,15 +656,37 @@ Distribuce omezených zdrojů mezi agenty.
 
 Mechanismus, kde agenti soutěží o zdroje na základě nabídky a poptávky.
 
+Metody:
+
+- Obalkova: jedno kolo, plati se nejvyssi cena
+- Vickeryova: jedno kolo, plati se 2. nejvyssi cena
+- Anglicka: vicero kol, vzestupna
+- Holandska: sestupna
+
 ## Metody pro učení agentů
 
-### Zpětnovazební učení
+Metody:
 
-Agenti se učí na základě zpětné vazby z prostředí, například pomocí metody reinforcement learning.
+- Unsupervised learning (Vytvari clustery s podobnymi vlastnostmi)
+- Supervised learning (Davame vstupy a ocekavane vystupy)
+- Reinforcement learning (Davame vstupy a odmeny za vystupy)
+
+### Zpětnovazební učení (Reinforcement learning)
+
+Agenti se učí na základě zpětné vazby z prostředí, kde dostavaji odmeny podle uspechu, ale hlavne nedostanou co a jak maji delat, na to musi prijit sami.
 
 ### Základní formy učení zvířat
 
 Inspirace přichází z učení zvířat, jako je klasické podmiňování nebo observační učení.
+I. P. Pavlovo podminovani (pokus se psem, svetlem a miskou jidla)
+
+Napr. Vycvik psa:
+
+- Naucime jej, ze clicker znamena odmena (click -> pamlsek)
+- Donutime jej udelat akci a odmenime jej clickerem (zvednout pac o 1cm -> clicker)
+- Zdokonalujeme akci a pri dokonceni faze pouzijeme clicker (zvednout pac o 20cm -> clicker)
+- Spojime celou akci se zvukovym povelem a clickerem (signal -> zvednout pac -> clicker)
+- Odebereme clicker (signal -> clicker)
 
 ## Procedurální modelování stavového prostoru (forward model) a jeho prohledávání
 
@@ -624,6 +717,8 @@ Monte-Carlo Tree Search
 - Expand
 - Simulate
 - Backpropagate
+
+Pomery mezi exploitation a exploration
 
 ### UCB
 
@@ -658,11 +753,15 @@ Např. mám jednotku a chci každému vojákovi přiřadit úkol (skript z portf
 
 ## Klasifikace metod procedurálního generování
 
-- Terén: Generování realistických či stylizovaných krajin.
-- Vizuální efekty: Kouř, exploze, oheň.
-- Hudba: Automatické skládání melodií a rytmů.
-- Předměty: Generování unikátních zbraní, nástrojů.
-- Bludiště a dungeony: Algoritmické vytváření herních map a úrovní.
+- Kdy:
+  - Design-time
+  - Runtime
+- Pristup:
+  - Teleological: Realisticke / Fyzikalni simulace
+  - Ontigenetic: Napodobovani realneho
+- Promenlivost
+  - Stochastic: Nahodne pri kazdem behu
+  - Deterministic: Zafixovany seed
 
 ## Přístupy pro generování
 
@@ -670,7 +769,7 @@ Např. mám jednotku a chci každému vojákovi přiřadit úkol (skript z portf
 
 - Šumové funkce (např. Perlin, Simplex, Worley) pro vytváření organických tvarů.
 - Výškové mapy pro interpolaci terénu.
-- Fraktální metody jako Diamond-Square algoritmus.
+- Fraktální metody jako Diamond-Square algoritmus (rekurzivni pridavani detailu).
 - Simulační modely jako eroze a tektonické pohyby.
 
 ### Vizuálních efektů
@@ -695,12 +794,10 @@ Např. mám jednotku a chci každému vojákovi přiřadit úkol (skript z portf
 
 ### Bludišť a dungeonů
 
-![alt >](img/wfc.png)
-
 - Celulární automaty: například Game of Life pro tvorbu jeskyní.
 - Wave Function Collapse (WFC): pravidlové generování rozložení dlaždic.
 - Grafové algoritmy: vytváření propojených místností pomocí grafových struktur.
-- BSP (Binary Space Partitioning): rozdělování prostoru na sekce.
+- BSP (Binary Space Partitioning): rekurzivni rozdělování prostoru na sekce.
 
 ## Šumové funkce
 
@@ -756,6 +853,8 @@ answer set:
 ```
 
 ## Algoritmus kolapsu vlnové funkce
+
+![alt >](img/wfc.png)
 
 Procedurální generování pomocí omezení podobných pravidlům sudoku.
 Použití:
