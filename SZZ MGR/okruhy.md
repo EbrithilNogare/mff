@@ -10,9 +10,15 @@
 
 ### Herní návrhové vzory
 
-- V kódu
+- V kodu
+  - Command: vstup z klavesnice preda echo kazdemu ze seznamu
+  - FlyWeight: stejna data se daji do rodice a promenliva se nechaji na objektu
+  - Observer: Prihlasi se k odberu notifikaci, kdyz se neco ve svete stane, dostane echo
+  - Prototype: Priklad je spawner, ktery kopiruje objekty
   - Singleton: jedna instance
   - Factory: generátor věcí
+  - Double buffer: cteme z jineho nez do ktereho zapisujeme a pak se prohodi
+  - GameLoop
 - V organizaci objektů
   - Komponentový systém
   - Skriptovací model
@@ -28,9 +34,14 @@
 
 - Vstupní vrstva: Zpracování vstupů hráče
 - Logická vrstva: Herní pravidla a simulace
-- Grafická vrstva: Rendering objektů
-- Zvuková vrstva: Zvukové efekty a hudba
-- Síťová vrstva: Multiplayer komunikace
+  - AI: chovani NPC
+  - Scripting: herni logika
+  - Fyzika: Pohybuje objekty a resi kolize
+  - Síťová vrstva: Multiplayer komunikace
+- Vystupni vrstva:
+  - Grafická vrstva: Rendering objektů
+    - User interface
+  - Zvuková vrstva: Zvukové efekty a hudba
 
 ### Výpočetní modely
 
